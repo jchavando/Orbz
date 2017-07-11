@@ -38,20 +38,6 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 
     }
 
-    public void onClickSpotifyLogin(View view){
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
-                AuthenticationResponse.Type.TOKEN,
-                REDIRECT_URI);
-
-        //TODO: if we want more permissions, need to modify scopes
-        //https://developer.spotify.com/web-api/using-scopes/
-        builder.setScopes(new String[]{"user-read-private", "streaming"});
-        AuthenticationRequest request = builder.build();
-
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -141,4 +127,27 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
     }
 
 
+
+
+
+
+    public void onClickSpotifyLogin(View view){
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
+                AuthenticationResponse.Type.TOKEN,
+                REDIRECT_URI);
+
+        //TODO: if we want more permissions, need to modify scopes
+        //https://developer.spotify.com/web-api/using-scopes/
+        builder.setScopes(new String[]{"user-read-private", "streaming"});
+        AuthenticationRequest request = builder.build();
+
+        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+    }
+
+
+    public void onClickDone(View view){
+        Intent i = new Intent(this, MainActivity.class);
+//        i.putExtra(MainActivity.SPOTIFY_PLAYER, Parcels.wrap(mPlayer));
+        startActivity(i);
+    }
 }
