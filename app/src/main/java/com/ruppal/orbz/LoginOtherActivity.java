@@ -7,6 +7,9 @@ public class LoginOtherActivity extends AppCompatActivity {
     String hello = "hello";
     String riya = "Riya";
 
+    String Elvis = "Elvis";
+
+
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
