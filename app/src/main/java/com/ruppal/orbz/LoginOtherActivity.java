@@ -126,10 +126,7 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
         Log.d("LoginOtherActivity", "Received connection message: " + message);
     }
 
-
-
-
-
+    
 
     public void onClickSpotifyLogin(View view){
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
