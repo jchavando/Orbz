@@ -1,9 +1,13 @@
 package com.ruppal.orbz;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -25,12 +29,16 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
+    Button btLoginSpotify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_other);
 
+    }
+
+    public void onClickSpotifyLogin(View view){
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN,
                 REDIRECT_URI);
@@ -42,7 +50,6 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
     }
-
 
 
     @Override
@@ -64,7 +71,7 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 
                     @Override
                     public void onError(Throwable throwable) {
-                        Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
+                        Log.e("LoginOtherActivity", "Could not initialize player: " + throwable.getMessage());
                     }
                 });
             }
@@ -100,8 +107,12 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
     @Override
     public void onLoggedIn() {
         Log.d("LoginOtherActivity", "User logged in");
+        //on logged in, change button color
+        btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
+        btLoginSpotify.setBackgroundColor(Color.GREEN);
+        Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_LONG).show();
 
-        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
+        //mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
     }
 
     @Override
