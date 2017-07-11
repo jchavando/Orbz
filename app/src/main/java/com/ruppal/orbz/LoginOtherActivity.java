@@ -6,8 +6,9 @@ import android.os.Bundle;
 public class LoginOtherActivity extends AppCompatActivity {
     String hello = "hello";
     String riya = "Riya";
-
     String testing = "testing";
+    String Elvis = "Elvis";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
