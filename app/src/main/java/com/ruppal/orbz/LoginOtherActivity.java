@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class LoginOtherActivity extends AppCompatActivity {
+    String hello = "hello";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
