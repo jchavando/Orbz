@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion '26.0.0'
     defaultConfig {
         applicationId "com.ruppal.orbz"
         minSdkVersion 15
@@ -18,12 +18,27 @@ android {
         }
     }
 }
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
 
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    // This library handles authentication and authorization
+    //compile 'com.spotify.sdk:spotify-auth:1.0.0-beta12@aar'
+    compile 'com.github.spotify:android-auth:9425c6a140'
+
+    // This library handles music playback
+    compile 'com.spotify.sdk:spotify-player:24-noconnect-2.20b@aar'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
