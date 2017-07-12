@@ -40,7 +40,7 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
     Button btLoginSpotify;
     GoogleApiClient mGoogleApiClient;
     SignInButton googleSignInButton;
-    String accessToken;
+    String spotifyAccessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
         if (requestCode == REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
-                accessToken = response.getAccessToken();
+                spotifyAccessToken = response.getAccessToken();
 //                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
                 btLoginSpotify.setBackgroundColor(Color.GREEN);
@@ -177,7 +177,7 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 
     public void onClickDone(View view){
         Intent i = new Intent(this, MainActivity.class);
-        i.putExtra(MainActivity.SPOTIFY_ACCESS_TOKEN, accessToken);
+        i.putExtra(MainActivity.SPOTIFY_ACCESS_TOKEN, spotifyAccessToken);
 //        i.putExtra(MainActivity.SPOTIFY_PLAYER, Parcels.wrap(mPlayer));
         startActivity(i);
     }
