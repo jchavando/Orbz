@@ -29,16 +29,20 @@ public class Song {
         switch (service){
             case SPOTIFY:
                  return parseSpotifyJSON(object);
-                break;
+
             case SOUNDCLOUD:
-                return parseSoundcloudJSON(object);
-                break;
+                return parseSpotifyJSON(object);
+//                return parseSoundcloudJSON(object);
+
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
-                break;
+
             case YOUTUBE:
-                return parseYoutubeJSON(object);
-                break;
+                return parseSpotifyJSON(object);
+//                return parseYoutubeJSON(object);
+            default:
+                return null;
+
         }
     }
 
@@ -53,9 +57,9 @@ public class Song {
         song.popularity = object.getInt("popularity");
         song.duration_ms = object.getInt("duration_ms");
         song.playing = false;
-        JSONArray images = object.getJSONArray("images");
+//        JSONArray images = object.getJSONArray("images");
         //todo : can get a different image size based on which index is used
-        song.albumCoverUrl = images.getJSONObject(0).getString("url");
+//        song.albumCoverUrl = images.getJSONObject(0).getString("url");
 
         //call the  artist from JSON in a for loop to populate artists array
         //for example, Artist.fromJSON(SPOTIFY, object);
@@ -69,10 +73,10 @@ public class Song {
         return song;
 
     }
-    private Song parseSoundcloudJSON(JSONObject object){
-        //call the  artist from JSON in a for loop to populate artists array
-
-    }
+//    private Song parseSoundcloudJSON(JSONObject object){
+//        //call the  artist from JSON in a for loop to populate artists array
+//
+//    }
     private static Song parseGooglePlayJSON(JSONObject object) throws JSONException {
         Song song = new Song();
         //call the  artist from JSON in a for loop to populate artists array
@@ -85,14 +89,13 @@ public class Song {
         song.playing = object.getBoolean("playing"); //
         //uid = object.getString(); //can't find id
         song.artists.add(Artist.fromJSON(GOOGLE_PLAY, object));
-
-
-
-
+        return song;
+        
     }
-    private Song parseYoutubeJSON(JSONObject object){
-        //call the  artist from JSON in a for loop to populate artists array
-    }
+
+//    private Song parseYoutubeJSON(JSONObject object){
+//        //call the  artist from JSON in a for loop to populate artists array
+//    }
 
 
 }
