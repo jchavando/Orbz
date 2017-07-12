@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "329504969543",
+    "project_id": "orbz-173420"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329504969543:android:e81fd7545716ced4",
+        "android_client_info": {
+          "package_name": "com.ruppal.orbz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329504969543-af10n7qfpfnqhq7g4jhi7o3ubfdbrj5r.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "329504969543-0r8ehu0tenoo8s80c7jka3mjk2gkriov.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ruppal.orbz",
+            "certificate_hash": "81571850662d9b253955316eeedfa0f1285cb0f5"
+          }
+        },
+        {
+          "client_id": "329504969543-ftagoqrr88kjh48arqvg42bbd7hm2466.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ruppal.orbz",
+            "certificate_hash": "560c7556cbcf46e54438e84bbb58f94c0a68f05a"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAthC8c4-6QfCxSfAsdWgRdO-YS0AdTwqo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

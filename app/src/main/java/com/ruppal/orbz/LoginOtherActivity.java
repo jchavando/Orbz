@@ -3,12 +3,20 @@ package com.ruppal.orbz;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -20,7 +28,7 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
-public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
+public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
 
     // TODO: Replace with your client ID
     private static final String CLIENT_ID = "de5914f8fc0a4f40b20266a180442c79";
@@ -29,12 +37,28 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
+    private static final int RC_SIGN_IN = 9001;
     Button btLoginSpotify;
+    GoogleApiClient mGoogleApiClient;
+    SignInButton googleSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_other);
+        googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
+
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        googleSignInButton.setOnClickListener(this);
+
 
     }
 
@@ -64,6 +88,9 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 //                    }
 //                });
             }
+        } else if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
+            handleSignInResult(result);
         }
     }
 
@@ -129,7 +156,7 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
         Log.d("LoginOtherActivity", "Received connection message: " + message);
     }
 
-    
+
 
     public void onClickSpotifyLogin(View view){
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
@@ -149,5 +176,49 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
         Intent i = new Intent(this, MainActivity.class);
 //        i.putExtra(MainActivity.SPOTIFY_PLAYER, Parcels.wrap(mPlayer));
         startActivity(i);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+                break;
+            // ...
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d("Google Sign in", "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            updateUI(true);
+        } else {
+            // Signed out, show unauthenticated UI.
+            updateUI(false);
+        }
+    }
+
+    private void updateUI(boolean isLogin){
+        if(isLogin){
+            Toast.makeText(this, "signed in", Toast.LENGTH_LONG).show();
+            googleSignInButton.setBackgroundColor(Color.GREEN);
+
+        } else {
+            Toast.makeText(this, "did not sign in", Toast.LENGTH_LONG).show();
+
+        }
     }
 }
