@@ -52,7 +52,6 @@ public class Artist {
         artist.uid = null;
         artist.name = object.getString("artist");
         return artist;
-
     }
 //    private Song parseYoutubeJSON(JSONObject object){
 //

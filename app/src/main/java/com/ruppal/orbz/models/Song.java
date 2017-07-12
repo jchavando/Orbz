@@ -36,11 +36,12 @@ public class Song {
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
                 //break;
-            case YOUTUBE:
-                return parseYoutubeJSON(object);
+            //case YOUTUBE:
+               // return parseYoutubeJSON(object);
                 //break;
             default:
                 return null;
+
         }
     }
 
@@ -55,9 +56,9 @@ public class Song {
         song.popularity = object.getInt("popularity");
         song.duration_ms = object.getInt("duration_ms");
         song.playing = false;
-        JSONArray images = object.getJSONArray("images");
+//        JSONArray images = object.getJSONArray("images");
         //todo : can get a different image size based on which index is used
-        song.albumCoverUrl = images.getJSONObject(0).getString("url");
+//        song.albumCoverUrl = images.getJSONObject(0).getString("url");
 
         //call the  artist from JSON in a for loop to populate artists array
         //for example, Artist.fromJSON(SPOTIFY, object);
@@ -71,10 +72,10 @@ public class Song {
         return song;
 
     }
-    private Song parseSoundcloudJSON(JSONObject object){
-        //call the  artist from JSON in a for loop to populate artists array
-
-    }
+//    private Song parseSoundcloudJSON(JSONObject object){
+//        //call the  artist from JSON in a for loop to populate artists array
+//
+//    }
     private static Song parseGooglePlayJSON(JSONObject object) throws JSONException {
         Song song = new Song();
         //call the  artist from JSON in a for loop to populate artists array
@@ -98,7 +99,12 @@ public class Song {
         song.title = object.getString("title");
         song.uid = object.getString("id");
         return song;
+
     }
+
+//    private Song parseYoutubeJSON(JSONObject object){
+//        //call the  artist from JSON in a for loop to populate artists array
+//    }
 
 
 }
