@@ -19,6 +19,7 @@ public class Song {
     public String album;
     public int popularity;
     public int duration_ms;
+
     public static final String SPOTIFY = "Spotify";
     public static final String SOUNDCLOUD = "Soundcloud";
     public static final String GOOGLE_PLAY = "GooglePlay";
@@ -72,8 +73,21 @@ public class Song {
         //call the  artist from JSON in a for loop to populate artists array
 
     }
-    private Song parseGooglePlayJSON(JSONObject object){
+    private static Song parseGooglePlayJSON(JSONObject object) throws JSONException {
+        Song song = new Song();
         //call the  artist from JSON in a for loop to populate artists array
+        song.title = object.getString("title");
+        song.albumCoverUrl = object.getString("albumArt");
+        song.album = object.getString("album");
+        //popularity = object.getInt("");
+
+        song.duration_ms = object.getInt("total"); //time object
+        song.playing = object.getBoolean("playing"); //
+        //uid = object.getString(); //can't find id
+        song.artists.add(Artist.fromJSON(GOOGLE_PLAY, object));
+
+
+
 
     }
     private Song parseYoutubeJSON(JSONObject object){

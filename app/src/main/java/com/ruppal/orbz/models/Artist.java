@@ -16,7 +16,9 @@ public class Artist {
     public String uid;
     public String name;
 
+
     public static Artist fromJSON(String service, JSONObject object) throws JSONException {
+
         switch (service) {
             case SPOTIFY:
                 return parseSpotifyJSON(object);
@@ -45,10 +47,16 @@ public class Artist {
     private Song parseSoundcloudJSON(JSONObject object){
 
     }
-    private Song parseGooglePlayJSON(JSONObject object){
+    private static Artist parseGooglePlayJSON(JSONObject object) throws JSONException {
+        Artist artist = new Artist();
+        artist.uid = null;
+        artist.name = object.getString("artist");
+        return artist;
 
     }
     private Song parseYoutubeJSON(JSONObject object){
 
     }
+
+
 }
