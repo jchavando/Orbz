@@ -4,9 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.ruppal.orbz.models.Song.GOOGLE_PLAY;
-import static com.ruppal.orbz.models.Song.SOUNDCLOUD;
 import static com.ruppal.orbz.models.Song.SPOTIFY;
-import static com.ruppal.orbz.models.Song.YOUTUBE;
 
 /**
  * Created by ruppal on 7/12/17.
@@ -22,20 +20,22 @@ public class Artist {
         switch (service) {
             case SPOTIFY:
                 return parseSpotifyJSON(object);
-            break;
-            case SOUNDCLOUD:
-                return parseSoundcloudJSON(object);
-            break;
+            //case SOUNDCLOUD:
+                //return parseSoundcloudJSON(object);
+            //break;
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
-            break;
-            case YOUTUBE:
-                return parseYoutubeJSON(object);
-            break;
+            //case YOUTUBE:
+                //return parseYoutubeJSON(object);
+            //break;
+            default:
+                return null;
         }
 
 
     }
+
+
     private static Artist parseSpotifyJSON(JSONObject object) throws JSONException{
         //REQUIRES: being passed in a spotify artist object
         Artist artist = new Artist();
@@ -44,9 +44,9 @@ public class Artist {
         return artist;
     }
 
-    private Song parseSoundcloudJSON(JSONObject object){
-
-    }
+//    private Song parseSoundcloudJSON(JSONObject object){
+//
+//    }
     private static Artist parseGooglePlayJSON(JSONObject object) throws JSONException {
         Artist artist = new Artist();
         artist.uid = null;
@@ -54,9 +54,9 @@ public class Artist {
         return artist;
 
     }
-    private Song parseYoutubeJSON(JSONObject object){
-
-    }
+//    private Song parseYoutubeJSON(JSONObject object){
+//
+//    }
 
 
 }

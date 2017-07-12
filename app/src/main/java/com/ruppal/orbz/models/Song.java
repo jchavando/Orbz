@@ -29,16 +29,18 @@ public class Song {
         switch (service){
             case SPOTIFY:
                  return parseSpotifyJSON(object);
-                break;
-            case SOUNDCLOUD:
-                return parseSoundcloudJSON(object);
-                break;
+                //break;
+//            case SOUNDCLOUD:
+//                return parseSoundcloudJSON(object);
+//                break;
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
-                break;
+                //break;
             case YOUTUBE:
                 return parseYoutubeJSON(object);
-                break;
+                //break;
+            default:
+                return null;
         }
     }
 
@@ -86,12 +88,16 @@ public class Song {
         //uid = object.getString(); //can't find id
         song.artists.add(Artist.fromJSON(GOOGLE_PLAY, object));
 
-
+        return song;
 
 
     }
-    private Song parseYoutubeJSON(JSONObject object){
+    private static Song parseYoutubeJSON(JSONObject object) throws JSONException {
         //call the  artist from JSON in a for loop to populate artists array
+        Song song = new Song();
+        song.title = object.getString("title");
+        song.uid = object.getString("id");
+        return song;
     }
 
 

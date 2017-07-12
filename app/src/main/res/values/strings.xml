@@ -2,4 +2,5 @@
     <string name="app_name">Orbz</string>
     <string name = "spotify_client_id">de5914f8fc0a4f40b20266a180442c79</string>
     <string name = "spotify_redirect_uri">adrenalinejunkies://callback</string>
+    <string name = "googlePlay_client_id">329504969543-ftagoqrr88kjh48arqvg42bbd7hm2466.apps.googleusercontent.com</string>
 </resources>

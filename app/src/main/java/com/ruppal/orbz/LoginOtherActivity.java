@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -26,6 +28,8 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
+
+import java.io.IOException;
 
 public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
 
@@ -52,13 +56,15 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
+                .requestEmail().requestIdToken(getString(R.string.googlePlay_client_id))
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this /* OnConnectionFailedListener */)
+                .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+
         googleSignInButton.setOnClickListener(this);
 
 
@@ -93,7 +99,13 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
             }
         } else if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
-            handleSignInResult(result);
+            try {
+                handleSignInResult(result);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (GoogleAuthException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -188,7 +200,6 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
             case R.id.sign_in_button:
                 signIn();
                 break;
-            // ...
         }
     }
 
@@ -202,11 +213,15 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleSignInResult(GoogleSignInResult result) throws IOException, GoogleAuthException {
         Log.d("Google Sign in", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+            String magicString ="oauth2:server:client_id" + getString(R.string.googlePlay_client_id);
+            String authCOde = GoogleAuthUtil.getToken(this, acct.getEmail() , magicString);
+            Log.d("GooglePlay", authCOde);
+
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             updateUI(true);
         } else {
