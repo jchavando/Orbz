@@ -26,6 +26,4 @@ public class SpotifyClient {
         client.get(apiUrl, params, handler);
     }
 
-
-
 }
