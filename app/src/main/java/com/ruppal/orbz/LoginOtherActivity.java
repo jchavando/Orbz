@@ -47,19 +47,22 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
-                Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
-                    @Override
-                    public void onInitialized(SpotifyPlayer spotifyPlayer) {
-                        mPlayer = spotifyPlayer;
-                        mPlayer.addConnectionStateCallback(LoginOtherActivity.this);
-                        mPlayer.addNotificationCallback(LoginOtherActivity.this);
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        Log.e("LoginOtherActivity", "Could not initialize player: " + throwable.getMessage());
-                    }
-                });
+                btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
+                btLoginSpotify.setBackgroundColor(Color.GREEN);
+                Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_LONG).show();
+//                Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
+//                    @Override
+//                    public void onInitialized(SpotifyPlayer spotifyPlayer) {
+//                        mPlayer = spotifyPlayer;
+//                        mPlayer.addConnectionStateCallback(LoginOtherActivity.this);
+//                        mPlayer.addNotificationCallback(LoginOtherActivity.this);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable throwable) {
+//                        Log.e("LoginOtherActivity", "Could not initialize player: " + throwable.getMessage());
+//                    }
+//                });
             }
         }
     }
