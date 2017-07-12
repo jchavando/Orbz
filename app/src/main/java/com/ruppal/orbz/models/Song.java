@@ -42,9 +42,31 @@ public class Song {
         }
     }
 
-    private Song parseSpotifyJSON(JSONObject object){
+    private static Song parseSpotifyJSON(JSONObject object) throws JSONException{
+        //REQUIRES: object is an entry from items, which is inside tracks JSON object
+        Song song = new Song ();
+
+        JSONObject albumObj = object.getJSONObject("album");
+        song.album = albumObj.getString("name");
+        song.uid = object.getString("id");
+        song.title = object.getString("name");
+        song.popularity = object.getInt("popularity");
+        song.duration_ms = object.getInt("duration_ms");
+        song.playing = false;
+        JSONArray images = object.getJSONArray("images");
+        //todo : can get a different image size based on which index is used
+        song.albumCoverUrl = images.getJSONObject(0).getString("url");
+
         //call the  artist from JSON in a for loop to populate artists array
         //for example, Artist.fromJSON(SPOTIFY, object);
+        JSONArray mArtists = object.getJSONArray("artists");
+        song.artists = new ArrayList<>();
+        for (int i = 0; i < mArtists.length(); i++){
+            Artist artist = Artist.fromJSON(SPOTIFY, mArtists.getJSONObject(i));
+            song.artists.add(artist);
+        }
+
+        return song;
 
     }
     private Song parseSoundcloudJSON(JSONObject object){
