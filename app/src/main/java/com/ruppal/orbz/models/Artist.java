@@ -1,5 +1,6 @@
 package com.ruppal.orbz.models;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.ruppal.orbz.models.Song.GOOGLE_PLAY;
@@ -15,7 +16,8 @@ public class Artist {
     public String uid;
     public String name;
 
-    public Artist fromJSON(String service, JSONObject object) {
+
+    public static Artist fromJSON(String service, JSONObject object) {
         switch (service) {
             case SPOTIFY:
                 return parseSpotifyJSON(object);
@@ -39,10 +41,16 @@ public class Artist {
     private Song parseSoundcloudJSON(JSONObject object){
 
     }
-    private Song parseGooglePlayJSON(JSONObject object){
+    private static Artist parseGooglePlayJSON(JSONObject object) throws JSONException {
+        Artist artist = new Artist();
+        artist.uid = null;
+        artist.name = object.getString("artist");
+        return artist;
 
     }
     private Song parseYoutubeJSON(JSONObject object){
 
     }
+
+
 }
