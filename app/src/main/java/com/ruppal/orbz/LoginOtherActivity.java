@@ -20,7 +20,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
-import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.Player;
@@ -31,9 +30,9 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
 
     // TODO: Replace with your client ID
-    private static final String CLIENT_ID = "de5914f8fc0a4f40b20266a180442c79";
+    String spotifyClientId;
     // TODO: Replace with your redirect URI
-    private static final String REDIRECT_URI = "adrenalinejunkies://callback";
+    String spotifyRedirectUri;
 
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
@@ -41,11 +40,14 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
     Button btLoginSpotify;
     GoogleApiClient mGoogleApiClient;
     SignInButton googleSignInButton;
+    String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_other);
+        spotifyClientId = getString(R.string.spotify_client_id);
+        spotifyRedirectUri = getString(R.string.spotify_redirect_uri);
         googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
 
 
@@ -70,7 +72,8 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
         if (requestCode == REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
-                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
+                accessToken = response.getAccessToken();
+//                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
                 btLoginSpotify.setBackgroundColor(Color.GREEN);
                 Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_LONG).show();
@@ -159,9 +162,9 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 
 
     public void onClickSpotifyLogin(View view){
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(spotifyClientId,
                 AuthenticationResponse.Type.TOKEN,
-                REDIRECT_URI);
+                spotifyRedirectUri);
 
         //TODO: if we want more permissions, need to modify scopes
         //https://developer.spotify.com/web-api/using-scopes/
@@ -174,6 +177,7 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 
     public void onClickDone(View view){
         Intent i = new Intent(this, MainActivity.class);
+        i.putExtra(MainActivity.SPOTIFY_ACCESS_TOKEN, accessToken);
 //        i.putExtra(MainActivity.SPOTIFY_PLAYER, Parcels.wrap(mPlayer));
         startActivity(i);
     }
