@@ -36,8 +36,8 @@ public class Song {
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
                 //break;
-            //case YOUTUBE:
-               // return parseYoutubeJSON(object);
+            case YOUTUBE:
+                return parseYoutubeJSON(object);
                 //break;
             default:
                 return null;
@@ -83,7 +83,6 @@ public class Song {
         song.albumCoverUrl = object.getString("albumArt");
         song.album = object.getString("album");
         //popularity = object.getInt("");
-
         song.duration_ms = object.getInt("total"); //time object
         song.playing = object.getBoolean("playing"); //
         //uid = object.getString(); //can't find id
@@ -96,8 +95,13 @@ public class Song {
     private static Song parseYoutubeJSON(JSONObject object) throws JSONException {
         //call the  artist from JSON in a for loop to populate artists array
         Song song = new Song();
-        song.title = object.getString("title");
-        song.uid = object.getString("id");
+        JSONObject snippet = object.getJSONObject("snippet");
+        JSONObject id = object.getJSONObject("id");
+        song.title = snippet.getString("title");
+        song.uid = id.getString("videoId");
+        song.albumCoverUrl = snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url");
+        song.artists=null;
+
         return song;
 
     }
