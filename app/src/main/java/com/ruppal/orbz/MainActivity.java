@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 SearchFragment searchFragment= (SearchFragment) ((SongPagerAdapter) vpPager.getAdapter()).mFragmentReferences.get(0);
-                searchFragment.populateTimeline(query);
+                searchFragment.populateTimeline(query, spotifyAccessToken);
 
 //                spotifyClient.search(query, "track", new JsonHttpResponseHandler() {
 //                    @Override

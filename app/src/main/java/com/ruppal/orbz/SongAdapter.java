@@ -135,7 +135,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
             tvArtistName = (TextView) itemView.findViewById(R.id.tvArtistName);
             tvSource = (TextView) itemView.findViewById(R.id.tvSource);
             ibPlus = (ImageButton) itemView.findViewById(R.id.ibPlus);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                }
+            });
 
             //handle row click event
             //handle onClick to play song
