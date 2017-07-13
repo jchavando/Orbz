@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Orbz.iml" filepath="$PROJECT_DIR$/Orbz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Orbz-Git.iml" filepath="$PROJECT_DIR$/Orbz-Git.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

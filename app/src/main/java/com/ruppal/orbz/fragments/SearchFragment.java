@@ -26,11 +26,13 @@ public class SearchFragment extends SongListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //client = TwitterApplication.getRestClient();
-        //populateTimeline();
     }
 
-    public void populateTimeline(String query) {
+    public void populateTimeline(String query, String accessToken) {
+        spotifyClient = new SpotifyClient(accessToken);
+
         spotifyClient.search(query, "track", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
@@ -43,7 +45,6 @@ public class SearchFragment extends SongListFragment {
                         Song song = Song.fromJSON(Song.SPOTIFY, item);
                         songs.add(song);
                         songAdapter.notifyItemInserted(songs.size()-1);
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
