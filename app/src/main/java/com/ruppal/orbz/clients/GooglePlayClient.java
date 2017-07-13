@@ -17,6 +17,15 @@ public class GooglePlayClient {
     private static String getApiUrl(String relativeUrl) {
         return BASE_URL + relativeUrl ;
     }
+
+
+    public void loginToGoogleMusic(String accessToken, AsyncHttpResponseHandler handler){
+        String apiUrl = "https://play.google.com/music/listen?hl=en&u=0";
+        client.addHeader("Authorization", "GoogleLogin auth=" + accessToken);
+        client.post(apiUrl, null, handler);
+
+    }
+
     public void search (String accessToken, String query, AsyncHttpResponseHandler handler) {
         //REQUIRES: type is a comma separated string of search types.
         //for ex: type = "album, artist, playlist, track"
@@ -26,6 +35,4 @@ public class GooglePlayClient {
         client.addHeader("Authorization", "GoogleLogin auth=" + accessToken);
         client.post(apiUrl, params, handler);
     }
-
-
 }

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.ruppal.orbz.clients.GooglePlayClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.models.Song;
 import com.spotify.sdk.android.player.Config;
@@ -29,23 +30,31 @@ import cz.msebera.android.httpclient.Header;
 public class MainActivity extends AppCompatActivity {
     public static final String SPOTIFY_PLAYER = "SPOTIFY_PLAYER";
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
+    public static final String GOOGLE_ACCESS_TOKEN = "GOOGLE_ACCESS_TOKEN";
     String spotifyClientId;
     Player mPlayer;
     Intent intent;
     SpotifyClient spotifyClient;
     ArrayList<Song> spotifyResults;
     String spotifyAccessToken;
+    String googleAccessToken;
+    ArrayList<Song> googleResults;
+    GooglePlayClient googlePlayClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         spotifyResults = new ArrayList<>();
-        spotifyClient = new SpotifyClient();
+        googlePlayClient = new GooglePlayClient();
         spotifyClientId = getString(R.string.spotify_client_id);
         intent = getIntent();
         spotifyAccessToken = intent.getStringExtra(SPOTIFY_ACCESS_TOKEN);
+        googleAccessToken = intent.getStringExtra(GOOGLE_ACCESS_TOKEN);
+        spotifyClient = new SpotifyClient(spotifyAccessToken);
         getSpotifyPlayer(spotifyAccessToken);
+        googleResults = new ArrayList<>();
+
 //        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
 //        intent=getIntent();
 //        mPlayer = Parcels.unwrap(intent.getParcelableExtra(SPOTIFY_PLAYER));
@@ -68,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 // perform query here
                 String hello = "hllo";
-                spotifyClient.search(spotifyAccessToken, query, "track", new JsonHttpResponseHandler() {
+                spotifyClient.search(query, "track", new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         JSONObject tracks = null;
@@ -115,6 +124,76 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                googlePlayClient.loginToGoogleMusic(googleAccessToken, new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        super.onSuccess(statusCode, headers, response);
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                        super.onSuccess(statusCode, headers, response);
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        super.onSuccess(statusCode, headers, responseString);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                        Log.e("search", throwable.toString());
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                        Log.e("search", throwable.toString());
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                        Log.e("search", throwable.toString());
+                    }
+                });
+
+                googlePlayClient.search(googleAccessToken, query, new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        JSONArray songs = null;
+                        try {
+                            songs = response.getJSONArray("songs");
+                            for (int i =0; i<songs.length(); i++){
+                                Song song = Song.fromJSON(Song.GOOGLE_PLAY , songs.getJSONObject(i));
+                                googleResults.add(song);
+                            }
+                            addToTextBox();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                        Log.e("search", throwable.toString());
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                        Log.e("search", throwable.toString());
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                        Log.e("search", throwable.toString());
+                    }
+                });
+
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
                 // see https://code.google.com/p/android/issues/detail?id=24599
                 searchView.clearFocus();
@@ -135,6 +214,10 @@ public class MainActivity extends AppCompatActivity {
         String songs = "";
         for (int i =0 ;i < spotifyResults.size(); i++){
             songs += (spotifyResults.get(i).title + ", ");
+        }
+        songs+="GOOGLE PLAY \n\n";
+        for (int i =0 ;i < googleResults.size(); i++){
+            songs += (googleResults.get(i).title + ", ");
         }
         tvSongs.setText(songs);
     }
