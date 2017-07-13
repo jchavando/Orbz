@@ -1,7 +1,10 @@
 package com.ruppal.orbz;
 
+import android.accounts.Account;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -41,10 +45,13 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
     private static final int RC_SIGN_IN = 9001;
+    private String TAG = "loginOther";
+    private String SCOPES = "https://www.googleapis.com/auth/youtube " + "https://www.googleapis.com/auth/youtube.readonly";
     Button btLoginSpotify;
     GoogleApiClient mGoogleApiClient;
     SignInButton googleSignInButton;
     String spotifyAccessToken;
+    String googleAccessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +104,7 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 //                    }
 //                });
             }
-        } else if (requestCode == RC_SIGN_IN) {
+        } else if (requestCode == RC_SIGN_IN && resultCode == Activity.RESULT_OK) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
             try {
                 handleSignInResult(result);
@@ -190,6 +197,7 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
     public void onClickDone(View view){
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra(MainActivity.SPOTIFY_ACCESS_TOKEN, spotifyAccessToken);
+        i.putExtra(MainActivity.GOOGLE_ACCESS_TOKEN, googleAccessToken);
 //        i.putExtra(MainActivity.SPOTIFY_PLAYER, Parcels.wrap(mPlayer));
         startActivity(i);
     }
@@ -218,12 +226,42 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            String magicString ="oauth2:server:client_id" + getString(R.string.googlePlay_client_id);
-            String authCOde = GoogleAuthUtil.getToken(this, acct.getEmail() , magicString);
-            Log.d("GooglePlay", authCOde);
+            final Account account = acct.getAccount();
+            AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
+                @Override
+                protected String doInBackground(Void... params) {
+                    String token = null;
+                    try {
+                        token = GoogleAuthUtil.getToken(LoginOtherActivity.this, account, "oauth2:" + SCOPES);
+                    } catch (IOException transientEx) {
+                        // Network or server error, try later
+                        Log.e(TAG, transientEx.toString());
+                    } catch (UserRecoverableAuthException e) {
+                        // Recover (with e.getIntent())
+                        Log.e(TAG, e.toString());
+                        Intent recover = e.getIntent();
+                        startActivityForResult(recover, RC_SIGN_IN);
+                    } catch (GoogleAuthException authEx) {
+                        // The call is not ever expected to succeed
+                        // assuming you have already verified that
+                        // Google Play services is installed.
+                        Log.e(TAG, authEx.toString());
+                    }
+
+                    return token;
+                }
+
+                @Override
+                protected void onPostExecute(String token) {
+                    Log.i(TAG, "Access token retrieved:" + token);
+                    googleAccessToken = token;
+                }
+
+            };
+            task.execute();
+            updateUI(true);
 
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
