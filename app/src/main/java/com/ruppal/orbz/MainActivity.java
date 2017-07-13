@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 //                        super.onSuccess(statusCode, headers, response);
 //                    }
 //
+
 //                    @Override
 //                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
 //                        super.onSuccess(statusCode, headers, responseString);
@@ -203,8 +204,8 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 
-                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
-                // see https://code.google.com/p/android/issues/detail?id=24599
+
+
                 searchView.clearFocus();
 
                 return true;
