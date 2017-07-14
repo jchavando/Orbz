@@ -23,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.ruppal.orbz.clients.SpotifyClient;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -86,6 +87,8 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 spotifyAccessToken = response.getAccessToken();
+                SpotifyClient spotifyClient = new SpotifyClient();
+                spotifyClient.setAccessToken(spotifyAccessToken);
 //                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
                 btLoginSpotify.setBackgroundColor(Color.GREEN);

@@ -2,12 +2,14 @@ package com.ruppal.orbz;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.models.Song;
 
@@ -66,48 +68,20 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
         String artistList = "";
 
         //print out all artists in song
-        for (int i = 0; i < song.artists.size(); i++){
-            artistList = artistList + song.artists.get(i);
+        int sizeArtists = song.getArtists().size();
+        for (int i = 0; i < sizeArtists; i++){
+            artistList = artistList + song.artists.get(i).name;
+            if (i < sizeArtists -1){
+                artistList += ", ";
+            }
         }
         holder.tvArtistName.setText(artistList);
-        holder.tvSource.setText("spotify");
-
-
-
-//        if(tweet.retweeted) {
-//            holder.tvRetweetCount.setTextColor(greenColor);
-//            holder.ibRetweet.setImageResource(R.drawable.retweet_green);
-//        } else {
-//            holder.tvRetweetCount.setTextColor(blackColor);
-//            holder.ibRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
-//        }
-//
-//        if(tweet.favorited){
-//            holder.tvFavoriteCount.setTextColor(redColor);
-//            holder.ibFavorites.setImageResource(R.drawable.ic_heart_filled);
-//
-//        } else {
-//            holder.tvFavoriteCount.setTextColor(blackColor);
-//            holder.ibFavorites.setImageResource(R.drawable.ic_vector_heart_stroke);
-//
-//        }
-
-//
-//        String relativeShortTimeAgo = replaceTime(getRelativeTimeAgo(tweet.createdAt));
-//        holder.tvRelativeTimeStamp.setText(" · " + relativeShortTimeAgo); //20 minutes ago
-//
-//        Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ibProfileImage);
-//
-//        Glide.with(context).load(tweet.imageUrl).into(holder.ivPic);
-
-//
-//        holder.ibProfileImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mListener.onItemSelected(v, position, true);
-//            }
-//        });
-
+        if (song.getAlbumCoverUrl() != null) {
+            Glide.with(context)
+                    .load(song.getAlbumCoverUrl())
+                    .into(holder.ivAlbumCover);
+            Log.i("albumArt", song.getAlbumCoverUrl());
+        }
     }
 
 
@@ -122,79 +96,28 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvSongName;
         public TextView tvArtistName;
-        public TextView tvSource;
-        public ImageButton ibPlus;
-
-
-
+        public ImageView ivAlbumCover;
 
         public ViewHolder(View itemView) {
             super(itemView);
             //perform findViewById lookups
             tvSongName= (TextView) itemView.findViewById(R.id.tvSongName);
             tvArtistName = (TextView) itemView.findViewById(R.id.tvArtistName);
-            tvSource = (TextView) itemView.findViewById(R.id.tvSource);
-            ibPlus = (ImageButton) itemView.findViewById(R.id.ibPlus);
+            ivAlbumCover = (ImageView) itemView.findViewById(R.id.ivAlbumCover);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    int position = getAdapterPosition();
+//                    Toast.makeText(context, mSongs.get(position).title, Toast.LENGTH_LONG).show();
+                    mListener.onItemSelected(v, position, false);
                 }
             });
 
-            //handle row click event
-            //handle onClick to play song
-//            itemView.setOnClickListener(new View.OnClickListener(){
-//
-//                @Override
-//                public void onClick(View v) {
-//                    if(mListener != null){
-//                        //get the position of row element
-//                        int position = getAdapterPosition();
-//                        //fire the listener callback
-//                        mListener.onItemSelected(v, position, false);
-//                    }
-//                }
-//            });
-
-
-
-            //Retweet
-//            ibRetweet.setOnClickListener(new ImageButton.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position = getAdapterPosition();
-//
-//                    //make sure the position is valid, actually exits in the view
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        //get the movie at the position
-//                        Tweet tweet = mTweets.get(position);
-//                        client.retweet(tweet.uid, new JsonHttpResponseHandler() {
-//
-//                            @Override
-//                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                                Log.d("reweet", "success");
-//                                try {
-//                                    tvRetweetCount.setText(String.valueOf(Tweet.fromJSON(response).retweetCount));
-//                                    ibRetweet.setImageResource(R.drawable.retweet_green);
-//                                    tvRetweetCount.setTextColor(greenColor);
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                                Log.d("retweet", "error");
-//                            }
-//                        });
-//                    }
-//                }
-//
-//            });
 
         }
     }
+
+
     public void clear() {
         mSongs.clear();
         notifyDataSetChanged();

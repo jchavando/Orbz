@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         intent = getIntent();
         spotifyAccessToken = intent.getStringExtra(SPOTIFY_ACCESS_TOKEN);
         googleAccessToken = intent.getStringExtra(GOOGLE_ACCESS_TOKEN);
-        spotifyClient = new SpotifyClient(spotifyAccessToken);
+        spotifyClient = new SpotifyClient();
         getSpotifyPlayer(spotifyAccessToken);
         googleResults = new ArrayList<>();
 
@@ -84,127 +84,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 SearchFragment searchFragment= (SearchFragment) ((SongPagerAdapter) vpPager.getAdapter()).mFragmentReferences.get(0);
-                searchFragment.populateTimeline(query, spotifyAccessToken);
-
-//                spotifyClient.search(query, "track", new JsonHttpResponseHandler() {
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                        JSONObject tracks = null;
-//                        try {
-//                            tracks = response.getJSONObject("tracks");
-//                            JSONArray items = tracks.getJSONArray("items");
-//                            for (int i = 0; i < items.length(); i++){
-//                                JSONObject item = items.getJSONObject(i);
-//                                Song song = Song.fromJSON(Song.SPOTIFY, item);
-//                                spotifyResults.add(song);
-//                            }
-//                            addToTextBox();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                        super.onSuccess(statusCode, headers, response);
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//                        super.onSuccess(statusCode, headers, responseString);
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                        Log.e("search", throwable.toString());
-//                        super.onFailure(statusCode, headers, responseString, throwable);
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                        Log.e("search", errorResponse.toString());
-//                        super.onFailure(statusCode, headers, throwable, errorResponse);
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-//                        Log.e("search", errorResponse.toString());
-//                        super.onFailure(statusCode, headers, throwable, errorResponse);
-//                    }
-//                });
-//
-//                googlePlayClient.loginToGoogleMusic(googleAccessToken, new JsonHttpResponseHandler(){
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                        super.onSuccess(statusCode, headers, response);
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                        super.onSuccess(statusCode, headers, response);
-//                    }
-//
-
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//                        super.onSuccess(statusCode, headers, responseString);
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                        super.onFailure(statusCode, headers, responseString, throwable);
-//                        Log.e("search", throwable.toString());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                        super.onFailure(statusCode, headers, throwable, errorResponse);
-//                        Log.e("search", throwable.toString());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-//                        super.onFailure(statusCode, headers, throwable, errorResponse);
-//                        Log.e("search", throwable.toString());
-//                    }
-//                });
-//
-//                googlePlayClient.search(googleAccessToken, query, new JsonHttpResponseHandler(){
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                        JSONArray songs = null;
-//                        try {
-//                            songs = response.getJSONArray("songs");
-//                            for (int i =0; i<songs.length(); i++){
-//                                Song song = Song.fromJSON(Song.GOOGLE_PLAY , songs.getJSONObject(i));
-//                                googleResults.add(song);
-//                            }
-//                            addToTextBox();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                        super.onFailure(statusCode, headers, responseString, throwable);
-//                        Log.e("search", throwable.toString());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                        super.onFailure(statusCode, headers, throwable, errorResponse);
-//                        Log.e("search", throwable.toString());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-//                        super.onFailure(statusCode, headers, throwable, errorResponse);
-//                        Log.e("search", throwable.toString());
-//                    }
-//                });
-
-
+                searchFragment.clearSongsList();
+                searchFragment.searchSongs(query);
 
                 searchView.clearFocus();
 

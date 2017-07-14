@@ -30,8 +30,13 @@ public class SearchFragment extends SongListFragment {
         //client = TwitterApplication.getRestClient();
     }
 
-    public void populateTimeline(String query, String accessToken) {
-        spotifyClient = new SpotifyClient(accessToken);
+    public void clearSongsList(){
+        songs.clear();
+        songAdapter.notifyDataSetChanged();
+    }
+
+    public void searchSongs(String query) {
+        spotifyClient = new SpotifyClient();
 
         spotifyClient.search(query, "track", new JsonHttpResponseHandler() {
             @Override

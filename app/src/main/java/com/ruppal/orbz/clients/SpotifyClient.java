@@ -16,11 +16,10 @@ import org.json.JSONArray;
 public class SpotifyClient extends JsonHttpResponseHandler {
     private static  String BASE_URL = "https://api.spotify.com/v1/";
     private static AsyncHttpClient client = new AsyncHttpClient();
-    private String accessToken;
+    public static String accessToken;
 
-    public SpotifyClient (String accessToken){
-        this.accessToken = accessToken;
-    }
+    public void setAccessToken(String accessToken) {this.accessToken = accessToken;}
+
 
     private static String getApiUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;

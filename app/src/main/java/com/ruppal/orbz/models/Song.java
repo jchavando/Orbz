@@ -18,6 +18,7 @@ public class Song {
     public boolean playing;
     public String album;
     public int popularity;
+    public String service;
     public int duration_ms;
 
     public static final String SPOTIFY = "Spotify";
@@ -56,9 +57,11 @@ public class Song {
         song.popularity = object.getInt("popularity");
         song.duration_ms = object.getInt("duration_ms");
         song.playing = false;
-//        JSONArray images = object.getJSONArray("images");
-        //todo : can get a different image size based on which index is used
-//        song.albumCoverUrl = images.getJSONObject(0).getString("url");
+        song.service = SPOTIFY;
+        JSONArray images = albumObj.getJSONArray("images");
+//        //todo : can get a different image size based on which index is used
+        int sizeImages = images.length();
+        song.albumCoverUrl = images.getJSONObject(sizeImages - 1).getString("url");
 
         //call the  artist from JSON in a for loop to populate artists array
         //for example, Artist.fromJSON(SPOTIFY, object);
@@ -83,7 +86,7 @@ public class Song {
         song.albumCoverUrl = object.getString("albumArt");
         song.album = object.getString("album");
         //popularity = object.getInt("");
-
+        song.service = GOOGLE_PLAY;
         song.duration_ms = object.getInt("total"); //time object
         song.playing = object.getBoolean("playing"); //
         //uid = object.getString(); //can't find id
@@ -98,6 +101,7 @@ public class Song {
         Song song = new Song();
         song.title = object.getString("title");
         song.uid = object.getString("id");
+        song.service = YOUTUBE;
         return song;
 
     }
@@ -107,4 +111,39 @@ public class Song {
 //    }
 
 
+    public String getService() {
+        return service;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public ArrayList<Artist> getArtists() {
+        return artists;
+    }
+
+    public String getAlbumCoverUrl() {
+        return albumCoverUrl;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public int getDuration_ms() {
+        return duration_ms;
+    }
 }
