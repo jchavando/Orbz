@@ -38,4 +38,13 @@
         android:layout_toEndOf="@+id/ivAlbumCover"
         android:layout_toRightOf="@+id/ivAlbumCover"
         android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/ivPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/exo_controls_pause" />
 </RelativeLayout>

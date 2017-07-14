@@ -1,14 +1,17 @@
 package com.ruppal.orbz.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ruppal.orbz.R;
@@ -16,6 +19,8 @@ import com.ruppal.orbz.SongAdapter;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.models.Song;
 import com.spotify.sdk.android.player.Config;
+import com.spotify.sdk.android.player.Error;
+import com.spotify.sdk.android.player.PlaybackState;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.Spotify;
 
@@ -75,51 +80,57 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
     @Override
     public void onItemSelected(View view, int position, boolean isPic) {
         Song song = songs.get(position);
-        Toast.makeText(getContext(), "hello", Toast.LENGTH_LONG).show();
-        if (song.getService() == Song.SPOTIFY){
-            playSongFromSpotify(song);
+        if (song.getService() == Song.SPOTIFY) {
+            if(!song.isPlaying()) {
+                playSongFromSpotify(song);
+            }
+            else {
+                Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
+//                pauseSongFromSpotify(song);
+            }
         }
 //        ((SongSelectedListener) getActivity()).onSongSelected(song);
 
     }
 
-    public void playSongFromSpotify(Song song){
-        mPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
-//        spotifyClient.startAndResume(song.getUid(), null, null, new JsonHttpResponseHandler(){
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                super.onSuccess(statusCode, headers, response);
-//            }
-//
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                super.onSuccess(statusCode, headers, response);
-//            }
-//
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//                super.onSuccess(statusCode, headers, responseString);
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                super.onFailure(statusCode, headers, responseString, throwable);
-//                Log.e("playSong", throwable.toString());
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                super.onFailure(statusCode, headers, throwable, errorResponse);
-//                Log.e("playSong", throwable.toString());
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-//                super.onFailure(statusCode, headers, throwable, errorResponse);
-//                Log.e("playSong", throwable.toString());
-//            }
-//        });
+    @Override
+    public void onPauseButtonClicked(View view, int position) {
+        final Song song = songs.get(position);
+        Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
+            @Override
+            public void onSuccess() {
+                String nowPaused= "paused " + song.getTitle();
+                Toast.makeText(getContext(), nowPaused, Toast.LENGTH_LONG).show();
+                song.playing = false;
+            }
+
+            @Override
+            public void onError(Error error) {
+                Log.e("play", error.toString());
+            }
+        };
+
+        PlaybackState mCurrentPlaybackState = mPlayer.getPlaybackState();
+        if (mCurrentPlaybackState != null && mCurrentPlaybackState.isPlaying) {
+            mPlayer.pause(mOperationCallback);
+        } else {
+            Drawable playButton = getContext().getResources().getDrawable(R.drawable.exo_controls_play);
+            ((ImageView) view).setImageDrawable(playButton);
+            mPlayer.resume(mOperationCallback);
+        }
     }
+
+
+
+
+    public void playSongFromSpotify(Song song){
+        String playingNow = "playing " + song.getTitle();
+        Toast.makeText(getContext(), playingNow, Toast.LENGTH_LONG).show();
+        mPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
+        song.playing = true;
+    }
+
+
 
     public void getSpotifyPlayer(){
         Config playerConfig = new Config(getContext(), SpotifyClient.accessToken, getString(R.string.spotify_client_id));
