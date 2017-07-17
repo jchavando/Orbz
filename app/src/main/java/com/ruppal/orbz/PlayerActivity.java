@@ -3,10 +3,12 @@ package com.ruppal.orbz;
 import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Surface;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -58,6 +60,9 @@ public class PlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
+        //Toast.makeText(this, "Readable external storage" + isExternalStorageReadable(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Writeable external storage" + isExternalStorageWritable(), Toast.LENGTH_SHORT).show();
+
         componentListener = new ComponentListener();
         playerView = (SimpleExoPlayerView) findViewById(R.id.video_view);
         onStart();
@@ -96,6 +101,25 @@ public class PlayerActivity extends AppCompatActivity {
         }
     }
 
+    /* Checks if external storage is available for read and write */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Checks if external storage is available to at least read */
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
     private void initializePlayer() {
         if (player == null) {
             // a factory to create an AdaptiveVideoTrackSelection
@@ -113,6 +137,11 @@ public class PlayerActivity extends AppCompatActivity {
         }
         MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
         player.prepare(mediaSource, true, false);
+
+        /*
+        MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
+        player.prepare(mediaSource, true, false);
+        */
     }
 
     private void releasePlayer() {
