@@ -43,7 +43,7 @@ public class SearchFragment extends SongListFragment {
     public void searchSongs(String query) {
         searchSpotify(query);
         searchYoutube(query);
-        
+
     }
 
     public void searchYoutube (String query){

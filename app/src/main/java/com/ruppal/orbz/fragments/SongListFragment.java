@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.SongAdapter;
 import com.ruppal.orbz.clients.SpotifyClient;
@@ -33,7 +36,11 @@ import java.util.ArrayList;
  * Created by jchavando on 7/13/17.
  */
 
-public class SongListFragment extends Fragment implements SongAdapter.SongAdapterListener{
+public class SongListFragment extends Fragment implements SongAdapter.SongAdapterListener, YouTubePlayer.Provider {
+
+    @Override
+    public void initialize(String s, YouTubePlayer.OnInitializedListener onInitializedListener) {
+    }
 
     public interface SongSelectedListener{
         public void onSongSelected(Song song);
@@ -47,18 +54,30 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
     SpotifyClient spotifyClient;
     public Player mPlayer;
 
+    public YouTubePlayer yPlayer;
+
 
     //inflation happens inside onCreateView
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         spotifyClient = new SpotifyClient();
         getSpotifyPlayer();
         //inflate the layout
         View v = inflater.inflate(R.layout.fragments_songs_list, container, false);
+        YouTubePlayerSupportFragment youTubePlayerFragment = (YouTubePlayerSupportFragment) getChildFragmentManager().findFragmentById(R.id.youtube_fragment);
+        youTubePlayerFragment.initialize(getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                yPlayer = youTubePlayer;
+            }
 
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Toast.makeText(getContext(), "Failed to initalize the youtube player", Toast.LENGTH_LONG).show();
+            }
+        });
         //find RecyclerView
         rvSongs = (RecyclerView) v.findViewById(R.id.rvSong);
         //init the arraylist (data source)
@@ -81,17 +100,24 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
     public void onItemSelected(View view, int position, boolean isPic) {
         Song song = songs.get(position);
         if (song.getService() == Song.SPOTIFY) {
-            if(!song.isPlaying()) {
+            if (!song.isPlaying()) {
                 playSongFromSpotify(song);
-            }
-            else {
+            } else {
                 Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
 //                pauseSongFromSpotify(song);
             }
         }
+        else if (song.getService() == Song.YOUTUBE){
+            Toast.makeText(getContext(), song.getTitle() + " is from youtube", Toast.LENGTH_LONG).show();
+            playSongFromYoutube(song);
+        }
+
 //        ((SongSelectedListener) getActivity()).onSongSelected(song);
 
     }
+
+
+
 
     @Override
     public void onPauseButtonClicked(View view, int position) {
@@ -124,10 +150,22 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
 
 
     public void playSongFromSpotify(Song song){
-        String playingNow = "playing " + song.getTitle();
+        String playingNow = "playing " + song.getTitle() + " from spotify";
         Toast.makeText(getContext(), playingNow, Toast.LENGTH_LONG).show();
         mPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
         song.playing = true;
+    }
+
+    public void playSongFromYoutube(Song song){
+        if (yPlayer != null){
+            yPlayer.loadVideo(song.getUid());
+            yPlayer.play();
+            String playingNow = "playing " + song.getTitle() + " from youtube";
+            Toast.makeText(getContext(), playingNow, Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(getContext(), "Something went wrong with the youtube player. Unable to play your video.", Toast.LENGTH_LONG).show();
+        }
     }
 
 

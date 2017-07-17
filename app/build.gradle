@@ -69,6 +69,8 @@ dependencies {
 //        exclude group: 'org.apache.httpcomponents'
 //    }
 
+    //youtube player
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
 }
 apply plugin: 'com.google.gms.google-services'
 
