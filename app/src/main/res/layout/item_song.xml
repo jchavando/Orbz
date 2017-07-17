@@ -5,44 +5,57 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
 
 
+    <ImageView
+        android:id="@+id/ivAlbumCover"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/tvSongName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textColor="@android:color/white"
+        android:layout_toEndOf="@+id/ivAlbumCover"
+        android:layout_toRightOf="@+id/ivAlbumCover"
+        android:layout_marginLeft="5dp"
+        android:text="TextView" />
 
     <TextView
         android:id="@+id/tvArtistName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="jules"
-        android:layout_alignParentTop="true" />
-
-    <TextView
-        android:id="@+id/tvSongName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="sample song blah blah"
+        android:textColor="@android:color/white"
         android:layout_marginLeft="5dp"
-        />
+        android:layout_centerVertical="true"
+        android:layout_below="@id/tvSongName"
+        android:layout_toEndOf="@+id/ivAlbumCover"
+        android:layout_toRightOf="@+id/ivAlbumCover"
+        android:text="TextView" />
 
+    <ImageView
+        android:id="@+id/ivPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/exo_controls_pause" />
 
     <TextView
         android:id="@+id/tvSource"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="Spotify"
-        android:layout_below="@+id/tvSongName"/>
-
-
-
-    <ImageButton
-        android:id="@+id/ibPlus"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="12dp"
-        android:padding="6dp"
-        android:layout_toRightOf="@+id/tvSongName"
-
-        />
-
+        android:layout_alignLeft="@+id/ivAlbumCover"
+        android:layout_alignStart="@+id/ivAlbumCover"
+        android:layout_below="@+id/ivAlbumCover"
+        android:text="TextView"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
 </RelativeLayout>

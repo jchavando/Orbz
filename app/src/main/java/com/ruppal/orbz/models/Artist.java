@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.ruppal.orbz.models.Song.GOOGLE_PLAY;
+import static com.ruppal.orbz.models.Song.LASTFM;
 import static com.ruppal.orbz.models.Song.SPOTIFY;
 
 /**
@@ -25,8 +26,8 @@ public class Artist {
             //break;
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
-            //case YOUTUBE:
-                //return parseYoutubeJSON(object);
+            case LASTFM:
+                return parseLastFMJSON(object);
             //break;
             default:
                 return null;
@@ -50,6 +51,13 @@ public class Artist {
     private static Artist parseGooglePlayJSON(JSONObject object) throws JSONException {
         Artist artist = new Artist();
         artist.uid = null;
+        artist.name = object.getString("artist");
+        return artist;
+    }
+    //TODO
+    private static Artist parseLastFMJSON(JSONObject object) throws JSONException {
+        Artist artist = new Artist();
+        artist.uid = object.getString("mid");
         artist.name = object.getString("artist");
         return artist;
     }

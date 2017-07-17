@@ -23,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.ruppal.orbz.clients.SpotifyClient;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -35,7 +36,7 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import java.io.IOException;
 
-public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
+public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
 
     // TODO: Replace with your client ID
     String spotifyClientId;
@@ -86,6 +87,8 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 spotifyAccessToken = response.getAccessToken();
+                SpotifyClient spotifyClient = new SpotifyClient();
+                spotifyClient.setAccessToken(spotifyAccessToken);
 //                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
                 btLoginSpotify.setBackgroundColor(Color.GREEN);
@@ -178,8 +181,6 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
         Log.d("LoginOtherActivity", "Received connection message: " + message);
     }
 
-
-
     public void onClickSpotifyLogin(View view){
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(spotifyClientId,
                 AuthenticationResponse.Type.TOKEN,
@@ -193,13 +194,18 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
     }
 
-
     public void onClickDone(View view){
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra(MainActivity.SPOTIFY_ACCESS_TOKEN, spotifyAccessToken);
         i.putExtra(MainActivity.GOOGLE_ACCESS_TOKEN, googleAccessToken);
 //        i.putExtra(MainActivity.SPOTIFY_PLAYER, Parcels.wrap(mPlayer));
         startActivity(i);
+    }
+
+    // switches to the player activity
+    public void onClickPlayer(View view){
+        Intent player = new Intent(this, PlayerActivity.class);
+        startActivity(player);
     }
 
     @Override

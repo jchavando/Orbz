@@ -29,6 +29,16 @@
         android:layout_marginBottom="59dp"
         android:text="Done" />
 
+    <Button
+        android:id="@+id/btPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickPlayer"
+        android:text="Player"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/btDone"
+        android:layout_alignStart="@+id/btDone" />
+
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
