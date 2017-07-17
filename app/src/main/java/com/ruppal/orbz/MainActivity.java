@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.ruppal.orbz.clients.GooglePlayClient;
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.clients.YouTubeClient;
 import com.ruppal.orbz.fragments.SearchFragment;
 import com.ruppal.orbz.fragments.SongPagerAdapter;
 import com.ruppal.orbz.models.Song;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     String spotifyAccessToken;
     String googleAccessToken;
     ArrayList<Song> googleResults;
+    YouTubeClient youTubeClient;
     GooglePlayClient googlePlayClient;
     SearchFragment searchFragment;
     ViewPager vpPager;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         googleAccessToken = intent.getStringExtra(GOOGLE_ACCESS_TOKEN);
         spotifyClient = new SpotifyClient();
         getSpotifyPlayer(spotifyAccessToken);
+        youTubeClient = new YouTubeClient();
+        youTubeClient.setAccessToken(googleAccessToken);
         googleResults = new ArrayList<>();
 
         //super.onCreate(savedInstanceState);

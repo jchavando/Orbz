@@ -2,7 +2,7 @@
     <string name="app_name">Orbz</string>
     <string name = "spotify_client_id">de5914f8fc0a4f40b20266a180442c79</string>
     <string name = "spotify_redirect_uri">adrenalinejunkies://callback</string>
-    <string name = "googlePlay_client_id">329504969543-bstah1lka0rd9ktdk4oc5s31lqojvjgr.apps.googleusercontent.com</string>
+    <string name = "googlePlay_client_id">329504969543-af10n7qfpfnqhq7g4jhi7o3ubfdbrj5r.apps.googleusercontent.com</string>
 
     <string name="player_activity_name">Media player</string>
     <string name="media_url_mp3">https://www.youtube.com/watch?v=iIP7hVPhidY</string>

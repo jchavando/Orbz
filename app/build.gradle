@@ -10,7 +10,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        multiDexEnabled = true
     }
+
+//    configurations.all {
+//        resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+//    }
     buildTypes {
         release {
             minifyEnabled false
@@ -18,6 +23,7 @@ android {
         }
     }
 }
+
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
@@ -52,6 +58,17 @@ dependencies {
     compile 'com.google.android.exoplayer:exoplayer:r2.4.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:25.3.1'
+
+
+    //youtube stuff
+//    compile 'pub.devrel:easypermissions:0.3.0'
+//    compile('com.google.api-client:google-api-client-android:1.22.0') {
+//        exclude group: 'org.apache.httpcomponents'
+//    }
+//    compile('com.google.apis:google-api-services-youtube:v3-rev183-1.22.0') {
+//        exclude group: 'org.apache.httpcomponents'
+//    }
+
 }
 apply plugin: 'com.google.gms.google-services'
 
