@@ -72,7 +72,6 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
         //set the adapter
         rvSongs.setAdapter(songAdapter);
 
-
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvSongs.addItemDecoration(itemDecoration);
 

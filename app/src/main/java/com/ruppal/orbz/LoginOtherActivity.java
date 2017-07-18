@@ -302,7 +302,7 @@ LoginLastFMFragment.OnItemSelectedListener{
 
     @Override
     public void enteredLoginInfo(String username, String password) {
-        if(username.equals("") && !password.equals("")){
+        if(!username.equals("") && !password.equals("")){
             Log.d("LoginOtherActivity", "account exists");
         }
     }

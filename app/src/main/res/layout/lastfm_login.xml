@@ -15,23 +15,24 @@
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginTop="50dp"
-        android:inputType="textPersonName"
-        android:text="Username"
-        android:background="@color/colorAccent"
+        android:layout_marginLeft="37dp"
         android:layout_marginRight="37dp"
-        android:layout_marginLeft="37dp"/>
+        android:layout_marginTop="50dp"
+        android:background="@color/colorAccent"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:background="@color/colorAccent"
+        android:layout_marginLeft="37dp"
         android:layout_marginRight="37dp"
-        android:layout_marginLeft="37dp"/>
+        android:background="@color/colorAccent"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btLogin"
