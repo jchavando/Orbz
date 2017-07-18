@@ -1,12 +1,17 @@
 package com.ruppal.orbz;
 
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Surface;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -19,6 +24,8 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.audio.AudioRendererEventListener;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.dash.DashChunkSource;
@@ -29,10 +36,17 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
+import com.ruppal.orbz.models.Song;
+
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * A fullscreen activity to play audio or video streams.
@@ -51,16 +65,24 @@ public class PlayerActivity extends AppCompatActivity {
     private int currentWindow;
     private boolean playWhenReady = true;
 
-
+    private ArrayList<Song> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
+        //Toast.makeText(this, "Readable external storage" + isExternalStorageReadable(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Writeable external storage" + isExternalStorageWritable(), Toast.LENGTH_SHORT).show();
+
         componentListener = new ComponentListener();
         playerView = (SimpleExoPlayerView) findViewById(R.id.video_view);
         onStart();
+
+        // will store the MP3s
+        arrayList = new ArrayList<>();
+        mediaSearch();
+
     }
 
     @Override
@@ -96,6 +118,44 @@ public class PlayerActivity extends AppCompatActivity {
         }
     }
 
+    /* Checks if external storage is available for read and write */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Checks if external storage is available to at least read */
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void mediaSearch(){
+        ContentResolver contentResolver = getContentResolver();
+        Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
+
+        if(songCursor != null && songCursor.moveToFirst())
+        {
+            Toast.makeText(this, "starting song cursor", Toast.LENGTH_SHORT).show();
+            int songId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID);
+            int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+
+            do {
+                long currentId = songCursor.getLong(songId);
+                String currentTitle = songCursor.getString(songTitle);
+                arrayList.add(new Song(currentId, currentTitle));
+            } while(songCursor.moveToNext());
+        }
+    }
+
     private void initializePlayer() {
         if (player == null) {
             // a factory to create an AdaptiveVideoTrackSelection
@@ -111,8 +171,47 @@ public class PlayerActivity extends AppCompatActivity {
             player.setPlayWhenReady(playWhenReady);
             player.seekTo(currentWindow, playbackPosition);
         }
-        MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
-        player.prepare(mediaSource, true, false);
+
+        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/Music/daughter1.mp3");
+        if(file.exists())
+        {
+            //Toast.makeText(this, "File exists", Toast.LENGTH_SHORT).show();
+            prepareExoPlayerFromFileUri(Uri.fromFile(file));
+        }
+        else {
+            Toast.makeText(this, "File doesn't exist", Toast.LENGTH_SHORT).show();
+            MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
+            player.prepare(mediaSource, true, false);
+        }
+    }
+
+    private void prepareExoPlayerFromFileUri(Uri uri){
+
+        DataSpec dataSpec = new DataSpec(uri);
+        final FileDataSource fileDataSource = new FileDataSource();
+        try {
+            fileDataSource.open(dataSpec);
+        } catch (FileDataSource.FileDataSourceException e) {
+            e.printStackTrace();
+        }
+
+        DataSource.Factory factory = new DataSource.Factory() {
+            @Override
+            public DataSource createDataSource() {
+                return fileDataSource;
+            }
+        };
+        MediaSource audioSource = new ExtractorMediaSource(fileDataSource.getUri(),
+                factory, new DefaultExtractorsFactory(), null, null);
+
+        player.prepare(audioSource);
+    }
+
+    private MediaSource buildMediaSource(Uri uri) {
+        com.google.android.exoplayer2.upstream.DataSource.Factory dataSourceFactory = new DefaultHttpDataSourceFactory("ua", BANDWIDTH_METER);
+        DashChunkSource.Factory dashChunkSourceFactory = new DefaultDashChunkSource.Factory(
+                dataSourceFactory);
+        return new DashMediaSource(uri, dataSourceFactory, dashChunkSourceFactory, null, null);
     }
 
     private void releasePlayer() {
@@ -128,14 +227,6 @@ public class PlayerActivity extends AppCompatActivity {
             player = null;
         }
     }
-
-    private MediaSource buildMediaSource(Uri uri) {
-        com.google.android.exoplayer2.upstream.DataSource.Factory dataSourceFactory = new DefaultHttpDataSourceFactory("ua", BANDWIDTH_METER);
-        DashChunkSource.Factory dashChunkSourceFactory = new DefaultDashChunkSource.Factory(
-                dataSourceFactory);
-        return new DashMediaSource(uri, dataSourceFactory, dashChunkSourceFactory, null, null);
-    }
-
     @SuppressLint("InlinedApi")
     private void hideSystemUi() {
         playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
