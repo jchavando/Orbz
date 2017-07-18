@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Surface;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -67,6 +68,8 @@ public class PlayerActivity extends AppCompatActivity {
 
     private ArrayList<Song> arrayList;
 
+    private TextView songList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,11 +80,31 @@ public class PlayerActivity extends AppCompatActivity {
 
         componentListener = new ComponentListener();
         playerView = (SimpleExoPlayerView) findViewById(R.id.video_view);
-        onStart();
+        songList = (TextView) findViewById(R.id.tvSongList);
 
         // will store the MP3s
         arrayList = new ArrayList<>();
         mediaSearch();
+
+        populateList();
+
+
+
+        onStart();
+
+
+    }
+
+    public void playDaughter(){
+        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/Music/daughter1.mp3");
+        if(file.exists())
+        {
+            //Toast.makeText(this, "File exists", Toast.LENGTH_SHORT).show();
+            prepareExoPlayerFromFileUri(Uri.fromFile(file));
+        }
+        else {
+            Toast.makeText(this, "File doesn't exist", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -142,18 +165,27 @@ public class PlayerActivity extends AppCompatActivity {
         Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
 
+
+        //Uri musicUri = ContentUris.withAppendedId(songUri, songCursor.getLong(songId));
         if(songCursor != null && songCursor.moveToFirst())
         {
             Toast.makeText(this, "starting song cursor", Toast.LENGTH_SHORT).show();
             int songId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID);
             int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int songData = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
 
             do {
                 long currentId = songCursor.getLong(songId);
                 String currentTitle = songCursor.getString(songTitle);
-                arrayList.add(new Song(currentId, currentTitle));
+                String currentData = songCursor.getString(songData);
+                arrayList.add(new Song(currentId, currentTitle, currentData));
             } while(songCursor.moveToNext());
+            Toast.makeText(this, "There this many songs in the list: " + arrayList.size(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void populateList(){
+        songList.setText(arrayList.get(47).getTitle());
     }
 
     private void initializePlayer() {
@@ -172,17 +204,12 @@ public class PlayerActivity extends AppCompatActivity {
             player.seekTo(currentWindow, playbackPosition);
         }
 
-        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/Music/daughter1.mp3");
-        if(file.exists())
-        {
-            //Toast.makeText(this, "File exists", Toast.LENGTH_SHORT).show();
-            prepareExoPlayerFromFileUri(Uri.fromFile(file));
-        }
-        else {
-            Toast.makeText(this, "File doesn't exist", Toast.LENGTH_SHORT).show();
-            MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
-            player.prepare(mediaSource, true, false);
-        }
+        prepareExoPlayerFromFileUri(arrayList.get(47).getSongUri());
+
+        /* plays google's video
+        MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
+        player.prepare(mediaSource, true, false);
+        */
     }
 
     private void prepareExoPlayerFromFileUri(Uri uri){
