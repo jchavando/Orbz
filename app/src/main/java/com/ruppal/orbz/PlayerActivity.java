@@ -1,9 +1,12 @@
 package com.ruppal.orbz;
 
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Surface;
@@ -40,8 +43,10 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
+import com.ruppal.orbz.models.Song;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * A fullscreen activity to play audio or video streams.
@@ -60,6 +65,7 @@ public class PlayerActivity extends AppCompatActivity {
     private int currentWindow;
     private boolean playWhenReady = true;
 
+    private ArrayList<Song> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +79,9 @@ public class PlayerActivity extends AppCompatActivity {
         playerView = (SimpleExoPlayerView) findViewById(R.id.video_view);
         onStart();
 
+        // will store the MP3s
+        arrayList = new ArrayList<>();
+        mediaSearch();
 
     }
 
@@ -128,6 +137,25 @@ public class PlayerActivity extends AppCompatActivity {
         return false;
     }
 
+    public void mediaSearch(){
+        ContentResolver contentResolver = getContentResolver();
+        Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
+
+        if(songCursor != null && songCursor.moveToFirst())
+        {
+            Toast.makeText(this, "starting song cursor", Toast.LENGTH_SHORT).show();
+            int songId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID);
+            int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+
+            do {
+                long currentId = songCursor.getLong(songId);
+                String currentTitle = songCursor.getString(songTitle);
+                arrayList.add(new Song(currentId, currentTitle));
+            } while(songCursor.moveToNext());
+        }
+    }
+
     private void initializePlayer() {
         if (player == null) {
             // a factory to create an AdaptiveVideoTrackSelection
@@ -147,7 +175,7 @@ public class PlayerActivity extends AppCompatActivity {
         File file = new File(Environment.getExternalStorageDirectory().getPath()+"/Music/daughter1.mp3");
         if(file.exists())
         {
-            Toast.makeText(this, "File exists", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "File exists", Toast.LENGTH_SHORT).show();
             prepareExoPlayerFromFileUri(Uri.fromFile(file));
         }
         else {
