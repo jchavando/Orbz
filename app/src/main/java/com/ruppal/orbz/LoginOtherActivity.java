@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.fragments.LoginLastFMFragment;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -36,13 +38,14 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import java.io.IOException;
 
-public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
+public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,
+LoginLastFMFragment.OnItemSelectedListener{
 
     // TODO: Replace with your client ID
     String spotifyClientId;
     // TODO: Replace with your redirect URI
     String spotifyRedirectUri;
-
+    //openLastFMFragment();
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
     private static final int RC_SIGN_IN = 9001;
@@ -53,15 +56,17 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
     SignInButton googleSignInButton;
     String spotifyAccessToken;
     String googleAccessToken;
+    Button btLastFMLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_other);
+
         spotifyClientId = getString(R.string.spotify_client_id);
         spotifyRedirectUri = getString(R.string.spotify_redirect_uri);
         googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
-
+        btLastFMLogin = (Button) findViewById(R.id.btLastFMLogin);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail().requestIdToken(getString(R.string.googlePlay_client_id))
@@ -74,6 +79,8 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
 
 
         googleSignInButton.setOnClickListener(this);
+        btLastFMLogin.setOnClickListener(this);
+
 
 
     }
@@ -116,7 +123,17 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
             } catch (GoogleAuthException e) {
                 e.printStackTrace();
             }
+        } else {// if(requestCode == ) { //else if?
+            btLastFMLogin.setBackgroundColor(Color.GREEN);
+            Toast.makeText(this, "Successfully logged in to Last.fm!", Toast.LENGTH_LONG).show();
+
         }
+    }
+
+    public void openLastFMFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        LoginLastFMFragment lastFMLogin = LoginLastFMFragment.newInstance("some_title");
+        lastFMLogin.show(fm, "lastfm_login");
     }
 
     @Override
@@ -166,11 +183,6 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
         Log.d("LoginOtherActivity", "Login failed");
     }
 
-//    @Override
-//    public void onLoginFailed(int i) {
-//        Log.d("MainActivity", "Login failed");
-//    }
-
     @Override
     public void onTemporaryError() {
         Log.d("LoginOtherActivity", "Temporary error occurred");
@@ -213,6 +225,9 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
         switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
+                break;
+            case R.id.btLastFMLogin:
+                openLastFMFragment();
                 break;
         }
     }
@@ -282,6 +297,13 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
         } else {
             Toast.makeText(this, "did not sign in", Toast.LENGTH_LONG).show();
 
+        }
+    }
+
+    @Override
+    public void enteredLoginInfo(String username, String password) {
+        if(username.equals("") && !password.equals("")){
+            Log.d("LoginOtherActivity", "account exists");
         }
     }
 }

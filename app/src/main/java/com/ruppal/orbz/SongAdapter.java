@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
 
     private SongAdapterListener mListener;
     private final int REQUEST_CODE = 20;
+    MainActivity currentActivity;
 
 
     //define an interface required by the ViewHolder
@@ -38,10 +40,11 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
         public void onPauseButtonClicked(View view, int position);
     }
     //pass in the Tweets array in the constructor
-    public SongAdapter(List<Song> tweets, SongAdapterListener listener) {
+    public SongAdapter(List<Song> tweets, SongAdapterListener listener, MainActivity mainActivity) {
         mSongs = tweets;
         //client = TwitterApplication.getRestClient();
         mListener = listener;
+        currentActivity = mainActivity;
     }
 
     //for each row, inflate layout and cache (pass) references into ViewHolder
@@ -86,6 +89,17 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
         }
 
         holder.tvSource.setText("spotify"); //TODO: put custom source
+
+
+
+//        holder.btLastFMLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //launch LoginLastFMFragment
+//                currentActivity.openLastFMFragment(); //TODO fix
+//            }
+//        });
+
     }
 
 
@@ -103,6 +117,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
         public ImageView ivAlbumCover;
         public ImageView ivPause;
         public TextView tvSource;
+        public Button btLastFMLogin;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -112,6 +127,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
             ivAlbumCover = (ImageView) itemView.findViewById(R.id.ivAlbumCover);
             tvSource = (TextView) itemView.findViewById(R.id.tvSource);
             ivPause = (ImageView) itemView.findViewById(R.id.ivPause);
+            btLastFMLogin = (Button) itemView.findViewById(R.id.btLastFMLogin);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -130,6 +147,25 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
 
                 }
             });
+
+//            btLastFMLogin.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //launch LoginLastFMFragment
+//                    currentActivity.openLastFMFragment(); //TODO fix
+//                }
+//            });
+
+//            btLastFMLogin.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //launch LoginLastFMFragment
+//
+//
+//                }
+//            });
+
+
 
 
         }

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.SongAdapter;
 import com.ruppal.orbz.clients.LastFMClient;
@@ -24,9 +25,6 @@ import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.PlaybackState;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.Spotify;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -48,6 +46,7 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
     SpotifyClient spotifyClient;
     LastFMClient lastFMClient;
     public Player mPlayer;
+    public MainActivity mainActivity;
 
 
     //inflation happens inside onCreateView
@@ -67,7 +66,7 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
         //init the arraylist (data source)
         songs = new ArrayList<>();
         //construct adapter from datasource
-        songAdapter = new SongAdapter(songs, this); //this
+        songAdapter = new SongAdapter(songs, this, mainActivity); //this
         //recyclerView setup (layout manager, use adapter)
         rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
         //set the adapter
@@ -125,7 +124,6 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
 
 
 
-
     public void playSongFromSpotify(Song song){
         String playingNow = "playing " + song.getTitle();
         Toast.makeText(getContext(), playingNow, Toast.LENGTH_LONG).show();
@@ -140,22 +138,22 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
         mPlayer = Spotify.getPlayer(playerConfig, this, null);
     }
 
-
-    public void addItems (String service, JSONArray response){
-        for (int i = 0; i < response.length(); i++){
-            //convert each object to a Song model
-            //add that Song model to our data source
-            //notify the adapter that we've added an item (list view)
-            Song song = null;
-            try {
-                song = Song.fromJSON(service, response.getJSONObject(i));
-                songs.add(song);
-                songAdapter.notifyItemInserted(songs.size()-1);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//
+//    public void addItems (String service, JSONArray response){
+//        for (int i = 0; i < response.length(); i++){
+//            //convert each object to a Song model
+//            //add that Song model to our data source
+//            //notify the adapter that we've added an item (list view)
+//            Song song = null;
+//            try {
+//                song = Song.fromJSON(service, response.getJSONObject(i));
+//                songs.add(song);
+//                songAdapter.notifyItemInserted(songs.size()-1);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
 //    //adds one tweet at top
 //    public void postTweet(Song song){

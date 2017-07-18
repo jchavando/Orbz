@@ -1,5 +1,6 @@
 package com.ruppal.orbz.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -20,7 +21,7 @@ public class SearchFragment extends SongListFragment {
 
     SpotifyClient spotifyClient;
     LastFMClient lastFMCLient;
-
+    Context context;
     //private final String TAG = "SpotifyClient";
 
 
@@ -85,7 +86,7 @@ public class SearchFragment extends SongListFragment {
 
         });
 
-        lastFMCLient = new LastFMClient();
+        lastFMCLient = new LastFMClient(context);
         lastFMClient.search("track", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {

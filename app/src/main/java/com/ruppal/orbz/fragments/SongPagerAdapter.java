@@ -45,7 +45,6 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
             PlaylistFragment secondFrag = new PlaylistFragment();
             mFragmentReferences.add(1, secondFrag);
             return secondFrag;
-            //return new PlaylistFragment();
             //more else if's
         } else {
             return null;

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.ruppal.orbz.clients.GooglePlayClient;
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.fragments.LoginLastFMFragment;
 import com.ruppal.orbz.fragments.SearchFragment;
 import com.ruppal.orbz.fragments.SongPagerAdapter;
 import com.ruppal.orbz.models.Song;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private FragmentPagerAdapter adapterViewPager;
 
 
+    private LoginLastFMFragment lastFMLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,15 +57,18 @@ public class MainActivity extends AppCompatActivity {
         getSpotifyPlayer(spotifyAccessToken);
         googleResults = new ArrayList<>();
 
-        //super.onCreate(savedInstanceState);
-        //at top
-        setContentView(R.layout.activity_main);
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(new SongPagerAdapter(getSupportFragmentManager(),
+                MainActivity.this));
 
-        //get the view pager
-        vpPager = (ViewPager) findViewById(R.id.viewpager);
-        adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
-        //set the adapter for the pager
-        vpPager.setAdapter(adapterViewPager);
+        // Give the TabLayout the ViewPager
+        //TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        //tabLayout.setupWithViewPager(viewPager);
+
+
+        //tabLayout.getTabAt(0).setIcon(home_selected); TODO change picture icons
+        //tabLayout.getTabAt(1).setIcon(mentions_selected);
 
 //        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
 //        intent=getIntent();
@@ -101,22 +107,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
+
     public void getSpotifyPlayer(String accessToken){
         Config playerConfig = new Config(this, accessToken, spotifyClientId);
         mPlayer = Spotify.getPlayer(playerConfig, this, null);
     }
-//    public void addToTextBox(){
-//        TextView tvSongs = (TextView) findViewById(R.id.tvSongs);
-//        String songs = "";
-//        for (int i =0 ;i < spotifyResults.size(); i++){
-//            songs += (spotifyResults.get(i).title + ", ");
-//        }
-//        songs+="GOOGLE PLAY \n\n";
-//        for (int i =0 ;i < googleResults.size(); i++){
-//            songs += (googleResults.get(i).title + ", ");
-//        }
-//        tvSongs.setText(songs);
-//    }
 
 
 
