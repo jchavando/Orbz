@@ -21,10 +21,19 @@ public class Song {
     public String service;
     public int duration_ms;
 
+    private long SongID; // different from uid
+
     public static final String SPOTIFY = "Spotify";
     public static final String SOUNDCLOUD = "Soundcloud";
     public static final String GOOGLE_PLAY = "GooglePlay";
     public static final String YOUTUBE = "Youtube";
+
+    private Song(){}
+
+    public Song(long id, String title){
+        SongID = id;
+        this.title = title;
+    }
 
     public static Song fromJSON(String service, JSONObject object) throws JSONException {
         switch (service){
@@ -45,6 +54,8 @@ public class Song {
 
         }
     }
+
+
 
     private static Song parseSpotifyJSON(JSONObject object) throws JSONException{
         //REQUIRES: object is an entry from items, which is inside tracks JSON object
@@ -114,7 +125,6 @@ public class Song {
 //        //call the  artist from JSON in a for loop to populate artists array
 //    }
 
-
     public String getService() {
         return service;
     }
@@ -149,5 +159,9 @@ public class Song {
 
     public int getDuration_ms() {
         return duration_ms;
+    }
+
+    public long getSongID(){
+        return SongID;
     }
 }
