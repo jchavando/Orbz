@@ -28,7 +28,7 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 1;
     }
 
 
@@ -41,12 +41,14 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
             mFragmentReferences.add(0, firstFrag);
             return firstFrag;
             //return SearchFragment.newInstance(0, "Page #1");
-        } else if (position == 1){
-            PlaylistFragment secondFrag = new PlaylistFragment();
-            mFragmentReferences.add(1, secondFrag);
-            return new PlaylistFragment();
-            //more else if's
-        } else {
+        }
+//        else if (position == 1){
+//            PlaylistFragment secondFrag = new PlaylistFragment();
+//            mFragmentReferences.add(1, secondFrag);
+//            return new PlaylistFragment();
+//            //more else if's
+//        }
+        else {
             return null;
         }
     }

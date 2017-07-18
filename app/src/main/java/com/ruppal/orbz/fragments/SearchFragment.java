@@ -26,8 +26,6 @@ public class SearchFragment extends SongListFragment {
 
     private final String TAG = "YoutubeClient";
 
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +40,8 @@ public class SearchFragment extends SongListFragment {
 
     public void searchSongs(String query) {
         searchSpotify(query);
-        searchYoutube(query);
+        //moved this after spotify json returns, so look in searchSpotify
+//        searchYoutube(query);
 
     }
 
@@ -91,7 +90,7 @@ public class SearchFragment extends SongListFragment {
 
 
 
-    public void searchSpotify(String query){
+    public void searchSpotify(final String query){
         spotifyClient.search(query, "track", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
@@ -104,6 +103,7 @@ public class SearchFragment extends SongListFragment {
                         Song song = Song.fromJSON(Song.SPOTIFY, item);
                         addSong(song);
                     }
+                    searchYoutube(query);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
