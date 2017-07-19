@@ -128,13 +128,13 @@ public class PlayerActivity extends AppCompatActivity {
 
     public void printMap(Map<Song, Integer> map){
         for (Map.Entry<Song, Integer> entry : map.entrySet()) {
-            Log.d("Elvis_Map_Searches","Key : " + entry.getKey().getTitle() + " Value : " + entry.getValue());
+            Log.d("Elvis_Song_Map","Key : " + entry.getKey().getTitle() + " Value : " + entry.getValue());
         }
     }
 
     public void printArrayList(ArrayList<Song> songListPrint){
         for (Song test : songListPrint)
-            Log.d("Elvis_searchConverter", test.getTitle());
+            Log.d("Elvis_Song_List", test.getTitle());
     }
 
     public ArrayList<Song> getLocalSongList(){return localSongList;}
