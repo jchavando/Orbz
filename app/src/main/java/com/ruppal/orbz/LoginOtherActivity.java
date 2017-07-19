@@ -2,6 +2,7 @@ package com.ruppal.orbz;
 
 import android.accounts.Account;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -24,6 +25,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.ruppal.orbz.clients.LastFMClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.fragments.LoginLastFMFragment;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -36,10 +39,15 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
+import cz.msebera.android.httpclient.Header;
+
 public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,
-LoginLastFMFragment.OnItemSelectedListener{
+LoginLastFMFragment.LastFMListener{
 
     // TODO: Replace with your client ID
     String spotifyClientId;
@@ -57,6 +65,10 @@ LoginLastFMFragment.OnItemSelectedListener{
     String spotifyAccessToken;
     String googleAccessToken;
     Button btLastFMLogin;
+    String username;
+    String password;
+    LastFMClient lastFMClient;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +92,7 @@ LoginLastFMFragment.OnItemSelectedListener{
 
         googleSignInButton.setOnClickListener(this);
         btLastFMLogin.setOnClickListener(this);
+        lastFMClient = new LastFMClient();
 
 
 
@@ -123,11 +136,10 @@ LoginLastFMFragment.OnItemSelectedListener{
             } catch (GoogleAuthException e) {
                 e.printStackTrace();
             }
-        } else {// if(requestCode == ) { //else if?
-            btLastFMLogin.setBackgroundColor(Color.GREEN);
-            Toast.makeText(this, "Successfully logged in to Last.fm!", Toast.LENGTH_LONG).show();
+        } //else {// if(requestCode == ) { //else if?
 
-        }
+
+        //}
     }
 
     public void openLastFMFragment() {
@@ -300,10 +312,51 @@ LoginLastFMFragment.OnItemSelectedListener{
         }
     }
 
+
     @Override
-    public void enteredLoginInfo(String username, String password) {
-        if(!username.equals("") && !password.equals("")){
-            Log.d("LoginOtherActivity", "account exists");
-        }
+    public void onFinishDialog(String username, String password) {
+        this.username = username;
+        this.password = password;
+        loginToLastFMAccount();
+    }
+
+    public void loginToLastFMAccount(){
+        lastFMClient.login(username, password, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("LastFM", "success");
+                btLastFMLogin.setBackgroundColor(Color.GREEN);
+                //Toast.makeText(this, "Successfully logged in to Last.fm!", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.d("LastFM", "success");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.d("LastFM", "success");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("LastFm", "failure");
+                Log.e("LastFm", responseString);
+                Log.e("LastFm", throwable.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("LastFm", "failure");
+                Log.e("LastFm", errorResponse.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d("LastFm", "failure");
+                Log.e("LastFm", errorResponse.toString());
+            }
+        });
     }
 }

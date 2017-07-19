@@ -86,7 +86,7 @@ public class SearchFragment extends SongListFragment {
 
         });
 
-        lastFMCLient = new LastFMClient(context);
+        lastFMCLient = new LastFMClient();
         lastFMClient.search("track", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {

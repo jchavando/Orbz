@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.ruppal.orbz.R;
@@ -114,13 +115,29 @@ public class LoginLastFMFragment extends DialogFragment {
             etUsername = (EditText) view.findViewById(R.id.etUsername);
             etPassword = (EditText) view.findViewById(R.id.etPassword);
              // Fetch arguments from bundle and set title
-           // String title = getArguments().getString("title", "Enter username");
-            //getDialog().setTitle(title);
+
+            String title = getArguments().getString("title", "Enter username");
+            getDialog().setTitle(title);
             // Show soft keyboard automatically and request focus to field
             etUsername.requestFocus();
             etPassword.requestFocus();
             getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        }
+        Button btLogin = (Button) view.findViewById(R.id.btLogin);
+        btLogin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                LastFMListener listener = (LastFMListener) getActivity();
+                listener.onFinishDialog(etUsername.getText().toString(), etPassword.getText().toString());
+                //login
+                //go back
+                dismiss();
+            }
+        });
+    }
+    public interface LastFMListener{
+        void onFinishDialog(String username, String password);
+    }
 
 
 //    @Override
