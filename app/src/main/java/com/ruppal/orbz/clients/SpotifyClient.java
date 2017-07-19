@@ -56,4 +56,17 @@ public class SpotifyClient extends JsonHttpResponseHandler {
         client.addHeader("Authorization", "Bearer " + accessToken );
         client.put(apiUrl, params, handler);
     }
+
+    public void getMyPlaylists(AsyncHttpResponseHandler handler){
+        String apiUrl = getApiUrl("me/playlists");
+        //can add params to get different number of results
+        client.addHeader("Authorization", "Bearer " + accessToken );
+        client.get(apiUrl, null, handler);
+    }
+
+    public void getPlayListTracks (String fullUrl, AsyncHttpResponseHandler handler){
+        //REQUIRES FULL URL
+        client.addHeader("Authorization", "Bearer " + accessToken );
+        client.get(fullUrl, null, handler);
+    }
 }

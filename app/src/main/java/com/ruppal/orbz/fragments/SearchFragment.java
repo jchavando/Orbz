@@ -136,10 +136,7 @@ public class SearchFragment extends SongListFragment {
 
     }
 
-    public void addSong (Song song){
-        songs.add(song);
-        songAdapter.notifyItemInserted(songs.size()-1);
-    }
+
 }
 
 

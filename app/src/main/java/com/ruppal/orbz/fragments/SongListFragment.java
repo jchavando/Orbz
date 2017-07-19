@@ -203,6 +203,10 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
         mPlayer = Spotify.getPlayer(playerConfig, this, null);
     }
 
+    public void addSong (Song song){
+        songs.add(song);
+        songAdapter.notifyItemInserted(songs.size()-1);
+    }
 
     public void addItems (String service, JSONArray response){
         for (int i = 0; i < response.length(); i++){
