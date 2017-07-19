@@ -17,7 +17,7 @@ import static com.ruppal.orbz.models.Song.SPOTIFY;
 public class Playlist {
     Owner owner;
     String playlistName;
-    ArrayList<String> images;
+    String image;
     String tracksUrl;
     ArrayList<Song> tracks;
     String playlistId;
@@ -52,7 +52,7 @@ public class Playlist {
         Playlist playlist = new Playlist();
         playlist.playlistId = object.getString("id");
         JSONArray images = object.getJSONArray("images");
-        playlist.images = addSpotifyImages(images);
+        playlist.image = images.getJSONObject(0).getString("url");
         JSONObject ownerObj = object.getJSONObject("owner");
         playlist.owner = Owner.fromJSON(SPOTIFY, ownerObj);
         playlist.playlistName = object.getString("name");
@@ -68,5 +68,29 @@ public class Playlist {
             imagesUrls.add(url);
         }
         return imagesUrls;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public String getPlaylistName() {
+        return playlistName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getTracksUrl() {
+        return tracksUrl;
+    }
+
+    public ArrayList<Song> getTracks() {
+        return tracks;
+    }
+
+    public String getPlaylistId() {
+        return playlistId;
     }
 }

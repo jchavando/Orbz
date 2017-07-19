@@ -33,10 +33,7 @@ public class SearchFragment extends SongListFragment {
         youTubeClient = new YouTubeClient();
     }
 
-    public void clearSongsList(){
-        songs.clear();
-        songAdapter.notifyDataSetChanged();
-    }
+
 
     public void searchSongs(String query) {
         searchSpotify(query);

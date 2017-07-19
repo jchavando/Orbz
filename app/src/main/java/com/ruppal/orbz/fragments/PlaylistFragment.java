@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
 import org.json.JSONArray;
@@ -27,22 +28,25 @@ public class PlaylistFragment extends SongListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         spotifyClient = new SpotifyClient();
+//        songs = new ArrayList<>();
         populatePlaylists();
 
     }
 
     public void populatePlaylists(){
         //make sure to clear out songs so playlists show instead
+//        clearSongsList();
         spotifyClient.getMyPlaylists(new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
                     JSONArray items = response.getJSONArray("items");
-                    JSONObject firstPlaylist = items.getJSONObject(0);
-                    JSONObject tracks = firstPlaylist.getJSONObject("tracks");
-                    String tracksUrl = tracks.getString("href");
-                    loadTracks(tracksUrl);
+                    for (int i =0; i<items.length(); i++){
+                        JSONObject item = items.getJSONObject(i);
+                        Playlist playlist = Playlist.fromJSON(Song.SPOTIFY, item);
+                        addSong(playlist);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

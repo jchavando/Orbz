@@ -25,9 +25,18 @@ public class Owner {
     private static Owner parseSpotifyJson(JSONObject object) throws JSONException {
         //REQUIRES: an owner object from spotify
         Owner owner = new Owner();
-        owner.name = object.getString("display_name");
+        owner.name = object.getString("id");
+        //todo figure this out
         owner.id = object.getString("id");
         return owner;
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
     }
 }

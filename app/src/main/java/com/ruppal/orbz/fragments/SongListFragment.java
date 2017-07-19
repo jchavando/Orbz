@@ -20,8 +20,8 @@ import android.widget.Toast;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
-import com.ruppal.orbz.SongAdapter;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.models.Song;
 import com.spotify.sdk.android.player.Config;
@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * Created by jchavando on 7/13/17.
  */
 
-public class SongListFragment extends Fragment implements SongAdapter.SongAdapterListener, YouTubePlayer.Provider {
+public class SongListFragment extends Fragment implements ComplexRecyclerViewAdapter.SongAdapterListener, YouTubePlayer.Provider {
 
     @Override
     public void initialize(String s, YouTubePlayer.OnInitializedListener onInitializedListener) {
@@ -51,8 +51,8 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
 
 
     private final int REQUEST_CODE = 20;
-    public SongAdapter songAdapter;
-    public ArrayList<Song> songs;
+    public ComplexRecyclerViewAdapter complexAdapter;
+    public ArrayList<Object> songs;
     public RecyclerView rvSongs;
     SpotifyClient spotifyClient;
     public Player mPlayer;
@@ -80,11 +80,11 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
         //init the arraylist (data source)
         songs = new ArrayList<>();
         //construct adapter from datasource
-        songAdapter = new SongAdapter(songs, this); //this
+        complexAdapter = new ComplexRecyclerViewAdapter(songs, this); //this
         //recyclerView setup (layout manager, use adapter)
         rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
         //set the adapter
-        rvSongs.setAdapter(songAdapter);
+        rvSongs.setAdapter(complexAdapter);
 
 
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
@@ -126,7 +126,7 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
 
     @Override
     public void onItemSelected(View view, int position, boolean isPic) {
-        Song song = songs.get(position);
+        Song song = (Song) songs.get(position);
         if (song.getService() == Song.SPOTIFY) {
             if (!song.isPlaying()) {
                 playSongFromSpotify(song);
@@ -149,7 +149,7 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
 
     @Override
     public void onPauseButtonClicked(View view, int position) {
-        final Song song = songs.get(position);
+        final Song song = (Song) songs.get(position);
         Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
             @Override
             public void onSuccess() {
@@ -203,9 +203,14 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
         mPlayer = Spotify.getPlayer(playerConfig, this, null);
     }
 
-    public void addSong (Song song){
+    public void addSong (Object song){
         songs.add(song);
-        songAdapter.notifyItemInserted(songs.size()-1);
+        complexAdapter.notifyItemInserted(songs.size()-1);
+    }
+
+    public void clearSongsList(){
+        songs.clear();
+        complexAdapter.notifyDataSetChanged();
     }
 
     public void addItems (String service, JSONArray response){
@@ -217,7 +222,7 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
             try {
                 song = Song.fromJSON(service, response.getJSONObject(i));
                 songs.add(song);
-                songAdapter.notifyItemInserted(songs.size()-1);
+                complexAdapter.notifyItemInserted(songs.size()-1);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
