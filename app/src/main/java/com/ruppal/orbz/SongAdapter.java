@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
 import java.util.List;
@@ -25,11 +26,14 @@ import java.util.List;
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
 
     private List<Song> mSongs;
+    private List<Object> mSongsPlaylists;
     Context context;
     SpotifyClient client;
 
     private SongAdapterListener mListener;
     private final int REQUEST_CODE = 20;
+    private final static int TYPE_SONG = 110;
+    private final static int TYPE_PLAYLIST = 111;
 
 
     //define an interface required by the ViewHolder
@@ -37,11 +41,26 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
         public void onItemSelected (View view, int position, boolean isPic);
         public void onPauseButtonClicked(View view, int position);
     }
-    //pass in the Tweets array in the constructor
-    public SongAdapter(List<Song> tweets, SongAdapterListener listener) {
-        mSongs = tweets;
-        //client = TwitterApplication.getRestClient();
+
+    public SongAdapter(List<Object> songsPlaylists, SongAdapterListener listener){
+        mSongsPlaylists = songsPlaylists;
         mListener = listener;
+    }
+    //pass in the Tweets array in the constructor
+//    public SongAdapter(List<Song> tweets, SongAdapterListener listener) {
+//        mSongs = tweets;
+//        //client = TwitterApplication.getRestClient();
+//        mListener = listener;
+//    }
+
+    public int getItemViewType (int position){
+        if (mSongsPlaylists.get(position) instanceof Song) {
+            return TYPE_SONG;
+        }
+        else if(mSongsPlaylists.get(position) instanceof Playlist){
+            return TYPE_PLAYLIST;
+        }
+        return -1;
     }
 
     //for each row, inflate layout and cache (pass) references into ViewHolder
