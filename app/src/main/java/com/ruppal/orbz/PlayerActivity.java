@@ -69,6 +69,8 @@ public class PlayerActivity extends AppCompatActivity {
     private boolean playWhenReady = true;
 
     private ArrayList<Song> localSongList;
+    private ArrayList<Song> searchedSongList;
+
 
     private TextView songList;
     private TextView songArrayList;
@@ -89,7 +91,10 @@ public class PlayerActivity extends AppCompatActivity {
         if(isExternalStorageWritable() && isExternalStorageReadable()){
             mediaSearch();
             onStart();
-            searchAlgorithm("bethel music steffany", getLocalSongList());
+            searchedSongList = searchConverter(searchAlgorithm("bethel Music Steffany", getLocalSongList()));
+            printArrayList(searchedSongList);
+            prepareExoPlayerFromFileUri(searchedSongList.get(0).getSongUri());
+
         } else {
             Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
         }
@@ -114,10 +119,23 @@ public class PlayerActivity extends AppCompatActivity {
         return songMap;
     }
 
-    public static void printMap(Map<Song, Integer> map){
+    public ArrayList<Song> searchConverter(Map<Song, Integer> songMap){
+        ArrayList<Song> songListNew = new ArrayList<>();
+        for(Song key : songMap.keySet()){
+            songListNew.add(key);
+        }
+        return songListNew;
+    }
+
+    public void printMap(Map<Song, Integer> map){
         for (Map.Entry<Song, Integer> entry : map.entrySet()) {
             Log.d("Elvis_Map_Searches","Key : " + entry.getKey().getTitle() + " Value : " + entry.getValue());
         }
+    }
+
+    public void printArrayList(ArrayList<Song> songListPrint){
+        for (Song test : songListPrint)
+            Log.d("Elvis_searchConverter", test.getTitle());
     }
 
     public ArrayList<Song> getLocalSongList(){return localSongList;}
