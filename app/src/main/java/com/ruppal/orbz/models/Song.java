@@ -1,5 +1,7 @@
 package com.ruppal.orbz.models;
 
+import android.net.Uri;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +25,9 @@ public class Song {
     public String service;
     public int duration_ms;
 
+    private Uri songUri;
+    private String data;
+
     private long SongID; // different from uid
 
     public static final String SPOTIFY = "Spotify";
@@ -35,6 +40,12 @@ public class Song {
     public Song(long id, String title){
         SongID = id;
         this.title = title;
+    }
+
+    public Song(long id, String title, String data){
+        SongID = id;
+        this.title = title;
+        this.data = data;
     }
 
     public static Song fromJSON(String service, JSONObject object) throws JSONException {
@@ -165,5 +176,13 @@ public class Song {
 
     public long getSongID(){
         return SongID;
+    }
+
+    public Uri getSongUri() {
+        return Uri.parse("file:///"+ getData());
+    }
+
+    public String getData() {
+        return data;
     }
 }
