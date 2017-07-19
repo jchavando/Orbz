@@ -5,6 +5,7 @@ import android.net.Uri;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
  * Created by ruppal on 7/12/17.
  */
 
+@Parcel
 public class Song {
     public String title;
     public ArrayList<Artist> artists;

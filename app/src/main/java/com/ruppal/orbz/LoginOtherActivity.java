@@ -151,7 +151,7 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
         //on logged in, change button color
         btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
         btLoginSpotify.setBackgroundColor(Color.GREEN);
-        Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_SHORT).show();
 
         //mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
     }
@@ -276,11 +276,11 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
 
     private void updateUI(boolean isLogin){
         if(isLogin){
-            Toast.makeText(this, "signed in", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "signed in", Toast.LENGTH_SHORT).show();
             googleSignInButton.setBackgroundColor(Color.GREEN);
 
         } else {
-            Toast.makeText(this, "did not sign in", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "did not sign in", Toast.LENGTH_SHORT).show();
 
         }
     }

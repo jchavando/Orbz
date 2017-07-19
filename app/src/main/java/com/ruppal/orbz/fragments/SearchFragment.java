@@ -33,15 +33,13 @@ public class SearchFragment extends SongListFragment {
         youTubeClient = new YouTubeClient();
     }
 
-    public void clearSongsList(){
-        songs.clear();
-        songAdapter.notifyDataSetChanged();
-    }
+
 
     public void searchSongs(String query) {
         searchSpotify(query);
         //moved this after spotify json returns, so look in searchSpotify
-//        searchYoutube(query);
+        searchYoutube(query);
+
 
     }
 
@@ -88,8 +86,6 @@ public class SearchFragment extends SongListFragment {
 
     }
 
-
-
     public void searchSpotify(final String query){
         spotifyClient.search(query, "track", new JsonHttpResponseHandler() {
             @Override
@@ -103,7 +99,7 @@ public class SearchFragment extends SongListFragment {
                         Song song = Song.fromJSON(Song.SPOTIFY, item);
                         addSong(song);
                     }
-                    searchYoutube(query);
+//                    searchYoutube(query);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -138,10 +134,7 @@ public class SearchFragment extends SongListFragment {
 
     }
 
-    public void addSong (Song song){
-        songs.add(song);
-        songAdapter.notifyItemInserted(songs.size()-1);
-    }
+
 }
 
 

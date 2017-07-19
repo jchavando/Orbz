@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
     public static final String GOOGLE_ACCESS_TOKEN = "GOOGLE_ACCESS_TOKEN";
     String spotifyClientId;
-    Player mPlayer;
     Intent intent;
     SpotifyClient spotifyClient;
     ArrayList<Song> spotifyResults;
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     GooglePlayClient googlePlayClient;
     SearchFragment searchFragment;
     ViewPager vpPager;
+
     private FragmentPagerAdapter adapterViewPager;
 
 
@@ -58,19 +58,12 @@ public class MainActivity extends AppCompatActivity {
         youTubeClient.setAccessToken(googleAccessToken);
         googleResults = new ArrayList<>();
 
-        //super.onCreate(savedInstanceState);
-        //at top
 
         //get the view pager
         vpPager = (ViewPager) findViewById(R.id.viewpager);
         adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
         //set the adapter for the pager
         vpPager.setAdapter(adapterViewPager);
-
-//        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
-//        intent=getIntent();
-//        mPlayer = Parcels.unwrap(intent.getParcelableExtra(SPOTIFY_PLAYER));
-//        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
     }
 
 
@@ -106,21 +99,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void getSpotifyPlayer(String accessToken){
         Config playerConfig = new Config(this, accessToken, spotifyClientId);
-        mPlayer = Spotify.getPlayer(playerConfig, this, null);
+        Player mPlayer = Spotify.getPlayer(playerConfig, this, null);
+        com.ruppal.orbz.models.Player.setSpotifyPlayer(mPlayer);
     }
-//    public void addToTextBox(){
-//        TextView tvSongs = (TextView) findViewById(R.id.tvSongs);
-//        String songs = "";
-//        for (int i =0 ;i < spotifyResults.size(); i++){
-//            songs += (spotifyResults.get(i).title + ", ");
-//        }
-//        songs+="GOOGLE PLAY \n\n";
-//        for (int i =0 ;i < googleResults.size(); i++){
-//            songs += (googleResults.get(i).title + ", ");
-//        }
-//        tvSongs.setText(songs);
-//    }
-
-
 
 }
