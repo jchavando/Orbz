@@ -48,8 +48,7 @@ import com.ruppal.orbz.models.Song;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -97,36 +96,29 @@ public class PlayerActivity extends AppCompatActivity {
 
     }
 
-    public void searchAlgorithm (String query, ArrayList<Song> localList){
-        ArrayList<String> queryList = new ArrayList<>(Arrays.asList(query.split(" ")));
-        ArrayList<Song> searchedSongList = new ArrayList<>();
-        // ArrayList<Integer> songListIndexes = new ArrayList<>();
-
+    public Map<Song, Integer> searchAlgorithm (String query, ArrayList<Song> localList){
+        String[] queryList = query.split(" ");
+        Map<Song, Integer> songMap = new LinkedHashMap<>();
         for (int i = 0; i < localList.size(); i++) {
 
             for (String temp : queryList) {
 
                 if(containsIgnoreCase(localList.get(i).getTitle(), temp) || containsIgnoreCase(localList.get(i).getArtist(), temp)) {
-                    //songListIndexes.add(i);
-                    searchedSongList.add(localList.get(i));
-                    //Log.d("Elvis", Integer.toString(i));
+                    Integer count = songMap.get(localList.get(i));
+                    songMap.put(localList.get(i), (count == null) ? 1 : count + 1);
                 }
             }
         }
-
-        Map<Song, Integer> songMap = new HashMap<>();
-
-        for (Song theSong : searchedSongList) {
-            Integer count = songMap.get(theSong);
-            songMap.put(theSong, (count == null) ? 1 : count + 1);
-        }
-
-
-
-        //Toast.makeText(this, "The number of found searches " + songListIndexes.size(), Toast.LENGTH_LONG).show();
+        songMap = MapUtil.sortByValue(songMap);
+        printMap(songMap);
+        return songMap;
     }
 
-
+    public static void printMap(Map<Song, Integer> map){
+        for (Map.Entry<Song, Integer> entry : map.entrySet()) {
+            Log.d("Elvis_Map_Searches","Key : " + entry.getKey().getTitle() + " Value : " + entry.getValue());
+        }
+    }
 
     public ArrayList<Song> getLocalSongList(){return localSongList;}
 
@@ -197,7 +189,6 @@ public class PlayerActivity extends AppCompatActivity {
                 localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData));
 
             } while(songCursor.moveToNext());
-            //Toast.makeText(this, "There this many songs in the list: " + localSongList.size(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -217,7 +208,7 @@ public class PlayerActivity extends AppCompatActivity {
             player.seekTo(currentWindow, playbackPosition);
         }
 
-        prepareExoPlayerFromFileUri(localSongList.get(47).getSongUri());
+        //prepareExoPlayerFromFileUri(localSongList.get(47).getSongUri());
 
         /* plays google's video
         MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
