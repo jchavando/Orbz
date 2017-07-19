@@ -93,17 +93,10 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         return v;
     }
 
-
-
-
+    
     public void initializeYoutubePlayerFragment(final Song song){
         youTubePlayerFragment = new YouTubePlayerSupportFragment();
         FragmentManager fragmentManager = getFragmentManager();
-//        Bundle args = new Bundle();
-//        args.putParcelable(SONG_TO_PLAY, Parcels.wrap(song));
-//        youTubePlayerFragment.setArguments(args);
-//        frameLayout.setMinimumWidth(200);
-//        frameLayout.setMinimumHeight(110);
         frameLayout.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.youtube_fragment, youTubePlayerFragment);
