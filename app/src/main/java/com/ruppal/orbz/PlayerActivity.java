@@ -48,6 +48,7 @@ import com.ruppal.orbz.models.Song;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A fullscreen activity to play audio or video streams.
@@ -66,40 +67,55 @@ public class PlayerActivity extends AppCompatActivity {
     private int currentWindow;
     private boolean playWhenReady = true;
 
-    private ArrayList<Song> arrayList;
+    private ArrayList<Song> localSongList;
 
     private TextView songList;
+    private TextView songArrayList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        //Toast.makeText(this, "Readable external storage" + isExternalStorageReadable(), Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this, "Writeable external storage" + isExternalStorageWritable(), Toast.LENGTH_SHORT).show();
-
         componentListener = new ComponentListener();
         playerView = (SimpleExoPlayerView) findViewById(R.id.video_view);
         songList = (TextView) findViewById(R.id.tvSongList);
+        songArrayList = (TextView) findViewById(R.id.tvArrayList);
 
         // will store the MP3s
-        arrayList = new ArrayList<>();
-        mediaSearch();
-
-        populateList();
-
-
-
-        onStart();
-
+        localSongList = new ArrayList<>();
+        if(isExternalStorageWritable() && isExternalStorageReadable()){
+            mediaSearch();
+            onStart();
+            searchAlgorithm("bethel", getLocalSongList());
+        } else {
+            Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
+    public void searchAlgorithm (String query, ArrayList<Song> localList){
+        ArrayList<String> queryList = new ArrayList<>(Arrays.asList(query.split(" ")));
+        ArrayList<Song> searchedSongList = new ArrayList<>();
+
+        for (int i = 0; i < localList.size(); i++) {
+
+            for (String temp : queryList) {
+
+                if(containsIgnoreCase(localList.get(i).getTitle(), temp) || containsIgnoreCase(localList.get(i).getArtist(), temp))
+                    searchedSongList.add(localList.get(i));
+            }
+        }
+        Toast.makeText(this, "The number of found searches " + searchedSongList.size(), Toast.LENGTH_LONG).show();
+    }
+
+    public ArrayList<Song> getLocalSongList(){return localSongList;}
+
     public void playDaughter(){
-        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/Music/daughter1.mp3");
+        File file = new File(Environment.getExternalStorageDirectory().getPath()+ "/Music/daughter1.mp3");
         if(file.exists())
         {
-            //Toast.makeText(this, "File exists", Toast.LENGTH_SHORT).show();
             prepareExoPlayerFromFileUri(Uri.fromFile(file));
         }
         else {
@@ -141,51 +157,30 @@ public class PlayerActivity extends AppCompatActivity {
         }
     }
 
-    /* Checks if external storage is available for read and write */
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    /* Checks if external storage is available to at least read */
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
     public void mediaSearch(){
         ContentResolver contentResolver = getContentResolver();
         Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
 
-
-        //Uri musicUri = ContentUris.withAppendedId(songUri, songCursor.getLong(songId));
         if(songCursor != null && songCursor.moveToFirst())
         {
             Toast.makeText(this, "starting song cursor", Toast.LENGTH_SHORT).show();
             int songId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID);
             int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int songArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
             int songData = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
 
             do {
                 long currentId = songCursor.getLong(songId);
                 String currentTitle = songCursor.getString(songTitle);
                 String currentData = songCursor.getString(songData);
-                arrayList.add(new Song(currentId, currentTitle, currentData));
-            } while(songCursor.moveToNext());
-            Toast.makeText(this, "There this many songs in the list: " + arrayList.size(), Toast.LENGTH_SHORT).show();
-        }
-    }
+                String currentArtist = songCursor.getString(songArtist);
 
-    public void populateList(){
-        songList.setText(arrayList.get(47).getTitle());
+                localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData));
+
+            } while(songCursor.moveToNext());
+            //Toast.makeText(this, "There this many songs in the list: " + localSongList.size(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initializePlayer() {
@@ -204,7 +199,7 @@ public class PlayerActivity extends AppCompatActivity {
             player.seekTo(currentWindow, playbackPosition);
         }
 
-        prepareExoPlayerFromFileUri(arrayList.get(47).getSongUri());
+        prepareExoPlayerFromFileUri(localSongList.get(47).getSongUri());
 
         /* plays google's video
         MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
@@ -262,6 +257,37 @@ public class PlayerActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean containsIgnoreCase(final String str, final String searchStr) {
+        if (str == null || searchStr == null) {
+            return false;
+        }
+        final int len = searchStr.length();
+        final int max = str.length() - len;
+        for (int i = 0; i <= max; i++) {
+            if (str.regionMatches(true, i, searchStr, 0, len)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private class ComponentListener implements ExoPlayer.EventListener, VideoRendererEventListener,
@@ -384,5 +410,4 @@ public class PlayerActivity extends AppCompatActivity {
 
         }
     }
-
 }

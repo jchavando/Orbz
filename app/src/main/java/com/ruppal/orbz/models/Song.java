@@ -23,8 +23,8 @@ public class Song {
     public String service;
     public int duration_ms;
 
-    private Uri songUri;
     private String data;
+    private String artist;
 
     private long SongID; // different from uid
 
@@ -40,9 +40,10 @@ public class Song {
         this.title = title;
     }
 
-    public Song(long id, String title, String data){
+    public Song(long id, String title, String artist, String data){
         SongID = id;
         this.title = title;
+        this.artist = artist;
         this.data = data;
     }
 
@@ -182,5 +183,9 @@ public class Song {
 
     public String getData() {
         return data;
+    }
+
+    public String getArtist() {
+        return artist;
     }
 }
