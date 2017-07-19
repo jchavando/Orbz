@@ -88,8 +88,6 @@ public class SearchFragment extends SongListFragment {
 
     }
 
-
-
     public void searchSpotify(final String query){
         spotifyClient.search(query, "track", new JsonHttpResponseHandler() {
             @Override

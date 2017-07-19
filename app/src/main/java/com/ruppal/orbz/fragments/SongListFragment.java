@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -53,8 +56,10 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
     public RecyclerView rvSongs;
     SpotifyClient spotifyClient;
     public Player mPlayer;
-
+    YouTubePlayerSupportFragment youTubePlayerFragment;
     public YouTubePlayer yPlayer;
+    String SONG_TO_PLAY = "SONG_TO_PLAY";
+    FrameLayout frameLayout;
 
 
     //inflation happens inside onCreateView
@@ -66,18 +71,10 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
         getSpotifyPlayer();
         //inflate the layout
         View v = inflater.inflate(R.layout.fragments_songs_list, container, false);
-        YouTubePlayerSupportFragment youTubePlayerFragment = (YouTubePlayerSupportFragment) getChildFragmentManager().findFragmentById(R.id.youtube_fragment);
-        youTubePlayerFragment.initialize(getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                yPlayer = youTubePlayer;
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                Toast.makeText(getContext(), "Failed to initalize the youtube player", Toast.LENGTH_LONG).show();
-            }
-        });
+        frameLayout = (FrameLayout) v.findViewById(R.id.youtube_fragment);
+//        youTubePlayerFragment = (YouTubePlayerSupportFragment) getChildFragmentManager().findFragmentById(R.id.youtube_fragment);
+//        youTubePlayerFragment = (YouTubePlayerSupportFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
+//        youTubePlayerFragment = (YouTubePlayerSupportFragment) getFragmentManager().findFragmentById(R.id.youtube_video_placeholder_fragment);
         //find RecyclerView
         rvSongs = (RecyclerView) v.findViewById(R.id.rvSong);
         //init the arraylist (data source)
@@ -96,6 +93,37 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
         return v;
     }
 
+
+
+
+    public void initializeYoutubePlayerFragment(final Song song){
+        youTubePlayerFragment = new YouTubePlayerSupportFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+//        Bundle args = new Bundle();
+//        args.putParcelable(SONG_TO_PLAY, Parcels.wrap(song));
+//        youTubePlayerFragment.setArguments(args);
+//        frameLayout.setMinimumWidth(200);
+//        frameLayout.setMinimumHeight(110);
+        frameLayout.setVisibility(View.VISIBLE);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.youtube_fragment, youTubePlayerFragment);
+        fragmentTransaction.addToBackStack(SONG_TO_PLAY);
+        fragmentTransaction.commit();
+        youTubePlayerFragment.initialize(getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                yPlayer = youTubePlayer;
+                playSongFromYoutube(song);
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Toast.makeText(getContext(), "Failed to initalize the youtube player", Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
     @Override
     public void onItemSelected(View view, int position, boolean isPic) {
         Song song = songs.get(position);
@@ -109,7 +137,7 @@ public class SongListFragment extends Fragment implements SongAdapter.SongAdapte
         }
         else if (song.getService() == Song.YOUTUBE){
             Toast.makeText(getContext(), song.getTitle() + " is from youtube", Toast.LENGTH_LONG).show();
-            playSongFromYoutube(song);
+            initializeYoutubePlayerFragment(song);
         }
 
 //        ((SongSelectedListener) getActivity()).onSongSelected(song);

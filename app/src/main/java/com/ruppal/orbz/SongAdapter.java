@@ -84,6 +84,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
                     .into(holder.ivAlbumCover);
             Log.i("albumArt", song.getAlbumCoverUrl());
         }
+
+        holder.tvService.setText(song.getService());
     }
 
 
@@ -100,6 +102,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
         public TextView tvArtistName;
         public ImageView ivAlbumCover;
         public ImageView ivPause;
+        public TextView tvService;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -126,6 +129,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
 
                 }
             });
+            tvService = (TextView) itemView.findViewById(R.id.tvService);
 
 
         }
