@@ -49,6 +49,8 @@ import com.ruppal.orbz.models.Song;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A fullscreen activity to play audio or video streams.
@@ -88,7 +90,7 @@ public class PlayerActivity extends AppCompatActivity {
         if(isExternalStorageWritable() && isExternalStorageReadable()){
             mediaSearch();
             onStart();
-            searchAlgorithm("bethel", getLocalSongList());
+            searchAlgorithm("bethel music steffany", getLocalSongList());
         } else {
             Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
         }
@@ -98,17 +100,33 @@ public class PlayerActivity extends AppCompatActivity {
     public void searchAlgorithm (String query, ArrayList<Song> localList){
         ArrayList<String> queryList = new ArrayList<>(Arrays.asList(query.split(" ")));
         ArrayList<Song> searchedSongList = new ArrayList<>();
+        // ArrayList<Integer> songListIndexes = new ArrayList<>();
 
         for (int i = 0; i < localList.size(); i++) {
 
             for (String temp : queryList) {
 
-                if(containsIgnoreCase(localList.get(i).getTitle(), temp) || containsIgnoreCase(localList.get(i).getArtist(), temp))
+                if(containsIgnoreCase(localList.get(i).getTitle(), temp) || containsIgnoreCase(localList.get(i).getArtist(), temp)) {
+                    //songListIndexes.add(i);
                     searchedSongList.add(localList.get(i));
+                    //Log.d("Elvis", Integer.toString(i));
+                }
             }
         }
-        Toast.makeText(this, "The number of found searches " + searchedSongList.size(), Toast.LENGTH_LONG).show();
+
+        Map<Song, Integer> songMap = new HashMap<>();
+
+        for (Song theSong : searchedSongList) {
+            Integer count = songMap.get(theSong);
+            songMap.put(theSong, (count == null) ? 1 : count + 1);
+        }
+
+
+
+        //Toast.makeText(this, "The number of found searches " + songListIndexes.size(), Toast.LENGTH_LONG).show();
     }
+
+
 
     public ArrayList<Song> getLocalSongList(){return localSongList;}
 
