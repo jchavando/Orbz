@@ -46,7 +46,6 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
 import com.ruppal.orbz.models.Song;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -140,18 +139,6 @@ public class PlayerActivity extends AppCompatActivity {
 
     public ArrayList<Song> getLocalSongList(){return localSongList;}
 
-    public void playDaughter(){
-        File file = new File(Environment.getExternalStorageDirectory().getPath()+ "/Music/daughter1.mp3");
-        if(file.exists())
-        {
-            prepareExoPlayerFromFileUri(Uri.fromFile(file));
-        }
-        else {
-            Toast.makeText(this, "File doesn't exist", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -225,8 +212,6 @@ public class PlayerActivity extends AppCompatActivity {
             player.setPlayWhenReady(playWhenReady);
             player.seekTo(currentWindow, playbackPosition);
         }
-
-        //prepareExoPlayerFromFileUri(localSongList.get(47).getSongUri());
 
         /* plays google's video
         MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
