@@ -56,4 +56,15 @@ public class SpotifyClient extends JsonHttpResponseHandler {
         client.addHeader("Authorization", "Bearer " + accessToken );
         client.put(apiUrl, params, handler);
     }
+
+    public void getPlaylistTimeline(AsyncHttpResponseHandler handler) {
+        //fill in with playlist api calls
+        String apiUrl = getApiUrl("statuses/mentions_timeline.json");
+        // Can specify query string params directly or through RequestParams.
+        RequestParams params = new RequestParams();
+        params.put("count", 25); //specifies number of records to retrieve
+        params.put("since_id", 1); //returns results with an ID greater than 1
+
+        client.get(apiUrl, params, handler);
+    }
 }

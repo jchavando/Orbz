@@ -54,8 +54,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View tweetView = inflater.inflate(R.layout.item_song, parent, false);
-        ViewHolder viewHolder = new ViewHolder(tweetView);
+        View songView = inflater.inflate(R.layout.item_song, parent, false);
+        ViewHolder viewHolder = new ViewHolder(songView);
 
         return viewHolder;
     }
