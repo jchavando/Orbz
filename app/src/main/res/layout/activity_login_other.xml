@@ -36,8 +36,12 @@
         android:text="Player"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/btDone"
+<<<<<<< HEAD
         android:layout_alignStart="@+id/btDone"
         android:layout_below="@+id/btLastFMLogin"/>
+=======
+        android:layout_alignStart="@+id/btDone" />
+>>>>>>> origin
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"

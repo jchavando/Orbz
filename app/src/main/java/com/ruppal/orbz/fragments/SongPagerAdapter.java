@@ -15,7 +15,7 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
 
     private String tabTitles[] = new String[] {"Search", "Playlist"};
     private Context context;
-    public ArrayList<SongListFragment> mFragmentReferences = new ArrayList<>();
+    public static ArrayList<SongListFragment> mFragmentReferences = new ArrayList<>();
 
     public SongPagerAdapter(FragmentManager fm, Context context){
         super(fm);
@@ -41,12 +41,14 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
             mFragmentReferences.add(0, firstFrag);
             return firstFrag;
             //return SearchFragment.newInstance(0, "Page #1");
-        } else if (position == 1){
+        }
+        else if (position == 1){
             PlaylistFragment secondFrag = new PlaylistFragment();
             mFragmentReferences.add(1, secondFrag);
             return secondFrag;
             //more else if's
-        } else {
+        }
+        else {
             return null;
         }
     }

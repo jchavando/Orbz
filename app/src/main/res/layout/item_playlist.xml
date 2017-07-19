@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/ivPlaylistArt"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/ivPlaylistArt1"
+        android:layout_toEndOf="@+id/ivPlaylistArt1"
+        android:layout_toRightOf="@+id/ivPlaylistArt1"
+        app:srcCompat="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/tvPlaylistName"
+        android:layout_width="wrap_content"
+        android:textColor="@android:color/white"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivPlaylistArt"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_toEndOf="@+id/ivPlaylistArt"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@+id/ivPlaylistArt"
+        android:text="PlaylistName" />
+
+    <TextView
+        android:id="@+id/tvOwnerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvPlaylistName"
+        android:layout_alignStart="@+id/tvPlaylistName"
+        android:layout_below="@id/tvPlaylistName"
+        android:text="Owner"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

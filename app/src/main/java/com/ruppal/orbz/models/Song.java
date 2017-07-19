@@ -1,8 +1,11 @@
 package com.ruppal.orbz.models;
 
+import android.net.Uri;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 
@@ -10,6 +13,7 @@ import java.util.ArrayList;
  * Created by ruppal on 7/12/17.
  */
 
+@Parcel
 public class Song {
     public String title;
     public ArrayList<Artist> artists;
@@ -21,11 +25,29 @@ public class Song {
     public String service;
     public int duration_ms;
 
+    private Uri songUri;
+    private String data;
+
+    private long SongID; // different from uid
+
     public static final String SPOTIFY = "Spotify";
     public static final String SOUNDCLOUD = "Soundcloud";
     public static final String GOOGLE_PLAY = "GooglePlay";
     public static final String YOUTUBE = "Youtube";
     public static final String LASTFM = "Last.fm";
+
+    private Song(){}
+
+    public Song(long id, String title){
+        SongID = id;
+        this.title = title;
+    }
+
+    public Song(long id, String title, String data){
+        SongID = id;
+        this.title = title;
+        this.data = data;
+    }
 
     public static Song fromJSON(String service, JSONObject object) throws JSONException {
         switch (service){
@@ -38,16 +60,23 @@ public class Song {
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
                 //break;
+
             case LASTFM:
                 return parseLastFMJSON(object);
             //case YOUTUBE:
                // return parseYoutubeJSON(object);
+
+            case YOUTUBE:
+                return parseYoutubeJSON(object);
+
                 //break;
             default:
                 return null;
 
         }
     }
+
+
 
     private static Song parseSpotifyJSON(JSONObject object) throws JSONException{
         //REQUIRES: object is an entry from items, which is inside tracks JSON object
@@ -113,17 +142,26 @@ public class Song {
         private static Song parseYoutubeJSON(JSONObject object) throws JSONException {
         //call the  artist from JSON in a for loop to populate artists array
         Song song = new Song();
+
         song.title = object.getString("title");
         song.uid = object.getString("id");
         song.service = YOUTUBE;
-        return song;
 
+        JSONObject snippet = object.getJSONObject("snippet");
+        song.title = snippet.getString("title");
+        song.uid = object.getJSONObject("id").getString("videoId");
+        song.service = YOUTUBE;
+        song.albumCoverUrl = snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url");
+        //todo - find a better way to get artist
+        song.artists = new ArrayList<>();
+        song.artists.add(Artist.fromJSON(YOUTUBE, object));
+
+        return song;
     }
 
 //    private Song parseYoutubeJSON(JSONObject object){
 //        //call the  artist from JSON in a for loop to populate artists array
 //    }
-
 
     public String getService() {
         return service;
@@ -160,4 +198,18 @@ public class Song {
     public int getDuration_ms() {
         return duration_ms;
     }
+
+
+    public long getSongID(){
+        return SongID;
+    }
+
+    public Uri getSongUri() {
+        return Uri.parse("file:///"+ getData());
+    }
+
+    public String getData() {
+        return data;
+    }
+
 }

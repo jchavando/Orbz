@@ -25,10 +25,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.clients.LastFMClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.fragments.LoginLastFMFragment;
+
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -44,10 +46,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+
 import cz.msebera.android.httpclient.Header;
 
 public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,
 LoginLastFMFragment.LastFMListener{
+
 
     // TODO: Replace with your client ID
     String spotifyClientId;
@@ -180,7 +184,7 @@ LoginLastFMFragment.LastFMListener{
         //on logged in, change button color
         btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
         btLoginSpotify.setBackgroundColor(Color.GREEN);
-        Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_SHORT).show();
 
         //mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
     }
@@ -303,11 +307,11 @@ LoginLastFMFragment.LastFMListener{
 
     private void updateUI(boolean isLogin){
         if(isLogin){
-            Toast.makeText(this, "signed in", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "signed in", Toast.LENGTH_SHORT).show();
             googleSignInButton.setBackgroundColor(Color.GREEN);
 
         } else {
-            Toast.makeText(this, "did not sign in", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "did not sign in", Toast.LENGTH_SHORT).show();
 
         }
     }

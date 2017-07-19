@@ -49,13 +49,23 @@
         app:srcCompat="@drawable/exo_controls_pause" />
 
     <TextView
-        android:id="@+id/tvSource"
+        android:id="@+id/tvService"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_alignLeft="@+id/ivAlbumCover"
         android:layout_alignStart="@+id/ivAlbumCover"
         android:layout_below="@+id/ivAlbumCover"
         android:text="TextView"
         android:textColor="@android:color/white"
         android:textSize="12sp" />
+=======
+        android:layout_centerVertical="true"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_toEndOf="@+id/tvArtistName"
+        android:layout_toRightOf="@+id/tvArtistName"
+        android:text="TextView" />
+>>>>>>> origin
 </RelativeLayout>

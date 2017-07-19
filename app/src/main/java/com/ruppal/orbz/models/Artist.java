@@ -2,15 +2,18 @@ package com.ruppal.orbz.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import static com.ruppal.orbz.models.Song.GOOGLE_PLAY;
 import static com.ruppal.orbz.models.Song.LASTFM;
 import static com.ruppal.orbz.models.Song.SPOTIFY;
+import static com.ruppal.orbz.models.Song.YOUTUBE;
 
 /**
  * Created by ruppal on 7/12/17.
  */
 
+@Parcel
 public class Artist {
     public String uid;
     public String name;
@@ -26,8 +29,13 @@ public class Artist {
             //break;
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
+<<<<<<< HEAD
             case LASTFM:
                 return parseLastFMJSON(object);
+=======
+            case YOUTUBE:
+                return parseYoutubeJSON(object);
+>>>>>>> origin
             //break;
             default:
                 return null;
@@ -54,6 +62,7 @@ public class Artist {
         artist.name = object.getString("artist");
         return artist;
     }
+<<<<<<< HEAD
     //TODO
     private static Artist parseLastFMJSON(JSONObject object) throws JSONException {
         Artist artist = new Artist();
@@ -64,6 +73,15 @@ public class Artist {
 //    private Song parseYoutubeJSON(JSONObject object){
 //
 //    }
+=======
+    private static Artist parseYoutubeJSON(JSONObject object) throws JSONException {
+        JSONObject snippet = object.getJSONObject("snippet");
+        Artist artist = new Artist();
+        artist.uid = snippet.getString("channelId");
+        artist.name = snippet.getString("channelTitle");
+        return artist;
+    }
+>>>>>>> origin
 
 
 }

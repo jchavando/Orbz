@@ -13,7 +13,11 @@ import android.view.MenuItem;
 
 import com.ruppal.orbz.clients.GooglePlayClient;
 import com.ruppal.orbz.clients.SpotifyClient;
+<<<<<<< HEAD
 import com.ruppal.orbz.fragments.LoginLastFMFragment;
+=======
+import com.ruppal.orbz.clients.YouTubeClient;
+>>>>>>> origin
 import com.ruppal.orbz.fragments.SearchFragment;
 import com.ruppal.orbz.fragments.SongPagerAdapter;
 import com.ruppal.orbz.models.Song;
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     String spotifyAccessToken;
     String googleAccessToken;
     ArrayList<Song> googleResults;
+    YouTubeClient youTubeClient;
     GooglePlayClient googlePlayClient;
     SearchFragment searchFragment;
     ViewPager vpPager;
@@ -55,8 +60,11 @@ public class MainActivity extends AppCompatActivity {
         googleAccessToken = intent.getStringExtra(GOOGLE_ACCESS_TOKEN);
         spotifyClient = new SpotifyClient();
         getSpotifyPlayer(spotifyAccessToken);
+        youTubeClient = new YouTubeClient();
+        youTubeClient.setAccessToken(googleAccessToken);
         googleResults = new ArrayList<>();
 
+<<<<<<< HEAD
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new SongPagerAdapter(getSupportFragmentManager(),
@@ -66,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
         //TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         //tabLayout.setupWithViewPager(viewPager);
 
+=======
+        //super.onCreate(savedInstanceState);
+        //at top
+>>>>>>> origin
 
         //tabLayout.getTabAt(0).setIcon(home_selected); TODO change picture icons
         //tabLayout.getTabAt(1).setIcon(mentions_selected);
