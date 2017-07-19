@@ -122,8 +122,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         }
     }
 
-
-
+    
 
     @Override
     public void onPauseButtonClicked(View view, int position) {
@@ -148,29 +147,5 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         songs.clear();
         complexAdapter.notifyDataSetChanged();
     }
-
-
-
-//    //adds one tweet at top
-//    public void postTweet(Song song){
-//        tweets.add(0, tweet);
-//        tweetAdapter.notifyItemInserted(0);
-//        rvTweets.scrollToPosition(0);
-//    }
-
-//    @Override
-//    public void onItemSelected(View view, int position, boolean isPic) {
-//        Song song = songs.get(position);
-//        if(!isPic) {
-//            //((SongSelectedListener) getActivity()).onTweetSelected(tweet);
-//        } else {
-//            //((TweetSelectedListener) getActivity()).onImageSelected(tweet);
-//        }
-//
-//    }
-
-
-
-
 
 }

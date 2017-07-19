@@ -38,7 +38,8 @@ public class SearchFragment extends SongListFragment {
     public void searchSongs(String query) {
         searchSpotify(query);
         //moved this after spotify json returns, so look in searchSpotify
-//        searchYoutube(query);
+        searchYoutube(query);
+
 
     }
 
@@ -98,7 +99,7 @@ public class SearchFragment extends SongListFragment {
                         Song song = Song.fromJSON(Song.SPOTIFY, item);
                         addSong(song);
                     }
-                    searchYoutube(query);
+//                    searchYoutube(query);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
