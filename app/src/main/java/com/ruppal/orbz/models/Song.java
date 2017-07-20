@@ -25,18 +25,19 @@ public class Song {
     public String service;
     public int duration_ms;
 
-    private String data;
-    private String artist;
+    public String data;
+    public String artist;
 
-    private long SongID; // different from uid
+    public long SongID; // different from uid
 
     public static final String SPOTIFY = "Spotify";
     public static final String SOUNDCLOUD = "Soundcloud";
     public static final String GOOGLE_PLAY = "GooglePlay";
     public static final String YOUTUBE = "Youtube";
     public static final String LOCAL = "Local";
+    public static final String LASTFM = "Last.fm";
 
-    private Song(){}
+    public Song(){}
 
     public Song(long id, String title){
         SongID = id;
@@ -62,8 +63,15 @@ public class Song {
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
                 //break;
+
+            case LASTFM:
+                return parseLastFMJSON(object);
+            //case YOUTUBE:
+               // return parseYoutubeJSON(object);
+
             case YOUTUBE:
                 return parseYoutubeJSON(object);
+
                 //break;
             default:
                 return null;
@@ -121,11 +129,27 @@ public class Song {
 
         return song;
 
+    }
+
+    //TODO
+    private static Song parseLastFMJSON(JSONObject object) throws JSONException {
+        Song song = new Song();
+        song.title = object.getString("track");
+        song.uid = object.getString("mid");
+        song.artists.add(Artist.fromJSON(LASTFM, object)); //"artist"
+
+        return song;
 
     }
-    private static Song parseYoutubeJSON(JSONObject object) throws JSONException {
+
+        private static Song parseYoutubeJSON(JSONObject object) throws JSONException {
         //call the  artist from JSON in a for loop to populate artists array
         Song song = new Song();
+
+        song.title = object.getString("title");
+        song.uid = object.getString("id");
+        song.service = YOUTUBE;
+
         JSONObject snippet = object.getJSONObject("snippet");
         song.title = snippet.getString("title");
         song.uid = object.getJSONObject("id").getString("videoId");
@@ -134,6 +158,7 @@ public class Song {
         //todo - find a better way to get artist
         song.artists = new ArrayList<>();
         song.artists.add(Artist.fromJSON(YOUTUBE, object));
+
         return song;
     }
 
@@ -176,6 +201,7 @@ public class Song {
     public int getDuration_ms() {
         return duration_ms;
     }
+
 
     public long getSongID(){
         return SongID;

@@ -22,9 +22,11 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     // The items to display in your RecyclerView
     private List<Object> mSongsPlaylists;
     private SongAdapterListener mListener;
+    private PlaylistAdapterListener mPlaylistListener;
     Context context ;
     private final int TYPE_SONG = 110;
     private final int TYPE_PLAYLIST = 111;
+
 
 
 
@@ -34,12 +36,20 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         public void onPauseButtonClicked(View view, int position);
     }
 
-
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public ComplexRecyclerViewAdapter(List<Object> songsAndPlaylists, SongAdapterListener listener) {
-       this.mSongsPlaylists = songsAndPlaylists;
-       this.mListener = listener;
+    public interface PlaylistAdapterListener{
+        public void onPlaylistItemSelected (View view, int position);
     }
+
+
+    // Provide a suitable constructor (depends on the kind of dataset) //List<Object>
+    public ComplexRecyclerViewAdapter(List<Object> songsAndPlaylists, SongAdapterListener listener, PlaylistAdapterListener playlistAdapterListener) {
+        this.mSongsPlaylists = songsAndPlaylists;
+        this.mPlaylistListener = playlistAdapterListener;
+        this.mListener = listener;
+
+    }
+
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -53,7 +63,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 break;
             case TYPE_PLAYLIST:
                 View playlistView = inflater.inflate(R.layout.item_playlist, viewGroup, false);
-                viewHolder = new ViewHolderPlaylist(playlistView);
+                viewHolder = new ViewHolderPlaylist(playlistView, mPlaylistListener, context);
                 break;
             default:
                 viewHolder = null;
