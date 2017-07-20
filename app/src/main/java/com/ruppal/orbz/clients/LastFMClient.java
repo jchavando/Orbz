@@ -41,8 +41,8 @@ public class LastFMClient extends JsonHttpResponseHandler {
         client.get(apiUrl, params, handler);
     }
 
-    private String encodeUTF8(String convert) {
-        byte ptext[] = convert.getBytes();
+    private String encodeUTF8(String s) {
+        byte ptext[] = s.getBytes();
         String value="";
         try {
             value = new String(ptext, "UTF-8");
@@ -50,15 +50,12 @@ public class LastFMClient extends JsonHttpResponseHandler {
             e.printStackTrace();
         }
         return value;
+
     }
 
     public void login(String username, String password, AsyncHttpResponseHandler handler){
-
-
-            API_SIG = md5("api_key"+ encodeUTF8(API_KEY) + "methodauth.getMobileSession" +
+        API_SIG = md5("api_key"+ encodeUTF8(API_KEY) + "methodauth.getMobileSession" +
                     "password"+ encodeUTF8(password) +"username"+ encodeUTF8(username)+secret);
-
-
 
         String apiUrl = getApiUrl("auth.getMobileSession");
         RequestParams params = new RequestParams();

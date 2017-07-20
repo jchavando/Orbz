@@ -146,12 +146,8 @@ public class Song {
         //call the  artist from JSON in a for loop to populate artists array
         Song song = new Song();
 
-        song.title = object.getString("title");
-        song.uid = object.getString("id");
-        song.service = YOUTUBE;
 
         JSONObject snippet = object.getJSONObject("snippet");
-        song.title = snippet.getString("title");
         song.uid = object.getJSONObject("id").getString("videoId");
         song.service = YOUTUBE;
         song.albumCoverUrl = snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url");
