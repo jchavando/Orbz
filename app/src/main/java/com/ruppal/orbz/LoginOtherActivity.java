@@ -2,11 +2,13 @@ package com.ruppal.orbz;
 
 import android.accounts.Account;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +25,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.ruppal.orbz.clients.LastFMClient;
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.fragments.LoginLastFMFragment;
+
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -34,15 +41,23 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
-public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
+
+import cz.msebera.android.httpclient.Header;
+
+public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,
+LoginLastFMFragment.LastFMListener{
+
 
     // TODO: Replace with your client ID
     String spotifyClientId;
     // TODO: Replace with your redirect URI
     String spotifyRedirectUri;
-
+    //openLastFMFragment();
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
     private static final int RC_SIGN_IN = 9001;
@@ -53,15 +68,21 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
     SignInButton googleSignInButton;
     String spotifyAccessToken;
     String googleAccessToken;
+    Button btLastFMLogin;
+    String username;
+    String password;
+    LastFMClient lastFMClient;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_other);
+
         spotifyClientId = getString(R.string.spotify_client_id);
         spotifyRedirectUri = getString(R.string.spotify_redirect_uri);
         googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
-
+        btLastFMLogin = (Button) findViewById(R.id.btLastFMLogin);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail().requestIdToken(getString(R.string.googlePlay_client_id))
@@ -74,6 +95,9 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
 
 
         googleSignInButton.setOnClickListener(this);
+        btLastFMLogin.setOnClickListener(this);
+        lastFMClient = new LastFMClient();
+
 
 
     }
@@ -116,7 +140,16 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
             } catch (GoogleAuthException e) {
                 e.printStackTrace();
             }
-        }
+        } //else {// if(requestCode == ) { //else if?
+
+
+        //}
+    }
+
+    public void openLastFMFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        LoginLastFMFragment lastFMLogin = LoginLastFMFragment.newInstance("some_title");
+        lastFMLogin.show(fm, "lastfm_login");
     }
 
     @Override
@@ -166,11 +199,6 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
         Log.d("LoginOtherActivity", "Login failed");
     }
 
-//    @Override
-//    public void onLoginFailed(int i) {
-//        Log.d("MainActivity", "Login failed");
-//    }
-
     @Override
     public void onTemporaryError() {
         Log.d("LoginOtherActivity", "Temporary error occurred");
@@ -213,6 +241,9 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
         switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
+                break;
+            case R.id.btLastFMLogin:
+                openLastFMFragment();
                 break;
         }
     }
@@ -283,5 +314,53 @@ public class  LoginOtherActivity extends AppCompatActivity implements SpotifyPla
             Toast.makeText(this, "did not sign in", Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+
+    @Override
+    public void onFinishDialog(String username, String password) {
+        this.username = username;
+        this.password = password;
+        loginToLastFMAccount();
+    }
+
+    public void loginToLastFMAccount(){
+        lastFMClient.login(username, password, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("LastFM", "success");
+                btLastFMLogin.setBackgroundColor(Color.GREEN);
+                //Toast.makeText(this, "Successfully logged in to Last.fm!", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.d("LastFM", "success");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.d("LastFM", "success");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("LastFm", "failure");
+                Log.e("LastFm", responseString);
+                Log.e("LastFm", throwable.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("LastFm", "failure");
+                Log.e("LastFm", errorResponse.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d("LastFm", "failure");
+                Log.e("LastFm", errorResponse.toString());
+            }
+        });
     }
 }

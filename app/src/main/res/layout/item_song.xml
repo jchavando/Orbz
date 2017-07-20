@@ -53,6 +53,7 @@
         android:id="@+id/tvService"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_centerVertical="true"
         android:textColor="@android:color/darker_gray"
         android:layout_marginLeft="14dp"
@@ -60,4 +61,5 @@
         android:layout_toEndOf="@+id/tvArtistName"
         android:layout_toRightOf="@+id/tvArtistName"
         android:text="TextView" />
+
 </RelativeLayout>

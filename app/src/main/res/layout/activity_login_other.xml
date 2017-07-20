@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".LoginOtherActivity">
 
-
     <Button
         android:id="@+id/btLoginSpotify"
         android:layout_width="wrap_content"
@@ -37,7 +36,9 @@
         android:text="Player"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/btDone"
-        android:layout_alignStart="@+id/btDone" />
+        android:layout_below="@+id/btLastFMLogin"/>
+
+
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
@@ -46,4 +47,16 @@
         android:layout_below="@+id/btLoginSpotify"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp" />
+
+    <Button
+        android:id="@+id/btLastFMLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="117dp"
+        tools:layout_editor_absoluteY="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="54dp"
+        android:layout_below="@+id/sign_in_button"
+
+        android:text="Login in to Last.fm" />
 </RelativeLayout>

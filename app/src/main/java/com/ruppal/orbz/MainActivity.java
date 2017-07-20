@@ -14,7 +14,11 @@ import android.view.MenuItem;
 
 import com.ruppal.orbz.clients.GooglePlayClient;
 import com.ruppal.orbz.clients.SpotifyClient;
+
+import com.ruppal.orbz.fragments.LoginLastFMFragment;
+
 import com.ruppal.orbz.clients.YouTubeClient;
+
 import com.ruppal.orbz.fragments.SearchFragment;
 import com.ruppal.orbz.fragments.SongPagerAdapter;
 import com.ruppal.orbz.models.Song;
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private FragmentPagerAdapter adapterViewPager;
 
 
+    private LoginLastFMFragment lastFMLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +71,23 @@ public class MainActivity extends AppCompatActivity {
         //set the adapter for the pager
         vpPager.setAdapter(adapterViewPager);
 
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(new SongPagerAdapter(getSupportFragmentManager(),
+                MainActivity.this));
+
+        // Give the TabLayout the ViewPager
+        //TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        //tabLayout.setupWithViewPager(viewPager);
+
+
+        //super.onCreate(savedInstanceState);
+        //at top
+
+
+        //tabLayout.getTabAt(0).setIcon(home_selected); TODO change picture icons
+        //tabLayout.getTabAt(1).setIcon(mentions_selected);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
     }
@@ -82,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                SearchFragment searchFragment= (SearchFragment) ((SongPagerAdapter) vpPager.getAdapter()).mFragmentReferences.get(0);
+                SearchFragment searchFragment= (SearchFragment) SongPagerAdapter.mFragmentReferences.get(0);
                 searchFragment.clearSongsList();
                 searchFragment.searchSongs(query);
 
@@ -98,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
+
+
+
 
 
     public void getSpotifyPlayer(String accessToken){

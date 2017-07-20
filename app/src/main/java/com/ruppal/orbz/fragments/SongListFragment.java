@@ -1,5 +1,7 @@
 package com.ruppal.orbz.fragments;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,9 +20,20 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
+import com.ruppal.orbz.PlaylistActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
+import com.spotify.sdk.android.player.Config;
+import com.spotify.sdk.android.player.Error;
+import com.spotify.sdk.android.player.PlaybackState;
+import com.spotify.sdk.android.player.Player;
+import com.spotify.sdk.android.player.Spotify;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -28,11 +41,32 @@ import java.util.ArrayList;
  * Created by jchavando on 7/13/17.
  */
 
-public class SongListFragment extends Fragment implements ComplexRecyclerViewAdapter.SongAdapterListener, YouTubePlayer.Provider {
+public class SongListFragment extends Fragment implements ComplexRecyclerViewAdapter.SongAdapterListener, ComplexRecyclerViewAdapter.PlaylistAdapterListener,  YouTubePlayer.Provider {
 
     @Override
     public void initialize(String s, YouTubePlayer.OnInitializedListener onInitializedListener) {
     }
+
+    @Override
+    public void onPlaylistItemSelected(View view, int position) {
+        //Intent intent = new Intent(getContext(), PlaylistActivity.class);
+        //intent.putExtra("tracks", playlist.getTracksUrl());
+        // Navigate to contact details activity on click of card view.
+
+        final Playlist playlist = (Playlist) songs.get(position);
+
+        if (playlist != null) {
+            // Fire an intent when a playlist is selected
+            // Pass contact object in the bundle and populate details activity.
+            Intent intent = new Intent(getContext(), PlaylistActivity.class);
+            intent.putExtra("tracks", Parcels.wrap(playlist));
+            getContext().startActivity(intent);
+        }
+
+        //startActivity(intent);
+
+    }
+
 
     public interface SongSelectedListener{
         public void onSongSelected(Song song);
@@ -47,7 +81,10 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     YouTubePlayerSupportFragment youTubePlayerFragment;
     String SONG_TO_PLAY = "SONG_TO_PLAY";
     FrameLayout frameLayout;
+
     FragmentTransaction fragmentTransaction;
+    private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
+
 
 
     //inflation happens inside onCreateView
@@ -64,7 +101,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         //init the arraylist (data source)
         songs = new ArrayList<>();
         //construct adapter from datasource
-        complexAdapter = new ComplexRecyclerViewAdapter(songs, this); //this
+        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
         //recyclerView setup (layout manager, use adapter)
         rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
         //set the adapter
@@ -126,10 +163,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         com.ruppal.orbz.models.Player.pauseSong(song, getContext(), view);
 
     }
-
-
-
-
+    
     public void addSong (Object song){
         songs.add(song);
         complexAdapter.notifyItemInserted(songs.size()-1);
@@ -139,5 +173,25 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         songs.clear();
         complexAdapter.notifyDataSetChanged();
     }
+
+    public void addItems (String service, JSONArray response){
+        for (int i = 0; i < response.length(); i++){
+            //convert each object to a Song model
+            //add that Song model to our data source
+            //notify the adapter that we've added an item (list view)
+            Song song = null;
+            try {
+                song = Song.fromJSON(service, response.getJSONObject(i));
+                songs.add(song);
+                complexAdapter.notifyItemInserted(songs.size()-1);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+
 
 }
