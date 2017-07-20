@@ -1,7 +1,6 @@
 package com.ruppal.orbz.fragments;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,11 +24,6 @@ import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
-import com.spotify.sdk.android.player.Config;
-import com.spotify.sdk.android.player.Error;
-import com.spotify.sdk.android.player.PlaybackState;
-import com.spotify.sdk.android.player.Player;
-import com.spotify.sdk.android.player.Spotify;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -163,7 +157,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         com.ruppal.orbz.models.Player.pauseSong(song, getContext(), view);
 
     }
-    
+
     public void addSong (Object song){
         songs.add(song);
         complexAdapter.notifyItemInserted(songs.size()-1);
