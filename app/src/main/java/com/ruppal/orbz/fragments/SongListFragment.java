@@ -89,8 +89,16 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         spotifyClient = new SpotifyClient();
         //inflate the layout
         View v = inflater.inflate(R.layout.fragments_songs_list, container, false);
-        frameLayout = (FrameLayout) v.findViewById(R.id.youtube_fragment);
-//      //find RecyclerView
+        frameLayout = (FrameLayout) getActivity().findViewById(R.id.youtube_fragment);
+
+
+
+
+        //frameLayout = (FrameLayout) v.findViewById(R.id.youtube_fragment);
+
+
+
+        //find RecyclerView
         rvSongs = (RecyclerView) v.findViewById(R.id.rvSong);
         //init the arraylist (data source)
         songs = new ArrayList<>();
