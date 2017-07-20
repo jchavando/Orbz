@@ -7,11 +7,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.fragments.SongListFragment;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
+import com.spotify.sdk.android.player.Config;
+import com.spotify.sdk.android.player.Error;
+import com.spotify.sdk.android.player.Player;
+import com.spotify.sdk.android.player.Spotify;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,14 +39,17 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
     SpotifyClient spotifyClient;
     ArrayList<Object> songs;
     public ComplexRecyclerViewAdapter complexAdapter;
-
-   Playlist mPlaylist;
+    public Player mPlayer;
+    Playlist mPlaylist;
+    SongListFragment songListFragment;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
+       getSpotifyPlayer();
         spotifyClient = new SpotifyClient();
+       songListFragment = new SongListFragment();
         // Lookup the recyclerview in activity layout
          rvSongs = (RecyclerView) findViewById(R.id.rvPlaylist);
          songs = new ArrayList<>();
@@ -49,7 +58,7 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
         //find RecyclerView
 
         //construct adapter from datasource
-        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, null );
+        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, null);
         //recyclerView setup (layout manager, use adapter)
         //set the adapter
         rvSongs.setAdapter(complexAdapter);
@@ -113,11 +122,55 @@ public void loadTracks(String tracksUrl){
 
     @Override
     public void onItemSelected(View view, int position, boolean isPic) {
-
+        Song song = (Song) songs.get(position);
+        if (song.getService() == Song.SPOTIFY) {
+            if (!song.isPlaying()) {
+                playSongFromSpotify(song);
+            } else {
+                Toast.makeText(this, song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
+            }
+        }
     }
+
+
+    public void getSpotifyPlayer(){
+        Config playerConfig = new Config(this, SpotifyClient.accessToken, getString(R.string.spotify_client_id));
+        mPlayer = Spotify.getPlayer(playerConfig, this, null);
+    }
+    public void playSongFromSpotify(Song song){
+        String playingNow = "playing " + song.getTitle() + " from spotify";
+        Toast.makeText(this, playingNow, Toast.LENGTH_LONG).show();
+        mPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
+        song.playing = true;
+    }
+
 
     @Override
     public void onPauseButtonClicked(View view, int position) {
+        final Song song = (Song) songs.get(position);
+        Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
+            @Override
+            public void onSuccess() {
+                String nowPaused= "paused " + song.getTitle();
+                //Toast.makeText(getContext(), nowPaused, Toast.LENGTH_LONG).show();
+                song.playing = false;
+            }
 
+            @Override
+            public void onError(Error error) {
+                Log.e("playlist activity pause", error.toString());
+            }
+
+
+        };
+
+//        PlaybackState mCurrentPlaybackState = mPlayer.getPlaybackState();
+//        if (mCurrentPlaybackState != null && mCurrentPlaybackState.isPlaying) {
+//            mPlayer.pause(mOperationCallback);
+//        } else {
+//            Drawable playButton = getContext().getResources().getDrawable(R.drawable.exo_controls_play);
+//            ((ImageView) view).setImageDrawable(playButton);
+//            mPlayer.resume(mOperationCallback);
+//        }
     }
 }
