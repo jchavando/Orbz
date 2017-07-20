@@ -24,11 +24,6 @@ android:orientation="vertical">
 
   </LinearLayout>
 
-  <ImageView
-      android:contentDescription="@string/logo"
-      android:src="@drawable/google_2015_logo"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
