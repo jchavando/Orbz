@@ -51,6 +51,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     YouTubePlayerSupportFragment youTubePlayerFragment;
     String SONG_TO_PLAY = "SONG_TO_PLAY";
     FrameLayout frameLayout;
+    FragmentTransaction fragmentTransaction;
 
 
     //inflation happens inside onCreateView
@@ -86,7 +87,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         youTubePlayerFragment = new YouTubePlayerSupportFragment();
         FragmentManager fragmentManager = getFragmentManager();
         frameLayout.setVisibility(View.VISIBLE);
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.youtube_fragment, youTubePlayerFragment);
         fragmentTransaction.addToBackStack(SONG_TO_PLAY);
         fragmentTransaction.commit();
@@ -104,6 +105,8 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         });
 
     }
+
+
 
     @Override
     public void onItemSelected(View view, int position, boolean isPic) {

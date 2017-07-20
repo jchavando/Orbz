@@ -53,6 +53,10 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tabTitles[position];
+    }
 
 
 
