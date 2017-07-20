@@ -4,8 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="android:background">@color/colorPrimaryDark</item>
-<<<<<<< HEAD
-=======
+
     </style>
 
     <style name="PlayerTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -18,7 +17,7 @@
     <style name="ExoMediaButton.Pause">
         <item name="android:src">@drawable/exo_controls_rewind</item>
         <item name="android:contentDescription">@string/exo_controls_pause_description</item>
->>>>>>> origin
+
     </style>
 
 </resources>

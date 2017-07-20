@@ -1,24 +1,17 @@
 package com.ruppal.orbz;
 
 
-import android.net.Uri;
-import android.os.Bundle;
-
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Surface;
-import android.view.View;
-
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -31,10 +24,8 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.audio.AudioRendererEventListener;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
-
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
-
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.dash.DashChunkSource;
@@ -45,12 +36,6 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
-import com.google.android.exoplayer2.video.VideoRendererEventListener;
-
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
@@ -142,7 +127,7 @@ public class PlayerActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        hideSystemUi();
+        //hideSystemUi();
         if ((Util.SDK_INT <= 23 || player == null)) {
             initializePlayer();
         }
@@ -283,12 +268,6 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
 
-    private MediaSource buildMediaSource(Uri uri) {
-        com.google.android.exoplayer2.upstream.DataSource.Factory dataSourceFactory = new DefaultHttpDataSourceFactory("ua", BANDWIDTH_METER);
-        DashChunkSource.Factory dashChunkSourceFactory = new DefaultDashChunkSource.Factory(
-                dataSourceFactory);
-        return new DashMediaSource(uri, dataSourceFactory, dashChunkSourceFactory, null, null);
-    }
 
 //
 //    @SuppressLint("InlinedApi")

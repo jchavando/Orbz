@@ -24,17 +24,14 @@ import cz.msebera.android.httpclient.Header;
 public class SearchFragment extends SongListFragment {
 
     SpotifyClient spotifyClient;
-<<<<<<< HEAD
+
     LastFMClient lastFMCLient;
     Context context;
-    //private final String TAG = "SpotifyClient";
 
-
-=======
     YouTubeClient youTubeClient;
 
     private final String TAG = "YoutubeClient";
->>>>>>> origin
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,15 +49,8 @@ public class SearchFragment extends SongListFragment {
 
     }
 
-<<<<<<< HEAD
-    public void clearSongsList(){
-        songs.clear();
-        songAdapter.notifyDataSetChanged();
-    }
 
-    public void searchSongs(String query) {
-        spotifyClient = new SpotifyClient();
-=======
+
     public void searchYoutube (String query){
         youTubeClient.search(query, new JsonHttpResponseHandler() {
             @Override
@@ -100,8 +90,6 @@ public class SearchFragment extends SongListFragment {
         });
 
 
-
->>>>>>> origin
 
     }
 
@@ -152,7 +140,7 @@ public class SearchFragment extends SongListFragment {
         });
 
         lastFMCLient = new LastFMClient();
-        lastFMClient.search("track", new JsonHttpResponseHandler() {
+        lastFMCLient.search("track", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 JSONObject tracks = null;
@@ -163,7 +151,7 @@ public class SearchFragment extends SongListFragment {
                         JSONObject item = items.getJSONObject(i);
                         Song song = Song.fromJSON(Song.LASTFM, item);
                         songs.add(song);
-                        songAdapter.notifyItemInserted(songs.size()-1);
+                        //songAdapter.notifyItemInserted(songs.size()-1);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

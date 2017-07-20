@@ -20,9 +20,10 @@ import cz.msebera.android.httpclient.Header;
  */
 
 
-public class PlaylistFragment extends SongListFragment {
+public class PlaylistFragment extends SongListFragment { //implements ComplexRecyclerViewAdapter.PlaylistAdapterListener
 
     SpotifyClient spotifyClient;
+    Playlist playlist;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,45 +74,15 @@ public class PlaylistFragment extends SongListFragment {
         });
     }
 
-    public void loadTracks(String tracksUrl){
-        //clear the song list
-        songs.clear();
-        spotifyClient.getPlayListTracks(tracksUrl, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                try {
-                    JSONArray items = response.getJSONArray("items");
-                    for (int i =0 ; i < items.length(); i++){
-                        JSONObject item = items.getJSONObject(i);
-                        JSONObject track = item.getJSONObject("track");
-                        Song song = Song.fromJSON(Song.SPOTIFY, track);
-                        addSong(song);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.e("playlists", e.toString());
-                }
-            }
+//    @Override
+//    public void onItemSelected(View view, int position) {
+//
+//        //lauch playlist activity
+//        Intent intent = new Intent(getActivity(), PlaylistActivity.class);
+//        startActivity(intent);
+//    }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                Log.e("playlists", responseString);
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                Log.e("playlists", errorResponse.toString());
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                Log.e("playlists", errorResponse.toString());
-            }
-        });
-    }
 }
 

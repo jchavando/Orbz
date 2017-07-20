@@ -1,5 +1,6 @@
 package com.ruppal.orbz.fragments;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,15 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-<<<<<<< HEAD
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.ruppal.orbz.MainActivity;
-import com.ruppal.orbz.R;
-import com.ruppal.orbz.SongAdapter;
-import com.ruppal.orbz.clients.LastFMClient;
-=======
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -30,21 +22,20 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
+import com.ruppal.orbz.PlaylistActivity;
 import com.ruppal.orbz.R;
->>>>>>> origin
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.PlaybackState;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.Spotify;
-<<<<<<< HEAD
-=======
 
 import org.json.JSONArray;
 import org.json.JSONException;
->>>>>>> origin
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -52,36 +43,49 @@ import java.util.ArrayList;
  * Created by jchavando on 7/13/17.
  */
 
-public class SongListFragment extends Fragment implements ComplexRecyclerViewAdapter.SongAdapterListener, YouTubePlayer.Provider {
+public class SongListFragment extends Fragment implements ComplexRecyclerViewAdapter.SongAdapterListener, ComplexRecyclerViewAdapter.PlaylistAdapterListener,  YouTubePlayer.Provider {
 
-<<<<<<< HEAD
-=======
     @Override
     public void initialize(String s, YouTubePlayer.OnInitializedListener onInitializedListener) {
     }
+
+    @Override
+    public void onPlaylistItemSelected(View view, int position) {
+        //Intent intent = new Intent(getContext(), PlaylistActivity.class);
+        //intent.putExtra("tracks", playlist.getTracksUrl());
+        // Navigate to contact details activity on click of card view.
+
+        final Playlist playlist = (Playlist) view.getTag();
+
+        if (playlist != null) {
+            // Fire an intent when a playlist is selected
+            // Pass contact object in the bundle and populate details activity.
+            Intent intent = new Intent(getContext(), PlaylistActivity.class);
+            intent.putExtra("tracks", Parcels.wrap(playlist));
+            getContext().startActivity(intent);
+        }
+
+        //startActivity(intent);
+
+    }
+
 
     public interface SongSelectedListener{
         public void onSongSelected(Song song);
     }
 
->>>>>>> origin
 
     private final int REQUEST_CODE = 20;
     public ComplexRecyclerViewAdapter complexAdapter;
     public ArrayList<Object> songs;
     public RecyclerView rvSongs;
     SpotifyClient spotifyClient;
-<<<<<<< HEAD
-    LastFMClient lastFMClient;
-    public Player mPlayer;
-    public MainActivity mainActivity;
-=======
     public Player mPlayer;
     YouTubePlayerSupportFragment youTubePlayerFragment;
     public YouTubePlayer yPlayer;
     String SONG_TO_PLAY = "SONG_TO_PLAY";
     FrameLayout frameLayout;
->>>>>>> origin
+    private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
 
 
     //inflation happens inside onCreateView
@@ -89,13 +93,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-<<<<<<< HEAD
-
         spotifyClient = new SpotifyClient();
-
-=======
-        spotifyClient = new SpotifyClient();
->>>>>>> origin
         getSpotifyPlayer();
         //inflate the layout
         View v = inflater.inflate(R.layout.fragments_songs_list, container, false);
@@ -108,15 +106,12 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         //init the arraylist (data source)
         songs = new ArrayList<>();
         //construct adapter from datasource
-<<<<<<< HEAD
-        songAdapter = new SongAdapter(songs, this, mainActivity); //this
-=======
-        complexAdapter = new ComplexRecyclerViewAdapter(songs, this); //this
->>>>>>> origin
+        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
         //recyclerView setup (layout manager, use adapter)
         rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
         //set the adapter
         rvSongs.setAdapter(complexAdapter);
+
 
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvSongs.addItemDecoration(itemDecoration);
@@ -124,38 +119,8 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         return v;
     }
 
-    @Override
-    public void onItemSelected(View view, int position, boolean isPic) {
-        Song song = songs.get(position);
-        if (song.getService() == Song.SPOTIFY) {
-            if(!song.isPlaying()) {
-                playSongFromSpotify(song);
-            }
-            else {
-                Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
-//                pauseSongFromSpotify(song);
-            }
-        }
-//        ((SongSelectedListener) getActivity()).onSongSelected(song);
 
-    }
 
-    @Override
-    public void onPauseButtonClicked(View view, int position) {
-        final Song song = songs.get(position);
-        Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
-            @Override
-            public void onSuccess() {
-                String nowPaused= "paused " + song.getTitle();
-                Toast.makeText(getContext(), nowPaused, Toast.LENGTH_LONG).show();
-                song.playing = false;
-            }
-
-<<<<<<< HEAD
-            @Override
-            public void onError(Error error) {
-                Log.e("play", error.toString());
-=======
 
     public void initializeYoutubePlayerFragment(final Song song){
         youTubePlayerFragment = new YouTubePlayerSupportFragment();
@@ -286,70 +251,9 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
                 complexAdapter.notifyItemInserted(songs.size()-1);
             } catch (JSONException e) {
                 e.printStackTrace();
->>>>>>> origin
             }
-        };
-
-        PlaybackState mCurrentPlaybackState = mPlayer.getPlaybackState();
-        if (mCurrentPlaybackState != null && mCurrentPlaybackState.isPlaying) {
-            mPlayer.pause(mOperationCallback);
-        } else {
-            Drawable playButton = getContext().getResources().getDrawable(R.drawable.exo_controls_play);
-            ((ImageView) view).setImageDrawable(playButton);
-            mPlayer.resume(mOperationCallback);
         }
     }
-
-
-
-    public void playSongFromSpotify(Song song){
-        String playingNow = "playing " + song.getTitle();
-        Toast.makeText(getContext(), playingNow, Toast.LENGTH_LONG).show();
-        mPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
-        song.playing = true;
-    }
-
-
-
-    public void getSpotifyPlayer(){
-        Config playerConfig = new Config(getContext(), SpotifyClient.accessToken, getString(R.string.spotify_client_id));
-        mPlayer = Spotify.getPlayer(playerConfig, this, null);
-    }
-
-//
-//    public void addItems (String service, JSONArray response){
-//        for (int i = 0; i < response.length(); i++){
-//            //convert each object to a Song model
-//            //add that Song model to our data source
-//            //notify the adapter that we've added an item (list view)
-//            Song song = null;
-//            try {
-//                song = Song.fromJSON(service, response.getJSONObject(i));
-//                songs.add(song);
-//                songAdapter.notifyItemInserted(songs.size()-1);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
-//    //adds one tweet at top
-//    public void postTweet(Song song){
-//        tweets.add(0, tweet);
-//        tweetAdapter.notifyItemInserted(0);
-//        rvTweets.scrollToPosition(0);
-//    }
-
-//    @Override
-//    public void onItemSelected(View view, int position, boolean isPic) {
-//        Song song = songs.get(position);
-//        if(!isPic) {
-//            //((SongSelectedListener) getActivity()).onTweetSelected(tweet);
-//        } else {
-//            //((TweetSelectedListener) getActivity()).onImageSelected(tweet);
-//        }
-//
-//    }
 
 
 

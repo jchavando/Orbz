@@ -66,6 +66,7 @@ public class SpotifyClient extends JsonHttpResponseHandler {
         params.put("since_id", 1); //returns results with an ID greater than 1
 
         client.get(apiUrl, params, handler);
+    }
 
     public void getMyPlaylists(AsyncHttpResponseHandler handler){
         String apiUrl = getApiUrl("me/playlists");

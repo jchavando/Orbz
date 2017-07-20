@@ -39,11 +39,13 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
-
     //parcels
     compile 'org.parceler:parceler-api:1.1.6'
     annotationProcessor 'org.parceler:parceler:1.1.6'
+    //for tablayout
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:design:25.2.0'
+
     //async
     compile 'com.loopj.android:android-async-http:1.4.9'
     //glide
@@ -61,12 +63,6 @@ dependencies {
     compile 'com.google.android.exoplayer:exoplayer:r2.4.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:25.3.1'
-<<<<<<< HEAD
-    compile 'de.u-mass:lastfm-java:0.1.2'
-    compile 'com.android.support:design:23.1.1'
-
-
-=======
 
 
     //youtube stuff
@@ -80,8 +76,5 @@ dependencies {
 
     //youtube player
     compile files('libs/YouTubeAndroidPlayerApi.jar')
->>>>>>> origin
 }
 apply plugin: 'com.google.gms.google-services'
-
-

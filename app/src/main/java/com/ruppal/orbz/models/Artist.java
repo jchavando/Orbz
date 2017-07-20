@@ -29,13 +29,12 @@ public class Artist {
             //break;
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
-<<<<<<< HEAD
+
             case LASTFM:
                 return parseLastFMJSON(object);
-=======
-            case YOUTUBE:
+             case YOUTUBE:
                 return parseYoutubeJSON(object);
->>>>>>> origin
+
             //break;
             default:
                 return null;
@@ -62,7 +61,7 @@ public class Artist {
         artist.name = object.getString("artist");
         return artist;
     }
-<<<<<<< HEAD
+
     //TODO
     private static Artist parseLastFMJSON(JSONObject object) throws JSONException {
         Artist artist = new Artist();
@@ -73,7 +72,7 @@ public class Artist {
 //    private Song parseYoutubeJSON(JSONObject object){
 //
 //    }
-=======
+
     private static Artist parseYoutubeJSON(JSONObject object) throws JSONException {
         JSONObject snippet = object.getJSONObject("snippet");
         Artist artist = new Artist();
@@ -81,7 +80,7 @@ public class Artist {
         artist.name = snippet.getString("channelTitle");
         return artist;
     }
->>>>>>> origin
+
 
 
 }

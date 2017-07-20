@@ -16,11 +16,7 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_below="@+id/button2">
-<<<<<<< HEAD
 
-  </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
-
-=======
   </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
 
   <TextView
@@ -37,5 +33,5 @@
       android:textColor="@color/colorAccent"
       tools:text="Hello" />
 
->>>>>>> origin
+
 </RelativeLayout>
