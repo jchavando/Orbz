@@ -21,9 +21,6 @@ import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.models.Song;
-import com.spotify.sdk.android.player.Config;
-import com.spotify.sdk.android.player.Player;
-import com.spotify.sdk.android.player.Spotify;
 
 import java.util.ArrayList;
 
@@ -47,7 +44,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public ArrayList<Object> songs;
     public RecyclerView rvSongs;
     SpotifyClient spotifyClient;
-    public Player mPlayer;
     YouTubePlayerSupportFragment youTubePlayerFragment;
     String SONG_TO_PLAY = "SONG_TO_PLAY";
     FrameLayout frameLayout;
@@ -60,7 +56,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         spotifyClient = new SpotifyClient();
-        getSpotifyPlayer();
         //inflate the layout
         View v = inflater.inflate(R.layout.fragments_songs_list, container, false);
         frameLayout = (FrameLayout) v.findViewById(R.id.youtube_fragment);
@@ -134,10 +129,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
 
 
-    public void getSpotifyPlayer(){
-        Config playerConfig = new Config(getContext(), SpotifyClient.accessToken, getString(R.string.spotify_client_id));
-        mPlayer = Spotify.getPlayer(playerConfig, this, null);
-    }
 
     public void addSong (Object song){
         songs.add(song);
