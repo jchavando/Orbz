@@ -2,6 +2,7 @@ package com.ruppal.orbz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -64,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
         //set the adapter for the pager
         vpPager.setAdapter(adapterViewPager);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(vpPager);
     }
 
 
