@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class SongPagerAdapter extends FragmentPagerAdapter {
 
-    private String tabTitles[] = new String[] {"Search", "Playlist"};
+    private String tabTitles[] = new String[] {"Search", "Playlist", "Local"};
     private Context context;
     public static ArrayList<SongListFragment> mFragmentReferences = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
 
@@ -36,21 +36,24 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == 0){
+        if (position == 0) {
             SearchFragment firstFrag = new SearchFragment();
             mFragmentReferences.add(0, firstFrag);
             return firstFrag;
             //return SearchFragment.newInstance(0, "Page #1");
-        }
-        else if (position == 1){
+        } else if (position == 1) {
             PlaylistFragment secondFrag = new PlaylistFragment();
             mFragmentReferences.add(1, secondFrag);
             return secondFrag;
             //more else if's
-        }
-        else {
+        } else if (position == 2) {
+            SearchFragment thirdFrag = new SearchFragment();
+            mFragmentReferences.add(2, thirdFrag);
+            return thirdFrag;
+        } else {
             return null;
         }
+
     }
 
     @Override

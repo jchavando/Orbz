@@ -59,7 +59,7 @@ public class PlayerActivity extends AppCompatActivity {
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
     private static final String TAG = "PlayerActivity";
 
-    private SimpleExoPlayer player;
+    private SimpleExoPlayer exoPlayer;
     private SimpleExoPlayerView playerView;
     private ComponentListener componentListener;
 
@@ -151,7 +151,7 @@ public class PlayerActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         hideSystemUi();
-        if ((Util.SDK_INT <= 23 || player == null)) {
+        if ((Util.SDK_INT <= 23 || exoPlayer == null)) {
             initializePlayer();
         }
     }
@@ -198,24 +198,24 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void initializePlayer() {
-        if (player == null) {
+        if (exoPlayer == null) {
             // a factory to create an AdaptiveVideoTrackSelection
             TrackSelection.Factory adaptiveTrackSelectionFactory =
                     new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
             // using a DefaultTrackSelector with an adaptive video selection factory
-            player = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(this),
+            exoPlayer = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(this),
                     new DefaultTrackSelector(adaptiveTrackSelectionFactory), new DefaultLoadControl());
-            player.addListener(componentListener);
-            player.setVideoDebugListener(componentListener);
-            player.setAudioDebugListener(componentListener);
-            playerView.setPlayer(player);
-            player.setPlayWhenReady(playWhenReady);
-            player.seekTo(currentWindow, playbackPosition);
+            exoPlayer.addListener(componentListener);
+            exoPlayer.setVideoDebugListener(componentListener);
+            exoPlayer.setAudioDebugListener(componentListener);
+            playerView.setPlayer(exoPlayer);
+            exoPlayer.setPlayWhenReady(playWhenReady);
+            exoPlayer.seekTo(currentWindow, playbackPosition);
         }
 
         /* plays google's video
         MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
-        player.prepare(mediaSource, true, false);
+        exoPlayer.prepare(mediaSource, true, false);
         */
     }
 
@@ -238,7 +238,7 @@ public class PlayerActivity extends AppCompatActivity {
         MediaSource audioSource = new ExtractorMediaSource(fileDataSource.getUri(),
                 factory, new DefaultExtractorsFactory(), null, null);
 
-        player.prepare(audioSource);
+        exoPlayer.prepare(audioSource);
     }
 
     private MediaSource buildMediaSource(Uri uri) {
@@ -249,16 +249,16 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void releasePlayer() {
-        if (player != null) {
-            playbackPosition = player.getCurrentPosition();
-            currentWindow = player.getCurrentWindowIndex();
-            playWhenReady = player.getPlayWhenReady();
-            player.removeListener(componentListener);
-            player.setVideoListener(null);
-            player.setVideoDebugListener(null);
-            player.setAudioDebugListener(null);
-            player.release();
-            player = null;
+        if (exoPlayer != null) {
+            playbackPosition = exoPlayer.getCurrentPosition();
+            currentWindow = exoPlayer.getCurrentWindowIndex();
+            playWhenReady = exoPlayer.getPlayWhenReady();
+            exoPlayer.removeListener(componentListener);
+            exoPlayer.setVideoListener(null);
+            exoPlayer.setVideoDebugListener(null);
+            exoPlayer.setAudioDebugListener(null);
+            exoPlayer.release();
+            exoPlayer = null;
         }
     }
     @SuppressLint("InlinedApi")
