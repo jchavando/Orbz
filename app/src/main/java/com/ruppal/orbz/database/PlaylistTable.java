@@ -16,4 +16,14 @@ public class PlaylistTable extends BaseModel {
     @PrimaryKey
     String playlistId;
 
+    @Column
+    String playlistName;
+
+    public void setPlaylistId(String playlistId) {
+        this.playlistId = playlistId;
+    }
+
+    public void setPlaylistName(String playlistName) {
+        this.playlistName = playlistName;
+    }
 }

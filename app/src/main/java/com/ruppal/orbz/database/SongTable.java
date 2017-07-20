@@ -20,6 +20,28 @@ public class SongTable extends BaseModel {
     String songId;  //the uid of the song
 
     @Column
+    String songName;
+
+    @Column
+    String songService;
+
+    @Column
     @ForeignKey(saveForeignKeyModel = false) //todo can make this true
     PlaylistTable playlistTable;
+
+    public void setSongId(String songId) {
+        this.songId = songId;
+    }
+
+    public void setSongName(String songName) {
+        this.songName = songName;
+    }
+
+    public void setSongService(String songService) {
+        this.songService = songService;
+    }
+
+    public void setPlaylistTable(PlaylistTable playlistTable) {
+        this.playlistTable = playlistTable;
+    }
 }

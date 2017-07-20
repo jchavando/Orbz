@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import com.ruppal.orbz.clients.GooglePlayClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.clients.YouTubeClient;
+import com.ruppal.orbz.database.PlaylistTable;
+import com.ruppal.orbz.database.SongTable;
 import com.ruppal.orbz.fragments.SearchFragment;
 import com.ruppal.orbz.fragments.SongPagerAdapter;
 import com.ruppal.orbz.models.Song;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         youTubeClient = new YouTubeClient();
         youTubeClient.setAccessToken(googleAccessToken);
         googleResults = new ArrayList<>();
+        makeFakeData();
 
 
         //get the view pager
@@ -68,8 +71,25 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
+
+
     }
 
+    public void makeFakeData(){
+        PlaylistTable playlist1 = new PlaylistTable();
+        playlist1.setPlaylistId("1");
+        playlist1.setPlaylistName("TestPlaylist1");
+        playlist1.save();
+
+        SongTable songEntry1 = new SongTable();
+        songEntry1.setSongId("1");
+        songEntry1.setSongName("TestSong1");
+        songEntry1.setSongService(Song.SPOTIFY);
+        songEntry1.setPlaylistTable(playlist1);
+        songEntry1.save();
+
+
+    }
 
 
     @Override
