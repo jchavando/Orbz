@@ -1,6 +1,5 @@
 package com.ruppal.orbz;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -11,7 +10,6 @@ import android.view.View;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.clients.SpotifyClient;
-import com.ruppal.orbz.fragments.SongListFragment;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
@@ -32,15 +30,12 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
 
    //recycler view for when you click on individual playlist
     RecyclerView rvSongs;
-   SpotifyClient spotifyClient;
-   ArrayList<Object> songs;
+    SpotifyClient spotifyClient;
+    ArrayList<Object> songs;
     public ComplexRecyclerViewAdapter complexAdapter;
-    private ComplexRecyclerViewAdapter.SongAdapterListener songAdapterListener;
-    private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
-    private SongListFragment songListFragment;
 
    Playlist mPlaylist;
-   Context context;
+
    @Override
    protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
@@ -60,8 +55,7 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
         rvSongs.setAdapter(complexAdapter);
 
        //unwrap playlist
-       //Playlist unwrapper_playlist =  Parcels.unwrap();
-       mPlaylist= (Playlist) Parcels.unwrap(getIntent().getParcelableExtra("tracks"));
+       mPlaylist = (Playlist) Parcels.unwrap(getIntent().getParcelableExtra("tracks"));
        loadTracks(mPlaylist.getTracksUrl());
 
 

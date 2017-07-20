@@ -55,7 +55,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         //intent.putExtra("tracks", playlist.getTracksUrl());
         // Navigate to contact details activity on click of card view.
 
-        final Playlist playlist = (Playlist) view.getTag();
+        final Playlist playlist = (Playlist) songs.get(position);
 
         if (playlist != null) {
             // Fire an intent when a playlist is selected
