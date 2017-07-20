@@ -20,6 +20,7 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.database.DatabaseHelper;
 import com.ruppal.orbz.models.Song;
 
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
 
     @Override
-    public void onItemSelected(View view, int position, boolean isPic) {
+    public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
         if (song.getService() == Song.SPOTIFY) {
             if (!song.isPlaying()) {
@@ -127,7 +128,17 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
     }
 
-
+    @Override
+    public void onItemLongSelected(View view, int position) {
+        Object song = songs.get(position);
+        if (song instanceof Song){
+            DatabaseHelper.addSongToTestPlaylist((Song) song);
+            Toast.makeText(getContext(), ((Song) song).getTitle() + " added to a local playlist", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
     public void addSong (Object song){

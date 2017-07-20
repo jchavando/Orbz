@@ -17,31 +17,114 @@ public class SongTable extends BaseModel {
 
     @Column
     @PrimaryKey
-    String songId;  //the uid of the song
+    String uid;  //the uid of the song
 
     @Column
-    String songName;
+    String title;
 
     @Column
-    String songService;
+    String artistName;
+
+    @Column
+    String albumCoverUrl;
+
+    @Column
+    boolean playing;
+
+    @Column
+    String album;
+
+    @Column
+    int popularity;
+
+    @Column
+    String service;
+
+    @Column
+    int duration_ms;
 
     @Column
     @ForeignKey(saveForeignKeyModel = false) //todo can make this true
     PlaylistTable playlistTable;
 
-    public void setSongId(String songId) {
-        this.songId = songId;
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public void setSongName(String songName) {
-        this.songName = songName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setSongService(String songService) {
-        this.songService = songService;
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
+    public void setAlbumCoverUrl(String albumCoverUrl) {
+        this.albumCoverUrl = albumCoverUrl;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public void setDuration_ms(int duration_ms) {
+        this.duration_ms = duration_ms;
     }
 
     public void setPlaylistTable(PlaylistTable playlistTable) {
         this.playlistTable = playlistTable;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getArtistName() {
+        return artistName;
+    }
+
+    public String getAlbumCoverUrl() {
+        return albumCoverUrl;
+    }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public String getService() {
+        return service;
+    }
+
+    public int getDuration_ms() {
+        return duration_ms;
+    }
+
+    public PlaylistTable getPlaylistTable() {
+        return playlistTable;
     }
 }

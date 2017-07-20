@@ -19,11 +19,55 @@ public class PlaylistTable extends BaseModel {
     @Column
     String playlistName;
 
+    @Column
+    String ownerName;
+
+    @Column
+    String ownerId;
+
+    @Column
+    String image;
+
+    //dont refrence tracks like in the playlist class beacuse the foregin key handles that
+
+
     public void setPlaylistId(String playlistId) {
         this.playlistId = playlistId;
     }
 
     public void setPlaylistName(String playlistName) {
         this.playlistName = playlistName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getPlaylistId() {
+        return playlistId;
+    }
+
+    public String getPlaylistName() {
+        return playlistName;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 }

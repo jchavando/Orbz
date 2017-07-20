@@ -93,4 +93,28 @@ public class Playlist {
     public String getPlaylistId() {
         return playlistId;
     }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public void setPlaylistName(String playlistName) {
+        this.playlistName = playlistName;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setTracksUrl(String tracksUrl) {
+        this.tracksUrl = tracksUrl;
+    }
+
+    public void setTracks(ArrayList<Song> tracks) {
+        this.tracks = tracks;
+    }
+
+    public void setPlaylistId(String playlistId) {
+        this.playlistId = playlistId;
+    }
 }

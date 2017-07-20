@@ -5,13 +5,21 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.database.DatabaseHelper;
+import com.ruppal.orbz.database.PlaylistTable;
+import com.ruppal.orbz.database.PlaylistTable_Table;
+import com.ruppal.orbz.database.SongTable;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -31,6 +39,37 @@ public class PlaylistFragment extends SongListFragment {
 //        songs = new ArrayList<>();
         populatePlaylists();
 
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            getLocalPlaylists();
+        }
+    }
+
+    public void getLocalPlaylists(){
+        //is there a faster way to do this?
+        List<PlaylistTable> playlistTableList = SQLite.select().
+                from(PlaylistTable.class).queryList();
+        for (int i =0; i < playlistTableList.size(); i++){
+            PlaylistTable playlistTable = playlistTableList.get(i);
+            //search songs in this playlist table
+            List<SongTable> songTableList = SQLite.select().
+                    from(SongTable.class).
+                    where(PlaylistTable_Table.playlistId.is(playlistTable.getPlaylistId())).
+                    queryList();
+            ArrayList<Song> songsInPlaylist = new ArrayList<>();
+            for (int j=0; j< songTableList.size(); i++){
+                SongTable songTable = songTableList.get(j);
+                Song song = DatabaseHelper.songFromSongTable(songTable);
+                songsInPlaylist.add(song);
+            }
+            Playlist playlist = DatabaseHelper.playlistFromPlaylistTable(playlistTable);
+            playlist.setTracks(songsInPlaylist);
+            songs.add(playlist);
+        }
     }
 
     public void populatePlaylists(){

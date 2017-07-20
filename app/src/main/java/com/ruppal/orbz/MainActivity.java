@@ -15,8 +15,6 @@ import android.view.MenuItem;
 import com.ruppal.orbz.clients.GooglePlayClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.clients.YouTubeClient;
-import com.ruppal.orbz.database.PlaylistTable;
-import com.ruppal.orbz.database.SongTable;
 import com.ruppal.orbz.fragments.SearchFragment;
 import com.ruppal.orbz.fragments.SongPagerAdapter;
 import com.ruppal.orbz.models.Song;
@@ -60,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
         youTubeClient = new YouTubeClient();
         youTubeClient.setAccessToken(googleAccessToken);
         googleResults = new ArrayList<>();
-        makeFakeData();
-
-
         //get the view pager
         vpPager = (ViewPager) findViewById(R.id.viewpager);
         adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
@@ -75,22 +70,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void makeFakeData(){
-        PlaylistTable playlist1 = new PlaylistTable();
-        playlist1.setPlaylistId("1");
-        playlist1.setPlaylistName("TestPlaylist1");
-        playlist1.save();
 
-        SongTable songEntry1 = new SongTable();
-        songEntry1.setSongId("1");
-        songEntry1.setSongName("TestSong1");
-        songEntry1.setSongService(Song.SPOTIFY);
-        songEntry1.setPlaylistTable(playlist1);
-        songEntry1.save();
-
-
-    }
-
+//    public void checkData(){
+//        List<PlaylistTable> playlistTableList = SQLite.select().
+//                from(PlaylistTable.class).queryList();
+//        List<SongTable> songTableList = SQLite.select().
+//                from(SongTable.class).queryList();
+//        Log.i("MY_DATABASE", playlistTableList.toString());
+//        Log.i("MY_DATABASE", songTableList.toString());
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
