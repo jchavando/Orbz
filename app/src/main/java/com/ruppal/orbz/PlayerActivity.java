@@ -288,6 +288,7 @@ public class PlayerActivity extends AppCompatActivity {
         return false;
     }
 
+// Moved
     public static boolean containsIgnoreCase(final String str, final String searchStr) {
         if (str == null || searchStr == null) {
             return false;

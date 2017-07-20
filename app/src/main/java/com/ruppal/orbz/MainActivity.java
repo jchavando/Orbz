@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         youTubeClient.setAccessToken(googleAccessToken);
         googleResults = new ArrayList<>();
 
-
         //get the view pager
         vpPager = (ViewPager) findViewById(R.id.viewpager);
         adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);

@@ -34,6 +34,7 @@ public class Song {
     public static final String SOUNDCLOUD = "Soundcloud";
     public static final String GOOGLE_PLAY = "GooglePlay";
     public static final String YOUTUBE = "Youtube";
+    public static final String LOCAL = "Local";
 
     private Song(){}
 
@@ -47,6 +48,7 @@ public class Song {
         this.title = title;
         this.artist = artist;
         this.data = data;
+        service = "Local";
     }
 
     public static Song fromJSON(String service, JSONObject object) throws JSONException {

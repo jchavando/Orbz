@@ -64,8 +64,29 @@ public class Player {
                     Log.e("player", "youtube player not initialized");
                 }
                 break;
+            case Song.LOCAL:
+               // TODO -- code for local
+                break;
             default:
                 break;
+        }
+    }
+
+    private static void playSongFromSpotify(Song song){
+        spotifyPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
+        song.playing = true;
+        currentlyPlayingSong = song;
+    }
+
+    private static void playSongFromYoutube(Song song){
+        if (youTubePlayer != null){
+            youTubePlayer.loadVideo(song.getUid());
+            youTubePlayer.play();
+            song.playing=true;
+            currentlyPlayingSong = song;
+        }
+        else{
+            Log.e("player", "failed to play song from youtube");
         }
     }
 
@@ -79,8 +100,6 @@ public class Player {
         }
 
     }
-
-
 
     private static void pauseSongFromSpotify(final Song song, Context context, View view){
         com.spotify.sdk.android.player.Player.OperationCallback mOperationCallback = new com.spotify.sdk.android.player.Player.OperationCallback() {
@@ -106,24 +125,4 @@ public class Player {
         }
     }
 
-    private static void playSongFromSpotify(Song song){
-        spotifyPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
-        song.playing = true;
-        currentlyPlayingSong = song;
-    }
-
-    private static void playSongFromYoutube(Song song){
-        if (youTubePlayer != null){
-            youTubePlayer.loadVideo(song.getUid());
-            youTubePlayer.play();
-            song.playing=true;
-            currentlyPlayingSong = song;
-        }
-        else{
-            Log.e("player", "failed to play song from youtube");
-        }
-    }
-
-
 }
-
