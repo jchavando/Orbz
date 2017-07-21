@@ -45,11 +45,11 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
-       super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
-       getSpotifyPlayer();
+        getSpotifyPlayer();
         spotifyClient = new SpotifyClient();
-       songListFragment = new SongListFragment();
+        songListFragment = new SongListFragment();
         // Lookup the recyclerview in activity layout
          rvSongs = (RecyclerView) findViewById(R.id.rvPlaylist);
          songs = new ArrayList<>();

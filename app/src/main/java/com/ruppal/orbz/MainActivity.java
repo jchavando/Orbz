@@ -90,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(vpPager);
 
 
-        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.setupWithViewPager(vpPager);
-
        /////////////Elvis Kahoro
         localSongList = new ArrayList<Song>();
         if(isExternalStorageWritable() && isExternalStorageReadable()){
@@ -101,6 +98,12 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
         }
         //////////////////////////Elvis Kahoro
+
+
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.white_search);
+        tabLayout.getTabAt(1).setIcon(R.drawable.play);
+
 
     }
 

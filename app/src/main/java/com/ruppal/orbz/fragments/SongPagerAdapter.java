@@ -13,7 +13,9 @@ import java.util.ArrayList;
 
 public class SongPagerAdapter extends FragmentPagerAdapter {
 
-    private String tabTitles[] = new String[] {"Search", "Playlist", "Local"};
+
+    private String tabTitles[] = new String[] {"", "Playlist", "Local"};
+
     private Context context;
     public static ArrayList<SongListFragment> mFragmentReferences = new ArrayList<>();
 
