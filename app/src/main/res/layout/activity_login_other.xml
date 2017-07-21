@@ -14,14 +14,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        android:background="@drawable/rounded"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/border"
         android:onClick="onClickSpotifyLogin"
         android:text="Log in to Spotify"
         android:textColor="@android:color/white"
-        tools:layout_editor_absoluteX="117dp"
-        tools:layout_editor_absoluteY="70dp"
-
 
         />
 
@@ -39,44 +36,59 @@
 
     <Button
         android:id="@+id/btPlayer"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:onClick="onClickPlayer"
-        android:text="Player"
+        android:text="Access Local Music"
         android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/btDone"
-        android:layout_below="@+id/btLastFMLogin"/>
+        android:background="@drawable/border"
+        android:layout_alignLeft="@+id/btLoginSpotify"
+        android:layout_below="@+id/btLastFMLogin"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="40dp"/>
 
-    <Button
+    <!--Button
         android:id="@+id/btSoundcloud"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded"
-        android:text="Soundcloud"
+
+        android:text="Login in to Soundcloud"
         android:textColor="@android:color/white"
         android:layout_below="@+id/btPlayer"
         android:layout_alignLeft="@+id/btLastFMLogin"
-        android:layout_alignStart="@+id/btLastFMLogin" />
+        android:layout_alignStart="@+id/btLastFMLogin"
+        android:background="@drawable/border"-->
 
 
-    <com.google.android.gms.common.SignInButton
+    <!--com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btLoginSpotify"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:background="@drawable/rounded"
+        android:background="@drawable/border"
+        android:textColor="@android:color/white" -->
+
+    <Button
+        android:id="@+id/sign_in_button"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btLoginSpotify"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/border"
+        android:text="Login in to Google"
         android:textColor="@android:color/white" />
+
+
 
     <Button
         android:id="@+id/btLastFMLogin"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="117dp"
-        tools:layout_editor_absoluteY="70dp"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/rounded"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/border"
         android:text="Login in to Last.fm"
         android:layout_below="@+id/sign_in_button"
         android:layout_centerHorizontal="true"
