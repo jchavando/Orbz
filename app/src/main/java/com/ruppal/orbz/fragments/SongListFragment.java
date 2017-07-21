@@ -91,13 +91,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         View v = inflater.inflate(R.layout.fragments_songs_list, container, false);
         frameLayout = (FrameLayout) getActivity().findViewById(R.id.youtube_fragment);
 
-
-
-
-        //frameLayout = (FrameLayout) v.findViewById(R.id.youtube_fragment);
-
-
-
         //find RecyclerView
         rvSongs = (RecyclerView) v.findViewById(R.id.rvSong);
         //init the arraylist (data source)
@@ -152,7 +145,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
                 Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
             }
         }
-        else if (song.getService() == Song.YOUTUBE){
+        else if (song.getService().equals(Song.YOUTUBE)){
             initializeYoutubePlayerFragment(song);
         }
     }

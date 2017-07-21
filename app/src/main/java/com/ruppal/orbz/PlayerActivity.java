@@ -86,17 +86,33 @@ public class PlayerActivity extends AppCompatActivity {
         songArrayList = (TextView) findViewById(R.id.tvArrayList);
 
         // will store the MP3s
+
+
+
+
+        //////Moved MainActivity
         localSongList = new ArrayList<>();
         if(isExternalStorageWritable() && isExternalStorageReadable()){
             mediaSearch();
+//////////////////////Moved Main Activity
+
+
+
             onStart();
             searchedSongList = searchConverter(searchAlgorithm("bethel Music Steffany", getLocalSongList()));
             printArrayList(searchedSongList);
             prepareExoPlayerFromFileUri(searchedSongList.get(0).getSongUri());
 
+
+
+
+
+
+////////////////////////Moved Main Activity
         } else {
             Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
         }
+        ////////Moved Main Activity
 
     }
 
@@ -271,6 +287,12 @@ public class PlayerActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
+
+
+
+
+
+////////////////Moved Main Activity
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -287,8 +309,20 @@ public class PlayerActivity extends AppCompatActivity {
         }
         return false;
     }
+//////////////////Moved Main Activity
 
-// Moved
+
+
+
+
+
+
+
+
+
+
+
+
     public static boolean containsIgnoreCase(final String str, final String searchStr) {
         if (str == null || searchStr == null) {
             return false;

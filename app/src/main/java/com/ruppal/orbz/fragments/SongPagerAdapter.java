@@ -23,16 +23,10 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
     }
 
 
-    //return the total number of fragments
-    //similar to recycler view
-
     @Override
     public int getCount() {
         return 3;
     }
-
-
-    //return the fragment to use depending on the position
 
     @Override
     public Fragment getItem(int position) {
@@ -47,7 +41,7 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
             return secondFrag;
             //more else if's
         } else if (position == 2) {
-            SearchFragment thirdFrag = new SearchFragment();
+            LocalListFragment thirdFrag = new LocalListFragment();
             mFragmentReferences.add(2, thirdFrag);
             return thirdFrag;
         } else {
@@ -60,7 +54,4 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return tabTitles[position];
     }
-
-
-
 }

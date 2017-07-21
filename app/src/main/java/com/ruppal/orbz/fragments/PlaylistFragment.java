@@ -74,15 +74,5 @@ public class PlaylistFragment extends SongListFragment { //implements ComplexRec
         });
     }
 
-//    @Override
-//    public void onItemSelected(View view, int position) {
-//
-//        //lauch playlist activity
-//        Intent intent = new Intent(getActivity(), PlaylistActivity.class);
-//        startActivity(intent);
-//    }
-
-
-
 }
 
