@@ -237,7 +237,8 @@ LoginLastFMFragment.LastFMListener{
     }
 
     // switches to the player activity
-    public void onClickPlayer(View view){
+
+    public void onClickPlayer(View view) {
         //Intent player = new Intent(this, PlayerActivity.class);
         //startActivity(player);
         Toast.makeText(this, "accessed local music", Toast.LENGTH_SHORT).show();

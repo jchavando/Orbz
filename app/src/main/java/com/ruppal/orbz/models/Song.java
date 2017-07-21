@@ -44,10 +44,11 @@ public class Song {
         this.title = title;
     }
 
-    public Song(long id, String title, String artist, String data){
+    public Song(long id, String title, String artist, String data, ArrayList<Artist> artists){
         SongID = id;
         this.title = title;
         this.artist = artist;
+        this.artists = artists;
         this.data = data;
         service = "Local";
     }
@@ -215,5 +216,41 @@ public class Song {
 
     public String getArtist() {
         return artist;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setArtists(ArrayList<Artist> artists) {
+        this.artists = artists;
+    }
+
+    public void setAlbumCoverUrl(String albumCoverUrl) {
+        this.albumCoverUrl = albumCoverUrl;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public void setDuration_ms(int duration_ms) {
+        this.duration_ms = duration_ms;
     }
 }

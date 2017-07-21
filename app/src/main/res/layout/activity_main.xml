@@ -23,5 +23,100 @@
         android:layout_weight="1"
         android:background="@android:color/transparent" />
 
-</LinearLayout>
 
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom">
+
+        <FrameLayout
+            android:id="@+id/layout_to_inflate"
+            android:layout_width="200dp"
+            android:layout_height="110dp">
+
+            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                android:id="@+id/exoPlayer_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"/>
+
+            <FrameLayout
+                android:id="@+id/youtube_fragment"
+                android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/exoPlayer_play"
+                style="@style/ExoMediaButton.Play"
+                android:layout_width="60dp" />
+
+            <ImageButton
+                android:id="@+id/exoPlayer_pause"
+                style="@style/ExoMediaButton.Pause"
+                android:layout_width="60dp" />
+
+
+        </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/exoPlayer_forward"
+                    style="@style/ExoMediaButton.FastForward"
+                    android:layout_width="60dp" />
+
+                <ImageButton
+                    android:id="@+id/exoPlayer_rewind"
+                    style="@style/ExoMediaButton.Rewind"
+                    android:layout_width="60dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/exoPlayer_next"
+                    style="@style/ExoMediaButton.Next"
+                    android:layout_width="60dp" />
+
+                <ImageButton
+                android:id="@+id/exoPlayer_previous"
+                style="@style/ExoMediaButton.Previous"
+                android:layout_width="60dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

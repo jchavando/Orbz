@@ -75,30 +75,31 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
 
 
 //when
-public void addSong (Object song){
-    songs.add((Song) song);
-    complexAdapter.notifyItemInserted(songs.size()-1);
-}
-public void loadTracks(String tracksUrl){
- //clear the song list
-    songs.clear();
-    spotifyClient.getPlayListTracks(tracksUrl, new JsonHttpResponseHandler() {
-    @Override
-    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-    super.onSuccess(statusCode, headers, response);
-    try {
-        JSONArray items = response.getJSONArray("items");
-        for (int i =0 ; i < items.length(); i++){
-        JSONObject item = items.getJSONObject(i);
-        JSONObject track = item.getJSONObject("track");
-        Song song = Song.fromJSON(Song.SPOTIFY, track);
-        addSong(song);
+    public void addSong (Object song){
+        songs.add((Song) song);
+        complexAdapter.notifyItemInserted(songs.size()-1);
     }
-    } catch (JSONException e) {
-        e.printStackTrace();
-        Log.e("playlists", e.toString());
-    }
- }
+
+    public void loadTracks(String tracksUrl){
+         //clear the song list
+        songs.clear();
+        spotifyClient.getPlayListTracks(tracksUrl, new JsonHttpResponseHandler() {
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+        super.onSuccess(statusCode, headers, response);
+        try {
+            JSONArray items = response.getJSONArray("items");
+            for (int i =0 ; i < items.length(); i++){
+            JSONObject item = items.getJSONObject(i);
+            JSONObject track = item.getJSONObject("track");
+            Song song = Song.fromJSON(Song.SPOTIFY, track);
+            addSong(song);
+        }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("playlists", e.toString());
+        }
+     }
 
     @Override
     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -121,7 +122,7 @@ public void loadTracks(String tracksUrl){
 
 
     @Override
-    public void onItemSelected(View view, int position, boolean isPic) {
+    public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
         if (song.getService() == Song.SPOTIFY) {
             if (!song.isPlaying()) {
@@ -143,6 +144,7 @@ public void loadTracks(String tracksUrl){
         mPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
         song.playing = true;
     }
+
 
 
     @Override
@@ -172,5 +174,10 @@ public void loadTracks(String tracksUrl){
 //            ((ImageView) view).setImageDrawable(playButton);
 //            mPlayer.resume(mOperationCallback);
 //        }
+    }
+
+    @Override
+    public void onItemLongSelected(View view, int position) {
+
     }
 }

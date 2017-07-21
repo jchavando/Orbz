@@ -30,9 +30,30 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
             public void onClick(View v) {
                 int position = getAdapterPosition();
 //                    Toast.makeText(context, mSongs.get(position).title, Toast.LENGTH_LONG).show();
-                mListener.onItemSelected(v, position, false);
+                mListener.onItemSelected(v, position);
             }
         });
+
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int position = getAdapterPosition();
+                mListener.onItemLongSelected(v, position);
+                return true;
+            }
+        });
+
+//        ivPause.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Drawable playButton = context.getResources().getDrawable(R.drawable.exo_controls_play);
+//                ((ImageView) v).setImageDrawable(playButton);
+//                int position = getAdapterPosition();
+//                mListener.onPauseButtonClicked(v, position);
+//
+//            }
+//        });
+
         ivPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,6 +64,7 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
 
             }
         });
+
         tvService = (TextView) itemView.findViewById(R.id.tvService);
 
 

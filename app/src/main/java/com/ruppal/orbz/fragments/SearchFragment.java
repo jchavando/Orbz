@@ -38,19 +38,14 @@ public class SearchFragment extends SongListFragment {
         super.onCreate(savedInstanceState);
         spotifyClient = new SpotifyClient();
         youTubeClient = new YouTubeClient();
+        lastFMCLient = new LastFMClient();
     }
-
-
 
     public void searchSongs(String query) {
         searchSpotify(query);
         //moved this after spotify json returns, so look in searchSpotify
         searchYoutube(query);
-
-
     }
-
-
 
     public void searchYoutube (String query){
         youTubeClient.search(query, new JsonHttpResponseHandler() {
@@ -90,11 +85,9 @@ public class SearchFragment extends SongListFragment {
             }
         });
 
-
-
     }
 
-    public void searchSpotify(final String query){
+    public void searchSpotify(final String query) {
         spotifyClient.search(query, "track", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
@@ -102,7 +95,7 @@ public class SearchFragment extends SongListFragment {
                 try {
                     tracks = response.getJSONObject("tracks");
                     JSONArray items = tracks.getJSONArray("items");
-                    for (int i = 0; i < items.length(); i++){
+                    for (int i = 0; i < items.length(); i++) {
                         JSONObject item = items.getJSONObject(i);
                         Song song = Song.fromJSON(Song.SPOTIFY, item);
                         addSong(song);
@@ -140,8 +133,10 @@ public class SearchFragment extends SongListFragment {
 
         });
 
-        lastFMCLient = new LastFMClient();
-        lastFMCLient.search("track", new JsonHttpResponseHandler() {
+    }
+
+        public void searchFM(String query){
+        lastFMCLient.search(query, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 JSONObject tracks = null;
@@ -151,7 +146,7 @@ public class SearchFragment extends SongListFragment {
                     for (int i = 0; i < items.length(); i++){
                         JSONObject item = items.getJSONObject(i);
                         Song song = Song.fromJSON(Song.LASTFM, item);
-                        songs.add(song);
+                        addSong(song);
                         //songAdapter.notifyItemInserted(songs.size()-1);
                     }
                 } catch (JSONException e) {
@@ -185,13 +180,5 @@ public class SearchFragment extends SongListFragment {
             }
 
         });
-
     }
-
-
 }
-
-
-
-
-

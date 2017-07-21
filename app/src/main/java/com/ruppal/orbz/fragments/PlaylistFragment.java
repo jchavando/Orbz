@@ -3,15 +3,23 @@ package com.ruppal.orbz.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.ruppal.orbz.clients.SpotifyClient;
+import com.ruppal.orbz.database.DatabaseHelper;
+import com.ruppal.orbz.database.PlaylistTable;
+import com.ruppal.orbz.database.SongTable;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -26,12 +34,50 @@ public class PlaylistFragment extends SongListFragment { //implements ComplexRec
     Playlist playlist;
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getLocalPlaylists();
+        populatePlaylists();
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         spotifyClient = new SpotifyClient();
 //        songs = new ArrayList<>();
-        populatePlaylists();
+//        populatePlaylists();
 
+    }
+
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if (isVisibleToUser) {
+//            getLocalPlaylists();
+//        }
+//    }
+
+    public void getLocalPlaylists(){
+        //is there a faster way to do this?
+        List<PlaylistTable> playlistTableList = SQLite.select().
+                from(PlaylistTable.class).queryList();
+        for (int i =0; i < playlistTableList.size(); i++){
+            PlaylistTable playlistTable = playlistTableList.get(i);
+            //search songs in this playlist table
+            List<SongTable> songTableList = SQLite.select().
+                    from(SongTable.class).
+//                    where(PlaylistTable_Table.playlistName.is(playlistTable.getPlaylistName())).
+                    queryList();
+            ArrayList<Song> songsInPlaylist = new ArrayList<>();
+            for (int j=0; j< songTableList.size(); j++){
+                SongTable songTable = songTableList.get(j);
+                Song song = DatabaseHelper.songFromSongTable(songTable);
+                songsInPlaylist.add(song);
+            }
+            Playlist playlist = DatabaseHelper.playlistFromPlaylistTable(playlistTable);
+            playlist.setTracks(songsInPlaylist);
+            songs.add(playlist);
+        }
     }
 
     public void populatePlaylists(){
@@ -73,16 +119,6 @@ public class PlaylistFragment extends SongListFragment { //implements ComplexRec
             }
         });
     }
-
-//    @Override
-//    public void onItemSelected(View view, int position) {
-//
-//        //lauch playlist activity
-//        Intent intent = new Intent(getActivity(), PlaylistActivity.class);
-//        startActivity(intent);
-//    }
-
-
 
 }
 
