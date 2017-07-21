@@ -32,8 +32,9 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     //define an interface required by the ViewHolder
     public interface SongAdapterListener{
-        public void onItemSelected (View view, int position, boolean isPic);
+        public void onItemSelected (View view, int position);
         public void onPauseButtonClicked(View view, int position);
+        public void onItemLongSelected (View view, int position);
     }
 
     public interface PlaylistAdapterListener{

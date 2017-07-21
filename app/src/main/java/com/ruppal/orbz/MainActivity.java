@@ -90,9 +90,19 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
+
+
     }
 
 
+//    public void checkData(){
+//        List<PlaylistTable> playlistTableList = SQLite.select().
+//                from(PlaylistTable.class).queryList();
+//        List<SongTable> songTableList = SQLite.select().
+//                from(SongTable.class).queryList();
+//        Log.i("MY_DATABASE", playlistTableList.toString());
+//        Log.i("MY_DATABASE", songTableList.toString());
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
