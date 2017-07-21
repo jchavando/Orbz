@@ -25,12 +25,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.clients.LastFMClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.fragments.LoginLastFMFragment;
-
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -46,8 +44,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-
 import cz.msebera.android.httpclient.Header;
+
+import static com.google.android.gms.common.SignInButton.COLOR_DARK;
 
 public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,
 LoginLastFMFragment.LastFMListener{
@@ -74,6 +73,7 @@ LoginLastFMFragment.LastFMListener{
     LastFMClient lastFMClient;
     Context context;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,8 +95,10 @@ LoginLastFMFragment.LastFMListener{
 
 
         googleSignInButton.setOnClickListener(this);
+        googleSignInButton.setColorScheme(COLOR_DARK);
         btLastFMLogin.setOnClickListener(this);
         lastFMClient = new LastFMClient();
+
 
 
 
@@ -115,8 +117,12 @@ LoginLastFMFragment.LastFMListener{
                 spotifyClient.setAccessToken(spotifyAccessToken);
 //                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
-                btLoginSpotify.setBackgroundColor(Color.GREEN);
-                Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_LONG).show();
+
+
+                btLoginSpotify.setBackgroundColor(0x80FFFFFF);
+                //googleSignInButton.setBackgroundResource(R.drawable.button_selected);
+
+                Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_SHORT).show();
 //                Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
 //                    @Override
 //                    public void onInitialized(SpotifyPlayer spotifyPlayer) {

@@ -76,20 +76,15 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new SongPagerAdapter(getSupportFragmentManager(),
                 MainActivity.this));
 
-        // Give the TabLayout the ViewPager
-        //TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        //tabLayout.setupWithViewPager(viewPager);
-
-
-        //super.onCreate(savedInstanceState);
-        //at top
-
 
         //tabLayout.getTabAt(0).setIcon(home_selected); TODO change picture icons
         //tabLayout.getTabAt(1).setIcon(mentions_selected);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
+
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.search_pic);
     }
 
 
