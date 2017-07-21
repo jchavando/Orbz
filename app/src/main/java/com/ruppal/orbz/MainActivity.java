@@ -84,7 +84,10 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(vpPager);
 
 
-        tabLayout.getTabAt(0).setIcon(R.drawable.search_pic);
+        tabLayout.getTabAt(0).setIcon(R.drawable.white_search);
+        tabLayout.getTabAt(1).setIcon(R.drawable.play);
+
+
     }
 
 
