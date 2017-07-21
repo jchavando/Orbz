@@ -44,10 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-<<<<<<< HEAD
-=======
         android:visibility="visible"
->>>>>>> 086a6f7e0460ee2f711b872166b4e09966956e62
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         app:srcCompat="@drawable/exo_controls_pause" />
