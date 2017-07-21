@@ -231,10 +231,10 @@ LoginLastFMFragment.LastFMListener{
     }
 
     // switches to the player activity
-    public void onClickPlayer(View view){
-        Intent player = new Intent(this, PlayerActivity.class);
-        startActivity(player);
-    }
+//    public void onClickPlayer(View view){
+//        Intent player = new Intent(this, PlayerActivity.class);
+//        startActivity(player);
+//    }
 
     @Override
     public void onClick(View v) {

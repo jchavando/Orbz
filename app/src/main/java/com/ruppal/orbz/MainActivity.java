@@ -24,6 +24,7 @@ import com.ruppal.orbz.clients.YouTubeClient;
 import com.ruppal.orbz.fragments.LoginLastFMFragment;
 import com.ruppal.orbz.fragments.SearchFragment;
 import com.ruppal.orbz.fragments.SongPagerAdapter;
+import com.ruppal.orbz.models.Artist;
 import com.ruppal.orbz.models.Song;
 import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.Player;
@@ -87,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         vpPager.setAdapter(adapterViewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
-
 
 
 
@@ -182,9 +182,14 @@ public class MainActivity extends AppCompatActivity {
                 long currentId = songCursor.getLong(songId);
                 String currentTitle = songCursor.getString(songTitle);
                 String currentData = songCursor.getString(songData);
+                Artist artist= new Artist();
                 String currentArtist = songCursor.getString(songArtist);
+                artist.name = currentArtist;
+                artist.uid = null;
+                ArrayList<Artist> artists = new ArrayList<>();
+                artists.add(artist);
 
-                localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData));
+                localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData, artists));
 
             } while(songCursor.moveToNext());
         }
