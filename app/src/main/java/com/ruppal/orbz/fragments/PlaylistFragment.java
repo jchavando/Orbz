@@ -37,6 +37,7 @@ public class PlaylistFragment extends SongListFragment { //implements ComplexRec
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getLocalPlaylists();
+        populatePlaylists();
     }
 
     @Override
@@ -44,7 +45,7 @@ public class PlaylistFragment extends SongListFragment { //implements ComplexRec
         super.onCreate(savedInstanceState);
         spotifyClient = new SpotifyClient();
 //        songs = new ArrayList<>();
-        populatePlaylists();
+//        populatePlaylists();
 
     }
 
@@ -118,16 +119,6 @@ public class PlaylistFragment extends SongListFragment { //implements ComplexRec
             }
         });
     }
-
-//    @Override
-//    public void onItemSelected(View view, int position) {
-//
-//        //lauch playlist activity
-//        Intent intent = new Intent(getActivity(), PlaylistActivity.class);
-//        startActivity(intent);
-//    }
-
-
 
 }
 

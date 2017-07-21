@@ -1,7 +1,12 @@
 package com.ruppal.orbz;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
@@ -11,16 +16,15 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ruppal.orbz.clients.GooglePlayClient;
 import com.ruppal.orbz.clients.SpotifyClient;
-
-import com.ruppal.orbz.fragments.LoginLastFMFragment;
-
 import com.ruppal.orbz.clients.YouTubeClient;
-
+import com.ruppal.orbz.fragments.LoginLastFMFragment;
 import com.ruppal.orbz.fragments.SearchFragment;
 import com.ruppal.orbz.fragments.SongPagerAdapter;
+import com.ruppal.orbz.models.Artist;
 import com.ruppal.orbz.models.Song;
 import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.Player;
@@ -49,6 +53,18 @@ public class MainActivity extends AppCompatActivity {
 
     private LoginLastFMFragment lastFMLogin;
 
+
+
+
+
+
+
+    //Elvis
+    ArrayList<Song> localSongList;
+
+
+    //Elvis
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,27 +86,21 @@ public class MainActivity extends AppCompatActivity {
         adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
         //set the adapter for the pager
         vpPager.setAdapter(adapterViewPager);
-
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new SongPagerAdapter(getSupportFragmentManager(),
-                MainActivity.this));
-
-        // Give the TabLayout the ViewPager
-        //TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        //tabLayout.setupWithViewPager(viewPager);
-
-
-        //super.onCreate(savedInstanceState);
-        //at top
-
-
-        //tabLayout.getTabAt(0).setIcon(home_selected); TODO change picture icons
-        //tabLayout.getTabAt(1).setIcon(mentions_selected);
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
 
+
+        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(vpPager);
+
+       /////////////Elvis Kahoro
+        localSongList = new ArrayList<Song>();
+        if(isExternalStorageWritable() && isExternalStorageReadable()){
+            localSongSearch();
+        } else {
+            Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
+        }
+        //////////////////////////Elvis Kahoro
 
     }
 
@@ -141,5 +151,69 @@ public class MainActivity extends AppCompatActivity {
         Player mPlayer = Spotify.getPlayer(playerConfig, this, null);
         com.ruppal.orbz.models.Player.setSpotifyPlayer(mPlayer);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    //////////From Player Activity
+    public ArrayList<Song> getLocalSongs(){
+        return localSongList;
+    }
+
+
+
+
+
+
+
+
+
+    public void localSongSearch(){
+        ContentResolver contentResolver = getContentResolver();
+        Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
+
+        if(songCursor != null && songCursor.moveToFirst())
+        {
+            Toast.makeText(this, "starting song cursor", Toast.LENGTH_SHORT).show();
+            int songId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID);
+            int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int songArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+            int songData = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+
+            do {
+                long currentId = songCursor.getLong(songId);
+                String currentTitle = songCursor.getString(songTitle);
+                String currentData = songCursor.getString(songData);
+                Artist artist= new Artist();
+                String currentArtist = songCursor.getString(songArtist);
+                artist.name = currentArtist;
+                artist.uid = null;
+                ArrayList<Artist> artists = new ArrayList<>();
+                artists.add(artist);
+
+                localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData, artists));
+
+            } while(songCursor.moveToNext());
+        }
+    }
+
+
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        return (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));}
 
 }

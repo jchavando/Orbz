@@ -1,6 +1,7 @@
 package com.ruppal.orbz;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +33,7 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
                 mListener.onItemSelected(v, position);
             }
         });
+
         itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -51,6 +53,18 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
 //
 //            }
 //        });
+
+        ivPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable playButton = context.getResources().getDrawable(R.drawable.exo_controls_play);
+                ((ImageView) v).setImageDrawable(playButton);
+                int position = getAdapterPosition();
+                mListener.onPauseButtonClicked(v, position);
+
+            }
+        });
+
         tvService = (TextView) itemView.findViewById(R.id.tvService);
 
 

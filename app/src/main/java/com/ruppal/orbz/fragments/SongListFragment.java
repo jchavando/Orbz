@@ -81,8 +81,12 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
 
 
-
-    //inflation happens inside onCreateView
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        songs = new ArrayList<>();
+        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
+    }
 
     @Nullable
     @Override
@@ -90,13 +94,14 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         spotifyClient = new SpotifyClient();
         //inflate the layout
         View v = inflater.inflate(R.layout.fragments_songs_list, container, false);
-        frameLayout = (FrameLayout) v.findViewById(R.id.youtube_fragment);
-//      //find RecyclerView
+        frameLayout = (FrameLayout) getActivity().findViewById(R.id.youtube_fragment);
+
+        //find RecyclerView
         rvSongs = (RecyclerView) v.findViewById(R.id.rvSong);
         //init the arraylist (data source)
-        songs = new ArrayList<>();
+//        songs = new ArrayList<>();
         //construct adapter from datasource
-        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
+//        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
         //recyclerView setup (layout manager, use adapter)
         rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
         //set the adapter
@@ -145,7 +150,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
                 Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
             }
         }
-        else if (song.getService() == Song.YOUTUBE){
+        else if (song.getService().equals(Song.YOUTUBE)){
             initializeYoutubePlayerFragment(song);
         }
     }
@@ -175,6 +180,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
     public void addSong (Object song){
         songs.add(song);
+//        complexAdapter.notify();
         complexAdapter.notifyItemInserted(songs.size()-1);
     }
 

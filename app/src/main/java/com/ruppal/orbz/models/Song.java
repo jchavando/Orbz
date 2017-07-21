@@ -44,10 +44,11 @@ public class Song {
         this.title = title;
     }
 
-    public Song(long id, String title, String artist, String data){
+    public Song(long id, String title, String artist, String data, ArrayList<Artist> artists){
         SongID = id;
         this.title = title;
         this.artist = artist;
+        this.artists = artists;
         this.data = data;
         service = "Local";
     }
