@@ -45,7 +45,7 @@ public class SongTable extends BaseModel {
 
     @Column
     @ForeignKey(saveForeignKeyModel = false) //todo can make this true
-    PlaylistTable playlistTable;
+    public PlaylistTable playlistTable;
 
 
     public void setUid(String uid) {

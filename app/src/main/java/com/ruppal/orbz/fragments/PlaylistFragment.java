@@ -3,13 +3,13 @@ package com.ruppal.orbz.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.DatabaseHelper;
 import com.ruppal.orbz.database.PlaylistTable;
-import com.ruppal.orbz.database.PlaylistTable_Table;
 import com.ruppal.orbz.database.SongTable;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
@@ -33,6 +33,12 @@ public class PlaylistFragment extends SongListFragment {
     SpotifyClient spotifyClient;
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getLocalPlaylists();
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         spotifyClient = new SpotifyClient();
@@ -41,13 +47,13 @@ public class PlaylistFragment extends SongListFragment {
 
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            getLocalPlaylists();
-        }
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if (isVisibleToUser) {
+//            getLocalPlaylists();
+//        }
+//    }
 
     public void getLocalPlaylists(){
         //is there a faster way to do this?
@@ -58,10 +64,10 @@ public class PlaylistFragment extends SongListFragment {
             //search songs in this playlist table
             List<SongTable> songTableList = SQLite.select().
                     from(SongTable.class).
-                    where(PlaylistTable_Table.playlistId.is(playlistTable.getPlaylistId())).
+//                    where(PlaylistTable_Table.playlistName.is(playlistTable.getPlaylistName())).
                     queryList();
             ArrayList<Song> songsInPlaylist = new ArrayList<>();
-            for (int j=0; j< songTableList.size(); i++){
+            for (int j=0; j< songTableList.size(); j++){
                 SongTable songTable = songTableList.get(j);
                 Song song = DatabaseHelper.songFromSongTable(songTable);
                 songsInPlaylist.add(song);
