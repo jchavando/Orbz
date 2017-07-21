@@ -122,7 +122,7 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
 
 
     @Override
-    public void onItemSelected(View view, int position, boolean isPic) {
+    public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
         if (song.getService() == Song.SPOTIFY) {
             if (!song.isPlaying()) {
@@ -144,6 +144,7 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
         mPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
         song.playing = true;
     }
+
 
 
     @Override
@@ -173,5 +174,10 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
 //            ((ImageView) view).setImageDrawable(playButton);
 //            mPlayer.resume(mOperationCallback);
 //        }
+    }
+
+    @Override
+    public void onItemLongSelected(View view, int position) {
+
     }
 }
