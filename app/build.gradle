@@ -63,6 +63,8 @@ dependencies {
     compile 'com.google.android.exoplayer:exoplayer:r2.4.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:25.3.1'
+    //blurry background
+    compile 'jp.wasabeef:blurry:2.1.1'
 
 
     //youtube stuff

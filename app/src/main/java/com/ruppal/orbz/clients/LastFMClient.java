@@ -54,9 +54,11 @@ public class LastFMClient extends JsonHttpResponseHandler {
     }
 
     public void login(String username, String password, AsyncHttpResponseHandler handler){
-        API_SIG = md5("api_key"+ encodeUTF8(API_KEY) + "methodauth.getMobileSession" +
-                    "password"+ encodeUTF8(password) +"username"+ encodeUTF8(username)+secret);
+        API_SIG = md5(encodeUTF8("api_key"+API_KEY) + encodeUTF8("method" + "auth.getMobileSession") +
+                encodeUTF8("password"+password) + encodeUTF8("username"+username)+secret);
 
+//        API_SIG = md5("api_key"+ encodeUTF8("api_key"+API_KEY) + "methodauth.getMobileSession" +
+//                "password"+ encodeUTF8(password) +"username"+ encodeUTF8(username)+secret);
         String apiUrl = getApiUrl("auth.getMobileSession");
         RequestParams params = new RequestParams();
         //String authToken = md5(username + md5(password));

@@ -153,6 +153,7 @@ public class Song {
             song.service = YOUTUBE;
             song.albumCoverUrl = snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url");
             //todo - find a better way to get artist
+
         song.artists = new ArrayList<>();
         song.artists.add(Artist.fromJSON(YOUTUBE, object));
 

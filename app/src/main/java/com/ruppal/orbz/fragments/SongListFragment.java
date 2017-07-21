@@ -156,6 +156,36 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         Song song = (Song) songs.get(position);
         com.ruppal.orbz.models.Player.pauseSong(song, getContext(), view);
 
+//        final Song song = (Song) songs.get(position);
+//        Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
+//            @Override
+//            public void onSuccess() {
+//                String nowPaused= "paused " + song.getTitle();
+//                //Toast.makeText(getContext(), nowPaused, Toast.LENGTH_LONG).show();
+//                song.playing = false;
+//            }
+//
+//            @Override
+//            public void onError(Error error) {
+//                Log.e("playlist activity pause", error.toString());
+//
+//            }
+//
+//
+//        };
+
+//        PlaybackState mCurrentPlaybackState = mPlayer.getPlaybackState();
+//        if (mCurrentPlaybackState != null && mCurrentPlaybackState.isPlaying) {
+//            mPlayer.pause(mOperationCallback);
+//        } else {
+//            Drawable playButton = getContext().getResources().getDrawable(R.drawable.exo_controls_play);
+//            ((ImageView) view).setImageDrawable(playButton);
+//            mPlayer.resume(mOperationCallback);
+//        }
+
+
+
+
     }
 
     public void addSong (Object song){

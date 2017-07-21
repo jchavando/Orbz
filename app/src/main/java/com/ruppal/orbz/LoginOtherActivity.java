@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,14 +22,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.clients.LastFMClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.fragments.LoginLastFMFragment;
-
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -45,7 +41,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-
 
 import cz.msebera.android.httpclient.Header;
 
@@ -65,14 +60,18 @@ LoginLastFMFragment.LastFMListener{
     private String SCOPES = "https://www.googleapis.com/auth/youtube " + "https://www.googleapis.com/auth/youtube.readonly";
     Button btLoginSpotify;
     GoogleApiClient mGoogleApiClient;
-    SignInButton googleSignInButton;
+    //SignInButton googleSignInButton;
+    Button googleSignInButton;
     String spotifyAccessToken;
     String googleAccessToken;
     Button btLastFMLogin;
     String username;
     String password;
+    Button btLocalLogin;
     LastFMClient lastFMClient;
     Context context;
+    int colorTransparent = 0x80FFFFFF;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +80,8 @@ LoginLastFMFragment.LastFMListener{
 
         spotifyClientId = getString(R.string.spotify_client_id);
         spotifyRedirectUri = getString(R.string.spotify_redirect_uri);
-        googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        //googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        googleSignInButton = (Button) findViewById(R.id.sign_in_button);
         btLastFMLogin = (Button) findViewById(R.id.btLastFMLogin);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -93,10 +93,12 @@ LoginLastFMFragment.LastFMListener{
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-
+        //btLocalLogin.setOnClickListener(this);
         googleSignInButton.setOnClickListener(this);
+        //googleSignInButton.setColorScheme(COLOR_LIGHT);
         btLastFMLogin.setOnClickListener(this);
         lastFMClient = new LastFMClient();
+
 
 
 
@@ -115,8 +117,12 @@ LoginLastFMFragment.LastFMListener{
                 spotifyClient.setAccessToken(spotifyAccessToken);
 //                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
-                btLoginSpotify.setBackgroundColor(Color.GREEN);
-                Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_LONG).show();
+
+
+                btLoginSpotify.setBackgroundResource(R.drawable.clicked_border);
+                //googleSignInButton.setBackgroundResource(R.drawable.rounded);
+
+                Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_SHORT).show();
 //                Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
 //                    @Override
 //                    public void onInitialized(SpotifyPlayer spotifyPlayer) {
@@ -183,8 +189,8 @@ LoginLastFMFragment.LastFMListener{
         Log.d("LoginOtherActivity", "User logged in");
         //on logged in, change button color
         btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
-        btLoginSpotify.setBackgroundColor(Color.GREEN);
-        Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_SHORT).show();
+        btLoginSpotify.setBackgroundResource(R.drawable.clicked_border);
+        Toast.makeText(this, "signed in to Spotify", Toast.LENGTH_SHORT).show();
 
         //mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
     }
@@ -232,8 +238,11 @@ LoginLastFMFragment.LastFMListener{
 
     // switches to the player activity
     public void onClickPlayer(View view){
-        Intent player = new Intent(this, PlayerActivity.class);
-        startActivity(player);
+        //Intent player = new Intent(this, PlayerActivity.class);
+        //startActivity(player);
+        Toast.makeText(this, "accessed local music", Toast.LENGTH_SHORT).show();
+        btLocalLogin.setBackgroundResource(R.drawable.clicked_border);
+
     }
 
     @Override
@@ -307,8 +316,9 @@ LoginLastFMFragment.LastFMListener{
 
     private void updateUI(boolean isLogin){
         if(isLogin){
-            Toast.makeText(this, "signed in", Toast.LENGTH_SHORT).show();
-            googleSignInButton.setBackgroundColor(Color.GREEN);
+            Toast.makeText(this, "signed in to Google", Toast.LENGTH_SHORT).show();
+            googleSignInButton.setBackgroundResource(R.drawable.clicked_border);
+
 
         } else {
             Toast.makeText(this, "did not sign in", Toast.LENGTH_SHORT).show();
@@ -329,7 +339,8 @@ LoginLastFMFragment.LastFMListener{
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("LastFM", "success");
-                btLastFMLogin.setBackgroundColor(Color.GREEN);
+                btLastFMLogin.setBackgroundResource(R.drawable.clicked_border);
+
                 //Toast.makeText(this, "Successfully logged in to Last.fm!", Toast.LENGTH_LONG).show();
             }
 
