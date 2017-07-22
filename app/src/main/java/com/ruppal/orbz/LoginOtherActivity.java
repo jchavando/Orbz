@@ -83,6 +83,8 @@ LoginLastFMFragment.LastFMListener{
         //googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
         googleSignInButton = (Button) findViewById(R.id.sign_in_button);
         btLastFMLogin = (Button) findViewById(R.id.btLastFMLogin);
+        btLocalLogin = (Button) findViewById(R.id.btPlayer);
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail().requestIdToken(getString(R.string.googlePlay_client_id))

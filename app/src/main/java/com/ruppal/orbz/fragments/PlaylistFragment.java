@@ -2,11 +2,18 @@ package com.ruppal.orbz.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.DatabaseHelper;
 import com.ruppal.orbz.database.PlaylistTable;
@@ -23,21 +30,28 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
+
 /**
  * Created by jchavando on 7/13/17.
  */
 
 
-public class PlaylistFragment extends SongListFragment { //implements ComplexRecyclerViewAdapter.PlaylistAdapterListener
-
+public class PlaylistFragment extends SongListFragment implements AddPlaylistDialogFragment.AddPlaylistListener{ //implements ComplexRecyclerViewAdapter.PlaylistAdapterListener
+//extends SongListFragment
     SpotifyClient spotifyClient;
     Playlist playlist;
+    String newPlaylist;
+
+    FloatingActionButton fabAddPlaylist;
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getLocalPlaylists();
         populatePlaylists();
+        //fabAddPlaylist = (FloatingActionButton) view.findViewById(R.id.fabAddPlaylist);
+
     }
 
     @Override
@@ -46,10 +60,38 @@ public class PlaylistFragment extends SongListFragment { //implements ComplexRec
         spotifyClient = new SpotifyClient();
 //        songs = new ArrayList<>();
 //        populatePlaylists();
+        //fabAddPlaylist.setOnClickListener(this); //TODO fix
+        setHasOptionsMenu(true);
+
 
     }
 
-//    @Override
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_playlist, menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                // Not implemented here
+                return false;
+            case R.id.addPlaylist:
+                showPlaylistFragment();
+                return true;
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+
+
+
+
+    //    @Override
 //    public void setUserVisibleHint(boolean isVisibleToUser) {
 //        super.setUserVisibleHint(isVisibleToUser);
 //        if (isVisibleToUser) {
@@ -120,5 +162,45 @@ public class PlaylistFragment extends SongListFragment { //implements ComplexRec
         });
     }
 
+
+
+   // @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case fabAddPlaylist:
+//                showPlaylistFragment(); //TODO
+//                break;
+//        }
+//    }
+
+
+    public void showPlaylistFragment() {
+        Toast.makeText(getContext(), "clicked fab", Toast.LENGTH_SHORT).show();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+
+        //AddPlaylistDialogFragment addPlaylist = AddPlaylistDialogFragment.newInstance("some_title");
+        //addPlaylist.setTargetFragment(PlaylistFragment.this, 300);
+        //addPlaylist.show(fm, "add playlist");
+        AddPlaylistDialogFragment addPlaylist = AddPlaylistDialogFragment.newInstance("some_title");
+        addPlaylist.show(fm, "lastfm_login");
+    }
+
+    @Override
+    public void onFinishDialog(String newPlaylist) {
+        this.newPlaylist = newPlaylist;
+
+        //add to list of existing playlists
+    }
+
+//    @Override
+//    public void onClick(View v) {
+//
+//            switch (v.getId()) {
+//                case R.id.fabAddPlaylist:
+//                    showPlaylistFragment();
+//                    break;
+//            }
+//
+//    }
 }
 

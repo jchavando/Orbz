@@ -10,7 +10,7 @@
 
     <Button
         android:id="@+id/btLoginSpotify"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -36,7 +36,7 @@
 
     <Button
         android:id="@+id/btPlayer"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:onClick="onClickPlayer"
         android:text="Access Local Music"
@@ -72,7 +72,7 @@
 
     <Button
         android:id="@+id/sign_in_button"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btLoginSpotify"
         android:layout_centerHorizontal="true"
@@ -85,7 +85,7 @@
 
     <Button
         android:id="@+id/btLastFMLogin"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="@drawable/border"
