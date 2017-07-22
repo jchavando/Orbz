@@ -125,7 +125,9 @@ public class AddPlaylistDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
 
+                //communicate back to PlaylistFragment
                 AddPlaylistListener listener = (AddPlaylistListener) getContext();
+
                 listener.onFinishDialog(etNewPlaylist.getText().toString());
                 //login
                 //go back

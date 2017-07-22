@@ -189,6 +189,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
     public void onFinishDialog(String newPlaylist) {
         this.newPlaylist = newPlaylist;
 
+        //add to list of existing playlists
     }
 
 //    @Override
