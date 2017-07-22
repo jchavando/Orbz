@@ -65,7 +65,12 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
 
        //unwrap playlist
        mPlaylist = (Playlist) Parcels.unwrap(getIntent().getParcelableExtra("tracks"));
-       loadTracks(mPlaylist.getTracksUrl());
+       if (mPlaylist.getPlaylistService().equals(Song.SPOTIFY)){
+           loadTracksFromSpotify(mPlaylist.getTracksUrl());
+       }
+       else if (mPlaylist.getPlaylistService().equals(Song.LOCAL)){
+           loadTracksFromLocal(mPlaylist);
+       }
 
 
        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
@@ -80,7 +85,14 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
         complexAdapter.notifyItemInserted(songs.size()-1);
     }
 
-    public void loadTracks(String tracksUrl){
+    public void loadTracksFromLocal(Playlist playlist){
+        ArrayList<Song> tracks = playlist.getTracks();
+        for (int i=0; i<tracks.size(); i++){
+            addSong(tracks.get(i));
+        }
+    }
+
+    public void loadTracksFromSpotify(String tracksUrl){
          //clear the song list
         songs.clear();
         spotifyClient.getPlayListTracks(tracksUrl, new JsonHttpResponseHandler() {
@@ -180,5 +192,6 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
     public void onItemLongSelected(View view, int position) {
 
     }
+
 
 }

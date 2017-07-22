@@ -42,11 +42,13 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
 
+
     // Provide a suitable constructor (depends on the kind of dataset) //List<Object>
     public ComplexRecyclerViewAdapter(List<Object> songsAndPlaylists, SongAdapterListener listener, PlaylistAdapterListener playlistAdapterListener) {
         this.mSongsPlaylists = songsAndPlaylists;
         this.mPlaylistListener = playlistAdapterListener;
         this.mListener = listener;
+
 
     }
 

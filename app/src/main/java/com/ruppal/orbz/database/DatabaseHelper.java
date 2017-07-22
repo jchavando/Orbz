@@ -1,11 +1,13 @@
 package com.ruppal.orbz.database;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.ruppal.orbz.models.Artist;
 import com.ruppal.orbz.models.Owner;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ruppal on 7/20/17.
@@ -20,17 +22,28 @@ public class DatabaseHelper {
         songTable.save();
     }
 
+    public static void makeNewLocalPlaylist(String playlistName){
+        Playlist playlist = new Playlist();
+        playlist.setPlaylistId(playlistName);
+        playlist.setPlaylistName(playlistName);
+        playlist.setPlaylistService(Song.LOCAL);
+        makePlaylistTableRow(playlist);
+    }
+
+
+
     private static Playlist makeFakePlaylist(){
         Owner owner = new Owner();
-        owner.setId("2");
-        owner.setName("testName2");
+        owner.setId("3");
+        owner.setName("testName3");
         Playlist playlist = new Playlist();
         playlist.setOwner(owner);
-        playlist.setPlaylistName("testPlaylistName2");
+        playlist.setPlaylistName("testPlaylistName3");
         playlist.setImage(null);
         playlist.setTracks(null);
         playlist.setTracksUrl(null);
-        playlist.setPlaylistId("2");
+        playlist.setPlaylistId("3");
+        playlist.setPlaylistService(Song.LOCAL);
         return playlist;
     }
 
@@ -41,6 +54,7 @@ public class DatabaseHelper {
         playlistTable.setOwnerName(playlist.getOwner().getName());
         playlistTable.setImage(playlist.getImage());
         playlistTable.setOwnerId(playlist.getOwner().getId());
+        playlistTable.setPlaylistService(playlist.getPlaylistService());
         return playlistTable;
     }
 
@@ -69,6 +83,7 @@ public class DatabaseHelper {
         playlist.setPlaylistName(playlistTable.getPlaylistName());
         playlist.setImage(playlistTable.getImage());
         playlist.setPlaylistId(playlistTable.getPlaylistId());
+        playlist.setPlaylistService(playlistTable.getPlaylistService());
         return playlist;
     }
 
@@ -91,6 +106,33 @@ public class DatabaseHelper {
         return song;
     }
 
+    public static void getLocalPlaylists (ArrayList<Object> songs){
+        //is there a faster way to do this?
+        List<PlaylistTable> playlistTableList = SQLite.select().
+                from(PlaylistTable.class).queryList();
+        for (int i =0; i < playlistTableList.size(); i++){
+            PlaylistTable playlistTable = playlistTableList.get(i);
+            //search songs in this playlist table
+            List<SongTable> songTableList = SQLite.select().
+                    from(SongTable.class).
+//                    where(PlaylistTable_Table.playlistName.is(playlistTable.getPlaylistName())).
+        queryList();
+            ArrayList<Song> songsInPlaylist = new ArrayList<>();
+            for (int j=0; j< songTableList.size(); j++){
+                SongTable songTable = songTableList.get(j);
+                Song song = DatabaseHelper.songFromSongTable(songTable);
+                songsInPlaylist.add(song);
+            }
+            Playlist playlist = DatabaseHelper.playlistFromPlaylistTable(playlistTable);
+            playlist.setTracks(songsInPlaylist);
+            songs.add(playlist);
+        }
+    }
 
+    public void updateTestPlaylist(){
+        //search for test playlist
+
+
+    }
 
 }
