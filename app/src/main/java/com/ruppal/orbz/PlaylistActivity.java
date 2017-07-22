@@ -58,7 +58,7 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
         //find RecyclerView
 
         //construct adapter from datasource
-        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, null);
+        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, null, null);
         //recyclerView setup (layout manager, use adapter)
         //set the adapter
         rvSongs.setAdapter(complexAdapter);

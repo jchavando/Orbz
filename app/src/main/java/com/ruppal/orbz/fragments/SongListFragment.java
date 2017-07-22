@@ -22,7 +22,6 @@ import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.PlaylistActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
-import com.ruppal.orbz.database.DatabaseHelper;
 import com.ruppal.orbz.database.PlaylistTable;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
@@ -87,7 +86,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         songs = new ArrayList<>();
-        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
+        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this, null); //this
 
     }
 
@@ -163,10 +162,14 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         Object song = songs.get(position);
         if (song instanceof Song){
             //add song to playlist
-            DatabaseHelper.addSongToTestPlaylist((Song) song);
+            //DatabaseHelper.addSongToTestPlaylist((Song) song);
 //            //update playlist view
 //            DatabaseHelper.updateTestPlaylist();
-            Toast.makeText(getContext(), ((Song) song).getTitle() + " added to a local playlist", Toast.LENGTH_SHORT).show();
+
+            //launch select playlist fragment
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            SelectPlaylistDialogFragment selectPlaylistDialogFragment = SelectPlaylistDialogFragment.newInstance("Select a Playlist", (Song) song);
+            selectPlaylistDialogFragment.show(fm, "lastfm_login");
         }
         else{
             Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();

@@ -132,6 +132,14 @@ public class DatabaseHelper {
         }
     }
 
+    public static List<PlaylistTable> getAllPlaylists (){
+        List<PlaylistTable> playlistTableList = SQLite.select().
+                from(PlaylistTable.class).queryList();
+        return playlistTableList;
+    }
+
+
+
     public void updateTestPlaylist(){
         //search for test playlist
 

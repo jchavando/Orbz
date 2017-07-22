@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.ruppal.orbz.database.PlaylistTable;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
@@ -23,9 +24,11 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private List<Object> mSongsPlaylists;
     private SongAdapterListener mListener;
     private PlaylistAdapterListener mPlaylistListener;
+    PlaylistSimpleAdapterListener mPlaylistSimpleListener;
     Context context ;
     private final int TYPE_SONG = 110;
     private final int TYPE_PLAYLIST = 111;
+    private final int TYPE_PLAYLIST_SIMPLE = 112;
 
 
 
@@ -41,13 +44,19 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         public void onPlaylistItemSelected (View view, int position);
     }
 
+    public interface PlaylistSimpleAdapterListener{
+        public void onPlaylistSimpleItemSelected (View view, int position);
+    }
 
 
     // Provide a suitable constructor (depends on the kind of dataset) //List<Object>
-    public ComplexRecyclerViewAdapter(List<Object> songsAndPlaylists, SongAdapterListener listener, PlaylistAdapterListener playlistAdapterListener) {
+    public ComplexRecyclerViewAdapter(List<Object> songsAndPlaylists, SongAdapterListener listener,
+                                      PlaylistAdapterListener playlistAdapterListener,
+                                      PlaylistSimpleAdapterListener playlistSimpleAdapterListener) {
         this.mSongsPlaylists = songsAndPlaylists;
         this.mPlaylistListener = playlistAdapterListener;
         this.mListener = listener;
+        this.mPlaylistSimpleListener = playlistSimpleAdapterListener;
 
 
     }
@@ -68,6 +77,10 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 View playlistView = inflater.inflate(R.layout.item_playlist, viewGroup, false);
                 viewHolder = new ViewHolderPlaylist(playlistView, mPlaylistListener, context);
                 break;
+            case TYPE_PLAYLIST_SIMPLE:
+                View playlistViewSimple = inflater.inflate(R.layout.item_choose_playlist, viewGroup, false);
+                viewHolder = new ViewHolderPlaylistSimple(playlistViewSimple, mPlaylistSimpleListener, context);
+                break;
             default:
                 viewHolder = null;
                 break;
@@ -82,6 +95,9 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
         else if(mSongsPlaylists.get(position) instanceof Playlist){
             return TYPE_PLAYLIST;
+        }
+        else if(mSongsPlaylists.get(position) instanceof PlaylistTable){
+            return TYPE_PLAYLIST_SIMPLE;
         }
         return -1;
     }
@@ -128,6 +144,12 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 .into(holder.ivPlayListArt);
     }
 
+    private void configureViewHolderPlaylistSimple (ViewHolderPlaylistSimple holder, int position){
+        PlaylistTable playlistTable = (PlaylistTable) mSongsPlaylists.get(position);
+
+        holder.tvPlaylistName.setText(playlistTable.getPlaylistName());
+    }
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
@@ -139,6 +161,9 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 ViewHolderPlaylist viewHolderPlaylist = (ViewHolderPlaylist) holder;
                 configureViewHolderPlaylist(viewHolderPlaylist, position);
                 break;
+            case TYPE_PLAYLIST_SIMPLE:
+                ViewHolderPlaylistSimple viewHolderPlaylistSimple = (ViewHolderPlaylistSimple) holder;
+                configureViewHolderPlaylistSimple(viewHolderPlaylistSimple, position);
             default:
                 Log.e("viewholder", "didnt bind anything to viewholder");
                 break;

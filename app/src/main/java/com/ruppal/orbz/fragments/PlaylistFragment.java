@@ -230,7 +230,9 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         owner.setName(name);
         playlist.setOwner(owner);
         playlist.setPlaylistService(Song.LOCAL);
-        addSongToPosition(playlist, 0);
+        int positionInsert = 0;
+        addSongToPosition(playlist, positionInsert);
+        rvSongs.scrollToPosition(positionInsert);
         PlaylistTable playlistTable = makePlaylistTableRow(playlist);
         playlistTable.save();
     }
@@ -245,7 +247,6 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         playlistTable.setPlaylistService(playlist.getPlaylistService());
         return playlistTable;
     }
-
 
 }
 
