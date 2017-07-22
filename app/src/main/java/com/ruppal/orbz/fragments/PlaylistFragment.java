@@ -2,12 +2,21 @@ package com.ruppal.orbz.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.DatabaseHelper;
+import com.ruppal.orbz.database.PlaylistTable;
+import com.ruppal.orbz.models.Owner;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
@@ -17,21 +26,28 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
+
 /**
  * Created by jchavando on 7/13/17.
  */
 
 
-public class PlaylistFragment extends SongListFragment { //implements ComplexRecyclerViewAdapter.PlaylistAdapterListener
-
+public class PlaylistFragment extends SongListFragment implements AddPlaylistDialogFragment.AddPlaylistListener{ //implements ComplexRecyclerViewAdapter.PlaylistAdapterListener
+//extends SongListFragment
     SpotifyClient spotifyClient;
     Playlist playlist;
+    String newPlaylist;
+
+    FloatingActionButton fabAddPlaylist;
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getLocalPlaylists();
         populatePlaylists();
+        //fabAddPlaylist = (FloatingActionButton) view.findViewById(R.id.fabAddPlaylist);
+
     }
 
     @Override
@@ -40,14 +56,18 @@ public class PlaylistFragment extends SongListFragment { //implements ComplexRec
         spotifyClient = new SpotifyClient();
 //        songs = new ArrayList<>();
 //        populatePlaylists();
+        //fabAddPlaylist.setOnClickListener(this); //TODO fix
+        setHasOptionsMenu(true);
+
 
     }
+
 
 
     public void updateLocalTestPlaylist(){
 
     }
-    public void getLocalPlaylists(){
+    public void getLocalPlaylists() {
         DatabaseHelper.getLocalPlaylists(songs);
         //is there a faster way to do this?
 //        List<PlaylistTable> playlistTableList = SQLite.select().
@@ -71,10 +91,34 @@ public class PlaylistFragment extends SongListFragment { //implements ComplexRec
 //        }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_playlist, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                // Not implemented here
+                return false;
+            case R.id.addPlaylist:
+                showPlaylistFragment();
+                return true;
+            default:
+                break;
+        }
+
+        return false;
+    }
 
 
 
-//    @Override
+
+
+
+    //    @Override
 //    public void setUserVisibleHint(boolean isVisibleToUser) {
 //        super.setUserVisibleHint(isVisibleToUser);
 //        if (isVisibleToUser) {
@@ -144,6 +188,64 @@ public class PlaylistFragment extends SongListFragment { //implements ComplexRec
             }
         });
     }
+
+
+
+   // @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case fabAddPlaylist:
+//                showPlaylistFragment(); //TODO
+//                break;
+//        }
+//    }
+
+
+    public void showPlaylistFragment() {
+        Toast.makeText(getContext(), "clicked fab", Toast.LENGTH_SHORT).show();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+
+        //AddPlaylistDialogFragment addPlaylist = AddPlaylistDialogFragment.newInstance("some_title");
+        //addPlaylist.setTargetFragment(PlaylistFragment.this, 300);
+        //addPlaylist.show(fm, "add playlist");
+        AddPlaylistDialogFragment addPlaylist = AddPlaylistDialogFragment.newInstance("some_title", this);
+        addPlaylist.show(fm, "lastfm_login");
+    }
+
+    @Override
+    public void onFinishDialog(String newPlaylist) {
+        //adds playlist to songs
+        //adds playlist to database
+        makeNewLocalPlaylist(newPlaylist);
+    }
+
+
+    public void makeNewLocalPlaylist(String playlistName){
+        Playlist playlist = new Playlist();
+        playlist.setPlaylistId(playlistName);
+        playlist.setPlaylistName(playlistName);
+        Owner owner = new Owner();
+        String name = "me";
+        owner.setId(name);
+        owner.setName(name);
+        playlist.setOwner(owner);
+        playlist.setPlaylistService(Song.LOCAL);
+        addSongToPosition(playlist, 0);
+        PlaylistTable playlistTable = makePlaylistTableRow(playlist);
+        playlistTable.save();
+    }
+
+    private PlaylistTable makePlaylistTableRow(Playlist playlist){
+        PlaylistTable playlistTable = new PlaylistTable();
+        playlistTable.setPlaylistId(playlist.getPlaylistId());
+        playlistTable.setPlaylistName(playlist.getPlaylistName());
+        playlistTable.setOwnerName(playlist.getOwner().getName());
+        playlistTable.setOwnerId(playlist.getOwner().getId());
+        playlistTable.setImage(playlist.getImage());
+        playlistTable.setPlaylistService(playlist.getPlaylistService());
+        return playlistTable;
+    }
+
 
 }
 

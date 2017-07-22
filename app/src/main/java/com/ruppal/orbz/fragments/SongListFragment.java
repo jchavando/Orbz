@@ -88,6 +88,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         super.onCreate(savedInstanceState);
         songs = new ArrayList<>();
         complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
+
     }
 
     @Nullable
@@ -211,7 +212,15 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
 
 
-
+    public void addSongToPosition (Object song, int position){
+        if (position < songs.size() && position >= 0){
+            songs.add(position, song);
+            complexAdapter.notifyItemInserted(position);
+        }
+        else{
+            Toast.makeText(getContext(), "failed to make playlist. check indexing", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public void addSong (Object song){
         songs.add(song);

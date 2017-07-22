@@ -27,7 +27,8 @@ public class DatabaseHelper {
         playlist.setPlaylistId(playlistName);
         playlist.setPlaylistName(playlistName);
         playlist.setPlaylistService(Song.LOCAL);
-        makePlaylistTableRow(playlist);
+        PlaylistTable playlistTable = makePlaylistTableRow(playlist);
+        playlistTable.save();
     }
 
 
@@ -51,9 +52,11 @@ public class DatabaseHelper {
         PlaylistTable playlistTable = new PlaylistTable();
         playlistTable.setPlaylistId(playlist.getPlaylistId());
         playlistTable.setPlaylistName(playlist.getPlaylistName());
-        playlistTable.setOwnerName(playlist.getOwner().getName());
+        if (playlist.getOwner() != null){
+            playlistTable.setOwnerName(playlist.getOwner().getName());
+            playlistTable.setOwnerId(playlist.getOwner().getId());
+        }
         playlistTable.setImage(playlist.getImage());
-        playlistTable.setOwnerId(playlist.getOwner().getId());
         playlistTable.setPlaylistService(playlist.getPlaylistService());
         return playlistTable;
     }
