@@ -86,6 +86,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         super.onCreate(savedInstanceState);
         songs = new ArrayList<>();
         complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
+
     }
 
     @Nullable
