@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <RadioButton
+        android:id="@+id/rbSelectPlaylist"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:buttonTint="@android:color/holo_green_dark"
+        android:textColor="@android:color/holo_green_dark" />
+
+    <TextView
+        android:id="@+id/tvPlaylistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@android:color/holo_green_dark"
+        android:layout_alignBottom="@+id/rbSelectPlaylist"
+        android:layout_toRightOf="@+id/rbSelectPlaylist"
+        android:layout_alignParentTop="true" />
+</RelativeLayout>
