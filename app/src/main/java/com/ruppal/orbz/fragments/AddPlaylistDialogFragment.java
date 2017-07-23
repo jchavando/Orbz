@@ -57,48 +57,6 @@ public class AddPlaylistDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragments_add_playlist, container); //,false
-//        Button btLogin = (Button) view.findViewById(R.id.btLogin);
-//
-//        btLogin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.i("fragment", "clicked login");
-//                lastFMClient.login(etUsername.getText().toString(), etPassword.getText().toString(), new JsonHttpResponseHandler() {
-//
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                        Log.d("LoginLastFM", "Success");
-//                        //go back to LoginOtherActivity
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                        Log.d("LoginLastFM", "Success");                    }
-//
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//                        Log.d("LoginLastFM", "Success");                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-//                        Log.d("LoginLastFM", "failed" );
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                        Log.d("LoginLastFM", "failed");
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                        Log.d("LoginLastFM", "failed");
-//                    }
-//                });
-//            }
-//
-//        });
         return view;
     }
 
