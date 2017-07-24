@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.ruppal.orbz.MapUtil;
 import com.ruppal.orbz.clients.LastFMClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.clients.YouTubeClient;
@@ -15,7 +16,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import cz.msebera.android.httpclient.Header;
+
+
 
 /**
  * Created by jchavando on 7/13/17.
@@ -45,6 +52,12 @@ public class SearchFragment extends SongListFragment {
         searchSpotify(query);
         //moved this after spotify json returns, so look in searchSpotify
         searchYoutube(query);
+        ArrayList<Song> test = searchConverter(searchLocal(query));
+        for (Song thisSong : test)
+        {
+            addSong(thisSong);
+            Log.d("Elvis Search Song Test", thisSong.getTitle());
+        }
     }
 
     public void searchYoutube (String query){
@@ -85,6 +98,32 @@ public class SearchFragment extends SongListFragment {
             }
         });
 
+    }
+
+    public Map<Song, Integer> searchLocal (String query){
+        String[] queryList = query.split(" ");
+        Map<Song, Integer> songMap = new LinkedHashMap<>();
+        for (int i = 0; i <localSongList.size(); i++) {
+
+            for (String temp : queryList) {
+
+                if(containsIgnoreCase(localSongList.get(i).getTitle(), temp) || containsIgnoreCase(localSongList.get(i).getArtist(), temp)) {
+                    Integer count = songMap.get(localSongList.get(i));
+                    songMap.put(localSongList.get(i), (count == null) ? 1 : count + 1);
+                }
+            }
+        }
+        songMap = MapUtil.sortByValue(songMap);
+        printMap(songMap);
+        return songMap;
+    }
+
+    public ArrayList<Song> searchConverter(Map<Song, Integer> songMap){
+        ArrayList<Song> songListNew = new ArrayList<>();
+        for(Song key : songMap.keySet()){
+            songListNew.add(key);
+        }
+        return songListNew;
     }
 
     public void searchSpotify(final String query) {
@@ -180,5 +219,11 @@ public class SearchFragment extends SongListFragment {
             }
 
         });
+    }
+
+    public void printMap(Map<Song, Integer> map){
+        for (Map.Entry<Song, Integer> entry : map.entrySet()) {
+            Log.d("Elvis_Song_Map","Key : " + entry.getKey().getTitle() + " Value : " + entry.getValue());
+        }
     }
 }

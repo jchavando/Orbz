@@ -143,8 +143,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-
-
     @Override
     public int getItemCount() {
         return this.mSongsPlaylists.size();

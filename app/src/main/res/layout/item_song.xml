@@ -9,12 +9,12 @@
         android:id="@+id/ivAlbumCover"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="5dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="@color/colorAccent" />
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        app:srcCompat="?attr/colorAccent" />
 
     <TextView
         android:id="@+id/tvSongName"

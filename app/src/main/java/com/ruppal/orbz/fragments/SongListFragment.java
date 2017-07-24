@@ -19,11 +19,12 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
+import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.PlaylistActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
-import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.database.DatabaseHelper;
+import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
 import org.json.JSONArray;
@@ -81,11 +82,15 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
 
 
+    public static ArrayList<Song> localSongList;
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         songs = new ArrayList<>();
         complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
+        localSongList = ((MainActivity)getActivity()).getLocalSongs();
 
     }
 
@@ -236,8 +241,17 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         }
     }
 
-
-
-
-
+    public static boolean containsIgnoreCase(final String str, final String searchStr) {
+        if (str == null || searchStr == null) {
+            return false;
+        }
+        final int len = searchStr.length();
+        final int max = str.length() - len;
+        for (int i = 0; i <= max; i++) {
+            if (str.regionMatches(true, i, searchStr, 0, len)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

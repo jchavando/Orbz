@@ -43,17 +43,6 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
             }
         });
 
-//        ivPause.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Drawable playButton = context.getResources().getDrawable(R.drawable.exo_controls_play);
-//                ((ImageView) v).setImageDrawable(playButton);
-//                int position = getAdapterPosition();
-//                mListener.onPauseButtonClicked(v, position);
-//
-//            }
-//        });
-
         ivPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,12 +50,9 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
                 ((ImageView) v).setImageDrawable(playButton);
                 int position = getAdapterPosition();
                 mListener.onPauseButtonClicked(v, position);
-
             }
         });
 
         tvService = (TextView) itemView.findViewById(R.id.tvService);
-
-
     }
 }

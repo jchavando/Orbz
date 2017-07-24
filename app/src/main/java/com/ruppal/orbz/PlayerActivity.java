@@ -1,12 +1,9 @@
 //package com.ruppal.orbz;
 //
 //import android.annotation.SuppressLint;
-//import android.content.ContentResolver;
-//import android.database.Cursor;
 //import android.net.Uri;
 //import android.os.Bundle;
 //import android.os.Environment;
-//import android.provider.MediaStore;
 //import android.support.v7.app.AppCompatActivity;
 //import android.util.Log;
 //import android.view.Surface;
@@ -93,7 +90,7 @@
 //        //////Moved MainActivity
 //        localSongList = new ArrayList<>();
 //        if(isExternalStorageWritable() && isExternalStorageReadable()){
-//            mediaSearch();
+//            //mediaSearch();
 ////////////////////////Moved Main Activity
 //
 //
@@ -105,17 +102,15 @@
 //
 //
 //
-//
-//
-//
-//////////////////////////Moved Main Activity
 //        } else {
 //            Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
 //        }
-//        ////////Moved Main Activity
+////////////////////////Moved Main Activity
 //
 //    }
 //
+//
+///*  Moved to search fragment
 //    public Map<Song, Integer> searchAlgorithm (String query, ArrayList<Song> localList){
 //        String[] queryList = query.split(" ");
 //        Map<Song, Integer> songMap = new LinkedHashMap<>();
@@ -133,7 +128,8 @@
 //        printMap(songMap);
 //        return songMap;
 //    }
-//
+//   */
+///* Moved to search fragment
 //    public ArrayList<Song> searchConverter(Map<Song, Integer> songMap){
 //        ArrayList<Song> songListNew = new ArrayList<>();
 //        for(Song key : songMap.keySet()){
@@ -141,6 +137,7 @@
 //        }
 //        return songListNew;
 //    }
+//   */
 //
 //    public void printMap(Map<Song, Integer> map){
 //        for (Map.Entry<Song, Integer> entry : map.entrySet()) {
@@ -187,7 +184,7 @@
 //            releasePlayer();
 //        }
 //    }
-//
+///*
 //    public void mediaSearch(){
 //        ContentResolver contentResolver = getContentResolver();
 //        Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -212,6 +209,7 @@
 //            } while(songCursor.moveToNext());
 //        }
 //    }
+//    */
 //
 //    private void initializePlayer() {
 //        if (exoPlayer == null) {

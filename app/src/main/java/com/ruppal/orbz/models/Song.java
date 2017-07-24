@@ -80,8 +80,6 @@ public class Song {
         }
     }
 
-
-
     private static Song parseSpotifyJSON(JSONObject object) throws JSONException{
         //REQUIRES: object is an entry from items, which is inside tracks JSON object
         Song song = new Song ();
@@ -155,10 +153,10 @@ public class Song {
             song.albumCoverUrl = snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url");
             //todo - find a better way to get artist
 
-        song.artists = new ArrayList<>();
-        song.artists.add(Artist.fromJSON(YOUTUBE, object));
+            song.artists = new ArrayList<>();
+            song.artists.add(Artist.fromJSON(YOUTUBE, object));
 
-        return song;
+            return song;
     }
 
 //    private Song parseYoutubeJSON(JSONObject object){
