@@ -21,21 +21,23 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".PlayerActivity"
-            android:theme="@style/AppTheme">
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:theme="@style/PlayerTheme">
+
+        <activity android:name=".MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode" >
         </activity>
-        <activity android:name=".PlaylistActivity"></activity>
+
+        <activity android:name=".PlaylistActivity">
+        </activity>
+
     </application>
 
 </manifest>
