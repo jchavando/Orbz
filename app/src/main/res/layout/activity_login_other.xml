@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginOtherActivity"
-    android:background="@drawable/city_background">
+    android:background="@drawable/city_background2">
 
 
     <Button
@@ -18,9 +18,8 @@
         android:background="@drawable/border"
         android:onClick="onClickSpotifyLogin"
         android:text="Log in to Spotify"
-        android:textColor="@android:color/white"
 
-        />
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/btDone"
@@ -78,7 +77,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:background="@drawable/border"
-        android:text="Login in to Google"
+        android:text="Log in to Google"
         android:textColor="@android:color/white" />
 
 
@@ -89,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="@drawable/border"
-        android:text="Login in to Last.fm"
+        android:text="Log in to Last.fm"
         android:layout_below="@+id/sign_in_button"
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/white"/>
