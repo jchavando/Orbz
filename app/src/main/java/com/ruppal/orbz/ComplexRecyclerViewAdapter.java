@@ -48,6 +48,9 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         public void onPlaylistSimpleItemSelected (View view, int position);
     }
 
+    public interface AddSongToPlaylistAdapterListener{
+        public void addSongToPlaylist(Song song, PlaylistTable playlist);
+    }
 
     // Provide a suitable constructor (depends on the kind of dataset) //List<Object>
     public ComplexRecyclerViewAdapter(List<Object> songsAndPlaylists, SongAdapterListener listener,

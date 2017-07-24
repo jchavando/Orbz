@@ -38,6 +38,7 @@ import java.util.ArrayList;
 
 public class SongListFragment extends Fragment implements ComplexRecyclerViewAdapter.SongAdapterListener, ComplexRecyclerViewAdapter.PlaylistAdapterListener,  YouTubePlayer.Provider {
 
+
     @Override
     public void initialize(String s, YouTubePlayer.OnInitializedListener onInitializedListener) {
     }
@@ -77,7 +78,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     String SONG_TO_PLAY = "SONG_TO_PLAY";
     FrameLayout frameLayout;
     public static ArrayList<PlaylistTable> localPlaylistTables;
-
+    static ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener addSongToPlaylistAdapterListener;
     FragmentTransaction fragmentTransaction;
     private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
 
@@ -87,7 +88,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         super.onCreate(savedInstanceState);
         songs = new ArrayList<>();
         complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this, null); //this
-
     }
 
     @Nullable
@@ -168,7 +168,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
             //launch select playlist fragment
             FragmentManager fm = getActivity().getSupportFragmentManager();
-            SelectPlaylistDialogFragment selectPlaylistDialogFragment = SelectPlaylistDialogFragment.newInstance("Select a Playlist", (Song) song);
+            SelectPlaylistDialogFragment selectPlaylistDialogFragment = SelectPlaylistDialogFragment.newInstance("Select a Playlist", (Song) song, addSongToPlaylistAdapterListener);
             selectPlaylistDialogFragment.show(fm, "lastfm_login");
         }
         else{

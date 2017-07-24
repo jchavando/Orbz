@@ -30,17 +30,20 @@ public class SelectPlaylistDialogFragment extends DialogFragment implements Comp
     TextView tvAskUser;
     Song songSelected;
     Button btAddSong;
+    int positionOfSelectedPlaylist;
     ArrayList<Object> playlists; //todo should this be playlist or playlist table
     ComplexRecyclerViewAdapter complexAdapter;
+    PlaylistTable selectedPlaylist;
+    ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener mListener;
 
-
-    public SelectPlaylistDialogFragment(Song song){
+    public SelectPlaylistDialogFragment(Song song, ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener listener){
         //empty constructor
         songSelected = song;
+        mListener = listener;
     }
 
-    public static SelectPlaylistDialogFragment newInstance(String title, Song song){
-        SelectPlaylistDialogFragment selectPlaylistDialogFragment = new SelectPlaylistDialogFragment(song);
+    public static SelectPlaylistDialogFragment newInstance(String title, Song song,ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener listener ){
+        SelectPlaylistDialogFragment selectPlaylistDialogFragment = new SelectPlaylistDialogFragment(song, listener);
         Bundle args = new Bundle();
         args.putString("title", title);
         selectPlaylistDialogFragment.setArguments(args);
@@ -53,16 +56,16 @@ public class SelectPlaylistDialogFragment extends DialogFragment implements Comp
         super.onCreate(savedInstanceState);
         playlists = new ArrayList<>();
         complexAdapter = new ComplexRecyclerViewAdapter(playlists, null, null, this); //this
+        selectedPlaylist = null;
         //load playlists
         int numPlaylists = populateSimplePlaylists();
         Toast.makeText(getContext(), numPlaylists + " playlists added", Toast.LENGTH_SHORT).show();
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.choose_playlist_dialog_fragment, container);
+        final View view = inflater.inflate(R.layout.choose_playlist_dialog_fragment, container);
         tvAskUser = (TextView) view.findViewById(R.id.tvAskUser);
         int sizeArtists = songSelected.getArtists().size();
         String artistList="";
@@ -75,6 +78,19 @@ public class SelectPlaylistDialogFragment extends DialogFragment implements Comp
         String askUserText = "Add "+ songSelected.getTitle()+ " by " + artistList +" from " + songSelected.getService() + " to a playlist";
         tvAskUser.setText(askUserText);
         btAddSong = (Button) view.findViewById(R.id.btAddSong);
+        btAddSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedPlaylist == null){
+                    Toast.makeText(getContext(), "select a playlist!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    //add songSelected to selectedPlaylist
+                    mListener.addSongToPlaylist(songSelected, selectedPlaylist);
+                    dismiss();
+                }
+            }
+        });
         rvPlaylist = (RecyclerView) view.findViewById(R.id.rvPlaylistSimple);
         rvPlaylist.setLayoutManager(new LinearLayoutManager(getContext()));
         rvPlaylist.setAdapter(complexAdapter);
@@ -86,8 +102,9 @@ public class SelectPlaylistDialogFragment extends DialogFragment implements Comp
     public void onPlaylistSimpleItemSelected(View view, int position) {
         //get the name of playlist you are adding song to
         //and send it back
-        PlaylistTable selected =(PlaylistTable) playlists.get(position);
-        String selectedText = selected.getPlaylistName() + " selected";
+        selectedPlaylist =(PlaylistTable) playlists.get(position);
+        positionOfSelectedPlaylist = position;
+        String selectedText = selectedPlaylist.getPlaylistName() + " selected";
         Toast.makeText(getContext(),selectedText , Toast.LENGTH_SHORT).show();
     }
 
