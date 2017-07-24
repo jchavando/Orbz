@@ -70,11 +70,8 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
 
        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
        rvSongs.addItemDecoration(itemDecoration);
-
  }
 
-
-//when
     public void addSong (Object song){
         songs.add((Song) song);
         complexAdapter.notifyItemInserted(songs.size()-1);
@@ -124,7 +121,7 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
     @Override
     public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
-        if (song.getService() == Song.SPOTIFY) {
+        if (song.getService().equals(Song.SPOTIFY)) {
             if (!song.isPlaying()) {
                 playSongFromSpotify(song);
             } else {

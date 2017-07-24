@@ -22,6 +22,7 @@ public class LocalListFragment extends SearchFragment {
         super.onViewCreated(view, savedInstanceState);
 //        localSongList = new ArrayList<>();
 //        localSongList = ((MainActivity)getActivity()).getLocalSongs();
+        clearSongsList();
         printArrayList(localSongList);
         populateLocalList(localSongList);
 

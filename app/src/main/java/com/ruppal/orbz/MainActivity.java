@@ -1,5 +1,6 @@
 package com.ruppal.orbz;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,7 +9,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -17,16 +17,18 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.ruppal.orbz.clients.GooglePlayClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.clients.YouTubeClient;
-import com.ruppal.orbz.fragments.AddPlaylistDialogFragment;
 import com.ruppal.orbz.fragments.LoginLastFMFragment;
 import com.ruppal.orbz.fragments.SearchFragment;
 import com.ruppal.orbz.fragments.SongPagerAdapter;
 import com.ruppal.orbz.models.Artist;
+import com.ruppal.orbz.models.ComponentListener;
 import com.ruppal.orbz.models.Song;
 import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.Player;
@@ -64,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
     //Elvis
     ArrayList<Song> localSongList;
 
+    private SimpleExoPlayerView playerView;
+    private ComponentListener componentListener;
+
 
     //Elvis
 
@@ -93,12 +98,32 @@ public class MainActivity extends AppCompatActivity {
 
 
        /////////////Elvis Kahoro
+        componentListener = new ComponentListener();
+
+        playerView = (SimpleExoPlayerView) findViewById(R.id.exoPlayer_view);
+        com.ruppal.orbz.models.Player.setComponentListener(componentListener);
+        com.ruppal.orbz.models.Player.initializePlayer(this);
+        playerView.setPlayer(com.ruppal.orbz.models.Player.exoPlayer);
+        com.ruppal.orbz.models.Player.setConfig();
+
+
+
+
+
         localSongList = new ArrayList<Song>();
         if(isExternalStorageWritable() && isExternalStorageReadable()){
             localSongSearch();
         } else {
             Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
         }
+
+
+
+
+
+
+
+
         //////////////////////////Elvis Kahoro
 
 
@@ -212,6 +237,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("InlinedApi")
+    private void hideSystemUi() {
+        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
@@ -219,6 +255,8 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
-        return (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));}
+        return (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));
+    }
 
 }
+

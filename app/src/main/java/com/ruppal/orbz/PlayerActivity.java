@@ -1,9 +1,12 @@
 //package com.ruppal.orbz;
 //
 //import android.annotation.SuppressLint;
+//import android.content.ContentResolver;
+//import android.database.Cursor;
 //import android.net.Uri;
 //import android.os.Bundle;
 //import android.os.Environment;
+//import android.provider.MediaStore;
 //import android.support.v7.app.AppCompatActivity;
 //import android.util.Log;
 //import android.view.Surface;
@@ -90,7 +93,7 @@
 //        //////Moved MainActivity
 //        localSongList = new ArrayList<>();
 //        if(isExternalStorageWritable() && isExternalStorageReadable()){
-//            //mediaSearch();
+//            mediaSearch();
 ////////////////////////Moved Main Activity
 //
 //
@@ -110,47 +113,6 @@
 //    }
 //
 //
-///*  Moved to search fragment
-//    public Map<Song, Integer> searchAlgorithm (String query, ArrayList<Song> localList){
-//        String[] queryList = query.split(" ");
-//        Map<Song, Integer> songMap = new LinkedHashMap<>();
-//        for (int i = 0; i < localList.size(); i++) {
-//
-//            for (String temp : queryList) {
-//
-//                if(containsIgnoreCase(localList.get(i).getTitle(), temp) || containsIgnoreCase(localList.get(i).getArtist(), temp)) {
-//                    Integer count = songMap.get(localList.get(i));
-//                    songMap.put(localList.get(i), (count == null) ? 1 : count + 1);
-//                }
-//            }
-//        }
-//        songMap = MapUtil.sortByValue(songMap);
-//        printMap(songMap);
-//        return songMap;
-//    }
-//   */
-///* Moved to search fragment
-//    public ArrayList<Song> searchConverter(Map<Song, Integer> songMap){
-//        ArrayList<Song> songListNew = new ArrayList<>();
-//        for(Song key : songMap.keySet()){
-//            songListNew.add(key);
-//        }
-//        return songListNew;
-//    }
-//   */
-//
-//    public void printMap(Map<Song, Integer> map){
-//        for (Map.Entry<Song, Integer> entry : map.entrySet()) {
-//            Log.d("Elvis_Song_Map","Key : " + entry.getKey().getTitle() + " Value : " + entry.getValue());
-//        }
-//    }
-//
-//    public void printArrayList(ArrayList<Song> songListPrint){
-//        for (Song test : songListPrint)
-//            Log.d("Elvis_Song_List", test.getTitle());
-//    }
-//
-//    public ArrayList<Song> getLocalSongList(){return localSongList;}
 //
 //    @Override
 //    public void onStart() {
@@ -184,54 +146,9 @@
 //            releasePlayer();
 //        }
 //    }
-///*
-//    public void mediaSearch(){
-//        ContentResolver contentResolver = getContentResolver();
-//        Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-//        Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
 //
-//        if(songCursor != null && songCursor.moveToFirst())
-//        {
-//            Toast.makeText(this, "starting song cursor", Toast.LENGTH_SHORT).show();
-//            int songId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID);
-//            int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
-//            int songArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
-//            int songData = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
 //
-//            do {
-//                long currentId = songCursor.getLong(songId);
-//                String currentTitle = songCursor.getString(songTitle);
-//                String currentData = songCursor.getString(songData);
-//                String currentArtist = songCursor.getString(songArtist);
 //
-//                localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData));
-//
-//            } while(songCursor.moveToNext());
-//        }
-//    }
-//    */
-//
-//    private void initializePlayer() {
-//        if (exoPlayer == null) {
-//            // a factory to create an AdaptiveVideoTrackSelection
-//            TrackSelection.Factory adaptiveTrackSelectionFactory =
-//                    new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
-//            // using a DefaultTrackSelector with an adaptive video selection factory
-//            exoPlayer = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(this),
-//                    new DefaultTrackSelector(adaptiveTrackSelectionFactory), new DefaultLoadControl());
-//            exoPlayer.addListener(componentListener);
-//            exoPlayer.setVideoDebugListener(componentListener);
-//            exoPlayer.setAudioDebugListener(componentListener);
-//            playerView.setPlayer(exoPlayer);
-//            exoPlayer.setPlayWhenReady(playWhenReady);
-//            exoPlayer.seekTo(currentWindow, playbackPosition);
-//        }
-//
-//        /* plays google's video
-//        MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
-//        exoPlayer.prepare(mediaSource, true, false);
-//        */
-//    }
 //
 //    private void prepareExoPlayerFromFileUri(Uri uri){
 //
@@ -316,11 +233,92 @@
 //
 //
 //
+//    private void initializePlayer() {
+//        if (exoPlayer == null) {
+//            // a factory to create an AdaptiveVideoTrackSelection
+//            TrackSelection.Factory adaptiveTrackSelectionFactory =
+//                    new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
+//            // using a DefaultTrackSelector with an adaptive video selection factory
+//            exoPlayer = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(this),
+//                    new DefaultTrackSelector(adaptiveTrackSelectionFactory), new DefaultLoadControl());
+//            exoPlayer.addListener(componentListener);
+//            exoPlayer.setVideoDebugListener(componentListener);
+//            exoPlayer.setAudioDebugListener(componentListener);
+//            playerView.setPlayer(exoPlayer);
+//            exoPlayer.setPlayWhenReady(playWhenReady);
+//            exoPlayer.seekTo(currentWindow, playbackPosition);
+//        }
+//
+//        /* plays google's video
+//        MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
+//        exoPlayer.prepare(mediaSource, true, false);
+//        */
+//    }
+//
+//    public void mediaSearch(){
+//        ContentResolver contentResolver = getContentResolver();
+//        Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+//        Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
+//
+//        if(songCursor != null && songCursor.moveToFirst())
+//        {
+//            Toast.makeText(this, "starting song cursor", Toast.LENGTH_SHORT).show();
+//            int songId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID);
+//            int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+//            int songArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+//            int songData = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+//
+//            do {
+//                long currentId = songCursor.getLong(songId);
+//                String currentTitle = songCursor.getString(songTitle);
+//                String currentData = songCursor.getString(songData);
+//                String currentArtist = songCursor.getString(songArtist);
+//
+//                localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData));
+//
+//            } while(songCursor.moveToNext());
+//        }
+//    }
 //
 //
+//    public Map<Song, Integer> searchAlgorithm (String query, ArrayList<Song> localList){
+//        String[] queryList = query.split(" ");
+//        Map<Song, Integer> songMap = new LinkedHashMap<>();
+//        for (int i = 0; i < localList.size(); i++) {
 //
+//            for (String temp : queryList) {
 //
+//                if(containsIgnoreCase(localList.get(i).getTitle(), temp) || containsIgnoreCase(localList.get(i).getArtist(), temp)) {
+//                    Integer count = songMap.get(localList.get(i));
+//                    songMap.put(localList.get(i), (count == null) ? 1 : count + 1);
+//                }
+//            }
+//        }
+//        songMap = MapUtil.sortByValue(songMap);
+//        printMap(songMap);
+//        return songMap;
+//    }
 //
+//    public ArrayList<Song> searchConverter(Map<Song, Integer> songMap){
+//        ArrayList<Song> songListNew = new ArrayList<>();
+//        for(Song key : songMap.keySet()){
+//            songListNew.add(key);
+//        }
+//        return songListNew;
+//    }
+//
+//    public void printMap(Map<Song, Integer> map){
+//        for (Map.Entry<Song, Integer> entry : map.entrySet()) {
+//            Log.d("Elvis_Song_Map","Key : " + entry.getKey().getTitle() + " Value : " + entry.getValue());
+//        }
+//    }
+//
+//    public void printArrayList(ArrayList<Song> songListPrint){
+//        for (Song test : songListPrint)
+//            Log.d("Elvis_Song_List", test.getTitle());
+//    }
+//
+//    public ArrayList<Song> getLocalSongList(){return localSongList;}
 //    public static boolean containsIgnoreCase(final String str, final String searchStr) {
 //        if (str == null || searchStr == null) {
 //            return false;

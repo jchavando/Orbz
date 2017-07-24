@@ -24,6 +24,7 @@ import com.ruppal.orbz.PlaylistActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.DatabaseHelper;
+import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
@@ -149,12 +150,15 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     @Override
     public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
-        if (song.getService() == Song.SPOTIFY) {
+        if (song.getService().equals(Song.SPOTIFY)) {
             if (!song.isPlaying()) {
                 com.ruppal.orbz.models.Player.playSong(song);
             } else {
                 Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
             }
+        }
+        if (song.getService().equals(Song.LOCAL)){
+            Player.prepareExoPlayerFromFileUri(song.getSongUri());
         }
         else if (song.getService().equals(Song.YOUTUBE)){
             initializeYoutubePlayerFragment(song);
