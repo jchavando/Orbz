@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 import com.ruppal.orbz.clients.GooglePlayClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.clients.YouTubeClient;
-import com.ruppal.orbz.fragments.AddPlaylistDialogFragment;
 import com.ruppal.orbz.fragments.LoginLastFMFragment;
 import com.ruppal.orbz.fragments.SearchFragment;
 import com.ruppal.orbz.fragments.SongPagerAdapter;
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         tabLayout.getTabAt(0).setIcon(R.drawable.white_search);
-        tabLayout.getTabAt(1).setIcon(R.drawable.play);
+        tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
 
 

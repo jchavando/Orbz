@@ -109,7 +109,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         //set the adapter
         rvSongs.setAdapter(complexAdapter);
 
-
+        rvSongs.setBackgroundResource(R.drawable.watermark4);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvSongs.addItemDecoration(itemDecoration);
 
