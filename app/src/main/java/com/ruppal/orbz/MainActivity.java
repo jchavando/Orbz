@@ -37,9 +37,15 @@ import com.spotify.sdk.android.player.Spotify;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
     public static final String SPOTIFY_PLAYER = "SPOTIFY_PLAYER";
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
     public static final String GOOGLE_ACCESS_TOKEN = "GOOGLE_ACCESS_TOKEN";
+
+    private FragmentPagerAdapter adapterViewPager;
+    private LoginLastFMFragment lastFMLogin;
+    private SimpleExoPlayerView playerView;
+
     String spotifyClientId;
     Intent intent;
     SpotifyClient spotifyClient;
@@ -51,26 +57,7 @@ public class MainActivity extends AppCompatActivity {
     GooglePlayClient googlePlayClient;
     SearchFragment searchFragment;
     ViewPager vpPager;
-
-    private FragmentPagerAdapter adapterViewPager;
-
-
-    private LoginLastFMFragment lastFMLogin;
-
-
-
-
-
-
-
-    //Elvis
     ArrayList<Song> localSongList;
-
-    private SimpleExoPlayerView playerView;
-    private ComponentListener componentListener;
-
-
-    //Elvis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,19 +83,11 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
 
-
-       /////////////Elvis Kahoro
-        componentListener = new ComponentListener();
-
+        ComponentListener componentListener = new ComponentListener();
         playerView = (SimpleExoPlayerView) findViewById(R.id.exoPlayer_view);
         com.ruppal.orbz.models.Player.setComponentListener(componentListener);
         com.ruppal.orbz.models.Player.initializePlayer(this);
         playerView.setPlayer(com.ruppal.orbz.models.Player.exoPlayer);
-        com.ruppal.orbz.models.Player.setConfig();
-
-
-
-
 
         localSongList = new ArrayList<Song>();
         if(isExternalStorageWritable() && isExternalStorageReadable()){
@@ -117,24 +96,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
         }
 
-
-
-
-
-
-
-
-        //////////////////////////Elvis Kahoro
-
-
-
         tabLayout.getTabAt(0).setIcon(R.drawable.white_search);
         tabLayout.getTabAt(1).setIcon(R.drawable.play);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
 
-
     }
-
 
 //    public void checkData(){
 //        List<PlaylistTable> playlistTableList = SQLite.select().
@@ -173,38 +139,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
-
-
-
     public void getSpotifyPlayer(String accessToken){
         Config playerConfig = new Config(this, accessToken, spotifyClientId);
         Player mPlayer = Spotify.getPlayer(playerConfig, this, null);
         com.ruppal.orbz.models.Player.setSpotifyPlayer(mPlayer);
     }
 
-
-
-
-
-
-
-
-
-
-
-    //////////From Player Activity
     public ArrayList<Song> getLocalSongs(){
         return localSongList;
     }
-
-
-
-
-
-
-
-
 
     public void localSongSearch(){
         ContentResolver contentResolver = getContentResolver();
@@ -236,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @SuppressLint("InlinedApi")
     private void hideSystemUi() {
         playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
@@ -246,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
-
 
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
@@ -259,4 +200,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-

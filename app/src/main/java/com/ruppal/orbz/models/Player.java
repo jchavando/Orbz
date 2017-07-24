@@ -36,6 +36,11 @@ import com.spotify.sdk.android.player.PlaybackState;
 
 public class Player {
 
+    public static Song currentlyPlayingSong;
+    public static com.spotify.sdk.android.player.Player spotifyPlayer;
+    public static YouTubePlayer youTubePlayer;
+    public static com.spotify.sdk.android.player.Player.OperationCallback spotifyCallback;
+
     public static SimpleExoPlayer exoPlayer;
     public static ComponentListener componentListener;
 
@@ -46,7 +51,47 @@ public class Player {
     public static int currentWindow;
     public static boolean playWhenReady = true;
 
-    public static void setComponentListener(ComponentListener componentListener){Player.componentListener = componentListener;}
+    public static void playSong(Song song){
+        switch (song.getService()){
+            case Song.SPOTIFY:
+                if (spotifyPlayer != null) {
+                    playSongFromSpotify(song);
+                }
+                else{
+                    Log.e("player", "spotify player not initialized");
+                }
+                break;
+
+            case Song.YOUTUBE:
+                if (youTubePlayer!=null) {
+                    playSongFromYoutube(song);
+                }
+                else{
+                    Log.e("player", "youtube player not initialized");
+                }
+                break;
+            case Song.LOCAL:
+                if (exoPlayer != null) {
+                    prepareExoPlayerFromFileUri(song.getSongUri());
+                } else { Log.e("player", "local player not initialized");}
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void pauseSong(Song song, Context context, View view){
+        switch (song.getService()){
+            case Song.SPOTIFY:
+                pauseSongFromSpotify(song, context, view);
+                break;
+            case Song.LOCAL:
+                releasePlayer();
+                break;
+            default:
+                break;
+        }
+    }
 
     public static void initializePlayer(Context context) {
         if (exoPlayer == null) {
@@ -59,12 +104,9 @@ public class Player {
             exoPlayer.addListener(componentListener);
             exoPlayer.setVideoDebugListener(componentListener);
             exoPlayer.setAudioDebugListener(componentListener);
+            exoPlayer.setPlayWhenReady(playWhenReady);
+            exoPlayer.seekTo(currentWindow, playbackPosition);
         }
-    }
-
-    public static void setConfig(){
-        exoPlayer.setPlayWhenReady(playWhenReady);
-        exoPlayer.seekTo(currentWindow, playbackPosition);
     }
 
     public static void prepareExoPlayerFromFileUri(Uri uri){
@@ -110,103 +152,6 @@ public class Player {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public static Song currentlyPlayingSong;
-    public static com.spotify.sdk.android.player.Player spotifyPlayer;
-    public static YouTubePlayer youTubePlayer;
-    public static com.spotify.sdk.android.player.Player.OperationCallback spotifyCallback;
-
-    public static Song getCurrentlyPlayingSong() {
-        return currentlyPlayingSong;
-    }
-
-    public static void setCurrentlyPlayingSong(Song currentlyPlayingSong) {
-        Player.currentlyPlayingSong = currentlyPlayingSong;
-    }
-
-    public static com.spotify.sdk.android.player.Player getSpotifyPlayer() {
-        return spotifyPlayer;
-    }
-
-    public static void setSpotifyPlayer(com.spotify.sdk.android.player.Player spotifyPlayer) {
-        Player.spotifyPlayer = spotifyPlayer;
-    }
-
-    public static YouTubePlayer getYouTubePlayer() {
-        return youTubePlayer;
-    }
-
-    public static void setYouTubePlayer(YouTubePlayer youTubePlayer) {
-        Player.youTubePlayer = youTubePlayer;
-    }
-
-    public static void playSong(Song song){
-        switch (song.getService()){
-            case Song.SPOTIFY:
-                if (spotifyPlayer != null) {
-                    playSongFromSpotify(song);
-                }
-                else{
-                    Log.e("player", "spotify player not initialized");
-                }
-                break;
-
-            case Song.YOUTUBE:
-                if (youTubePlayer!=null) {
-                    playSongFromYoutube(song);
-                }
-                else{
-                    Log.e("player", "youtube player not initialized");
-                }
-                break;
-            case Song.LOCAL:
-               // TODO -- code for local
-                break;
-            default:
-                break;
-        }
-    }
-
-    private static void playSongFromSpotify(Song song){
-        spotifyPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
-        song.playing = true;
-        currentlyPlayingSong = song;
-    }
-
     private static void playSongFromYoutube(Song song){
         if (youTubePlayer != null){
             youTubePlayer.loadVideo(song.getUid());
@@ -219,15 +164,10 @@ public class Player {
         }
     }
 
-    public static void pauseSong(Song song, Context context, View view){
-        switch (song.getService()){
-            case Song.SPOTIFY:
-                pauseSongFromSpotify(song, context, view);
-                break;
-            default:
-                break;
-        }
-
+    private static void playSongFromSpotify(Song song){
+        spotifyPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
+        song.playing = true;
+        currentlyPlayingSong = song;
     }
 
     private static void pauseSongFromSpotify(final Song song, Context context, View view){
@@ -253,5 +193,25 @@ public class Player {
             spotifyPlayer.resume(mOperationCallback);
         }
     }
+
+    public static Song getCurrentlyPlayingSong() {
+        return currentlyPlayingSong;
+    }
+
+    public static void setCurrentlyPlayingSong(Song currentlyPlayingSong) { Player.currentlyPlayingSong = currentlyPlayingSong;}
+
+    public static com.spotify.sdk.android.player.Player getSpotifyPlayer() {
+        return spotifyPlayer;
+    }
+
+    public static void setSpotifyPlayer(com.spotify.sdk.android.player.Player spotifyPlayer) {Player.spotifyPlayer = spotifyPlayer;}
+
+    public static YouTubePlayer getYouTubePlayer() {
+        return youTubePlayer;
+    }
+
+    public static void setYouTubePlayer(YouTubePlayer youTubePlayer) {Player.youTubePlayer = youTubePlayer;}
+
+    public static void setComponentListener(ComponentListener componentListener){Player.componentListener = componentListener;}
 
 }

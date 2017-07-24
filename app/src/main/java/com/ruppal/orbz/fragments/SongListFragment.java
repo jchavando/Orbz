@@ -145,8 +145,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
     }
 
-
-
     @Override
     public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
@@ -158,14 +156,12 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             }
         }
         if (song.getService().equals(Song.LOCAL)){
-            Player.prepareExoPlayerFromFileUri(song.getSongUri());
+            Player.playSong(song);
         }
         else if (song.getService().equals(Song.YOUTUBE)){
             initializeYoutubePlayerFragment(song);
         }
     }
-
-    
 
     @Override
     public void onPauseButtonClicked(View view, int position) {
