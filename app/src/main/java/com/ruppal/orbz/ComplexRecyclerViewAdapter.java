@@ -38,6 +38,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         public void onItemSelected (View view, int position);
         public void onPauseButtonClicked(View view, int position);
         public void onItemLongSelected (View view, int position);
+        public void onAddPlaylistSongClicked(View view, int position);
     }
 
     public interface PlaylistAdapterListener{

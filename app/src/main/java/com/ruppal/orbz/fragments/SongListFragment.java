@@ -159,6 +159,31 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
     @Override
     public void onItemLongSelected(View view, int position) {
+        //add to queue
+        Object song = songs.get(position);
+        //queue.add(song);
+        Toast.makeText(getContext(), "added to queue", Toast.LENGTH_SHORT).show();
+
+
+//        Object song = songs.get(position);
+//        if (song instanceof Song){
+//            //add song to playlist
+//            //DatabaseHelper.addSongToTestPlaylist((Song) song);
+////            //update playlist view
+////            DatabaseHelper.updateTestPlaylist();
+//
+//            //launch select playlist fragment
+//            FragmentManager fm = getActivity().getSupportFragmentManager();
+//            SelectPlaylistDialogFragment selectPlaylistDialogFragment = SelectPlaylistDialogFragment.newInstance("Select a Playlist", (Song) song, addSongToPlaylistAdapterListener);
+//            selectPlaylistDialogFragment.show(fm, "lastfm_login");
+//        }
+//        else{
+//            Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
+//        }
+    }
+
+    @Override
+    public void onAddPlaylistSongClicked(View view, int position) {
         Object song = songs.get(position);
         if (song instanceof Song){
             //add song to playlist
@@ -175,6 +200,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     public void onPauseButtonClicked(View view, int position) {

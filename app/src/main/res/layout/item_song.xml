@@ -62,4 +62,13 @@
         android:layout_toRightOf="@+id/tvArtistName"
         android:text="TextView" />
 
+    <ImageButton
+        android:id="@+id/ibAddToPlaylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/ivPause"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        android:background="@android:color/transparent"
+        android:layout_alignBottom="@+id/ivPause"/>
+
 </RelativeLayout>
