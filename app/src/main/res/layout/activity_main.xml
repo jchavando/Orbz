@@ -115,12 +115,14 @@
                 <ImageButton
                     android:id="@+id/exoPlayer_next"
                     style="@style/ExoMediaButton.Next"
-                    android:layout_width="60dp" />
+                    android:layout_width="60dp"
+                    android:onClick="nextInQueue"/>
 
                 <ImageButton
-                android:id="@+id/exoPlayer_previous"
-                style="@style/ExoMediaButton.Previous"
-                android:layout_width="60dp" />
+                    android:id="@+id/exoPlayer_previous"
+                    style="@style/ExoMediaButton.Previous"
+                    android:layout_width="60dp"
+                    android:onClick="previousInQueue"/>
 
             </LinearLayout>
 

@@ -1,16 +1,11 @@
 package com.ruppal.orbz.models;
 
-import android.util.Log;
-
-import com.spotify.sdk.android.player.Error;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -32,6 +27,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.ruppal.orbz.R;
+import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.PlaybackState;
 import com.spotify.sdk.android.player.PlayerEvent;
 
@@ -59,7 +55,8 @@ public class Player {
     //public static final PlayerNotificationCallback.EventType TRACK_END;
     public static PlayerEvent kSpPlaybackNotifyMetadataChanged;
 
-
+    public static ArrayList<Song> queueRemoved = new ArrayList<>(); //act like a stack
+    public static int positionInQueue=0;
     public static SimpleExoPlayer exoPlayer;
     public static ComponentListener componentListener;
 
@@ -104,7 +101,8 @@ public class Player {
 
             @Override
             public void onStopped() {
-                Toast.makeText(getActivity().getApplicationContext(), "There was an error playing your video", Toast.LENGTH_SHORT).show();
+
+                //Toast.makeText(getActivity().getApplicationContext(), "There was an error playing your video", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -118,6 +116,69 @@ public class Player {
             }
         });
 
+        youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+            @Override
+            public void onLoading() {
+
+            }
+
+            @Override
+            public void onLoaded(String s) {
+
+            }
+
+            @Override
+            public void onAdStarted() {
+
+            }
+
+            @Override
+            public void onVideoStarted() {
+
+            }
+
+            @Override
+            public void onVideoEnded() {
+                skipToNextInQueue();
+
+            }
+
+            @Override
+            public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+            }
+        });
+
+    }
+
+
+    public static void playNextSongInQueue() {
+        if (queue.size()>0){
+
+            playSong(queue.get(positionInQueue));
+            if (positionInQueue != queue.size()-1) {
+                positionInQueue+=1;
+            }
+            //queueRemoved.add(0, queue.get(0));
+            //queue.remove(0);
+        }
+    }
+
+    public static void skipToNextInQueue(){
+
+        playNextSongInQueue();
+
+    }
+
+    //TODO on click
+    public static void skipToPreviousInQueue(){
+        if (queue.size() > 0) {
+            //positionInQueueRemoved = positionInQueueRemoved +1;
+            if (positionInQueue > 0) {
+                positionInQueue -= 1;
+                playSong(queue.get(positionInQueue));
+            }
+        }
     }
 
     public static void stopAllSongs(){

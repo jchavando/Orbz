@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +26,6 @@ import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.PlaylistActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
-import com.ruppal.orbz.database.DatabaseHelper;
-import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.database.PlaylistTable;
 import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Playlist;
@@ -165,21 +162,21 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
     }
 
-
-    public void playNextSongInQueue() {
-        while (Player.queue.size() >= 1) { //got through queue
-            Log.d("song list fragment", String.valueOf(Player.queue.size()));
-            for (int i = 0; i < Player.queue.size(); i++) {
-
-               // if ( ) { //no song currently playing
-                    playSong(Player.queue.get(i));
-                    Log.d("what is playing in queue", String.valueOf(Player.queue.get(i)));
-                    Toast.makeText(getContext(), "playing song in queue", Toast.LENGTH_SHORT).show();
-                    Player.queue.remove(i);
-               // }
-            }
-        }
-    }
+//
+//    public void playNextSongInQueue() {
+//        while (Player.queue.size() >= 1) { //got through queue
+//            Log.d("song list fragment", String.valueOf(Player.queue.size()));
+//            for (int i = 0; i < Player.queue.size(); i++) {
+//
+//               // if ( ) { //no song currently playing
+//                    playSong(Player.queue.get(i));
+//                    Log.d("what is playing in queue", String.valueOf(Player.queue.get(i)));
+//                    Toast.makeText(getContext(), "playing song in queue", Toast.LENGTH_SHORT).show();
+//                    Player.queue.remove(i);
+//               // }
+//            }
+//        }
+//    }
 
 
     @Override
@@ -195,8 +192,8 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
                         .load(song.getAlbumCoverUrl())
                         .into(ivAlbumCoverPlayer);
                 com.ruppal.orbz.models.Player.playSong(song);
-                playNextSongInQueue(); //TODO to test
-                //playSong(song);//TODO play song
+                //playNextSongInQueue(); //TODO to test
+                playSong(song);//TODO play song
 
 
             } else {

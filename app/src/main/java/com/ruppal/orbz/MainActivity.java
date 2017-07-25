@@ -257,4 +257,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
     }
+
+    public void nextInQueue(View v){
+        com.ruppal.orbz.models.Player.skipToNextInQueue();
+    }
+    public void previousInQueue(View v){
+        com.ruppal.orbz.models.Player.skipToPreviousInQueue();
+    }
 }
