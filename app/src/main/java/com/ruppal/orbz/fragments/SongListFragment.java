@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,20 +157,16 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
 
     public void playNextSongInQueue() {
-//        if(queue.size>=1{
-//            for ( Song song: queue) {
-//                if (a song is not playing){
-//                    playSong(song);
-//                    while (song is playing){
-//
-//                    }
-//                }
-        if (Player.queue.size()>=1) {
-            for(Song song:Player.queue){
-                if (Player.kSpPlaybackNotifyMetadataChanged != null ) {
-                    playSong(song);
+        while (Player.queue.size() >= 1) { //got through queue
+            Log.d("song list fragment", String.valueOf(Player.queue.size()));
+            for (int i = 0; i < Player.queue.size(); i++) {
+
+               // if ( ) { //no song currently playing
+                    playSong(Player.queue.get(i));
+                    Log.d("what is playing in queue", String.valueOf(Player.queue.get(i)));
                     Toast.makeText(getContext(), "playing song in queue", Toast.LENGTH_SHORT).show();
-                }
+                    queue.remove(i);
+               // }
             }
         }
     }
@@ -179,7 +176,10 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         Song song = (Song) songs.get(position);
         if (song.getService() == Song.SPOTIFY) {
             if (!song.isPlaying()) {
-                playSong(song);//TODO play song
+                playNextSongInQueue(); //TODO to test
+                //playSong(song);//TODO play song
+
+
             } else {
                 Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
             }

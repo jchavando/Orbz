@@ -11,8 +11,8 @@ import com.ruppal.orbz.R;
 import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.PlaybackState;
 import com.spotify.sdk.android.player.PlayerEvent;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 //import java.lang.Enum<PlayerNotificationCallback.EventType>;
 
 /**
@@ -26,14 +26,13 @@ public class Player {
     public static YouTubePlayer youTubePlayer;
     public static com.spotify.sdk.android.player.Player.OperationCallback spotifyCallback;
     public static ArrayList<Song> queue = new ArrayList<>();
-
    //public static final PlayerNotificationCallback.EventType TRACK_END;
     public static PlayerEvent kSpPlaybackNotifyMetadataChanged;
     public static Song getCurrentlyPlayingSong() {
         return currentlyPlayingSong;
     }
-
     public static void setCurrentlyPlayingSong(Song currentlyPlayingSong) {
+
         Player.currentlyPlayingSong = currentlyPlayingSong;
     }
 
