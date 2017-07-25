@@ -39,11 +39,11 @@
             android:layout_width="200dp"
             android:layout_height="110dp">
 
-            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-                android:id="@+id/exoPlayer_view"
+            <ImageView
+                android:id="@+id/ivAlbumCoverPlayer"
+                android:src="@color/colorAccent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"/>
+                android:layout_height="match_parent" />
 
             <FrameLayout
                 android:id="@+id/youtube_fragment"
@@ -51,6 +51,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="invisible" />
+
+
+            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                android:id="@+id/exoPlayer_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
+
 
         </FrameLayout>
 
@@ -68,10 +76,12 @@
             <ImageButton
                 android:id="@+id/exoPlayer_play"
                 style="@style/ExoMediaButton.Play"
+                android:onClick="unPauseCurrentSong"
                 android:layout_width="60dp" />
 
             <ImageButton
                 android:id="@+id/exoPlayer_pause"
+                android:onClick="pauseCurrentSong"
                 style="@style/ExoMediaButton.Pause"
                 android:layout_width="60dp" />
 

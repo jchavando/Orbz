@@ -39,12 +39,13 @@
         android:layout_toRightOf="@+id/ivAlbumCover"
         android:text="TextView" />
 
+    <!-- todo remove this pause button -->
     <ImageView
         android:id="@+id/ivPause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         app:srcCompat="@drawable/exo_controls_pause" />

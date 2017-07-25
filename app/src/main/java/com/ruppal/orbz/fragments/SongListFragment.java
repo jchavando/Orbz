@@ -1,5 +1,6 @@
 package com.ruppal.orbz.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,8 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
@@ -77,6 +80,8 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     YouTubePlayerSupportFragment youTubePlayerFragment;
     String SONG_TO_PLAY = "SONG_TO_PLAY";
     FrameLayout frameLayout;
+    ImageView ivAlbumCoverPlayer;
+    FrameLayout youtube_fragment;
     public static ArrayList<PlaylistTable> localPlaylistTables;
     static ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener addSongToPlaylistAdapterListener;
     FragmentTransaction fragmentTransaction;
@@ -95,9 +100,11 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         spotifyClient = new SpotifyClient();
         //inflate the layout
+        Activity activity = getActivity();
         View v = inflater.inflate(R.layout.fragments_songs_list, container, false);
-        frameLayout = (FrameLayout) getActivity().findViewById(R.id.youtube_fragment);
-
+        frameLayout = (FrameLayout) activity.findViewById(R.id.youtube_fragment);
+        ivAlbumCoverPlayer = (ImageView) activity.findViewById(R.id.ivAlbumCoverPlayer);
+        youtube_fragment = (FrameLayout) activity.findViewById(R.id.youtube_fragment);
         //find RecyclerView
         rvSongs = (RecyclerView) v.findViewById(R.id.rvSong);
         //init the arraylist (data source)
@@ -140,19 +147,25 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
     }
 
-
-
     @Override
     public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
         if (song.getService() == Song.SPOTIFY) {
             if (!song.isPlaying()) {
+//                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.FILL_PARENT);
+//                params.gravity = Gravity.TOP;
+//                ivAlbumCoverPlayer.setLayoutParams(params);
+                ivAlbumCoverPlayer.bringToFront();
+                Glide.with(getContext())
+                        .load(song.getAlbumCoverUrl())
+                        .into(ivAlbumCoverPlayer);
                 com.ruppal.orbz.models.Player.playSong(song);
             } else {
                 Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
             }
         }
         else if (song.getService().equals(Song.YOUTUBE)){
+            youtube_fragment.bringToFront();
             initializeYoutubePlayerFragment(song);
         }
     }
@@ -179,38 +192,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     @Override
     public void onPauseButtonClicked(View view, int position) {
         Song song = (Song) songs.get(position);
-        com.ruppal.orbz.models.Player.pauseSong(song, getContext(), view);
-
-//        final Song song = (Song) songs.get(position);
-//        Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
-//            @Override
-//            public void onSuccess() {
-//                String nowPaused= "paused " + song.getTitle();
-//                //Toast.makeText(getContext(), nowPaused, Toast.LENGTH_LONG).show();
-//                song.playing = false;
-//            }
-//
-//            @Override
-//            public void onError(Error error) {
-//                Log.e("playlist activity pause", error.toString());
-//
-//            }
-//
-//
-//        };
-
-//        PlaybackState mCurrentPlaybackState = mPlayer.getPlaybackState();
-//        if (mCurrentPlaybackState != null && mCurrentPlaybackState.isPlaying) {
-//            mPlayer.pause(mOperationCallback);
-//        } else {
-//            Drawable playButton = getContext().getResources().getDrawable(R.drawable.exo_controls_play);
-//            ((ImageView) view).setImageDrawable(playButton);
-//            mPlayer.resume(mOperationCallback);
-//        }
-
-
-
-
+        com.ruppal.orbz.models.Player.pauseSong(song);
     }
 
 
