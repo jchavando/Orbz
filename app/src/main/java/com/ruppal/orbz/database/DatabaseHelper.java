@@ -110,9 +110,13 @@ public class DatabaseHelper {
             PlaylistTable playlistTable = playlistTableList.get(i);
             //search songs in this playlist table
             //todo fix this so that each song goes in the right playlist
+            List<SongTable> unfiltered = SQLite.select().
+                    from(SongTable.class).
+//                    where(SongTable_Table.playlistTable_playlistId.is(playlistTable.getPlaylistId())).
+                    queryList();
             List<SongTable> songTableList = SQLite.select().
                     from(SongTable.class).
-//                    where(PlaylistTable_Table.playlistId.is(playlistTable.getPlaylistId())).
+                    where(SongTable_Table.playlistTable_playlistId.is(playlistTable.getPlaylistId())).
                     queryList();
             ArrayList<Song> songsInPlaylist = new ArrayList<>();
             for (int j=0; j< songTableList.size(); j++){
@@ -166,6 +170,7 @@ public class DatabaseHelper {
     public static SongTable makeNewSongTable(Song song, PlaylistTable playlistTable){
         //check that song is not already in the playlist
        SongTable songTable = songTablefromSong(song);
+        songTable.setPlaylistTable(playlistTable);
         songTable.save();
         return songTable;
     }
