@@ -18,15 +18,12 @@ public class Player {
     public static Song currentlyPlayingSong;
     public static com.spotify.sdk.android.player.Player spotifyPlayer;
     public static YouTubePlayer youTubePlayer;
-    public static com.spotify.sdk.android.player.Player.OperationCallback spotifyCallback;
+    public static com.spotify.sdk.android.player.Player.OperationCallback mOperationCallback;
     public static Activity activity; //todo dont forget to chnage this for playlist activity
     public static ImageButton playButton;
     public static ImageButton pauseButton;
-    public static int a = 1;
-    public static int r = 48;
-    public static int g = r;
-    public static int b = r;
-    public static int w = 255;
+    public static int grey = R.color.disable_button;
+    public static int white = Color.WHITE;
 
     public static Activity getActivity() {
         return activity;
@@ -84,8 +81,8 @@ public class Player {
     }
 
     public static void playSong(Song song){
-        playButton.setColorFilter(Color.argb(r, g, b, a)); // Grey Tint
-        pauseButton.setColorFilter(Color.argb(w,w,w,w)); // White Tint
+        playButton.setColorFilter(grey); // Grey Tint
+        pauseButton.setColorFilter(white); // White Tint
         stopAllSongs();
         switch (song.getService()){
             case Song.SPOTIFY:
@@ -134,8 +131,9 @@ public class Player {
 
     public static void pauseSong(Song song){
         if (pauseButton!= null && playButton!=null) {
-            pauseButton.setColorFilter(Color.argb(r, r, g,b)); // Grey Tint
-            playButton.setColorFilter(Color.argb(w,w,w,w)); // White Tint
+            //todo fix colors
+            pauseButton.setColorFilter(grey);
+            playButton.setColorFilter(white); // White Tint
         }
         switch (song.getService()){
             case Song.SPOTIFY:
@@ -150,11 +148,11 @@ public class Player {
     }
 
     public static void unPauseSong(Song song){
-        playButton.setColorFilter(Color.argb(r, g, b, a)); // Grey Tint
-        pauseButton.setColorFilter(Color.argb(w,w,w,w)); // White Tint
+        playButton.setColorFilter(grey); // Grey Tint
+        pauseButton.setColorFilter(white); // White Tint
         switch (song.getService()){
             case Song.SPOTIFY:
-                pauseSongFromSpotify(song);
+                unPauseSongFromSpotify(song);
                 break;
             case Song.YOUTUBE:
                 unPauseSongFromYoutube(song);
@@ -183,8 +181,18 @@ public class Player {
         }
     }
 
+
+    private static void unPauseSongFromSpotify(Song song){
+        if (mOperationCallback!=null && spotifyPlayer!=null){
+            PlaybackState mCurrentPlaybackState = spotifyPlayer.getPlaybackState();
+            if (mCurrentPlaybackState!=null && !mCurrentPlaybackState.isPlaying){
+                spotifyPlayer.resume(mOperationCallback);
+            }
+        }
+    }
+
     private static void pauseSongFromSpotify(final Song song){
-        com.spotify.sdk.android.player.Player.OperationCallback mOperationCallback = new com.spotify.sdk.android.player.Player.OperationCallback() {
+        mOperationCallback = new com.spotify.sdk.android.player.Player.OperationCallback() {
             @Override
             public void onSuccess() {
                 song.playing = false;
@@ -200,10 +208,6 @@ public class Player {
 //            Drawable playButton = context.getResources().getDrawable(R.drawable.exo_controls_play);
 //            ((ImageView) view).setImageDrawable(playButton);
             spotifyPlayer.pause(mOperationCallback);
-        } else {
-//            Drawable pauseButton = context.getResources().getDrawable(R.drawable.exo_controls_pause);
-//            ((ImageView) view).setImageDrawable(pauseButton);
-            spotifyPlayer.resume(mOperationCallback);
         }
     }
 

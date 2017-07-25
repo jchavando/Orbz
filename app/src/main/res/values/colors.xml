@@ -5,4 +5,6 @@
     <color name="colorPrimaryDark">#19191a</color>
     <color name="colorAccent">#ff4081</color>
     <color name ="colorAlmostTransparent">#80FFFFFF</color>
+    <color name="disable_button">#3f3f3f</color>
+
 </resources>
