@@ -58,6 +58,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     GooglePlayClient googlePlayClient;
     SearchFragment searchFragment;
     ViewPager vpPager;
+    ImageButton pauseButton;
+    ImageButton playButton;
+    int r;
+    int g;
+    int b;
+    int a;
+
+
+
+
+
+
+    //Elvis
     ArrayList<Song> localSongList;
 
     //Button Handling
@@ -83,6 +96,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         youTubeClient = new YouTubeClient();
         youTubeClient.setAccessToken(googleAccessToken);
         googleResults = new ArrayList<>();
+        pauseButton = (ImageButton) findViewById(R.id.exoPlayer_pause);
+        playButton = (ImageButton) findViewById(R.id.exoPlayer_play);
+        r=48;
+        g=r;
+        b=r;
+        a=r;
+        com.ruppal.orbz.models.Player.setActivity(this);
 
         //get the view pager
         vpPager = (ViewPager) findViewById(R.id.viewpager);
@@ -161,6 +181,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         return super.onCreateOptionsMenu(menu);
     }
+
+
+    public void pauseCurrentSong(View view){
+        com.ruppal.orbz.models.Player.pauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
+    }
+
+    public void unPauseCurrentSong(View view){
+        com.ruppal.orbz.models.Player.unPauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
+    }
+
+
 
     public void getSpotifyPlayer(String accessToken){
         Config playerConfig = new Config(this, accessToken, spotifyClientId);

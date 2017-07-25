@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by ruppal on 7/19/17.
@@ -29,6 +30,7 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 int position = getAdapterPosition();
+                Toast.makeText(context, "clicked a song", Toast.LENGTH_LONG).show();
                 mListener.onItemSelected(v, position);
             }
         });

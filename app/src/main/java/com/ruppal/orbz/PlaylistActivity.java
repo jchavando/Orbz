@@ -95,39 +95,40 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
         spotifyClient.getPlayListTracks(tracksUrl, new JsonHttpResponseHandler() {
         @Override
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-        super.onSuccess(statusCode, headers, response);
-        try {
-            JSONArray items = response.getJSONArray("items");
-            for (int i =0 ; i < items.length(); i++){
-            JSONObject item = items.getJSONObject(i);
-            JSONObject track = item.getJSONObject("track");
-            Song song = Song.fromJSON(Song.SPOTIFY, track);
-            addSong(song);
+            super.onSuccess(statusCode, headers, response);
+            try {
+                JSONArray items = response.getJSONArray("items");
+                for (int i =0 ; i < items.length(); i++){
+                JSONObject item = items.getJSONObject(i);
+                JSONObject track = item.getJSONObject("track");
+                Song song = Song.fromJSON(Song.SPOTIFY, track);
+                addSong(song);
+            }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("playlists", e.toString());
+            }
         }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e("playlists", e.toString());
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            super.onFailure(statusCode, headers, responseString, throwable);
+            Log.e("playlists", responseString);
         }
-     }
 
-    @Override
-    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-        super.onFailure(statusCode, headers, responseString, throwable);
-        Log.e("playlists", responseString);
-    }
+        @Override
+        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            super.onFailure(statusCode, headers, throwable, errorResponse);
+            Log.e("playlists", errorResponse.toString());
+        }
+        @Override
+        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+            super.onFailure(statusCode, headers, throwable, errorResponse);
+            Log.e("playlists", errorResponse.toString());
+        }
 
-    @Override
-    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-        super.onFailure(statusCode, headers, throwable, errorResponse);
-        Log.e("playlists", errorResponse.toString());
+        });
     }
-    @Override
-    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-        super.onFailure(statusCode, headers, throwable, errorResponse);
-        Log.e("playlists", errorResponse.toString());
-    }
-    });
- }
 
     @Override
     public void onItemSelected(View view, int position) {
@@ -139,6 +140,7 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
                 Toast.makeText(this, song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
             }
         }
+        com.ruppal.orbz.models.Player.playSong(song);
     }
 
     public void getSpotifyPlayer(){
@@ -171,14 +173,6 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
 
         };
 
-//        PlaybackState mCurrentPlaybackState = mPlayer.getPlaybackState();
-//        if (mCurrentPlaybackState != null && mCurrentPlaybackState.isPlaying) {
-//            mPlayer.pause(mOperationCallback);
-//        } else {
-//            Drawable playButton = getContext().getResources().getDrawable(R.drawable.exo_controls_play);
-//            ((ImageView) view).setImageDrawable(playButton);
-//            mPlayer.resume(mOperationCallback);
-//        }
     }
 
     @Override

@@ -170,11 +170,8 @@ public class DatabaseHelper {
         return songTable;
     }
 
-
     public void updateTestPlaylist(){
         //search for test playlist
-
-
     }
 
 }
