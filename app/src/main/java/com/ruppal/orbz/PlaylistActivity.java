@@ -70,7 +70,7 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
 
        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
        rvSongs.addItemDecoration(itemDecoration);
- }
+   }
 
     public void addSong (Object song){
         songs.add((Song) song);
@@ -117,7 +117,6 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
     });
  }
 
-
     @Override
     public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
@@ -130,7 +129,6 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
         }
     }
 
-
     public void getSpotifyPlayer(){
         Config playerConfig = new Config(this, SpotifyClient.accessToken, getString(R.string.spotify_client_id));
         mPlayer = Spotify.getPlayer(playerConfig, this, null);
@@ -141,8 +139,6 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
         mPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
         song.playing = true;
     }
-
-
 
     @Override
     public void onPauseButtonClicked(View view, int position) {

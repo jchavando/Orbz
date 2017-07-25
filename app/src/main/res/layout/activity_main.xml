@@ -67,7 +67,8 @@
             <ImageButton
                 android:id="@+id/exoPlayer_play"
                 style="@style/ExoMediaButton.Play"
-                android:layout_width="60dp" />
+                android:layout_width="60dp"
+                />
 
             <ImageButton
                 android:id="@+id/exoPlayer_pause"

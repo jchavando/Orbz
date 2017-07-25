@@ -15,8 +15,6 @@ import java.util.ArrayList;
 
 public class LocalListFragment extends SearchFragment {
 
-
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

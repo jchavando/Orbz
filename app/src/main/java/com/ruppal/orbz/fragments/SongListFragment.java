@@ -40,6 +40,21 @@ import java.util.ArrayList;
 
 public class SongListFragment extends Fragment implements ComplexRecyclerViewAdapter.SongAdapterListener, ComplexRecyclerViewAdapter.PlaylistAdapterListener,  YouTubePlayer.Provider {
 
+
+    private final int REQUEST_CODE = 20;
+    public ComplexRecyclerViewAdapter complexAdapter;
+    public ArrayList<Object> songs;
+    public RecyclerView rvSongs;
+    SpotifyClient spotifyClient;
+    YouTubePlayerSupportFragment youTubePlayerFragment;
+    String SONG_TO_PLAY = "SONG_TO_PLAY";
+    FrameLayout frameLayout;
+
+    FragmentTransaction fragmentTransaction;
+    private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
+
+    public static ArrayList<Song> localSongList;
+
     @Override
     public void initialize(String s, YouTubePlayer.OnInitializedListener onInitializedListener) {
     }
@@ -64,27 +79,9 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
     }
 
-
     public interface SongSelectedListener{
         public void onSongSelected(Song song);
     }
-
-
-    private final int REQUEST_CODE = 20;
-    public ComplexRecyclerViewAdapter complexAdapter;
-    public ArrayList<Object> songs;
-    public RecyclerView rvSongs;
-    SpotifyClient spotifyClient;
-    YouTubePlayerSupportFragment youTubePlayerFragment;
-    String SONG_TO_PLAY = "SONG_TO_PLAY";
-    FrameLayout frameLayout;
-
-    FragmentTransaction fragmentTransaction;
-    private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
-
-
-    public static ArrayList<Song> localSongList;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,7 +89,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         songs = new ArrayList<>();
         complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
         localSongList = ((MainActivity)getActivity()).getLocalSongs();
-
     }
 
     @Nullable
@@ -121,7 +117,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         return v;
     }
 
-    
     public void initializeYoutubePlayerFragment(final Song song){
         youTubePlayerFragment = new YouTubePlayerSupportFragment();
         FragmentManager fragmentManager = getFragmentManager();
@@ -194,12 +189,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 //            ((ImageView) view).setImageDrawable(playButton);
 //            mPlayer.resume(mOperationCallback);
 //        }
-
-
-
-
     }
-
 
     @Override
     public void onItemLongSelected(View view, int position) {
@@ -212,7 +202,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     public void addSong (Object song){
         songs.add(song);

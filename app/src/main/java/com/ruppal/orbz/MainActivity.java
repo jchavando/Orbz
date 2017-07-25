@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
@@ -36,7 +37,7 @@ import com.spotify.sdk.android.player.Spotify;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String SPOTIFY_PLAYER = "SPOTIFY_PLAYER";
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
@@ -58,6 +59,14 @@ public class MainActivity extends AppCompatActivity {
     SearchFragment searchFragment;
     ViewPager vpPager;
     ArrayList<Song> localSongList;
+
+    //Button Handling
+    ImageButton exoPlay;
+    ImageButton exoPause;
+    ImageButton exoForward;
+    ImageButton exoRewind;
+    ImageButton exoNext;
+    ImageButton exoPrev;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +92,13 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
 
+        exoPlay = (ImageButton) findViewById(R.id.exoPlayer_play);
+        exoPause = (ImageButton) findViewById(R.id.exoPlayer_pause);
+        exoForward = (ImageButton) findViewById(R.id.exoPlayer_forward);
+        exoRewind = (ImageButton) findViewById(R.id.exoPlayer_rewind);
+        exoNext = (ImageButton) findViewById(R.id.exoPlayer_next);
+        exoPrev = (ImageButton) findViewById(R.id.exoPlayer_previous);
+
         ComponentListener componentListener = new ComponentListener();
         playerView = (SimpleExoPlayerView) findViewById(R.id.exoPlayer_view);
         com.ruppal.orbz.models.Player.setComponentListener(componentListener);
@@ -101,6 +117,23 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
 
     }
+
+    public void playButton(){}
+    public void pauseButton(){}
+    public void forwardButton(){}
+    public void rewindButton(){}
+    public void previousButton(){}
+    public void nextButton(){}
+
+
+    /*
+    exoPlayer_play
+    exoPlayer_pause
+    exoPlayer_forward
+    exoPlayer_rewind
+    exoPlayer_next
+    exoPlayer_previous
+     */
 
 //    public void checkData(){
 //        List<PlaylistTable> playlistTableList = SQLite.select().
@@ -156,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(songCursor != null && songCursor.moveToFirst())
         {
-            Toast.makeText(this, "starting song cursor", Toast.LENGTH_SHORT).show();
             int songId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID);
             int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
             int songArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
@@ -199,4 +231,9 @@ public class MainActivity extends AppCompatActivity {
         return (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));
     }
 
+
+    @Override
+    public void onClick(View v) {
+
+    }
 }
