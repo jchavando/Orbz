@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubePlayer;
 import com.ruppal.orbz.R;
@@ -55,8 +56,35 @@ public class Player {
         return youTubePlayer;
     }
 
-    public static void setYouTubePlayer(YouTubePlayer youTubePlayer) {
-        Player.youTubePlayer = youTubePlayer;
+    public static void setYouTubePlayer(YouTubePlayer player) {
+        Player.youTubePlayer = player;
+        youTubePlayer.setPlaybackEventListener(new YouTubePlayer.PlaybackEventListener() {
+            @Override
+            public void onPlaying() {
+                setPlayButtonColors();
+            }
+
+            @Override
+            public void onPaused() {
+                setPauseButtonColors();
+            }
+
+            @Override
+            public void onStopped() {
+                Toast.makeText(getActivity().getApplicationContext(), "There was an error playing your video", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onBuffering(boolean b) {
+
+            }
+
+            @Override
+            public void onSeekTo(int i) {
+
+            }
+        });
+
     }
 
     public static void stopAllSongs(){
@@ -81,8 +109,7 @@ public class Player {
     }
 
     public static void playSong(Song song){
-        playButton.setColorFilter(grey); // Grey Tint
-        pauseButton.setColorFilter(white); // White Tint
+        setPlayButtonColors();
         stopAllSongs();
         switch (song.getService()){
             case Song.SPOTIFY:
@@ -131,9 +158,7 @@ public class Player {
 
     public static void pauseSong(Song song){
         if (pauseButton!= null && playButton!=null) {
-            //todo fix colors
-            pauseButton.setColorFilter(grey);
-            playButton.setColorFilter(white); // White Tint
+            setPauseButtonColors();
         }
         switch (song.getService()){
             case Song.SPOTIFY:
@@ -148,8 +173,7 @@ public class Player {
     }
 
     public static void unPauseSong(Song song){
-        playButton.setColorFilter(grey); // Grey Tint
-        pauseButton.setColorFilter(white); // White Tint
+        setPlayButtonColors();
         switch (song.getService()){
             case Song.SPOTIFY:
                 unPauseSongFromSpotify(song);
@@ -211,4 +235,15 @@ public class Player {
         }
     }
 
+
+
+    public static void setPlayButtonColors(){
+        playButton.setColorFilter(grey); // Grey Tint
+        pauseButton.setColorFilter(white); // White Tint
+    }
+
+    public static void setPauseButtonColors(){
+        pauseButton.setColorFilter(grey);
+        playButton.setColorFilter(white); // White Tint
+    }
 }
