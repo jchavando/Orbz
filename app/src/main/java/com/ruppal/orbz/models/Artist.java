@@ -39,10 +39,7 @@ public class Artist {
             default:
                 return null;
         }
-
-
     }
-
 
     private static Artist parseSpotifyJSON(JSONObject object) throws JSONException{
         //REQUIRES: being passed in a spotify artist object
@@ -88,7 +85,6 @@ public class Artist {
     public String getName() {
         return name;
     }
-
 
     public void setUid(String uid) {
         this.uid = uid;

@@ -35,7 +35,6 @@ public class LoginLastFMFragment extends DialogFragment {
         //required empty constructor
     }
 
-
     public static LoginLastFMFragment newInstance(String title) { //what is title, for Twitter used Tweet
         LoginLastFMFragment fragment = new LoginLastFMFragment();
         Bundle args = new Bundle();
@@ -102,7 +101,6 @@ public class LoginLastFMFragment extends DialogFragment {
         return view;
     }
 
-
 //    public interface OnItemSelectedListener {
 //  // This can be any number of events to be sent to the activity
 //        void enteredLoginInfo(String username, String password);
@@ -138,7 +136,6 @@ public class LoginLastFMFragment extends DialogFragment {
     public interface LastFMListener{
         void onFinishDialog(String username, String password);
     }
-
 
 //    @Override
 //    public void onAttach(Context context) {

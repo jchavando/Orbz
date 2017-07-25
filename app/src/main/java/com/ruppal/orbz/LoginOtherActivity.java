@@ -117,27 +117,11 @@ LoginLastFMFragment.LastFMListener{
                 spotifyAccessToken = response.getAccessToken();
                 SpotifyClient spotifyClient = new SpotifyClient();
                 spotifyClient.setAccessToken(spotifyAccessToken);
-//                Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
-
-
                 btLoginSpotify.setBackgroundResource(R.drawable.clicked_border);
                 //googleSignInButton.setBackgroundResource(R.drawable.rounded);
 
                 Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_SHORT).show();
-//                Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
-//                    @Override
-//                    public void onInitialized(SpotifyPlayer spotifyPlayer) {
-//                        mPlayer = spotifyPlayer;
-//                        mPlayer.addConnectionStateCallback(LoginOtherActivity.this);
-//                        mPlayer.addNotificationCallback(LoginOtherActivity.this);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable throwable) {
-//                        Log.e("LoginOtherActivity", "Could not initialize player: " + throwable.getMessage());
-//                    }
-//                });
             }
         } else if (requestCode == RC_SIGN_IN && resultCode == Activity.RESULT_OK) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
@@ -148,10 +132,7 @@ LoginLastFMFragment.LastFMListener{
             } catch (GoogleAuthException e) {
                 e.printStackTrace();
             }
-        } //else {// if(requestCode == ) { //else if?
-
-
-        //}
+        }
     }
 
     public void openLastFMFragment() {
@@ -237,8 +218,6 @@ LoginLastFMFragment.LastFMListener{
 //        i.putExtra(MainActivity.SPOTIFY_PLAYER, Parcels.wrap(mPlayer));
         startActivity(i);
     }
-
-    // switches to the player activity
 
     public void onClickPlayer(View view) {
         //Intent player = new Intent(this, PlayerActivity.class);
@@ -328,7 +307,6 @@ LoginLastFMFragment.LastFMListener{
 
         }
     }
-
 
     @Override
     public void onFinishDialog(String username, String password) {

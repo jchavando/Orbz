@@ -199,7 +199,6 @@ public class Song {
         return duration_ms;
     }
 
-
     public long getSongID(){
         return SongID;
     }

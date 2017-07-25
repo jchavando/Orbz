@@ -21,7 +21,7 @@ public class Playlist {
     String tracksUrl;
     ArrayList<Song> tracks;
     String playlistId;
-
+    String playlistService;
 
     public static Playlist fromJSON(String service, JSONObject object) throws JSONException {
         switch (service) {
@@ -42,7 +42,6 @@ public class Playlist {
         }
     }
 
-
     public void setSongTracks (ArrayList<Song> songs){
         this.tracks = songs;
     }
@@ -57,6 +56,7 @@ public class Playlist {
         playlist.owner = Owner.fromJSON(SPOTIFY, ownerObj);
         playlist.playlistName = object.getString("name");
         playlist.tracksUrl = object.getJSONObject("tracks").getString("href");
+        playlist.playlistService = SPOTIFY;
         return playlist;
     }
 
@@ -81,6 +81,12 @@ public class Playlist {
     public String getImage() {
         return image;
     }
+
+    public String getPlaylistService() {
+        return playlistService;
+    }
+
+    public void setPlaylistService(String playlistService) {this.playlistService = playlistService;}
 
     public String getTracksUrl() {
         return tracksUrl;

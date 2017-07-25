@@ -31,9 +31,5 @@ public class ViewHolderPlaylist extends RecyclerView.ViewHolder{
 
             }
         });
-
     }
-
-
-
 }

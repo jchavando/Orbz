@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         tabLayout.getTabAt(0).setIcon(R.drawable.white_search);
-        tabLayout.getTabAt(1).setIcon(R.drawable.play);
+        tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
 
     }
@@ -124,16 +124,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void rewindButton(){}
     public void previousButton(){}
     public void nextButton(){}
-
-
-    /*
-    exoPlayer_play
-    exoPlayer_pause
-    exoPlayer_forward
-    exoPlayer_rewind
-    exoPlayer_next
-    exoPlayer_previous
-     */
 
 //    public void checkData(){
 //        List<PlaylistTable> playlistTableList = SQLite.select().

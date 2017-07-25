@@ -18,8 +18,6 @@ public class LocalListFragment extends SearchFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        localSongList = new ArrayList<>();
-//        localSongList = ((MainActivity)getActivity()).getLocalSongs();
         clearSongsList();
         printArrayList(localSongList);
         populateLocalList(localSongList);

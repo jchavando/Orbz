@@ -8,9 +8,9 @@ import com.raizlabs.android.dbflow.annotation.Database;
 
 @Database(name = OrbzDatabase.NAME, version = OrbzDatabase.VERSION)
 public class OrbzDatabase {
-    public static final String NAME = "OrbzDataBase";
+    public static final String NAME = "OrbzDatabase";
 
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
 
 
 

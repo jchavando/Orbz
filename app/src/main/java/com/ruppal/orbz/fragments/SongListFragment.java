@@ -25,6 +25,7 @@ import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.DatabaseHelper;
 import com.ruppal.orbz.models.Player;
+import com.ruppal.orbz.database.PlaylistTable;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
@@ -41,19 +42,20 @@ import java.util.ArrayList;
 public class SongListFragment extends Fragment implements ComplexRecyclerViewAdapter.SongAdapterListener, ComplexRecyclerViewAdapter.PlaylistAdapterListener,  YouTubePlayer.Provider {
 
 
+    private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
     private final int REQUEST_CODE = 20;
     public ComplexRecyclerViewAdapter complexAdapter;
     public ArrayList<Object> songs;
     public RecyclerView rvSongs;
+    public static ArrayList<Song> localSongList;
+    public static ArrayList<PlaylistTable> localPlaylistTables;
+    static ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener addSongToPlaylistAdapterListener;
+
     SpotifyClient spotifyClient;
     YouTubePlayerSupportFragment youTubePlayerFragment;
     String SONG_TO_PLAY = "SONG_TO_PLAY";
     FrameLayout frameLayout;
-
     FragmentTransaction fragmentTransaction;
-    private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
-
-    public static ArrayList<Song> localSongList;
 
     @Override
     public void initialize(String s, YouTubePlayer.OnInitializedListener onInitializedListener) {
@@ -74,9 +76,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             intent.putExtra("tracks", Parcels.wrap(playlist));
             getContext().startActivity(intent);
         }
-
-        //startActivity(intent);
-
     }
 
     public interface SongSelectedListener{
@@ -87,8 +86,8 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         songs = new ArrayList<>();
-        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
         localSongList = ((MainActivity)getActivity()).getLocalSongs();
+        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this, null); //this
     }
 
     @Nullable
@@ -110,7 +109,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         //set the adapter
         rvSongs.setAdapter(complexAdapter);
 
-
+        rvSongs.setBackgroundResource(R.drawable.watermark4);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvSongs.addItemDecoration(itemDecoration);
 
@@ -159,53 +158,42 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     }
 
     @Override
-    public void onPauseButtonClicked(View view, int position) {
-        Song song = (Song) songs.get(position);
-        com.ruppal.orbz.models.Player.pauseSong(song, getContext(), view);
-
-//        final Song song = (Song) songs.get(position);
-//        Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
-//            @Override
-//            public void onSuccess() {
-//                String nowPaused= "paused " + song.getTitle();
-//                //Toast.makeText(getContext(), nowPaused, Toast.LENGTH_LONG).show();
-//                song.playing = false;
-//            }
-//
-//            @Override
-//            public void onError(Error error) {
-//                Log.e("playlist activity pause", error.toString());
-//
-//            }
-//
-//
-//        };
-
-//        PlaybackState mCurrentPlaybackState = mPlayer.getPlaybackState();
-//        if (mCurrentPlaybackState != null && mCurrentPlaybackState.isPlaying) {
-//            mPlayer.pause(mOperationCallback);
-//        } else {
-//            Drawable playButton = getContext().getResources().getDrawable(R.drawable.exo_controls_play);
-//            ((ImageView) view).setImageDrawable(playButton);
-//            mPlayer.resume(mOperationCallback);
-//        }
-    }
-
-    @Override
     public void onItemLongSelected(View view, int position) {
         Object song = songs.get(position);
         if (song instanceof Song){
-            DatabaseHelper.addSongToTestPlaylist((Song) song);
-            Toast.makeText(getContext(), ((Song) song).getTitle() + " added to a local playlist", Toast.LENGTH_SHORT).show();
+            //add song to playlist
+            //DatabaseHelper.addSongToTestPlaylist((Song) song);
+//            //update playlist view
+//            DatabaseHelper.updateTestPlaylist();
+
+            //launch select playlist fragment
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            SelectPlaylistDialogFragment selectPlaylistDialogFragment = SelectPlaylistDialogFragment.newInstance("Select a Playlist", (Song) song, addSongToPlaylistAdapterListener);
+            selectPlaylistDialogFragment.show(fm, "lastfm_login");
         }
         else{
             Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
         }
     }
 
+    @Override
+    public void onPauseButtonClicked(View view, int position) {
+        Song song = (Song) songs.get(position);
+        com.ruppal.orbz.models.Player.pauseSong(song, getContext(), view);
+    }
+
+    public void addSongToPosition (Object song, int position){
+        if (position < songs.size() && position >= 0){
+            songs.add(position, song);
+            complexAdapter.notifyItemInserted(position);
+        }
+        else{
+            Toast.makeText(getContext(), "failed to make playlist. check indexing", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void addSong (Object song){
         songs.add(song);
-//        complexAdapter.notify();
         complexAdapter.notifyItemInserted(songs.size()-1);
     }
 

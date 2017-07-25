@@ -24,7 +24,6 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
         this.context = context;
     }
 
-
     @Override
     public int getCount() {
         return 3;

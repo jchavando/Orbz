@@ -29,7 +29,6 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 int position = getAdapterPosition();
-//                    Toast.makeText(context, mSongs.get(position).title, Toast.LENGTH_LONG).show();
                 mListener.onItemSelected(v, position);
             }
         });

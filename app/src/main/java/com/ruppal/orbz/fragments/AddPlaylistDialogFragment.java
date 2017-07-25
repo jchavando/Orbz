@@ -26,18 +26,23 @@ public class AddPlaylistDialogFragment extends DialogFragment {
 
     LastFMClient lastFMClient;
     Context context;
+    AddPlaylistListener playlistListener;
+
+    public interface AddPlaylistListener{
+        void onFinishDialog(String newPlaylist);
+    }
 
     // Define the listener of the interface type
     // listener will the activity instance containing fragment
     private AdapterView.OnItemSelectedListener listener;
 
-    public AddPlaylistDialogFragment(){
+    public AddPlaylistDialogFragment(AddPlaylistListener addPlaylistListener){
         //required empty constructor
+        playlistListener = addPlaylistListener;
     }
 
-
-    public static AddPlaylistDialogFragment newInstance(String title) { //what is title, for Twitter used Tweet
-        AddPlaylistDialogFragment fragment = new AddPlaylistDialogFragment();
+    public static AddPlaylistDialogFragment newInstance(String title,AddPlaylistListener addPlaylistListener ) { //what is title, for Twitter used Tweet
+        AddPlaylistDialogFragment fragment = new AddPlaylistDialogFragment(addPlaylistListener );
         Bundle args = new Bundle();
         args.putString("title", title);
         fragment.setArguments(args);
@@ -57,51 +62,8 @@ public class AddPlaylistDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragments_add_playlist, container); //,false
-//        Button btLogin = (Button) view.findViewById(R.id.btLogin);
-//
-//        btLogin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.i("fragment", "clicked login");
-//                lastFMClient.login(etUsername.getText().toString(), etPassword.getText().toString(), new JsonHttpResponseHandler() {
-//
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                        Log.d("LoginLastFM", "Success");
-//                        //go back to LoginOtherActivity
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                        Log.d("LoginLastFM", "Success");                    }
-//
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//                        Log.d("LoginLastFM", "Success");                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-//                        Log.d("LoginLastFM", "failed" );
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                        Log.d("LoginLastFM", "failed");
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                        Log.d("LoginLastFM", "failed");
-//                    }
-//                });
-//            }
-//
-//        });
         return view;
     }
-
 
 //    public interface OnItemSelectedListener {
 //  // This can be any number of events to be sent to the activity
@@ -126,19 +88,14 @@ public class AddPlaylistDialogFragment extends DialogFragment {
             public void onClick(View v) {
 
                 //communicate back to PlaylistFragment
-                AddPlaylistListener listener = (AddPlaylistListener) getContext();
 
-                listener.onFinishDialog(etNewPlaylist.getText().toString());
+                playlistListener.onFinishDialog(etNewPlaylist.getText().toString());
                 //login
                 //go back
                 dismiss();
             }
         });
     }
-    public interface AddPlaylistListener{
-        void onFinishDialog(String newPlaylist);
-    }
-
 
 //    @Override
 //    public void onAttach(Context context) {

@@ -84,6 +84,10 @@ public class SongTable extends BaseModel {
         this.duration_ms = duration_ms;
     }
 
+    public PlaylistTable getPlaylistTable() {
+        return playlistTable;
+    }
+
     public void setPlaylistTable(PlaylistTable playlistTable) {
         this.playlistTable = playlistTable;
     }
@@ -124,7 +128,4 @@ public class SongTable extends BaseModel {
         return duration_ms;
     }
 
-    public PlaylistTable getPlaylistTable() {
-        return playlistTable;
-    }
 }

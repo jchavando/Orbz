@@ -28,6 +28,9 @@ public class PlaylistTable extends BaseModel {
     @Column
     String image;
 
+    @Column
+    String playlistService;
+
     //dont refrence tracks like in the playlist class beacuse the foregin key handles that
 
 
@@ -45,6 +48,14 @@ public class PlaylistTable extends BaseModel {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getPlaylistService() {
+        return playlistService;
+    }
+
+    public void setPlaylistService(String playlistService) {
+        this.playlistService = playlistService;
     }
 
     public String getPlaylistId() {
