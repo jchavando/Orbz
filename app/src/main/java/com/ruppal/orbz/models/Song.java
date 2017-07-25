@@ -143,17 +143,17 @@ public class Song {
 
     }
 
-        private static Song parseYoutubeJSON(JSONObject object) throws JSONException {
+    private static Song parseYoutubeJSON(JSONObject object) throws JSONException {
         //call the  artist from JSON in a for loop to populate artists array
         Song song = new Song();
 
         JSONObject snippet = object.getJSONObject("snippet");
-            song.title = snippet.getString("title");
+        song.title = snippet.getString("title");
 
-            song.uid = object.getJSONObject("id").getString("videoId");
-            song.service = YOUTUBE;
-            song.albumCoverUrl = snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url");
-            //todo - find a better way to get artist
+        song.uid = object.getJSONObject("id").getString("videoId");
+        song.service = YOUTUBE;
+        song.albumCoverUrl = snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url");
+        //todo - find a better way to get artist
 
         song.artists = new ArrayList<>();
         song.artists.add(Artist.fromJSON(YOUTUBE, object));
