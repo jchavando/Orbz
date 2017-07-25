@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.DatabaseHelper;
 import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.database.PlaylistTable;
+import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
@@ -38,11 +40,14 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import static com.ruppal.orbz.models.Player.playSong;
+
 /**
  * Created by jchavando on 7/13/17.
  */
 
 public class SongListFragment extends Fragment implements ComplexRecyclerViewAdapter.SongAdapterListener, ComplexRecyclerViewAdapter.PlaylistAdapterListener,  YouTubePlayer.Provider {
+
 
 
     private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
@@ -62,6 +67,18 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     ImageView ivAlbumCoverPlayer;
     FrameLayout youtube_fragment;
 
+
+
+    /*
+    if(queue.size>=1{
+        for ( Song song: queue) {
+            if (a song is not playing){
+                playSong(song);
+                while (song is playing){
+                 ®
+                }
+            }
+     */
 
     @Override
     public void initialize(String s, YouTubePlayer.OnInitializedListener onInitializedListener) {
@@ -137,7 +154,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 com.ruppal.orbz.models.Player.setYouTubePlayer(youTubePlayer);
-                com.ruppal.orbz.models.Player.playSong(song);
+                playSong(song);
             }
 
             @Override
@@ -147,6 +164,23 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         });
 
     }
+
+
+    public void playNextSongInQueue() {
+        while (Player.queue.size() >= 1) { //got through queue
+            Log.d("song list fragment", String.valueOf(Player.queue.size()));
+            for (int i = 0; i < Player.queue.size(); i++) {
+
+               // if ( ) { //no song currently playing
+                    playSong(Player.queue.get(i));
+                    Log.d("what is playing in queue", String.valueOf(Player.queue.get(i)));
+                    Toast.makeText(getContext(), "playing song in queue", Toast.LENGTH_SHORT).show();
+                    Player.queue.remove(i);
+               // }
+            }
+        }
+    }
+
 
     @Override
     public void onItemSelected(View view, int position) {
@@ -161,6 +195,10 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
                         .load(song.getAlbumCoverUrl())
                         .into(ivAlbumCoverPlayer);
                 com.ruppal.orbz.models.Player.playSong(song);
+                playNextSongInQueue(); //TODO to test
+                //playSong(song);//TODO play song
+
+
             } else {
                 Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
             }
@@ -169,13 +207,23 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             Player.playSong(song);
         }
         else if (song.getService().equals(Song.YOUTUBE)){
+
             youtube_fragment.bringToFront();
-            initializeYoutubePlayerFragment(song);
+
+            initializeYoutubePlayerFragment(song); ////TODO play song
         }
     }
 
     @Override
     public void onItemLongSelected(View view, int position) {
+        //add to queue
+        Song song = (Song) songs.get(position);
+        Player.queue.add(song);
+        Toast.makeText(getContext(), "added to queue", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAddPlaylistSongClicked(View view, int position) {
         Object song = songs.get(position);
         if (song instanceof Song){
             //add song to playlist
@@ -192,6 +240,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     public void onPauseButtonClicked(View view, int position) {

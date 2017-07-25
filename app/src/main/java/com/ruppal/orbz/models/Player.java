@@ -33,6 +33,10 @@ import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.ruppal.orbz.R;
 import com.spotify.sdk.android.player.PlaybackState;
+import com.spotify.sdk.android.player.PlayerEvent;
+
+import java.util.ArrayList;
+//import java.lang.Enum<PlayerNotificationCallback.EventType>;
 
 /**
  * Created by ruppal on 7/19/17.
@@ -40,15 +44,31 @@ import com.spotify.sdk.android.player.PlaybackState;
 
 public class Player {
 
-    public static Song currentlyPlayingSong;
-    public static com.spotify.sdk.android.player.Player spotifyPlayer;
-    public static YouTubePlayer youTubePlayer;
     public static com.spotify.sdk.android.player.Player.OperationCallback mOperationCallback;
     public static Activity activity; //todo dont forget to chnage this for playlist activity
     public static ImageButton playButton;
     public static ImageButton pauseButton;
     public static int grey = R.color.disable_button;
     public static int white = Color.WHITE;
+    //Player.EVENT_CHANGE;
+    public static Song currentlyPlayingSong;
+    public static com.spotify.sdk.android.player.Player spotifyPlayer;
+    public static YouTubePlayer youTubePlayer;
+    public static com.spotify.sdk.android.player.Player.OperationCallback spotifyCallback;
+    public static ArrayList<Song> queue = new ArrayList<>();
+    //public static final PlayerNotificationCallback.EventType TRACK_END;
+    public static PlayerEvent kSpPlaybackNotifyMetadataChanged;
+
+
+    public static SimpleExoPlayer exoPlayer;
+    public static ComponentListener componentListener;
+
+    private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
+    private static final String TAG = "PlayerActivity";
+
+    public static long playbackPosition;
+    public static int currentWindow;
+    public static boolean playWhenReady = true;
 
     public static Activity getActivity() {
         return activity;
@@ -60,15 +80,6 @@ public class Player {
         playButton = (ImageButton) activity.findViewById(R.id.exoPlayer_play);
     }
 
-    public static SimpleExoPlayer exoPlayer;
-    public static ComponentListener componentListener;
-
-    private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
-    private static final String TAG = "PlayerActivity";
-
-    public static long playbackPosition;
-    public static int currentWindow;
-    public static boolean playWhenReady = true;
 
     public static void setSpotifyPlayer(com.spotify.sdk.android.player.Player spotifyPlayer) {
         Player.spotifyPlayer = spotifyPlayer;
