@@ -2,7 +2,6 @@ package com.ruppal.orbz.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
@@ -42,7 +41,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
     Playlist playlist;
     String newPlaylist;
     ArrayList<Playlist> playlistsFromDatabase;
-    FloatingActionButton fabAddPlaylist;
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -50,6 +49,8 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         getLocalPlaylists();
         addLocalPlaylistsToSongs();
         populateSpotifyPlaylists();
+       // insertNestedFragment();
+
 
 //        populateAllPlaylists();
     }
@@ -63,6 +64,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         setHasOptionsMenu(true);
         addSongToPlaylistAdapterListener = this;
     }
+
 
     public void addLocalPlaylistsToSongs(){
         for (int i = 0; i<playlistsFromDatabase.size(); i++){
@@ -103,8 +105,13 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
                 // Not implemented here
                 return false;
             case R.id.addPlaylist:
-                showPlaylistFragment();
+                showPlaylistDialogFragment();
                 return true;
+//            case R.id.backToPlaylists:
+//                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
+//
+//                getFragmentManager().popBackStack();
+//                return true;
             default:
                 break;
         }
@@ -153,7 +160,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         });
     }
 
-    public void showPlaylistFragment() {
+    public void showPlaylistDialogFragment() {
         Toast.makeText(getContext(), "clicked fab", Toast.LENGTH_SHORT).show();
         FragmentManager fm = getActivity().getSupportFragmentManager();
 
@@ -186,5 +193,8 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         getLocalPlaylists();
         updateLocalPlaylists();
     }
+
+
+
 }
 

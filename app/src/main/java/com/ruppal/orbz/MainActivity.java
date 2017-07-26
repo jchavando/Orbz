@@ -37,6 +37,7 @@ import com.spotify.sdk.android.player.Spotify;
 
 import java.util.ArrayList;
 
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String SPOTIFY_PLAYER = "SPOTIFY_PLAYER";
@@ -158,6 +159,38 @@ public class MainActivity extends AppCompatActivity {
         Config playerConfig = new Config(this, accessToken, spotifyClientId);
         Player mPlayer = Spotify.getPlayer(playerConfig, this, null);
         com.ruppal.orbz.models.Player.setSpotifyPlayer(mPlayer);
+
+    /*AudioController audioController = new AudioController() {
+
+            @Override
+            public void stop() {
+                String hello = "hi";
+            }
+            public void start() {
+                String hello = "hi";
+            }
+
+
+            public int onAudioDataDelivered(short[] shorts, int i, int i1, int i2) {
+                return 0;
+            }
+
+            public void onAudioFlush() {
+
+            }
+
+            public void onAudioPaused() {
+
+            }
+            public void onAudioResumed() {
+
+            }
+        };
+        SpotifyPlayer.Builder builder = new SpotifyPlayer.Builder(playerConfig);
+        builder.setAudioController(audioController);
+        Player mPlayer = Spotify.getPlayer(builder,this, null);
+        com.ruppal.orbz.models.Player.setSpotifyPlayer(mPlayer);
+        */
     }
 
     public ArrayList<Song> getLocalSongs(){
@@ -227,4 +260,6 @@ public class MainActivity extends AppCompatActivity {
     public void previousInQueue(View v){
         com.ruppal.orbz.models.Player.skipToPreviousInQueue();
     }
+
+
 }

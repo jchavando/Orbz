@@ -3,12 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/addPlaylist"
-        android:icon="@drawable/plus"
-        android:title="Item"
-        app:showAsAction="ifRoom"
-        />
-    <item
         android:id="@+id/backToPlaylists"
         android:icon="@drawable/back_button2"
         android:title="Item"

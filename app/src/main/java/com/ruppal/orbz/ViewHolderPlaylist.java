@@ -26,7 +26,7 @@ public class ViewHolderPlaylist extends RecyclerView.ViewHolder{
             @Override
             public void onClick(View v) {
                 int position = getAdapterPosition();
-                Toast.makeText(context, "clicked song in playlist", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "clicked playlist", Toast.LENGTH_LONG).show();
                 mPlaylistListener.onPlaylistItemSelected(v, position);
 
             }

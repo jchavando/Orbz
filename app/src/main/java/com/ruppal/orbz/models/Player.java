@@ -78,6 +78,9 @@ public class Player {
 
     public static Activity getActivity() {
         return activity;
+
+
+//        PlayerEvent kSpPlaybackNotifyMetadataChanged = PlayerEvent.kSpPlaybackNotifyMetadataChanged;
     }
 
     public static void setActivity(Activity activity) {
@@ -96,6 +99,7 @@ public class Player {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
+
             }
 
             @Override
@@ -105,8 +109,11 @@ public class Player {
         });
     }
 
+
     public static void setSpotifyPlayer(com.spotify.sdk.android.player.Player spotifyPlayer) {
         Player.spotifyPlayer = spotifyPlayer;
+        spotifyPlayer.getMetadata();
+
     }
 
     public static YouTubePlayer getYouTubePlayer() {
@@ -549,4 +556,5 @@ public class Player {
         else {setPauseButtonColors();}
         exoPlayer.setPlayWhenReady(state);
     }
+
 }
