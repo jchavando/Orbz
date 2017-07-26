@@ -218,11 +218,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pauseCurrentSong(View view){
-        com.ruppal.orbz.models.Player.pauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
+        switch (com.ruppal.orbz.models.Player.getCurrentlyPlayingSong().getService()){
+            case Song.SPOTIFY :
+                com.ruppal.orbz.models.Player.pauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
+                break;
+            case Song.LOCAL :
+                com.ruppal.orbz.models.Player.setPlayback(false);
+                break;
+            default:
+                break;
+        }
+
+
     }
 
-    public void unPauseCurrentSong(View view){
-        com.ruppal.orbz.models.Player.unPauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
+    public void unPauseCurrentSong(View view) {
+        switch (com.ruppal.orbz.models.Player.getCurrentlyPlayingSong().getService()) {
+            case Song.SPOTIFY:
+                com.ruppal.orbz.models.Player.unPauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
+            case Song.LOCAL:
+                com.ruppal.orbz.models.Player.setPlayback(true);
+            default:
+                break;
+        }
     }
 
     public void nextInQueue(View v){

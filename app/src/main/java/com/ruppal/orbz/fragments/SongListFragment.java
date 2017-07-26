@@ -45,8 +45,6 @@ import static com.ruppal.orbz.models.Player.playSong;
 
 public class SongListFragment extends Fragment implements ComplexRecyclerViewAdapter.SongAdapterListener, ComplexRecyclerViewAdapter.PlaylistAdapterListener,  YouTubePlayer.Provider {
 
-
-
     private ComplexRecyclerViewAdapter.PlaylistAdapterListener playlistAdapterListener;
     private final int REQUEST_CODE = 20;
     public ComplexRecyclerViewAdapter complexAdapter;
@@ -101,7 +99,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public interface SongSelectedListener{
         public void onSongSelected(Song song);
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -202,6 +199,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         }
         if (song.getService().equals(Song.LOCAL)){
             Player.playSong(song);
+            Player.currentlyPlayingSong = song;
         }
         else if (song.getService().equals(Song.YOUTUBE)){
 
@@ -237,7 +235,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     public void onPauseButtonClicked(View view, int position) {
