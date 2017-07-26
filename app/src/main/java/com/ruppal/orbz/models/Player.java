@@ -10,17 +10,23 @@ import android.widget.SeekBar;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.dash.DashChunkSource;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
@@ -33,11 +39,11 @@ import com.spotify.sdk.android.player.PlaybackState;
 import com.spotify.sdk.android.player.PlayerEvent;
 
 import java.util.ArrayList;
-//import java.lang.Enum<PlayerNotificationCallback.EventType>;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+//import java.lang.Enum<PlayerNotificationCallback.EventType>;
 
 /**
  * Created by ruppal on 7/19/17.
@@ -118,6 +124,8 @@ public class Player {
                 return updateSeekBarSpotify;
             case Song.YOUTUBE:
                 return updateSeekBarYoutube;
+            case Song.LOCAL:
+                return updateSeekBarLocal;
             default:
                 return null;
         }
@@ -128,6 +136,16 @@ public class Player {
         public void run() {
             if (spotifyPlayer!=null){
                 int currentTime = (int) spotifyPlayer.getPlaybackState().positionMs;
+                sbSongProgress.setProgress(currentTime);
+            }
+        }
+    };
+
+    public static Runnable updateSeekBarLocal = new Runnable() {
+        @Override
+        public void run() {
+            if (exoPlayer != null){
+                int currentTime = (int) exoPlayer.getCurrentPosition();
                 sbSongProgress.setProgress(currentTime);
             }
         }
@@ -274,6 +292,8 @@ public class Player {
                     youTubePlayer.seekToMillis(position);
                 }
                 break;
+            case Song.LOCAL:
+                exoPlayer.seekTo(position);
             default:
                 break;
         }
@@ -284,12 +304,11 @@ public class Player {
         currentlyPlayingSong = song;
         setPlayButtonColors();
         stopAllSongs();
-        int duration = 100;
         switch (song.getService()){
             case Song.SPOTIFY:
                 if (spotifyPlayer != null) {
                     playSongFromSpotify(song);
-                    duration = song.getDuration_ms();
+                    int duration = song.getDuration_ms();
                     sbSongProgress.setMax(duration);
                 }
                 else{
@@ -308,7 +327,8 @@ public class Player {
             case Song.LOCAL:
                 if (exoPlayer != null) {
                     prepareExoPlayerFromFileUri(song.getSongUri());
-                    duration = (int) exoPlayer.getDuration(); //todo make sure this cast is safe
+//                    int duration = (int) exoPlayer.getDuration(); //todo make sure this cast is safe
+//                    sbSongProgress.setMax(duration);
                 } else { Log.e("player", "local player not initialized");}
                 break;
             default:
@@ -332,6 +352,45 @@ public class Player {
             exoPlayer.setAudioDebugListener(componentListener);
             exoPlayer.setPlayWhenReady(playWhenReady);
             exoPlayer.seekTo(currentWindow, playbackPosition);
+            exoPlayer.addListener(new ExoPlayer.EventListener() {
+                @Override
+                public void onTimelineChanged(Timeline timeline, Object manifest) {
+
+                }
+
+                @Override
+                public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+
+                }
+
+                @Override
+                public void onLoadingChanged(boolean isLoading) {
+
+                }
+
+                @Override
+                public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                    if (playbackState == ExoPlayer.STATE_READY){
+                        int duration = (int) exoPlayer.getDuration();
+                        sbSongProgress.setMax(duration);
+                    }
+                }
+
+                @Override
+                public void onPlayerError(ExoPlaybackException error) {
+
+                }
+
+                @Override
+                public void onPositionDiscontinuity() {
+
+                }
+
+                @Override
+                public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+
+                }
+            });
         }
     }
 
