@@ -158,14 +158,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void pauseCurrentSong(View view){
-        com.ruppal.orbz.models.Player.pauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
-    }
-
-    public void unPauseCurrentSong(View view){
-        com.ruppal.orbz.models.Player.unPauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
-    }
-
     public void getSpotifyPlayer(String accessToken){
         Config playerConfig = new Config(this, accessToken, spotifyClientId);
         Player mPlayer = Spotify.getPlayer(playerConfig, this, null);
@@ -223,6 +215,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
         return (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));
+    }
+
+    public void pauseCurrentSong(View view){
+        com.ruppal.orbz.models.Player.pauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
+    }
+
+    public void unPauseCurrentSong(View view){
+        com.ruppal.orbz.models.Player.unPauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
     }
 
     public void nextInQueue(View v){
