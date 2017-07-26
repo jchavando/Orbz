@@ -376,6 +376,9 @@ public class Player {
                         int duration = (int) exoPlayer.getDuration();
                         sbSongProgress.setMax(duration);
                     }
+                    if (playbackState == ExoPlayer.STATE_ENDED){
+                        playNextSongInQueue();
+                    }
 
                 }
 
