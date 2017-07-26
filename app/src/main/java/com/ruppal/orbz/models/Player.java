@@ -69,6 +69,9 @@ public class Player {
 
     public static Activity getActivity() {
         return activity;
+
+
+//        PlayerEvent kSpPlaybackNotifyMetadataChanged = PlayerEvent.kSpPlaybackNotifyMetadataChanged;
     }
 
     public static void setActivity(Activity activity) {
@@ -77,9 +80,21 @@ public class Player {
         playButton = (ImageButton) activity.findViewById(R.id.exoPlayer_play);
     }
 
+    /*
+    
+    while(true ) {
+        //go to next song in queue
+        //position += 1;
+        if (song.duration_ms == spotifyPlayer.getPlaybackState().positionMs) break;
+        else if (skipped song in spotify) break;
+    }
+
+     */
 
     public static void setSpotifyPlayer(com.spotify.sdk.android.player.Player spotifyPlayer) {
         Player.spotifyPlayer = spotifyPlayer;
+        spotifyPlayer.getMetadata();
+
     }
 
     public static YouTubePlayer getYouTubePlayer() {
@@ -419,5 +434,8 @@ public class Player {
         pauseButton.setColorFilter(grey);
         playButton.setColorFilter(white); // White Tint
     }
+
+
+
 
 }

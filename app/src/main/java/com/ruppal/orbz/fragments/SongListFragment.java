@@ -1,7 +1,6 @@
 package com.ruppal.orbz.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,7 +22,6 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.MainActivity;
-import com.ruppal.orbz.PlaylistActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.PlaylistTable;
@@ -92,10 +90,30 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         if (playlist != null) {
             // Fire an intent when a playlist is selected
             // Pass contact object in the bundle and populate details activity.
-            Intent intent = new Intent(getContext(), PlaylistActivity.class);
-            intent.putExtra("tracks", Parcels.wrap(playlist));
-            getContext().startActivity(intent);
+
+//             Intent intent = new Intent(getContext(), PlaylistActivity.class);
+//            intent.putExtra("tracks", Parcels.wrap(playlist));
+//            getContext().startActivity(intent);
+
+
+            insertNestedFragment(playlist);
         }
+
+
+    }
+    // Embeds the child fragment dynamically
+    private void insertNestedFragment(Playlist playlist) {
+
+        PlaylistSongsFragment childFragment = new PlaylistSongsFragment();
+        Bundle arguments = new Bundle();
+        arguments.putParcelable("tracks", Parcels.wrap(playlist));
+        childFragment.setArguments(arguments);
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.id.fragment1);
+        frameLayout.bringToFront();
+        transaction.replace(R.id.fragment1, childFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public interface SongSelectedListener{
