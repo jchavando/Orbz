@@ -179,4 +179,11 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
     public void onItemLongSelected(View view, int position) {
 
     }
+
+
+    @Override
+    public void onAddPlaylistSongClicked(View view, int position) {
+
+    }
+
 }

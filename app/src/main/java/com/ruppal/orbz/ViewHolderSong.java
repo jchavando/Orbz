@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
     public ImageView ivAlbumCover;
     public ImageView ivPause;
     public TextView tvService;
+    public ImageButton ibAddToPlaylist;
 
     public ViewHolderSong(View itemView, final ComplexRecyclerViewAdapter.SongAdapterListener mListener, final Context context) {
         super(itemView);
@@ -26,6 +28,7 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
         tvArtistName = (TextView) itemView.findViewById(R.id.tvArtistName);
         ivAlbumCover = (ImageView) itemView.findViewById(R.id.ivAlbumCover);
         ivPause = (ImageView) itemView.findViewById(R.id.ivPause);
+        ibAddToPlaylist = (ImageButton) itemView.findViewById(R.id.ibAddToPlaylist);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +54,16 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
                 ((ImageView) v).setImageDrawable(playButton);
                 int position = getAdapterPosition();
                 mListener.onPauseButtonClicked(v, position);
+            }
+        });
+
+        ibAddToPlaylist.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //Drawable playButton = context.getResources().getDrawable(R.drawable.exo_controls_play);
+                //((ImageButton) v).setImageDrawable(playButton);
+                int position = getAdapterPosition();
+                mListener.onAddPlaylistSongClicked(v, position); //.onAddPlaylistClicked
             }
         });
 

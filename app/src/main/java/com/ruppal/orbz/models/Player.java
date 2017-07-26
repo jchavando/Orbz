@@ -31,6 +31,10 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.ruppal.orbz.R;
 import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.PlaybackState;
+import com.spotify.sdk.android.player.PlayerEvent;
+
+import java.util.ArrayList;
+//import java.lang.Enum<PlayerNotificationCallback.EventType>;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -42,9 +46,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Player {
 
-    public static Song currentlyPlayingSong;
-    public static com.spotify.sdk.android.player.Player spotifyPlayer;
-    public static YouTubePlayer youTubePlayer;
     public static com.spotify.sdk.android.player.Player.OperationCallback mOperationCallback;
     public static Activity activity; //todo dont forget to chnage this for playlist activity
     public static ImageButton playButton;
@@ -53,6 +54,27 @@ public class Player {
     public static int grey = R.color.disable_button;
     public static int white = Color.WHITE;
     public static ScheduledExecutorService executor;
+    //Player.EVENT_CHANGE;
+    public static Song currentlyPlayingSong;
+    public static com.spotify.sdk.android.player.Player spotifyPlayer;
+    public static YouTubePlayer youTubePlayer;
+    public static com.spotify.sdk.android.player.Player.OperationCallback spotifyCallback;
+    public static ArrayList<Song> queue = new ArrayList<>();
+    //public static final PlayerNotificationCallback.EventType TRACK_END;
+    public static PlayerEvent kSpPlaybackNotifyMetadataChanged;
+
+    public static ArrayList<Song> queueRemoved = new ArrayList<>(); //act like a stack
+    public static int positionInQueue=0;
+    public static SimpleExoPlayer exoPlayer;
+    public static ComponentListener componentListener;
+
+    private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
+    private static final String TAG = "PlayerActivity";
+
+    public static long playbackPosition;
+    public static int currentWindow;
+    public static boolean playWhenReady = true;
+
     public static Activity getActivity() {
         return activity;
     }
@@ -82,15 +104,6 @@ public class Player {
         });
     }
 
-    public static SimpleExoPlayer exoPlayer;
-    public static ComponentListener componentListener;
-
-    private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
-    private static final String TAG = "PlayerActivity";
-
-    public static long playbackPosition;
-    public static int currentWindow;
-    public static boolean playWhenReady = true;
 
     public static void setSpotifyPlayer(com.spotify.sdk.android.player.Player spotifyPlayer) {
         Player.spotifyPlayer = spotifyPlayer;
@@ -128,7 +141,8 @@ public class Player {
 
             @Override
             public void onStopped() {
-                Toast.makeText(getActivity().getApplicationContext(), "There was an error playing your video", Toast.LENGTH_SHORT).show();
+
+                //Toast.makeText(getActivity().getApplicationContext(), "There was an error playing your video", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -142,6 +156,69 @@ public class Player {
             }
         });
 
+        youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+            @Override
+            public void onLoading() {
+
+            }
+
+            @Override
+            public void onLoaded(String s) {
+
+            }
+
+            @Override
+            public void onAdStarted() {
+
+            }
+
+            @Override
+            public void onVideoStarted() {
+
+            }
+
+            @Override
+            public void onVideoEnded() {
+                skipToNextInQueue();
+
+            }
+
+            @Override
+            public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+            }
+        });
+
+    }
+
+
+    public static void playNextSongInQueue() {
+        if (queue.size()>0){
+
+            playSong(queue.get(positionInQueue));
+            if (positionInQueue != queue.size()-1) {
+                positionInQueue+=1;
+            }
+            //queueRemoved.add(0, queue.get(0));
+            //queue.remove(0);
+        }
+    }
+
+    public static void skipToNextInQueue(){
+
+        playNextSongInQueue();
+
+    }
+
+    //TODO on click
+    public static void skipToPreviousInQueue(){
+        if (queue.size() > 0) {
+            //positionInQueueRemoved = positionInQueueRemoved +1;
+            if (positionInQueue > 0) {
+                positionInQueue -= 1;
+                playSong(queue.get(positionInQueue));
+            }
+        }
     }
 
     public static void stopAllSongs(){
