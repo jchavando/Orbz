@@ -193,7 +193,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
                         .into(ivAlbumCoverPlayer);
                 com.ruppal.orbz.models.Player.playSong(song);
                 //playNextSongInQueue(); //TODO to test
-                playSong(song);//TODO play song
+//                playSong(song);//TODO play song
 
 
             } else {
