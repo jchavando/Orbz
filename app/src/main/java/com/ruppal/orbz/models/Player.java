@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -87,8 +86,8 @@ public class Player {
         sbSongProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    youTubePlayer.seekToMillis(progress);
+                if (fromUser && currentlyPlayingSong!=null) {
+                    playCurrentSongFrom(progress);
                 }
             }
 
@@ -113,11 +112,35 @@ public class Player {
         return youTubePlayer;
     }
 
-    public static Runnable updateSeekBar = new Runnable() {
+    public static Runnable updateSeekBar (){
+        switch (currentlyPlayingSong.getService()){
+            case Song.SPOTIFY:
+                return updateSeekBarSpotify;
+            case Song.YOUTUBE:
+                return updateSeekBarYoutube;
+            default:
+                return null;
+        }
+    }
+
+    public static Runnable updateSeekBarSpotify = new Runnable() {
         @Override
         public void run() {
-            int currentTime = youTubePlayer.getCurrentTimeMillis();
-            sbSongProgress.setProgress(currentTime);
+            if (spotifyPlayer!=null){
+                int currentTime = (int) spotifyPlayer.getPlaybackState().positionMs;
+                sbSongProgress.setProgress(currentTime);
+            }
+        }
+    };
+
+
+    public static Runnable updateSeekBarYoutube = new Runnable() {
+        @Override
+        public void run() {
+            if (youTubePlayer != null) {
+                int currentTime = youTubePlayer.getCurrentTimeMillis();
+                sbSongProgress.setProgress(currentTime);
+            }
         }
     };
 
@@ -129,20 +152,16 @@ public class Player {
                 setPlayButtonColors();
                 int duration = youTubePlayer.getDurationMillis();
                 sbSongProgress.setMax(duration);
-                executor = Executors.newScheduledThreadPool(1);
-                executor.scheduleAtFixedRate(updateSeekBar, 0, 1, TimeUnit.SECONDS);
             }
 
             @Override
             public void onPaused() {
-                executor.shutdown();
                 setPauseButtonColors();
             }
 
             @Override
             public void onStopped() {
 
-                //Toast.makeText(getActivity().getApplicationContext(), "There was an error playing your video", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -223,6 +242,9 @@ public class Player {
 
     public static void stopAllSongs(){
         //stop spotify player
+        if (executor!=null) {
+            executor.shutdown();
+        }
         if (spotifyPlayer != null) {
             spotifyPlayer.pause(new com.spotify.sdk.android.player.Player.OperationCallback() {
                 @Override
@@ -242,14 +264,33 @@ public class Player {
         }
     }
 
+    public static void playCurrentSongFrom (int position){
+        switch (currentlyPlayingSong.getService()){
+            case Song.SPOTIFY:
+                spotifyPlayer.playUri(null, "spotify:track:" + currentlyPlayingSong.getUid(), 0, position);
+                break;
+            case Song.YOUTUBE:
+                if (youTubePlayer!=null) {
+                    youTubePlayer.seekToMillis(position);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
 
     public static void playSong(Song song){
+        currentlyPlayingSong = song;
         setPlayButtonColors();
         stopAllSongs();
+        int duration = 100;
         switch (song.getService()){
             case Song.SPOTIFY:
                 if (spotifyPlayer != null) {
                     playSongFromSpotify(song);
+                    duration = song.getDuration_ms();
+                    sbSongProgress.setMax(duration);
                 }
                 else{
                     Log.e("player", "spotify player not initialized");
@@ -267,11 +308,14 @@ public class Player {
             case Song.LOCAL:
                 if (exoPlayer != null) {
                     prepareExoPlayerFromFileUri(song.getSongUri());
+                    duration = (int) exoPlayer.getDuration(); //todo make sure this cast is safe
                 } else { Log.e("player", "local player not initialized");}
                 break;
             default:
                 break;
         }
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
     }
 
 
@@ -337,7 +381,6 @@ public class Player {
     private static void playSongFromSpotify(Song song){
         spotifyPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
         song.playing = true;
-        currentlyPlayingSong = song;
     }
 
     private static void playSongFromYoutube(Song song){
@@ -345,7 +388,6 @@ public class Player {
             youTubePlayer.loadVideo(song.getUid());
             youTubePlayer.play();
             song.playing=true;
-            currentlyPlayingSong = song;
         }
         else{
             Log.e("player", "failed to play song from youtube");
@@ -354,6 +396,9 @@ public class Player {
 
 
     public static void pauseSong(Song song){
+        if (executor!=null) {
+            executor.shutdown();
+        }
         if (pauseButton!= null && playButton!=null) {
             setPauseButtonColors();
         }
