@@ -107,6 +107,11 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
             case R.id.addPlaylist:
                 showPlaylistDialogFragment();
                 return true;
+//            case R.id.backToPlaylists:
+//                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
+//
+//                getFragmentManager().popBackStack();
+//                return true;
             default:
                 break;
         }

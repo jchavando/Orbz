@@ -53,7 +53,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public static ArrayList<Song> localSongList;
     public static ArrayList<PlaylistTable> localPlaylistTables;
     static ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener addSongToPlaylistAdapterListener;
-
+    public FragmentTransaction transaction;
     SpotifyClient spotifyClient;
     YouTubePlayerSupportFragment youTubePlayerFragment;
     String SONG_TO_PLAY = "SONG_TO_PLAY";
@@ -95,24 +95,24 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 //            intent.putExtra("tracks", Parcels.wrap(playlist));
 //            getContext().startActivity(intent);
 
-
-            insertNestedFragment(playlist);
+            insertPlaylistSongsFragment(playlist);
         }
 
 
     }
     // Embeds the child fragment dynamically
-    private void insertNestedFragment(Playlist playlist) {
+    private void insertPlaylistSongsFragment(Playlist playlist) {
 
         PlaylistSongsFragment childFragment = new PlaylistSongsFragment();
         Bundle arguments = new Bundle();
         arguments.putParcelable("tracks", Parcels.wrap(playlist));
         childFragment.setArguments(arguments);
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
         FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.id.fragment1);
         frameLayout.bringToFront();
         transaction.replace(R.id.fragment1, childFragment);
         transaction.addToBackStack(null);
+
         transaction.commit();
     }
 
@@ -180,21 +180,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
     }
 
-//
-//    public void playNextSongInQueue() {
-//        while (Player.queue.size() >= 1) { //got through queue
-//            Log.d("song list fragment", String.valueOf(Player.queue.size()));
-//            for (int i = 0; i < Player.queue.size(); i++) {
-//
-//               // if ( ) { //no song currently playing
-//                    playSong(Player.queue.get(i));
-//                    Log.d("what is playing in queue", String.valueOf(Player.queue.get(i)));
-//                    Toast.makeText(getContext(), "playing song in queue", Toast.LENGTH_SHORT).show();
-//                    Player.queue.remove(i);
-//               // }
-//            }
-//        }
-//    }
+
 
 
     @Override

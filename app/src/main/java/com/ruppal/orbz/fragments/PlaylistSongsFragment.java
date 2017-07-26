@@ -30,7 +30,7 @@ import cz.msebera.android.httpclient.Header;
  * Created by jchavando on 7/26/17.
  */
 
-public class PlaylistSongsFragment extends SongListFragment { //implements ComplexRecyclerViewAdapter.PlaylistAdapterListener
+public class PlaylistSongsFragment extends SongListFragment {
 
 
     //recycler view for when you click on individual playlist
@@ -58,54 +58,6 @@ public class PlaylistSongsFragment extends SongListFragment { //implements Compl
 
 
     }
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Need to define the child fragment layout
-//        View v = inflater.inflate(R.layout.fragments_playlist_songs, container, false);
-
-//
-//       // return inflater.inflate(R.layout.fragments_playlist_songs, container, false);
-//        super.onCreate(savedInstanceState);
-//        //setContentView(R.layout.activity_playlist);
-//        getSpotifyPlayer();
-//        spotifyClient = new SpotifyClient();
-//        songListFragment = new SongListFragment();
-//        // Lookup the recyclerview in activity layout
-//        rvSongs = (RecyclerView) v.findViewById(R.id.rvPlaylist);
-
-//        // Initialize contacts
-//        rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
-//        //find RecyclerView
-//
-//        //construct adapter from datasource
-//        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, null, null);
-//        //recyclerView setup (layout manager, use adapter)
-//        //set the adapter
-//        rvSongs.setAdapter(complexAdapter);
-//
-//        //unwrap playlist
-//        //mPlaylist = (Playlist) Parcels.unwrap(getIntent().getParcelableExtra("tracks"));
-//
-//        //mPlaylist = Parcels.unwrap(savedInstanceState.getParcelable("tracks"));
-//
-//        Bundle arguments = getArguments();
-//        mPlaylist = Parcels.unwrap(arguments.getParcelable("tracks"));
-//
-//        if (mPlaylist.getPlaylistService().equals(Song.SPOTIFY)){
-//            loadTracksFromSpotify(mPlaylist.getTracksUrl());
-//        }
-//        else if (mPlaylist.getPlaylistService().equals(Song.LOCAL)){
-//            loadTracksFromLocal(mPlaylist);
-//        }
-//
-//
-//        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-//        rvSongs.addItemDecoration(itemDecoration);
-//
-        //return v;
-  //  }
 
 
     @Override
@@ -114,19 +66,33 @@ public class PlaylistSongsFragment extends SongListFragment { //implements Compl
         super.onCreate(savedInstanceState);
         spotifyClient = new SpotifyClient();
         songs = new ArrayList<>();
-        //songListFragment = new SongListFragment();
-        //complexAdapter = new ComplexRecyclerViewAdapter(songs, this, null, null);
-       // setHasOptionsMenu(true);
-        //spotifyPlaylists = new ArrayList<>();
-        //fabAddPlaylist.setOnClickListener(this); //TODO fix
-        //setHasOptionsMenu(true);
-        //addSongToPlaylistAdapterListener = this;
 
     }
-
-//    public void addSong (Object song){
-//        songs.add((Song) song);
-//        complexAdapter.notifyItemInserted(songs.size()-1);
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.menu_playlist, menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_search:
+//                // Not implemented here
+//                return false;
+//            case R.id.addPlaylist:
+//               // showPlaylistDialogFragment();
+//                return true;
+//            case R.id.backToPlaylists:
+//                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
+//
+//                getFragmentManager().popBackStack();
+//                return true;
+//            default:
+//                break;
+//        }
+//
+//        return false;
 //    }
 
     public void loadTracksFromLocal(Playlist playlist){
@@ -190,58 +156,4 @@ public class PlaylistSongsFragment extends SongListFragment { //implements Compl
         song.playing = true;
     }
 
-//
-//
-//    @Override
-//    public void onAddPlaylistSongClicked(View view, int position) {
-//
-//    }
-//
-//    @Override
-//    public void onItemSelected(View view, int position) {
-//        Song song = (Song) songs.get(position);
-//        if (song.getService().equals(Song.SPOTIFY)) {
-//            if (!song.isPlaying()) {
-////                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.FILL_PARENT);
-////                params.gravity = Gravity.TOP;
-////                ivAlbumCoverPlayer.setLayoutParams(params);
-//                ivAlbumCoverPlayer.bringToFront();
-//                Glide.with(getContext())
-//                        .load(song.getAlbumCoverUrl())
-//                        .into(ivAlbumCoverPlayer);
-//                playSong(song);
-//                //playNextSongInQueue(); //TODO to test
-//                playSong(song);//TODO play song
-//
-//
-//            } else {
-//                Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
-//            }
-//        }
-//        if (song.getService().equals(Song.LOCAL)){
-//            Player.playSong(song);
-//        }
-//        else if (song.getService().equals(Song.YOUTUBE)){
-//
-//            youtube_fragment.bringToFront();
-//
-//            initializeYoutubePlayerFragment(song); ////TODO play song
-//        }
-//    }
-//
-//    @Override
-//    public void onItemLongSelected(View view, int position) {
-//        //add to queue
-//        Song song = (Song) songs.get(position);
-//        Player.queue.add(song);
-//        Toast.makeText(getContext(), "added to queue", Toast.LENGTH_SHORT).show();
-//    }
-//
-//
-//
-//    @Override
-//    public void onPauseButtonClicked(View view, int position) {
-//        Song song = (Song) songs.get(position);
-//        com.ruppal.orbz.models.Player.pauseSong(song);
-//    }
 }
