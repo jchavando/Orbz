@@ -23,7 +23,6 @@ import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.PlaylistActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
-import com.ruppal.orbz.database.DatabaseHelper;
 import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.database.PlaylistTable;
 import com.ruppal.orbz.models.Playlist;
@@ -109,7 +108,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         //set the adapter
         rvSongs.setAdapter(complexAdapter);
 
-        rvSongs.setBackgroundResource(R.drawable.watermark4);
+        rvSongs.setBackgroundResource(R.drawable.soundwaves);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvSongs.addItemDecoration(itemDecoration);
 

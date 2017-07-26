@@ -5,10 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ruppal.orbz.MainActivity"
-    android:orientation="vertical"
-    android:background="@drawable/watermark2">
-
-
+    android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/sliding_tabs"
@@ -18,14 +15,12 @@
         app:tabSelectedTextColor="@android:color/white"
         app:tabMode="scrollable" />
 
-
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@android:color/transparent" />
-
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -54,7 +49,6 @@
 
         </FrameLayout>
 
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,16 +63,16 @@
                 android:id="@+id/exoPlayer_play"
                 style="@style/ExoMediaButton.Play"
                 android:layout_width="60dp"
+                android:onClick="playButton"
                 />
 
             <ImageButton
                 android:id="@+id/exoPlayer_pause"
                 style="@style/ExoMediaButton.Pause"
-                android:layout_width="60dp" />
-
+                android:layout_width="60dp"
+                android:onClick="pauseButton"/>
 
         </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -88,12 +82,14 @@
                 <ImageButton
                     android:id="@+id/exoPlayer_forward"
                     style="@style/ExoMediaButton.FastForward"
-                    android:layout_width="60dp" />
+                    android:layout_width="60dp"
+                    android:onClick="forwardButton"/>
 
                 <ImageButton
                     android:id="@+id/exoPlayer_rewind"
                     style="@style/ExoMediaButton.Rewind"
-                    android:layout_width="60dp" />
+                    android:layout_width="60dp"
+                    android:onClick="rewindButton"/>
 
             </LinearLayout>
 
@@ -105,22 +101,18 @@
                 <ImageButton
                     android:id="@+id/exoPlayer_next"
                     style="@style/ExoMediaButton.Next"
-                    android:layout_width="60dp" />
+                    android:layout_width="60dp"
+                    android:onClick="nextButton"/>
 
                 <ImageButton
-                android:id="@+id/exoPlayer_previous"
-                style="@style/ExoMediaButton.Previous"
-                android:layout_width="60dp" />
-
+                    android:id="@+id/exoPlayer_previous"
+                    style="@style/ExoMediaButton.Previous"
+                    android:layout_width="60dp"
+                    android:onClick="prevButton"/>
             </LinearLayout>
 
         </LinearLayout>
 
-
     </LinearLayout>
-
-
-
-
 
 </LinearLayout>

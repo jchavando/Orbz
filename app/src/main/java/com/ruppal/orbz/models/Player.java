@@ -193,6 +193,11 @@ public class Player {
             spotifyPlayer.resume(mOperationCallback);
         }
     }
+    public void startPlayer() {exoPlayer.setPlayWhenReady(true);}
+
+    public void pause() {exoPlayer.setPlayWhenReady(false);}
+
+    public int getCurrentPosition() {return (int) exoPlayer.getCurrentPosition();}
 
     public static Song getCurrentlyPlayingSong() {
         return currentlyPlayingSong;

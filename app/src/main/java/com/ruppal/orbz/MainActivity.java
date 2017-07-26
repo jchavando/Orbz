@@ -37,7 +37,7 @@ import com.spotify.sdk.android.player.Spotify;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     public static final String SPOTIFY_PLAYER = "SPOTIFY_PLAYER";
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
@@ -115,15 +115,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabLayout.getTabAt(0).setIcon(R.drawable.white_search);
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
-
     }
 
-    public void playButton(){}
-    public void pauseButton(){}
-    public void forwardButton(){}
-    public void rewindButton(){}
-    public void previousButton(){}
-    public void nextButton(){}
 
 //    public void checkData(){
 //        List<PlaylistTable> playlistTableList = SQLite.select().
@@ -221,9 +214,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));
     }
 
-
-    @Override
-    public void onClick(View v) {
-
-    }
+    public void playButton(View v){}
+    public void pauseButton(View v){}
+    public void forwardButton(View v){}
+    public void rewindButton(View v){}
+    public void prevButton(View v){}
+    public void nextButton(View v){}
 }
