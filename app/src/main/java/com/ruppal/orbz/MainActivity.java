@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
     //Button Handling
     ImageButton exoPlay;
     ImageButton exoPause;
-    ImageButton exoForward;
-    ImageButton exoRewind;
     ImageButton exoNext;
     ImageButton exoPrev;
 
@@ -97,8 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
         exoPlay = (ImageButton) findViewById(R.id.exoPlayer_play);
         exoPause = (ImageButton) findViewById(R.id.exoPlayer_pause);
-        exoForward = (ImageButton) findViewById(R.id.exoPlayer_forward);
-        exoRewind = (ImageButton) findViewById(R.id.exoPlayer_rewind);
         exoNext = (ImageButton) findViewById(R.id.exoPlayer_next);
         exoPrev = (ImageButton) findViewById(R.id.exoPlayer_previous);
 
