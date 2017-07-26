@@ -39,17 +39,6 @@
         android:layout_toRightOf="@+id/ivAlbumCover"
         android:text="TextView" />
 
-    <!-- todo remove this pause button -->
-    <ImageView
-        android:id="@+id/ivPause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:visibility="invisible"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        app:srcCompat="@drawable/exo_controls_pause" />
-
     <TextView
         android:id="@+id/tvService"
         android:layout_width="wrap_content"
@@ -67,9 +56,10 @@
         android:id="@+id/ibAddToPlaylist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/ivPause"
         app:srcCompat="@android:drawable/ic_menu_add"
         android:background="@android:color/transparent"
-        android:layout_alignBottom="@+id/ivPause"/>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
