@@ -486,6 +486,8 @@ public class Player {
             default:
                 break;
         }
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
     }
 
     private static void unPauseSongFromYoutube(Song song){
