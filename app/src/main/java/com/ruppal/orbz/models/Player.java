@@ -315,8 +315,6 @@ public class Player {
             case Song.LOCAL:
                 if (exoPlayer != null) {
                     prepareExoPlayerFromFileUri(song.getSongUri());
-//                    int duration = (int) exoPlayer.getDuration(); //todo make sure this cast is safe
-//                    sbSongProgress.setMax(duration);
                 } else { Log.e("player", "local player not initialized");}
                 break;
             default:
@@ -440,7 +438,6 @@ public class Player {
         }
     }
 
-
     public static void pauseSong(Song song){
         if (executor!=null) {
             executor.shutdown();
@@ -460,7 +457,6 @@ public class Player {
             default:
                 break;
         }
-
     }
 
     public static void unPauseSong(Song song){
