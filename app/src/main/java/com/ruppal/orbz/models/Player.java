@@ -95,6 +95,9 @@ public class Player {
                 if (fromUser && currentlyPlayingSong!=null) {
                     playCurrentSongFrom(progress);
                 }
+                if (currentlyPlayingSong.getService() == Song.SPOTIFY && almostEquals(progress, sbSongProgress.getMax())){
+                    playNextSongInQueue();
+                }
             }
 
             @Override
@@ -107,6 +110,11 @@ public class Player {
 
             }
         });
+    }
+
+    private static boolean almostEquals(int j, int i){
+        int oneSecond = 1000;
+        return Math.abs(i-j)<oneSecond;
     }
 
     public static void setSpotifyPlayer(com.spotify.sdk.android.player.Player spotifyPlayer) {
@@ -368,6 +376,7 @@ public class Player {
                         int duration = (int) exoPlayer.getDuration();
                         sbSongProgress.setMax(duration);
                     }
+
                 }
 
                 @Override
