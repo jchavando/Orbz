@@ -37,7 +37,7 @@ import com.spotify.sdk.android.player.Spotify;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     public static final String SPOTIFY_PLAYER = "SPOTIFY_PLAYER";
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
@@ -58,19 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     GooglePlayClient googlePlayClient;
     SearchFragment searchFragment;
     ViewPager vpPager;
-    ImageButton pauseButton;
-    ImageButton playButton;
-    int r;
-    int g;
-    int b;
-    int a;
 
-
-
-
-
-
-    //Elvis
     ArrayList<Song> localSongList;
 
     //Button Handling
@@ -96,12 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         youTubeClient = new YouTubeClient();
         youTubeClient.setAccessToken(googleAccessToken);
         googleResults = new ArrayList<>();
-        pauseButton = (ImageButton) findViewById(R.id.exoPlayer_pause);
-        playButton = (ImageButton) findViewById(R.id.exoPlayer_play);
-        r=48;
-        g=r;
-        b=r;
-        a=r;
+
         com.ruppal.orbz.models.Player.setActivity(this);
 
         //get the view pager
@@ -137,13 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
 
     }
-
-    public void playButton(){}
-    public void pauseButton(){}
-    public void forwardButton(){}
-    public void rewindButton(){}
-    public void previousButton(){}
-    public void nextButton(){}
 
 //    public void checkData(){
 //        List<PlaylistTable> playlistTableList = SQLite.select().
@@ -181,17 +157,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         return super.onCreateOptionsMenu(menu);
     }
-
-
-    public void pauseCurrentSong(View view){
-        com.ruppal.orbz.models.Player.pauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
-    }
-
-    public void unPauseCurrentSong(View view){
-        com.ruppal.orbz.models.Player.unPauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
-    }
-
-
 
     public void getSpotifyPlayer(String accessToken){
         Config playerConfig = new Config(this, accessToken, spotifyClientId);
@@ -252,10 +217,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));
     }
 
+    public void pauseCurrentSong(View view){
+        com.ruppal.orbz.models.Player.pauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
+    }
 
-    @Override
-    public void onClick(View v) {
-
+    public void unPauseCurrentSong(View view){
+        com.ruppal.orbz.models.Player.unPauseSong(com.ruppal.orbz.models.Player.getCurrentlyPlayingSong());
     }
 
     public void nextInQueue(View v){
