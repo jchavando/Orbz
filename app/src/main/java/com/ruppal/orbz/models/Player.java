@@ -445,5 +445,9 @@ public class Player {
         playButton.setColorFilter(white); // White Tint
     }
 
-    public static void setPlayback (boolean state){exoPlayer.setPlayWhenReady(state);}
+    public static void setPlayback (boolean state){
+        if(state){setPlayButtonColors();}
+        else {setPauseButtonColors();}
+        exoPlayer.setPlayWhenReady(state);
+    }
 }
