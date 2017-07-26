@@ -138,13 +138,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void playButton(){}
-    public void pauseButton(){}
-    public void forwardButton(){}
-    public void rewindButton(){}
-    public void previousButton(){}
-    public void nextButton(){}
-
 //    public void checkData(){
 //        List<PlaylistTable> playlistTableList = SQLite.select().
 //                from(PlaylistTable.class).queryList();

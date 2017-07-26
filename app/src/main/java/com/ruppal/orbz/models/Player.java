@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -34,11 +33,11 @@ import com.spotify.sdk.android.player.PlaybackState;
 import com.spotify.sdk.android.player.PlayerEvent;
 
 import java.util.ArrayList;
-//import java.lang.Enum<PlayerNotificationCallback.EventType>;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+//import java.lang.Enum<PlayerNotificationCallback.EventType>;
 
 /**
  * Created by ruppal on 7/19/17.
@@ -244,6 +243,7 @@ public class Player {
 
 
     public static void playSong(Song song){
+        currentlyPlayingSong = song;
         setPlayButtonColors();
         stopAllSongs();
         switch (song.getService()){

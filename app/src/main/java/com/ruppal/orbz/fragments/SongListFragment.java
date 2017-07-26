@@ -150,7 +150,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         youTubePlayerFragment.initialize(getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                com.ruppal.orbz.models.Player.setYouTubePlayer(youTubePlayer);
+                Player.setYouTubePlayer(youTubePlayer);
                 playSong(song);
             }
 
@@ -191,11 +191,8 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
                 Glide.with(getContext())
                         .load(song.getAlbumCoverUrl())
                         .into(ivAlbumCoverPlayer);
-                com.ruppal.orbz.models.Player.playSong(song);
+                Player.playSong(song);
                 //playNextSongInQueue(); //TODO to test
-                playSong(song);//TODO play song
-
-
             } else {
                 Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
             }
@@ -204,10 +201,8 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             Player.playSong(song);
         }
         else if (song.getService().equals(Song.YOUTUBE)){
-
             youtube_fragment.bringToFront();
-
-            initializeYoutubePlayerFragment(song); ////TODO play song
+            initializeYoutubePlayerFragment(song);
         }
     }
 
@@ -242,7 +237,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     @Override
     public void onPauseButtonClicked(View view, int position) {
         Song song = (Song) songs.get(position);
-        com.ruppal.orbz.models.Player.pauseSong(song);
+        Player.pauseSong(song);
     }
 
     public void addSongToPosition (Object song, int position){
