@@ -115,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(R.drawable.white_search);
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
+        tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
+
 
     }
 
@@ -160,37 +162,6 @@ public class MainActivity extends AppCompatActivity {
         Player mPlayer = Spotify.getPlayer(playerConfig, this, null);
         com.ruppal.orbz.models.Player.setSpotifyPlayer(mPlayer);
 
-    /*AudioController audioController = new AudioController() {
-
-            @Override
-            public void stop() {
-                String hello = "hi";
-            }
-            public void start() {
-                String hello = "hi";
-            }
-
-
-            public int onAudioDataDelivered(short[] shorts, int i, int i1, int i2) {
-                return 0;
-            }
-
-            public void onAudioFlush() {
-
-            }
-
-            public void onAudioPaused() {
-
-            }
-            public void onAudioResumed() {
-
-            }
-        };
-        SpotifyPlayer.Builder builder = new SpotifyPlayer.Builder(playerConfig);
-        builder.setAudioController(audioController);
-        Player mPlayer = Spotify.getPlayer(builder,this, null);
-        com.ruppal.orbz.models.Player.setSpotifyPlayer(mPlayer);
-        */
     }
 
     public ArrayList<Song> getLocalSongs(){

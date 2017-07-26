@@ -46,6 +46,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        clearSongsList();
         getLocalPlaylists();
         addLocalPlaylistsToSongs();
         populateSpotifyPlaylists();
