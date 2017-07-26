@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.ruppal.orbz.MainActivity"
     android:orientation="vertical"
-    android:background="@drawable/watermark2">
+    android:background="@drawable/watermark2"
+    android:weightSum="1">
 
 
 
@@ -21,10 +22,10 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@android:color/transparent" />
+        android:layout_width="wrap_content"
+        android:layout_height="321dp"
+        android:background="@android:color/transparent"
+        android:layout_weight="0.32" />
 
 
     <LinearLayout
@@ -57,6 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible"/>
+
 
 
 
@@ -129,8 +131,10 @@
 
     </LinearLayout>
 
-
-
+    <SeekBar
+        android:id="@+id/sbSongProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

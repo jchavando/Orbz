@@ -1,15 +1,12 @@
 package com.ruppal.orbz.models;
 
-import android.util.Log;
-
-import com.spotify.sdk.android.player.Error;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -32,7 +29,12 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.ruppal.orbz.R;
+import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.PlaybackState;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by ruppal on 7/19/17.
@@ -47,9 +49,10 @@ public class Player {
     public static Activity activity; //todo dont forget to chnage this for playlist activity
     public static ImageButton playButton;
     public static ImageButton pauseButton;
+    public static SeekBar sbSongProgress;
     public static int grey = R.color.disable_button;
     public static int white = Color.WHITE;
-
+    public static ScheduledExecutorService executor;
     public static Activity getActivity() {
         return activity;
     }
@@ -58,6 +61,25 @@ public class Player {
         Player.activity = activity;
         pauseButton = (ImageButton) activity.findViewById(R.id.exoPlayer_pause);
         playButton = (ImageButton) activity.findViewById(R.id.exoPlayer_play);
+        sbSongProgress = (SeekBar) activity.findViewById(R.id.sbSongProgress);
+        sbSongProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    youTubePlayer.seekToMillis(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     public static SimpleExoPlayer exoPlayer;
@@ -78,16 +100,29 @@ public class Player {
         return youTubePlayer;
     }
 
+    public static Runnable updateSeekBar = new Runnable() {
+        @Override
+        public void run() {
+            int currentTime = youTubePlayer.getCurrentTimeMillis();
+            sbSongProgress.setProgress(currentTime);
+        }
+    };
+
     public static void setYouTubePlayer(YouTubePlayer player) {
         Player.youTubePlayer = player;
         youTubePlayer.setPlaybackEventListener(new YouTubePlayer.PlaybackEventListener() {
             @Override
             public void onPlaying() {
                 setPlayButtonColors();
+                int duration = youTubePlayer.getDurationMillis();
+                sbSongProgress.setMax(duration);
+                executor = Executors.newScheduledThreadPool(1);
+                executor.scheduleAtFixedRate(updateSeekBar, 0, 1, TimeUnit.SECONDS);
             }
 
             @Override
             public void onPaused() {
+                executor.shutdown();
                 setPauseButtonColors();
             }
 
@@ -161,8 +196,6 @@ public class Player {
                 break;
         }
     }
-
-
 
 
     public static void initializePlayer(Context context) {
