@@ -24,9 +24,6 @@ public class Artist {
         switch (service) {
             case SPOTIFY:
                 return parseSpotifyJSON(object);
-            //case SOUNDCLOUD:
-                //return parseSoundcloudJSON(object);
-            //break;
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
 
@@ -34,8 +31,6 @@ public class Artist {
                 return parseLastFMJSON(object);
              case YOUTUBE:
                 return parseYoutubeJSON(object);
-
-            //break;
             default:
                 return null;
         }
@@ -49,9 +44,6 @@ public class Artist {
         return artist;
     }
 
-//    private Song parseSoundcloudJSON(JSONObject object){
-//
-//    }
     private static Artist parseGooglePlayJSON(JSONObject object) throws JSONException {
         Artist artist = new Artist();
         artist.uid = null;
@@ -59,16 +51,12 @@ public class Artist {
         return artist;
     }
 
-    //TODO
     private static Artist parseLastFMJSON(JSONObject object) throws JSONException {
         Artist artist = new Artist();
         artist.uid = object.getString("mid");
         artist.name = object.getString("artist");
         return artist;
     }
-//    private Song parseYoutubeJSON(JSONObject object){
-//
-//    }
 
     private static Artist parseYoutubeJSON(JSONObject object) throws JSONException {
         JSONObject snippet = object.getJSONObject("snippet");

@@ -57,26 +57,14 @@ public class Song {
         switch (service){
             case SPOTIFY:
                  return parseSpotifyJSON(object);
-                //break;
-//            case SOUNDCLOUD:
-//                return parseSoundcloudJSON(object);
-//                break;
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
-                //break;
-
             case LASTFM:
                 return parseLastFMJSON(object);
-            //case YOUTUBE:
-               // return parseYoutubeJSON(object);
-
             case YOUTUBE:
                 return parseYoutubeJSON(object);
-
-                //break;
             default:
                 return null;
-
         }
     }
 
@@ -93,7 +81,6 @@ public class Song {
         song.playing = false;
         song.service = SPOTIFY;
         JSONArray images = albumObj.getJSONArray("images");
-//        //todo : can get a different image size based on which index is used
         int sizeImages = images.length();
         song.albumCoverUrl = images.getJSONObject(sizeImages - 1).getString("url");
 
@@ -109,28 +96,20 @@ public class Song {
         return song;
 
     }
-//    private Song parseSoundcloudJSON(JSONObject object){
-//        //call the  artist from JSON in a for loop to populate artists array
-//
-//    }
     private static Song parseGooglePlayJSON(JSONObject object) throws JSONException {
         Song song = new Song();
         //call the  artist from JSON in a for loop to populate artists array
         song.title = object.getString("title");
         song.albumCoverUrl = object.getString("albumArt");
         song.album = object.getString("album");
-        //popularity = object.getInt("");
         song.service = GOOGLE_PLAY;
         song.duration_ms = object.getInt("total"); //time object
         song.playing = object.getBoolean("playing"); //
-        //uid = object.getString(); //can't find id
         song.artists.add(Artist.fromJSON(GOOGLE_PLAY, object));
 
         return song;
-
     }
 
-    //TODO
     private static Song parseLastFMJSON(JSONObject object) throws JSONException {
         Song song = new Song();
         song.title = object.getString("track");
@@ -138,7 +117,6 @@ public class Song {
         song.artists.add(Artist.fromJSON(LASTFM, object)); //"artist"
 
         return song;
-
     }
 
     private static Song parseYoutubeJSON(JSONObject object) throws JSONException {
@@ -151,17 +129,11 @@ public class Song {
         song.uid = object.getJSONObject("id").getString("videoId");
         song.service = YOUTUBE;
         song.albumCoverUrl = snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url");
-        //todo - find a better way to get artist
+        song.artists = new ArrayList<>();
+        song.artists.add(Artist.fromJSON(YOUTUBE, object));
 
-            song.artists = new ArrayList<>();
-            song.artists.add(Artist.fromJSON(YOUTUBE, object));
-
-            return song;
+        return song;
     }
-
-//    private Song parseYoutubeJSON(JSONObject object){
-//        //call the  artist from JSON in a for loop to populate artists array
-//    }
 
     public String getService() {
         return service;

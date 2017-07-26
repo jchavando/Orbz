@@ -43,8 +43,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-//import java.lang.Enum<PlayerNotificationCallback.EventType>;
-
 /**
  * Created by ruppal on 7/19/17.
  */
@@ -59,13 +57,11 @@ public class Player {
     public static int grey = R.color.disable_button;
     public static int white = Color.WHITE;
     public static ScheduledExecutorService executor;
-    //Player.EVENT_CHANGE;
     public static Song currentlyPlayingSong;
     public static com.spotify.sdk.android.player.Player spotifyPlayer;
     public static YouTubePlayer youTubePlayer;
     public static com.spotify.sdk.android.player.Player.OperationCallback spotifyCallback;
     public static ArrayList<Song> queue = new ArrayList<>();
-    //public static final PlayerNotificationCallback.EventType TRACK_END;
     public static PlayerEvent kSpPlaybackNotifyMetadataChanged;
 
     public static ArrayList<Song> queueRemoved = new ArrayList<>(); //act like a stack
@@ -234,8 +230,6 @@ public class Player {
             if (positionInQueue != queue.size()-1) {
                 positionInQueue+=1;
             }
-            //queueRemoved.add(0, queue.get(0));
-            //queue.remove(0);
         }
     }
 
@@ -246,7 +240,6 @@ public class Player {
     //TODO on click
     public static void skipToPreviousInQueue(){
         if (queue.size() > 0) {
-            //positionInQueueRemoved = positionInQueueRemoved +1;
             if (positionInQueue > 0) {
                 positionInQueue -= 1;
                 playSong(queue.get(positionInQueue));
@@ -470,7 +463,6 @@ public class Player {
 
     }
 
-
     public static void unPauseSong(Song song){
         setPlayButtonColors();
         switch (song.getService()){
@@ -530,8 +522,6 @@ public class Player {
         };
         PlaybackState mCurrentPlaybackState = spotifyPlayer.getPlaybackState();
         if (mCurrentPlaybackState != null && mCurrentPlaybackState.isPlaying) {
-//            Drawable playButton = context.getResources().getDrawable(R.drawable.exo_controls_play);
-//            ((ImageView) view).setImageDrawable(playButton);
             spotifyPlayer.pause(mOperationCallback);
         }
     }
