@@ -15,7 +15,6 @@ import com.ruppal.orbz.fragments.SongListFragment;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 import com.spotify.sdk.android.player.Config;
-import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.Spotify;
 
@@ -155,31 +154,9 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
     }
 
     @Override
-    public void onPauseButtonClicked(View view, int position) {
-        final Song song = (Song) songs.get(position);
-        Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
-            @Override
-            public void onSuccess() {
-                String nowPaused= "paused " + song.getTitle();
-                //Toast.makeText(getContext(), nowPaused, Toast.LENGTH_LONG).show();
-                song.playing = false;
-            }
-
-            @Override
-            public void onError(Error error) {
-                Log.e("playlist activity pause", error.toString());
-            }
-
-
-        };
-
-    }
-
-    @Override
     public void onItemLongSelected(View view, int position) {
 
     }
-
 
     @Override
     public void onAddPlaylistSongClicked(View view, int position) {

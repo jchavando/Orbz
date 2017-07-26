@@ -33,11 +33,11 @@ import com.spotify.sdk.android.player.PlaybackState;
 import com.spotify.sdk.android.player.PlayerEvent;
 
 import java.util.ArrayList;
-//import java.lang.Enum<PlayerNotificationCallback.EventType>;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+//import java.lang.Enum<PlayerNotificationCallback.EventType>;
 
 /**
  * Created by ruppal on 7/19/17.
@@ -102,7 +102,6 @@ public class Player {
             }
         });
     }
-
 
     public static void setSpotifyPlayer(com.spotify.sdk.android.player.Player spotifyPlayer) {
         Player.spotifyPlayer = spotifyPlayer;
@@ -210,7 +209,6 @@ public class Player {
 
     }
 
-
     public static void playNextSongInQueue() {
         if (queue.size()>0){
 
@@ -224,9 +222,7 @@ public class Player {
     }
 
     public static void skipToNextInQueue(){
-
         playNextSongInQueue();
-
     }
 
     //TODO on click
@@ -279,7 +275,6 @@ public class Player {
         }
     }
 
-
     public static void playSong(Song song){
         currentlyPlayingSong = song;
         setPlayButtonColors();
@@ -317,7 +312,6 @@ public class Player {
         executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
     }
-
 
     public static void initializePlayer(Context context) {
         if (exoPlayer == null) {
@@ -436,7 +430,6 @@ public class Player {
         }
     }
 
-
     private static void pauseSongFromYoutube (Song song){
         if (youTubePlayer != null){
             song.playing = false;
@@ -446,7 +439,6 @@ public class Player {
             Log.e("pause from youtube", "youtube player null");
         }
     }
-
 
     private static void unPauseSongFromSpotify(Song song){
         if (mOperationCallback!=null && spotifyPlayer!=null){
@@ -487,11 +479,7 @@ public class Player {
         return spotifyPlayer;
     }
 
-
-
     public static void setComponentListener(ComponentListener componentListener){Player.componentListener = componentListener;}
-
-
 
     public static void setPlayButtonColors(){
         playButton.setColorFilter(grey); // Grey Tint
@@ -503,4 +491,9 @@ public class Player {
         playButton.setColorFilter(white); // White Tint
     }
 
+    public static void setPlayback (boolean state){
+        if(state){setPlayButtonColors();}
+        else {setPauseButtonColors();}
+        exoPlayer.setPlayWhenReady(state);
+    }
 }
