@@ -461,11 +461,15 @@ public class Player {
                 break;
             case Song.YOUTUBE:
                 pauseSongFromYoutube(song);
+                break;
+            case Song.LOCAL:
+                setPlayback(false);
             default:
                 break;
         }
 
     }
+
 
     public static void unPauseSong(Song song){
         setPlayButtonColors();
@@ -475,6 +479,10 @@ public class Player {
                 break;
             case Song.YOUTUBE:
                 unPauseSongFromYoutube(song);
+                break;
+            case Song.LOCAL:
+                setPlayback(true);
+                break;
             default:
                 break;
         }
