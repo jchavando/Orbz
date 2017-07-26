@@ -21,7 +21,6 @@ public class LocalListFragment extends SearchFragment {
         clearSongsList();
         printArrayList(localSongList);
         populateLocalList(localSongList);
-
     }
 
     @Override
