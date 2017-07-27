@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,10 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.PlaylistActivity;
@@ -37,7 +33,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-import static com.ruppal.orbz.models.Player.playSong;
+import static com.ruppal.orbz.models.Player.frameLayout;
 
 /**
  * Created by jchavando on 7/13/17.
@@ -53,12 +49,12 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public static ArrayList<Song> localSongList;
     public static ArrayList<PlaylistTable> localPlaylistTables;
     static ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener addSongToPlaylistAdapterListener;
-
+    public static FragmentManager fragmentManager;
     SpotifyClient spotifyClient;
-    YouTubePlayerSupportFragment youTubePlayerFragment;
+//    YouTubePlayerSupportFragment youTubePlayerFragment;
     String SONG_TO_PLAY = "SONG_TO_PLAY";
-    FrameLayout frameLayout;
-    FragmentTransaction fragmentTransaction;
+//    FrameLayout frameLayout;
+//    FragmentTransaction fragmentTransaction;
     ImageView ivAlbumCoverPlayer;
     FrameLayout youtube_fragment;
 
@@ -106,6 +102,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         songs = new ArrayList<>();
         localSongList = ((MainActivity)getActivity()).getLocalSongs();
         complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this, null); //this
+        fragmentManager = getFragmentManager();
     }
 
     @Nullable
@@ -136,70 +133,56 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         return v;
     }
 
-    public void initializeYoutubePlayerFragment(final Song song){
-        youTubePlayerFragment = new YouTubePlayerSupportFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        frameLayout.setVisibility(View.VISIBLE);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.youtube_fragment, youTubePlayerFragment);
-        fragmentTransaction.addToBackStack(SONG_TO_PLAY);
-        fragmentTransaction.commit();
-        youTubePlayerFragment.initialize(getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                com.ruppal.orbz.models.Player.setYouTubePlayer(youTubePlayer);
-                playSong(song);
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                Toast.makeText(getContext(), "Failed to initalize the youtube player", Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }
-
-//
-//    public void playNextSongInQueue() {
-//        while (Player.queue.size() >= 1) { //got through queue
-//            Log.d("song list fragment", String.valueOf(Player.queue.size()));
-//            for (int i = 0; i < Player.queue.size(); i++) {
-//
-//               // if ( ) { //no song currently playing
-//                    playSong(Player.queue.get(i));
-//                    Log.d("what is playing in queue", String.valueOf(Player.queue.get(i)));
-//                    Toast.makeText(getContext(), "playing song in queue", Toast.LENGTH_SHORT).show();
-//                    Player.queue.remove(i);
-//               // }
+//    public void initializeYoutubePlayerFragment(final Song song){
+//        Player.youtubePlayerFragment = new YouTubePlayerSupportFragment();
+//        FragmentManager fragmentManager = getFragmentManager();
+//        frameLayout.setVisibility(View.VISIBLE);
+//        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.youtube_fragment, youTubePlayerFragment);
+//        fragmentTransaction.addToBackStack(SONG_TO_PLAY);
+//        fragmentTransaction.commit();
+//        youTubePlayerFragment.initialize(getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
+//            @Override
+//            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+//                com.ruppal.orbz.models.Player.setYouTubePlayer(youTubePlayer);
+//                playSong(song);
 //            }
-//        }
+//
+//            @Override
+//            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+//                Toast.makeText(getContext(), "Failed to initalize the youtube player", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
 //    }
+
+
 
 
     @Override
     public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
-        switch(song.getService()){
-            case Song.SPOTIFY :
-                if(song.isPlaying())
-                Toast.makeText(getContext(), song.getTitle() + " already playing", Toast.LENGTH_LONG).show();
-                ivAlbumCoverPlayer.bringToFront();
-                Glide.with(getContext())
-                        .load(song.getAlbumCoverUrl())
-                        .into(ivAlbumCoverPlayer);
-                playSong(song);
-                break;
-            case Song.LOCAL :
-                Player.playSong(song);
-                Player.currentlyPlayingSong = song;
-                break;
-            case Song.YOUTUBE :
-                youtube_fragment.bringToFront();
-                initializeYoutubePlayerFragment(song);
-                break;
-            default:
-                break;
-        }
+        Player.playSong(song);
+//        switch(song.getService()){
+//            case Song.SPOTIFY :
+//                if(song.isPlaying())
+//                ivAlbumCoverPlayer.bringToFront();
+//                Glide.with(getContext())
+//                        .load(song.getAlbumCoverUrl())
+//                        .into(ivAlbumCoverPlayer);
+//                playSong(song);
+//                break;
+//            case Song.LOCAL :
+//                Player.playSong(song);
+//                Player.currentlyPlayingSong = song;
+//                break;
+//            case Song.YOUTUBE :
+//                youtube_fragment.bringToFront();
+//                initializeYoutubePlayerFragment(song);
+//                break;
+//            default:
+//                break;
+//        }
     }
 
     @Override
