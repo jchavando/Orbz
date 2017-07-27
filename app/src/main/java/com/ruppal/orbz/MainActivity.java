@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         youTubeClient = new YouTubeClient();
         youTubeClient.setAccessToken(googleAccessToken);
         googleResults = new ArrayList<>();
-
         com.ruppal.orbz.models.Player.setActivity(this);
 
         //get the view pager
@@ -114,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
         tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
 
+        getSupportActionBar().setTitle(null);
 
     }
 
