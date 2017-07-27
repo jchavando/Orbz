@@ -18,10 +18,12 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginOtherActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"
+                     />
             </intent-filter>
         </activity>
 
@@ -32,6 +34,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity android:name=".MainActivity"
+
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode" >
         </activity>
 

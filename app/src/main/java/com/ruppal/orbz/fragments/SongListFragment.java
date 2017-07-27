@@ -1,7 +1,6 @@
 package com.ruppal.orbz.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,7 +22,6 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.MainActivity;
-import com.ruppal.orbz.PlaylistActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.PlaylistTable;
@@ -53,7 +51,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public static ArrayList<Song> localSongList;
     public static ArrayList<PlaylistTable> localPlaylistTables;
     static ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener addSongToPlaylistAdapterListener;
-
+    public FragmentTransaction transaction;
     SpotifyClient spotifyClient;
     YouTubePlayerSupportFragment youTubePlayerFragment;
     String SONG_TO_PLAY = "SONG_TO_PLAY";
@@ -90,10 +88,30 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         if (playlist != null) {
             // Fire an intent when a playlist is selected
             // Pass contact object in the bundle and populate details activity.
-            Intent intent = new Intent(getContext(), PlaylistActivity.class);
-            intent.putExtra("tracks", Parcels.wrap(playlist));
-            getContext().startActivity(intent);
+
+//             Intent intent = new Intent(getContext(), PlaylistActivity.class);
+//            intent.putExtra("tracks", Parcels.wrap(playlist));
+//            getContext().startActivity(intent);
+
+            insertPlaylistSongsFragment(playlist);
         }
+
+
+    }
+    // Embeds the child fragment dynamically
+    private void insertPlaylistSongsFragment(Playlist playlist) {
+
+        PlaylistSongsFragment childFragment = new PlaylistSongsFragment();
+        Bundle arguments = new Bundle();
+        arguments.putParcelable("tracks", Parcels.wrap(playlist));
+        childFragment.setArguments(arguments);
+        transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
+        FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.id.fragment1);
+        frameLayout.bringToFront();
+        transaction.replace(R.id.fragment1, childFragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 
     @Override
@@ -155,21 +173,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
     }
 
-//
-//    public void playNextSongInQueue() {
-//        while (Player.queue.size() >= 1) { //got through queue
-//            Log.d("song list fragment", String.valueOf(Player.queue.size()));
-//            for (int i = 0; i < Player.queue.size(); i++) {
-//
-//               // if ( ) { //no song currently playing
-//                    playSong(Player.queue.get(i));
-//                    Log.d("what is playing in queue", String.valueOf(Player.queue.get(i)));
-//                    Toast.makeText(getContext(), "playing song in queue", Toast.LENGTH_SHORT).show();
-//                    Player.queue.remove(i);
-//               // }
-//            }
-//        }
-//    }
+
 
 
     @Override
