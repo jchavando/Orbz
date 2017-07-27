@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
+
+    <item
+        android:id="@+id/backToPlaylists"
+        android:icon="@drawable/reply_w"
+        android:title="Item"
+        app:showAsAction="ifRoom"
+        />
     <item
         android:id="@+id/addPlaylist"
         android:icon="@drawable/plus"
         android:title="Item"
         app:showAsAction="ifRoom"
+
         />
-    <item
-        android:id="@+id/backToPlaylists"
-        android:icon="@drawable/back_button2"
-        android:title="Item"
-        app:showAsAction="ifRoom"
-        />
+
 </menu>
