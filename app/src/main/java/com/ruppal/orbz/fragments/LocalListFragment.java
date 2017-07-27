@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by elviskahoro on 7/20/17.
  */
 
-public class LocalListFragment extends SearchFragment {
+public class LocalListFragment extends SongListFragment { //SearchFragment
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

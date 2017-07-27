@@ -69,13 +69,11 @@ public class Player {
     public static int grey = R.color.disable_button;
     public static int white = Color.WHITE;
     public static ScheduledExecutorService executor;
-    //Player.EVENT_CHANGE;
     public static Song currentlyPlayingSong;
     public static com.spotify.sdk.android.player.Player spotifyPlayer;
     public static YouTubePlayer youTubePlayer;
     public static com.spotify.sdk.android.player.Player.OperationCallback spotifyCallback;
     public static ArrayList<Song> queue = new ArrayList<>();
-    //public static final PlayerNotificationCallback.EventType TRACK_END;
     public static PlayerEvent kSpPlaybackNotifyMetadataChanged;
 
     public static ArrayList<Song> queueRemoved = new ArrayList<>(); //act like a stack
@@ -97,6 +95,9 @@ public class Player {
 
     public static Activity getActivity() {
         return activity;
+
+
+//        PlayerEvent kSpPlaybackNotifyMetadataChanged = PlayerEvent.kSpPlaybackNotifyMetadataChanged;
     }
 
     public static void setActivity(Activity activity) {
@@ -120,6 +121,7 @@ public class Player {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
+
             }
 
             @Override
@@ -134,8 +136,11 @@ public class Player {
         return Math.abs(i-j)<oneSecond;
     }
 
+
     public static void setSpotifyPlayer(com.spotify.sdk.android.player.Player spotifyPlayer) {
         Player.spotifyPlayer = spotifyPlayer;
+        spotifyPlayer.getMetadata();
+
     }
 
     public static YouTubePlayer getYouTubePlayer() {
@@ -259,8 +264,6 @@ public class Player {
             if (positionInQueue != queue.size()-1) {
                 positionInQueue+=1;
             }
-            //queueRemoved.add(0, queue.get(0));
-            //queue.remove(0);
         }
     }
 
@@ -271,7 +274,6 @@ public class Player {
     //TODO on click
     public static void skipToPreviousInQueue(){
         if (queue.size() > 0) {
-            //positionInQueueRemoved = positionInQueueRemoved +1;
             if (positionInQueue > 0) {
                 positionInQueue -= 1;
                 playSong(queue.get(positionInQueue));
@@ -357,6 +359,7 @@ public class Player {
                     updateAlbumCover();
 //                    int duration = (int) exoPlayer.getDuration(); //todo make sure this cast is safe
 //                    sbSongProgress.setMax(duration);
+
                 } else { Log.e("player", "local player not initialized");}
                 break;
             default:
@@ -484,7 +487,6 @@ public class Player {
         }
     }
 
-
     public static void pauseSong(Song song){
         if (executor!=null) {
             executor.shutdown();
@@ -504,9 +506,7 @@ public class Player {
             default:
                 break;
         }
-
     }
-
 
     public static void unPauseSong(Song song){
         setPlayButtonColors();
@@ -569,8 +569,6 @@ public class Player {
         };
         PlaybackState mCurrentPlaybackState = spotifyPlayer.getPlaybackState();
         if (mCurrentPlaybackState != null && mCurrentPlaybackState.isPlaying) {
-//            Drawable playButton = context.getResources().getDrawable(R.drawable.exo_controls_play);
-//            ((ImageView) view).setImageDrawable(playButton);
             spotifyPlayer.pause(mOperationCallback);
         }
     }
@@ -603,6 +601,7 @@ public class Player {
         exoPlayer.setPlayWhenReady(state);
     }
 
+
     public static void initializeYoutubePlayerFragment(final Song song){
         youtubePlayerFragment = new YouTubePlayerSupportFragment();
         fragmentTransaction = SongListFragment.fragmentManager.beginTransaction();
@@ -622,5 +621,6 @@ public class Player {
             }
         });
     }
+
 
 }

@@ -30,9 +30,7 @@ public class YouTubeClient {
         params.put("part", "snippet");
         params.put("type", "video");
         params.put("maxResults", 20);
-//        params.put("videoCategoryId", "Music");
         params.put("q", query);
-//        params.put("videoDefinition", "any");
         client.addHeader("Authorization", "Bearer " + accessToken);
         client.get(apiUrl, params, handler);
     }

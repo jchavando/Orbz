@@ -1,11 +1,11 @@
 package com.ruppal.orbz.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.MainActivity;
-import com.ruppal.orbz.PlaylistActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.PlaylistTable;
@@ -50,6 +49,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public static ArrayList<PlaylistTable> localPlaylistTables;
     static ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener addSongToPlaylistAdapterListener;
     public static FragmentManager fragmentManager;
+    public FragmentTransaction transaction;
     SpotifyClient spotifyClient;
 //    YouTubePlayerSupportFragment youTubePlayerFragment;
     String SONG_TO_PLAY = "SONG_TO_PLAY";
@@ -86,14 +86,30 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         if (playlist != null) {
             // Fire an intent when a playlist is selected
             // Pass contact object in the bundle and populate details activity.
-            Intent intent = new Intent(getContext(), PlaylistActivity.class);
-            intent.putExtra("tracks", Parcels.wrap(playlist));
-            getContext().startActivity(intent);
-        }
-    }
 
-    public interface SongSelectedListener{
-        public void onSongSelected(Song song);
+//             Intent intent = new Intent(getContext(), PlaylistActivity.class);
+//            intent.putExtra("tracks", Parcels.wrap(playlist));
+//            getContext().startActivity(intent);
+
+            insertPlaylistSongsFragment(playlist);
+        }
+
+
+    }
+    // Embeds the child fragment dynamically
+    private void insertPlaylistSongsFragment(Playlist playlist) {
+
+        PlaylistSongsFragment childFragment = new PlaylistSongsFragment();
+        Bundle arguments = new Bundle();
+        arguments.putParcelable("tracks", Parcels.wrap(playlist));
+        childFragment.setArguments(arguments);
+        transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
+        FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.id.fragment1);
+        frameLayout.bringToFront();
+        transaction.replace(R.id.fragment1, childFragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 
     @Override
@@ -133,6 +149,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         return v;
     }
 
+
 //    public void initializeYoutubePlayerFragment(final Song song){
 //        Player.youtubePlayerFragment = new YouTubePlayerSupportFragment();
 //        FragmentManager fragmentManager = getFragmentManager();
@@ -155,6 +172,32 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 //        });
 //
 //    }
+
+//    public void initializeYoutubePlayerFragment(final Song song){
+//        youTubePlayerFragment = new YouTubePlayerSupportFragment();
+//        FragmentManager fragmentManager = getFragmentManager();
+//        frameLayout.setVisibility(View.VISIBLE);
+//        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.youtube_fragment, youTubePlayerFragment);
+//        fragmentTransaction.addToBackStack(SONG_TO_PLAY);
+//        fragmentTransaction.commit();
+//        youTubePlayerFragment.initialize(getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
+//            @Override
+//            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+//                com.ruppal.orbz.models.Player.setYouTubePlayer(youTubePlayer);
+//                playSong(song);
+//            }
+//
+//            @Override
+//            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+//                Toast.makeText(getContext(), "Failed to initalize the youtube player", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
+//    }
+
+
+
 
 
 

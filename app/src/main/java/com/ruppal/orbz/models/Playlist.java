@@ -27,16 +27,6 @@ public class Playlist {
         switch (service) {
             case SPOTIFY:
                 return parseSpotifyJSON(object);
-            //break;
-//            case SOUNDCLOUD:
-//                return parseSoundcloudJSON(object);
-//                break;
-//            case GOOGLE_PLAY:
-//                return parseGooglePlayJSON(object);
-//            //break;
-//            case YOUTUBE:
-//                return parseYoutubeJSON(object);
-            //break;
             default:
                 return null;
         }

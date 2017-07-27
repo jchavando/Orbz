@@ -25,11 +25,7 @@ public class LastFMClient extends JsonHttpResponseHandler {
     private static String getApiUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;
     }
-//    public LastFMClient(Context context) {
-//
-//    }
 
-    //TODO
     public void search (String title, AsyncHttpResponseHandler handler) {
         //REQUIRES: type is a comma separated string of search types.
         //for ex: type = "album, artist, playlist, track"
