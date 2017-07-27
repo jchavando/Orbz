@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
@@ -52,7 +53,9 @@ public class SearchFragment extends SongListFragment {
         youTubeClient = new YouTubeClient();
         lastFMCLient = new LastFMClient();
         setHasOptionsMenu(true);
-       // ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(null);
+
+        // ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 
     @Override

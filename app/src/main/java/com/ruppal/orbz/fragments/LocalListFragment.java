@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.models.Song;
 
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class LocalListFragment extends SongListFragment { //SearchFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Queue");
+
     }
 
     public void populateLocalList (ArrayList<Song> songsToAdd){
