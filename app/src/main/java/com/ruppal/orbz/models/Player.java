@@ -90,7 +90,7 @@ public class Player {
     public static int currentWindow;
     public static boolean playWhenReady = true;
     public static ImageView ivAlbumCover;
-    public static YouTubePlayerSupportFragment youtubePlayerFragment = new YouTubePlayerSupportFragment();
+    public static YouTubePlayerSupportFragment youtubePlayerFragment;
     public static FrameLayout frameLayout;
     public static FragmentTransaction fragmentTransaction;
 
@@ -604,6 +604,7 @@ public class Player {
     }
 
     public static void initializeYoutubePlayerFragment(final Song song){
+        youtubePlayerFragment = new YouTubePlayerSupportFragment();
         fragmentTransaction = SongListFragment.fragmentManager.beginTransaction();
         fragmentTransaction.replace(youtube_fragment, youtubePlayerFragment);
         fragmentTransaction.addToBackStack(null);
