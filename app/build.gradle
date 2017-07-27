@@ -74,6 +74,9 @@ dependencies {
     //blurry background
     compile 'jp.wasabeef:blurry:2.1.1'
 
+    compile 'com.parse:parse-android:1.15.8'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+
 
     //youtube stuff
 //    compile 'pub.devrel:easypermissions:0.3.0'

@@ -27,7 +27,6 @@ public class QueueFragment extends SongListFragment {
         super.onCreate(savedInstanceState);
     }
 
-
     public void populateQueue(){
         for (int i = 0; i< queue.size(); i++){
             Song song = queue.get(i);
