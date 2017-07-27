@@ -1,6 +1,7 @@
 package com.ruppal.orbz;
 
 import android.annotation.SuppressLint;
+import android.app.FragmentManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -84,9 +86,11 @@ public class MainActivity extends AppCompatActivity {
 
         //get the view pager
         vpPager = (ViewPager) findViewById(R.id.viewpager);
+        //adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
         adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
         //set the adapter for the pager
-        vpPager.setAdapter(adapterViewPager);
+        vpPager.setAdapter(adapterViewPager); //
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
 
@@ -228,6 +232,18 @@ public class MainActivity extends AppCompatActivity {
     }
     public void previousInQueue(View v){
         com.ruppal.orbz.models.Player.skipToPreviousInQueue();
+    }
+
+    @Override
+    public void onBackPressed(){
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
     }
 
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by jchavando on 7/13/17.
  */
 
-public class SongPagerAdapter extends FragmentPagerAdapter {
+public class SongPagerAdapter extends FragmentPagerAdapter { //possibly change to: FragmentStatePagerAdapter
 
 
     private String tabTitles[] = new String[] {"", "", "", ""};

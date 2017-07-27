@@ -43,6 +43,12 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
     String newPlaylist;
     ArrayList<Playlist> playlistsFromDatabase;
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser){
+            String hi = "hello";
+        }
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -52,11 +58,6 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         addLocalPlaylistsToSongs();
         populateSpotifyPlaylists();
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Playlists");
-
-        // insertNestedFragment();
-
-
-//        populateAllPlaylists();
     }
 
     @Override
@@ -66,6 +67,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         spotifyPlaylists = new ArrayList<>();
         setHasOptionsMenu(true);
         addSongToPlaylistAdapterListener = this;
+
     }
 
 
@@ -98,17 +100,14 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                // Not implemented here
-                return false;
             case R.id.addPlaylist:
                 showPlaylistDialogFragment();
                 return true;
-            case R.id.backToPlaylists:
-                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
-                //Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
-                //getFragmentManager().popBackStack();
-                return false;
+//            case R.id.backToPlaylists:
+//                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
+//                //Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
+//                getFragmentManager().popBackStack();
+//                return false;
             default:
                 break;
         }
