@@ -20,13 +20,14 @@ public class QueueFragment extends SongListFragment {
         super.onViewCreated(view, savedInstanceState);
         clearSongsList();
         populateQueue();
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Queue");
+
 
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Queue");
     }
 
 

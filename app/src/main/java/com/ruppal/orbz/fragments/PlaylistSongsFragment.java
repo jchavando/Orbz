@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -66,34 +69,45 @@ public class PlaylistSongsFragment extends SongListFragment {
         super.onCreate(savedInstanceState);
         spotifyClient = new SpotifyClient();
         songs = new ArrayList<>();
+        setHasOptionsMenu(true);
 
     }
-//    @Override
+
+
+
 //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 //        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.menu_playlist, menu);
+//        //MenuItem fav = menu.add("add");
+//        //fav.setIcon(R.id.backToPlaylists);
 //    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_search:
-//                // Not implemented here
-//                return false;
-//            case R.id.addPlaylist:
-//               // showPlaylistDialogFragment();
-//                return true;
-//            case R.id.backToPlaylists:
-//                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
-//
-//                getFragmentManager().popBackStack();
-//                return true;
-//            default:
-//                break;
-//        }
-//
-//        return false;
-//    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_back, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                // Not implemented here
+                return false;
+            case R.id.addPlaylist:
+               // showPlaylistDialogFragment();
+                return false;
+            case R.id.backToPlaylists:
+                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
+                Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
+
+                getFragmentManager().popBackStack();
+                return true;
+            default:
+                break;
+        }
+
+        return false;
+    }
 
     public void loadTracksFromLocal(Playlist playlist){
         ArrayList<Song> tracks = playlist.getTracks();

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/backToPlaylists"
-        android:icon="@drawable/back_button2"
+        android:icon="@drawable/back_button"
         android:title="Item"
         app:showAsAction="ifRoom"
         />

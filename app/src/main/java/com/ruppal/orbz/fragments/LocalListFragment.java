@@ -22,12 +22,13 @@ public class LocalListFragment extends SongListFragment { //SearchFragment
         clearSongsList();
         printArrayList(localSongList);
         populateLocalList(localSongList);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Local");
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Queue");
 
     }
 

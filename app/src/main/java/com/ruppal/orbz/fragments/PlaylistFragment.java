@@ -51,7 +51,9 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         getLocalPlaylists();
         addLocalPlaylistsToSongs();
         populateSpotifyPlaylists();
-       // insertNestedFragment();
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Playlists");
+
+        // insertNestedFragment();
 
 
 //        populateAllPlaylists();
@@ -62,11 +64,8 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         super.onCreate(savedInstanceState);
         spotifyClient = new SpotifyClient();
         spotifyPlaylists = new ArrayList<>();
-        //fabAddPlaylist.setOnClickListener(this); //TODO fix
         setHasOptionsMenu(true);
         addSongToPlaylistAdapterListener = this;
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Playlists");
-        //getSupportActionBar().hide();
     }
 
 
@@ -87,14 +86,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         }
     }
 
-//    public void populateAllPlaylists(){
-//        for (int i=0; i< spotifyPlaylists.size(); i++){
-//            addSong(spotifyPlaylists.get(i));
-//        }
-//        for (int i =0 ; i < playlistsFromDatabase.size()){
-//
-//        }
-//    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -114,9 +106,9 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
                 return true;
             case R.id.backToPlaylists:
                 //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
-                Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
                 //getFragmentManager().popBackStack();
-                return true;
+                return false;
             default:
                 break;
         }
