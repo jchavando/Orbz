@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -32,8 +37,11 @@ import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.FileDataSource;
+import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.ruppal.orbz.R;
+import com.ruppal.orbz.fragments.SongListFragment;
 import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.PlaybackState;
 import com.spotify.sdk.android.player.PlayerEvent;
@@ -42,6 +50,10 @@ import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import static com.ruppal.orbz.R.id.youtube_fragment;
+
+//import java.lang.Enum<PlayerNotificationCallback.EventType>;
 
 /**
  * Created by ruppal on 7/19/17.
@@ -75,6 +87,11 @@ public class Player {
     public static long playbackPosition;
     public static int currentWindow;
     public static boolean playWhenReady = true;
+    public static ImageView ivAlbumCover;
+    public static YouTubePlayerSupportFragment youtubePlayerFragment;
+    public static FrameLayout frameLayout;
+    public static FragmentTransaction fragmentTransaction;
+
 
     public static Activity getActivity() {
         return activity;
@@ -87,12 +104,17 @@ public class Player {
         Player.activity = activity;
         pauseButton = (ImageButton) activity.findViewById(R.id.exoPlayer_pause);
         playButton = (ImageButton) activity.findViewById(R.id.exoPlayer_play);
+        ivAlbumCover = (ImageView) activity.findViewById(R.id.ivAlbumCoverPlayer);
+        frameLayout = (FrameLayout) activity.findViewById(youtube_fragment);
         sbSongProgress = (SeekBar) activity.findViewById(R.id.sbSongProgress);
         sbSongProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser && currentlyPlayingSong!=null) {
                     playCurrentSongFrom(progress);
+                }
+                if (currentlyPlayingSong!=null && currentlyPlayingSong.getService() == Song.SPOTIFY && almostEquals(progress, sbSongProgress.getMax())){
+                    playNextSongInQueue();
                 }
             }
 
@@ -107,6 +129,11 @@ public class Player {
 
             }
         });
+    }
+
+    private static boolean almostEquals(int j, int i){
+        int oneSecond = 1000;
+        return Math.abs(i-j)<oneSecond;
     }
 
 
@@ -295,6 +322,15 @@ public class Player {
         }
     }
 
+    public static void updateAlbumCover(){
+        if (ivAlbumCover!=null && currentlyPlayingSong.getService() != Song.YOUTUBE){
+            ivAlbumCover.bringToFront();
+            Glide.with(activity.getApplicationContext())
+                    .load(currentlyPlayingSong.getAlbumCoverUrl())
+                    .into(ivAlbumCover);
+        }
+    }
+
     public static void playSong(Song song){
         currentlyPlayingSong = song;
         setPlayButtonColors();
@@ -305,6 +341,7 @@ public class Player {
                     playSongFromSpotify(song);
                     int duration = song.getDuration_ms();
                     sbSongProgress.setMax(duration);
+                    updateAlbumCover();
                 }
                 else{
                     Log.e("player", "spotify player not initialized");
@@ -312,16 +349,17 @@ public class Player {
                 break;
 
             case Song.YOUTUBE:
-                if (youTubePlayer!=null) {
-                    playSongFromYoutube(song);
-                }
-                else{
-                    Log.e("player", "youtube player not initialized");
-                }
+                frameLayout.bringToFront();
+                initializeYoutubePlayerFragment(song); //calls play song from youtube
+//                    playSongFromYoutube(song);
                 break;
             case Song.LOCAL:
                 if (exoPlayer != null) {
                     prepareExoPlayerFromFileUri(song.getSongUri());
+                    updateAlbumCover();
+//                    int duration = (int) exoPlayer.getDuration(); //todo make sure this cast is safe
+//                    sbSongProgress.setMax(duration);
+
                 } else { Log.e("player", "local player not initialized");}
                 break;
             default:
@@ -366,6 +404,10 @@ public class Player {
                         int duration = (int) exoPlayer.getDuration();
                         sbSongProgress.setMax(duration);
                     }
+                    if (playbackState == ExoPlayer.STATE_ENDED){
+                        playNextSongInQueue();
+                    }
+
                 }
 
                 @Override
@@ -481,6 +523,8 @@ public class Player {
             default:
                 break;
         }
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
     }
 
     private static void unPauseSongFromYoutube(Song song){
@@ -556,5 +600,27 @@ public class Player {
         else {setPauseButtonColors();}
         exoPlayer.setPlayWhenReady(state);
     }
+
+
+    public static void initializeYoutubePlayerFragment(final Song song){
+        youtubePlayerFragment = new YouTubePlayerSupportFragment();
+        fragmentTransaction = SongListFragment.fragmentManager.beginTransaction();
+        fragmentTransaction.replace(youtube_fragment, youtubePlayerFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        youtubePlayerFragment.initialize(activity.getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                com.ruppal.orbz.models.Player.setYouTubePlayer(youTubePlayer);
+                playSongFromYoutube(song);
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Toast.makeText(activity.getApplicationContext(), "Failed to initalize the youtube player", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
 }
