@@ -38,7 +38,7 @@ public class SearchFragment extends SongListFragment {
     YouTubeClient youTubeClient;
 
     private final String TAG = "YoutubeClient";
-
+    ArrayList<Song> allSearchArray = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,13 +60,64 @@ public class SearchFragment extends SongListFragment {
         }
     }
 
-    public void searchYoutube (String query){
+    public void refineSongSearch(String query){
+        ArrayList<Song> refinedSongList = new ArrayList<>();
+        for(Object temp : songs){
+            if(temp instanceof Song){
+                refinedSongList.add((Song) temp);
+            }
+        }
+        ArrayList<Song> currentList = searchConverter(searchAll(query, refinedSongList));
+        clearSongsList();
+        for(Song searchedSong : currentList)
+        {
+            addSong(searchedSong);
+        }
+    }
+
+    public Map<Song, Integer> searchAll (String query, ArrayList<Song> workingArray){
+        String[] queryList = query.split(" ");
+        Map<Song, Integer> songMap = new LinkedHashMap<>();
+        for (int i = 0; i <workingArray.size(); i++) {
+
+            for (String temp : queryList) {
+
+                if(containsIgnoreCase(workingArray.get(i).getTitle(), temp) || containsIgnoreCase(workingArray.get(i).getArtist(), temp)) {
+                    Integer count = songMap.get(workingArray.get(i));
+                    songMap.put(workingArray.get(i), (count == null) ? 1 : count + 1);
+                }
+            }
+        }
+        songMap = MapUtil.sortByValue(songMap);
+        printMap(songMap);
+        return songMap;
+    }
+
+    public Map<Song, Integer> searchLocal (String query){
+        String[] queryList = query.split(" ");
+        Map<Song, Integer> songMap = new LinkedHashMap<>();
+        for (int i = 0; i <localSongList.size(); i++) {
+
+            for (String temp : queryList) {
+
+                if(containsIgnoreCase(localSongList.get(i).getTitle(), temp) || containsIgnoreCase(localSongList.get(i).getArtist(), temp)) {
+                    Integer count = songMap.get(localSongList.get(i));
+                    songMap.put(localSongList.get(i), (count == null) ? 1 : count + 1);
+                }
+            }
+        }
+        songMap = MapUtil.sortByValue(songMap);
+        printMap(songMap);
+        return songMap;
+    }
+
+    public void searchYoutube (String query) {
         youTubeClient.search(query, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     JSONArray items = response.getJSONArray("items");
-                    for (int i = 0; i < items.length(); i++){
+                    for (int i = 0; i < items.length(); i++) {
                         JSONObject item = items.getJSONObject(i);
                         Song song = Song.fromJSON(Song.YOUTUBE, item);
                         addSong(song);
@@ -97,33 +148,6 @@ public class SearchFragment extends SongListFragment {
                 Log.e(TAG, errorResponse.toString());
             }
         });
-
-    }
-
-    public Map<Song, Integer> searchLocal (String query){
-        String[] queryList = query.split(" ");
-        Map<Song, Integer> songMap = new LinkedHashMap<>();
-        for (int i = 0; i <localSongList.size(); i++) {
-
-            for (String temp : queryList) {
-
-                if(containsIgnoreCase(localSongList.get(i).getTitle(), temp) || containsIgnoreCase(localSongList.get(i).getArtist(), temp)) {
-                    Integer count = songMap.get(localSongList.get(i));
-                    songMap.put(localSongList.get(i), (count == null) ? 1 : count + 1);
-                }
-            }
-        }
-        songMap = MapUtil.sortByValue(songMap);
-        printMap(songMap);
-        return songMap;
-    }
-
-    public ArrayList<Song> searchConverter(Map<Song, Integer> songMap){
-        ArrayList<Song> songListNew = new ArrayList<>();
-        for(Song key : songMap.keySet()){
-            songListNew.add(key);
-        }
-        return songListNew;
     }
 
     public void searchSpotify(final String query) {
@@ -174,56 +198,64 @@ public class SearchFragment extends SongListFragment {
 
     }
 
-        public void searchFM(String query){
-        lastFMCLient.search(query, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                JSONObject tracks = null;
-                try {
-                    tracks = response.getJSONObject("tracks");
-                    JSONArray items = tracks.getJSONArray("items");
-                    for (int i = 0; i < items.length(); i++){
-                        JSONObject item = items.getJSONObject(i);
-                        Song song = Song.fromJSON(Song.LASTFM, item);
-                        addSong(song);
-                        //songAdapter.notifyItemInserted(songs.size()-1);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+    public void searchFM(String query){
+    lastFMCLient.search(query, new JsonHttpResponseHandler() {
+        @Override
+        public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+            JSONObject tracks = null;
+            try {
+                tracks = response.getJSONObject("tracks");
+                JSONArray items = tracks.getJSONArray("items");
+                for (int i = 0; i < items.length(); i++){
+                    JSONObject item = items.getJSONObject(i);
+                    Song song = Song.fromJSON(Song.LASTFM, item);
+                    addSong(song);
+                    //songAdapter.notifyItemInserted(songs.size()-1);
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+        }
 
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
-                super.onSuccess(statusCode, headers, response);
-            }
+        @Override
+        public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+            super.onSuccess(statusCode, headers, response);
+        }
 
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
-                super.onSuccess(statusCode, headers, responseString);
-            }
+        @Override
+        public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
+            super.onSuccess(statusCode, headers, responseString);
+        }
 
-            @Override
-            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-            }
+        @Override
+        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+            super.onFailure(statusCode, headers, responseString, throwable);
+        }
 
-            @Override
-            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
+        @Override
+        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            super.onFailure(statusCode, headers, throwable, errorResponse);
+        }
 
-            @Override
-            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
+        @Override
+        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONArray errorResponse) {
+            super.onFailure(statusCode, headers, throwable, errorResponse);
+        }
 
-        });
-    }
+    });
+}
 
     public void printMap(Map<Song, Integer> map){
         for (Map.Entry<Song, Integer> entry : map.entrySet()) {
             Log.d("Elvis_Song_Map","Key : " + entry.getKey().getTitle() + " Value : " + entry.getValue());
         }
+    }
+
+    public ArrayList<Song> searchConverter(Map<Song, Integer> songMap){
+        ArrayList<Song> songListNew = new ArrayList<>();
+        for(Song key : songMap.keySet()){
+            songListNew.add(key);
+        }
+        return songListNew;
     }
 }

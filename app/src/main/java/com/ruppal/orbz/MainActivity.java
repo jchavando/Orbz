@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton exoNext;
     ImageButton exoPrev;
 
+    String realQuery;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                SearchFragment searchFragment= (SearchFragment) SongPagerAdapter.mFragmentReferences.get(0);
+                realQuery = query;
+                searchFragment = (SearchFragment) SongPagerAdapter.mFragmentReferences.get(0);
                 searchFragment.clearSongsList();
                 searchFragment.searchSongs(query);
 
@@ -153,6 +156,11 @@ public class MainActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
+
+    public void refineSearch(MenuItem menu){
+        searchFragment.refineSongSearch(realQuery);
+    }
+
 
     public void getSpotifyPlayer(String accessToken){
         Config playerConfig = new Config(this, accessToken, spotifyClientId);

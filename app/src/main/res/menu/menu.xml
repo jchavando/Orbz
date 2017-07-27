@@ -9,4 +9,12 @@
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 
+    <item
+        android:id="@+id/refine_search"
+        android:icon="@android:drawable/btn_plus"
+        android:orderInCategory="6"
+        android:title="RefineSearch"
+        app:showAsAction="always"
+        android:onClick="refineSearch"/>
+
 </menu>

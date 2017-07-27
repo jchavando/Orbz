@@ -96,10 +96,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         }
     }
 
-    public interface SongSelectedListener{
-        public void onSongSelected(Song song);
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
