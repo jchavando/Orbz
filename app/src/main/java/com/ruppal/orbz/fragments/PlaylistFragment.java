@@ -64,6 +64,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         //fabAddPlaylist.setOnClickListener(this); //TODO fix
         setHasOptionsMenu(true);
         addSongToPlaylistAdapterListener = this;
+        //((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }
 
 

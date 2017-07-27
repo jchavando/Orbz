@@ -3,10 +3,16 @@ package com.ruppal.orbz.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.MapUtil;
+import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.LastFMClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.clients.YouTubeClient;
@@ -46,6 +52,37 @@ public class SearchFragment extends SongListFragment {
         spotifyClient = new SpotifyClient();
         youTubeClient = new YouTubeClient();
         lastFMCLient = new LastFMClient();
+        setHasOptionsMenu(true);
+       // ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu, menu);
+
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SearchFragment searchFragment= (SearchFragment) SongPagerAdapter.mFragmentReferences.get(0);
+                searchFragment.clearSongsList();
+                searchFragment.searchSongs(query);
+
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        //return super.onCreateOptionsMenu(menu);
     }
 
     public void searchSongs(String query) {
