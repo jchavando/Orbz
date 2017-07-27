@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
+import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.DatabaseHelper;
@@ -64,7 +65,8 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         //fabAddPlaylist.setOnClickListener(this); //TODO fix
         setHasOptionsMenu(true);
         addSongToPlaylistAdapterListener = this;
-        //((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Playlists");
+        //getSupportActionBar().hide();
     }
 
 
@@ -98,6 +100,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_playlist, menu);
+
     }
 
     @Override

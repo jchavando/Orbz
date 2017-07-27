@@ -8,8 +8,10 @@
         android:id="@+id/backToPlaylists"
         android:icon="@drawable/reply_w"
         android:title="Item"
-        app:showAsAction="ifRoom"
-        />
+        android:layout_marginRight="100dp"
+        app:showAsAction="always"
+
+       />
     <item
         android:id="@+id/addPlaylist"
         android:icon="@drawable/plus"
