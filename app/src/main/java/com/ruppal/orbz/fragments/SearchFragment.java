@@ -82,7 +82,7 @@ public class SearchFragment extends SongListFragment {
 
             for (String temp : queryList) {
 
-                if(conainsIgnoreCase(workingArray.get(i).getTitle(), temp) || containsIgnoreCase(workingArray.get(i).getArtist(), temp)) {
+                if(containsIgnoreCase(workingArray.get(i).getTitle(), temp) || containsIgnoreCase(workingArray.get(i).getArtist(), temp)) {
                     Integer count = songMap.get(workingArray.get(i));
                     songMap.put(workingArray.get(i), (count == null) ? 1 : count + 1);
                 }
