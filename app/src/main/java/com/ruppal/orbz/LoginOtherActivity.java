@@ -82,7 +82,7 @@ LoginLastFMFragment.LastFMListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_other);
-
+        context = getApplicationContext();
         spotifyClientId = getString(R.string.spotify_client_id);
         spotifyRedirectUri = getString(R.string.spotify_redirect_uri);
         //googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
@@ -223,8 +223,8 @@ LoginLastFMFragment.LastFMListener{
             startActivity(i);
         }
         else{
-            Toast.makeText(context, "make sure you have granted the app storage permissions " +
-                    "and that you are connected to the internet", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Make sure you have granted the app storage permissions " +
+                    "and that you are connected to the internet.", Toast.LENGTH_LONG).show();
         }
     }
 
