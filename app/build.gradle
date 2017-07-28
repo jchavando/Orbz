@@ -76,7 +76,7 @@ dependencies {
 
     compile 'com.parse:parse-android:1.15.8'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-
+    compile 'com.parse:parse-livequery-android:1.0.4'
 
     //youtube stuff
 //    compile 'pub.devrel:easypermissions:0.3.0'
