@@ -79,6 +79,8 @@
             <ImageButton
                 android:id="@+id/exoPlayer_play"
                 style="@style/ExoMediaButton.Play"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="5dp"
                 android:onClick="unPauseCurrentSong"
                 android:layout_width="60dp" />
 
@@ -87,6 +89,8 @@
                 android:id="@+id/exoPlayer_pause"
                 android:onClick="pauseCurrentSong"
                 style="@style/ExoMediaButton.Pause"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="5dp"
                 android:layout_width="60dp" />
 
 
@@ -99,47 +103,86 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/exoPlayer_forward"
-                    style="@style/ExoMediaButton.FastForward"
-                    android:layout_width="60dp" />
-
-                <ImageButton
-                    android:id="@+id/exoPlayer_rewind"
-                    style="@style/ExoMediaButton.Rewind"
-                    android:layout_width="60dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-                <ImageButton
                     android:id="@+id/exoPlayer_next"
                     style="@style/ExoMediaButton.Next"
-                    android:layout_width="60dp"
-                    android:onClick="nextInQueue"/>
+                    android:onClick="nextInQueue"
+                    android:layout_width="60dp" />
 
                 <ImageButton
                     android:id="@+id/exoPlayer_previous"
                     style="@style/ExoMediaButton.Previous"
-                    android:layout_width="60dp"
-                    android:onClick="previousInQueue"/>
+                    android:onClick="previousInQueue"
+                    android:layout_width="60dp" />
 
             </LinearLayout>
+
 
         </LinearLayout>
 
 
     </LinearLayout>
 
-    <SeekBar
-        android:id="@+id/sbSongProgress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="6dp">
+
+            <TextView
+                android:id="@+id/tvTimeElapsed"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tvSongInfo"
+                android:textAlignment="textEnd"
+                android:layout_alignLeft="@+id/tvSongInfo"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/tvSongInfo"
+                android:layout_toLeftOf="@+id/sbSongProgress"
+                android:layout_toStartOf="@+id/sbSongProgress"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@android:color/white" />
+
+            <SeekBar
+                android:id="@+id/sbSongProgress"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+            android:id="@+id/tvTimeRemaining"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tvSongInfo"
+            android:layout_alignParentTop="true"
+            android:textColor="@android:color/white"
+            android:textAlignment="textStart"
+            android:fontFamily="sans-serif-thin"
+            android:layout_alignRight="@+id/tvSongInfo" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvSongInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sbSongProgress"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:fontFamily="sans-serif-thin"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="@android:color/white" />
 
 
-
+    </LinearLayout>
 
 </LinearLayout>

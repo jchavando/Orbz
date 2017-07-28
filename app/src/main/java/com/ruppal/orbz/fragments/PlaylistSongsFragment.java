@@ -2,8 +2,12 @@ package com.ruppal.orbz.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -41,6 +45,8 @@ public class PlaylistSongsFragment extends SongListFragment {
     public Player mPlayer;
     Playlist mPlaylist;
     SongListFragment songListFragment;
+    ViewPager vpPager;
+    PlaylistFragment playlistFragment;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -48,6 +54,7 @@ public class PlaylistSongsFragment extends SongListFragment {
         // insertNestedFragment();
         Bundle arguments = getArguments();
         mPlaylist = Parcels.unwrap(arguments.getParcelable("tracks"));
+
 
         if (mPlaylist.getPlaylistService().equals(Song.SPOTIFY)){
             loadTracksFromSpotify(mPlaylist.getTracksUrl());
@@ -66,34 +73,39 @@ public class PlaylistSongsFragment extends SongListFragment {
         super.onCreate(savedInstanceState);
         spotifyClient = new SpotifyClient();
         songs = new ArrayList<>();
-
+        setHasOptionsMenu(true);
+        playlistFragment = new PlaylistFragment();
     }
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.menu_playlist, menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_search:
-//                // Not implemented here
-//                return false;
-//            case R.id.addPlaylist:
-//               // showPlaylistDialogFragment();
-//                return true;
-//            case R.id.backToPlaylists:
-//                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
-//
-//                getFragmentManager().popBackStack();
-//                return true;
-//            default:
-//                break;
-//        }
-//
-//        return false;
-//    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_back, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.backToPlaylists:
+                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
+                Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
+
+               //getActivity().onBackPressed();
+                getFragmentManager().popBackStack();
+                //playlistFragment = new PlaylistFragment();
+                //playlistFragment.onCreate(null);
+                //vpPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+                //set the adapter for the pager
+                //vpPager.setAdapter(new SongPagerAdapter(getFragmentManager(), getContext())); //
+                //getFragmentManager().popBackStackImmediate();
+                return true;
+            default:
+                break;
+        }
+
+        return false;
+    }
 
     public void loadTracksFromLocal(Playlist playlist){
         ArrayList<Song> tracks = playlist.getTracks();

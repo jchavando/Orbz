@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
+import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.DatabaseHelper;
@@ -42,6 +43,12 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
     String newPlaylist;
     ArrayList<Playlist> playlistsFromDatabase;
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser){
+            String hi = "hello";
+        }
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -50,10 +57,17 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         getLocalPlaylists();
         addLocalPlaylistsToSongs();
         populateSpotifyPlaylists();
-       // insertNestedFragment();
+        ((MainActivity) getActivity()).setActionBarTitle("search");
+
+        // ((MainActivity) getActivity()).getSupportActionBar().setTitle("Playlists");
+    }
+    public void onResume(){
+        super.onResume();
+
+        // Set title bar
+        //getActivity().getSupportActionBar().setTitle("Playlists");
 
 
-//        populateAllPlaylists();
     }
 
     @Override
@@ -61,10 +75,11 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         super.onCreate(savedInstanceState);
         spotifyClient = new SpotifyClient();
         spotifyPlaylists = new ArrayList<>();
-        //fabAddPlaylist.setOnClickListener(this); //TODO fix
         setHasOptionsMenu(true);
         addSongToPlaylistAdapterListener = this;
-        //((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Playlists");
+        //getSupportActionBar().hide();
+
     }
 
 
@@ -85,35 +100,26 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         }
     }
 
-//    public void populateAllPlaylists(){
-//        for (int i=0; i< spotifyPlaylists.size(); i++){
-//            addSong(spotifyPlaylists.get(i));
-//        }
-//        for (int i =0 ; i < playlistsFromDatabase.size()){
-//
-//        }
-//    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_playlist, menu);
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                // Not implemented here
-                return false;
             case R.id.addPlaylist:
                 showPlaylistDialogFragment();
                 return true;
-            case R.id.backToPlaylists:
-                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
-                Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
-                //getFragmentManager().popBackStack();
-                return true;
+//            case R.id.backToPlaylists:
+//                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
+//                //Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
+//                getFragmentManager().popBackStack();
+//                return false;
             default:
                 break;
         }

@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -66,6 +70,8 @@ public class Player {
     public static ImageButton playButton;
     public static ImageButton pauseButton;
     public static SeekBar sbSongProgress;
+    public static TextView tvTimeElapsed;
+    public static TextView tvTimeRemaining;
     public static int grey = R.color.disable_button;
     public static int white = Color.WHITE;
     public static ScheduledExecutorService executor;
@@ -75,15 +81,14 @@ public class Player {
     public static com.spotify.sdk.android.player.Player.OperationCallback spotifyCallback;
     public static ArrayList<Song> queue = new ArrayList<>();
     public static PlayerEvent kSpPlaybackNotifyMetadataChanged;
-
     public static ArrayList<Song> queueRemoved = new ArrayList<>(); //act like a stack
-    public static int positionInQueue=0;
+    public static int positionInQueue= -1 ;
     public static SimpleExoPlayer exoPlayer;
     public static ComponentListener componentListener;
-
+    public static Animation animationMoveHorizontal;
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
     private static final String TAG = "PlayerActivity";
-
+    public static Handler handler;
     public static long playbackPosition;
     public static int currentWindow;
     public static boolean playWhenReady = true;
@@ -91,7 +96,7 @@ public class Player {
     public static YouTubePlayerSupportFragment youtubePlayerFragment;
     public static FrameLayout frameLayout;
     public static FragmentTransaction fragmentTransaction;
-
+    public static TextView tvSongInfo;
 
     public static Activity getActivity() {
         return activity;
@@ -102,11 +107,17 @@ public class Player {
 
     public static void setActivity(Activity activity) {
         Player.activity = activity;
+        handler = new Handler();
         pauseButton = (ImageButton) activity.findViewById(R.id.exoPlayer_pause);
         playButton = (ImageButton) activity.findViewById(R.id.exoPlayer_play);
         ivAlbumCover = (ImageView) activity.findViewById(R.id.ivAlbumCoverPlayer);
         frameLayout = (FrameLayout) activity.findViewById(youtube_fragment);
         sbSongProgress = (SeekBar) activity.findViewById(R.id.sbSongProgress);
+        tvTimeElapsed = (TextView) activity.findViewById(R.id.tvTimeElapsed);
+        tvTimeRemaining = (TextView) activity.findViewById(R.id.tvTimeRemaining);
+        tvSongInfo = (TextView) activity.findViewById(R.id.tvSongInfo);
+        animationMoveHorizontal = AnimationUtils.loadAnimation(activity.getApplicationContext(),
+                R.anim.move_horizontal);
         sbSongProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -160,12 +171,34 @@ public class Player {
         }
     }
 
+    public static Runnable elapsedTimeRunnable (final int currentTime, final int duration){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                int second = (currentTime / 1000) % 60;
+                int minute = (currentTime/ (1000 * 60)) % 60;
+                int totalTimeRemaining = duration - currentTime;
+                int secondRemaining = (totalTimeRemaining / 1000) % 60;
+                int minuteRemaining = (totalTimeRemaining/ (1000 * 60)) % 60;
+                //so 1 shows up as 01
+                String secondString = (second < 10 ? "0" : "") + second;
+                String secondRemainingString = (secondRemaining < 10 ? "0" : "") + secondRemaining;
+                String timeElapsed = minute + ":" + secondString;
+                String timeRemaining = minuteRemaining +":" + secondRemainingString;
+                tvTimeElapsed.setText(timeElapsed);
+                tvTimeRemaining.setText(timeRemaining);
+            }
+        };
+        return runnable;
+    }
+
     public static Runnable updateSeekBarSpotify = new Runnable() {
         @Override
         public void run() {
             if (spotifyPlayer!=null){
-                int currentTime = (int) spotifyPlayer.getPlaybackState().positionMs;
+                final int currentTime = (int) spotifyPlayer.getPlaybackState().positionMs;
                 sbSongProgress.setProgress(currentTime);
+                handler.post(elapsedTimeRunnable(currentTime, currentlyPlayingSong.getDuration_ms()));
             }
         }
     };
@@ -174,8 +207,10 @@ public class Player {
         @Override
         public void run() {
             if (exoPlayer != null){
-                int currentTime = (int) exoPlayer.getCurrentPosition();
+                final int currentTime = (int) exoPlayer.getCurrentPosition();
                 sbSongProgress.setProgress(currentTime);
+                handler.post(elapsedTimeRunnable(currentTime, (int) exoPlayer.getDuration()));
+
             }
         }
     };
@@ -185,11 +220,14 @@ public class Player {
         @Override
         public void run() {
             if (youTubePlayer != null) {
-                int currentTime = youTubePlayer.getCurrentTimeMillis();
+                final int currentTime = youTubePlayer.getCurrentTimeMillis();
                 sbSongProgress.setProgress(currentTime);
+                handler.post(elapsedTimeRunnable(currentTime, youTubePlayer.getDurationMillis()));
             }
         }
     };
+
+
 
     public static void setYouTubePlayer(YouTubePlayer player) {
         Player.youTubePlayer = player;
@@ -259,11 +297,11 @@ public class Player {
 
     public static void playNextSongInQueue() {
         if (queue.size()>0){
-
-            playSong(queue.get(positionInQueue));
             if (positionInQueue != queue.size()-1) {
                 positionInQueue+=1;
             }
+            playSong(queue.get(positionInQueue));
+
         }
     }
 
@@ -283,6 +321,7 @@ public class Player {
 
     public static void stopAllSongs(){
         //stop spotify player
+        handler.removeCallbacks(elapsedTimeRunnable(0,0));
         if (executor!=null) {
             executor.shutdown();
         }
@@ -302,6 +341,9 @@ public class Player {
         //stop youtube player
         if (youTubePlayer != null) {
             youTubePlayer.pause();
+        }
+        if (exoPlayer!=null){
+            exoPlayer.setPlayWhenReady(false);
         }
     }
 
@@ -331,42 +373,70 @@ public class Player {
         }
     }
 
-    public static void playSong(Song song){
-        currentlyPlayingSong = song;
-        setPlayButtonColors();
-        stopAllSongs();
-        switch (song.getService()){
-            case Song.SPOTIFY:
-                if (spotifyPlayer != null) {
-                    playSongFromSpotify(song);
-                    int duration = song.getDuration_ms();
-                    sbSongProgress.setMax(duration);
-                    updateAlbumCover();
+    public static void updateSongInfo(){
+        if (tvSongInfo!=null && currentlyPlayingSong!=null) {
+            String songInfo = "";
+            String artistList = "";
+            if (currentlyPlayingSong.getTitle() != null) {
+                songInfo += currentlyPlayingSong.getTitle();
+            }
+            if (currentlyPlayingSong.getArtists() != null) {
+                int sizeArtists = currentlyPlayingSong.getArtists().size();
+                for (int i = 0; i < sizeArtists; i++) {
+                    artistList = artistList + currentlyPlayingSong.getArtists().get(i).name;
+                    if (i < sizeArtists - 1) {
+                        artistList += ", ";
+                    }
                 }
-                else{
-                    Log.e("player", "spotify player not initialized");
-                }
-                break;
+                songInfo += " · " + artistList;
+            }
+            tvSongInfo.setText(songInfo);
+            tvSongInfo.setSelected(true);
+            tvSongInfo.startAnimation(animationMoveHorizontal);
+        }
+    }
 
-            case Song.YOUTUBE:
-                frameLayout.bringToFront();
-                initializeYoutubePlayerFragment(song); //calls play song from youtube
+    public static void playSong(Song song){
+        if (song!=null) {
+            currentlyPlayingSong = song;
+            setPlayButtonColors();
+            stopAllSongs();
+            updateSongInfo();
+            switch (song.getService()) {
+                case Song.SPOTIFY:
+                    if (spotifyPlayer != null) {
+                        playSongFromSpotify(song);
+                        int duration = song.getDuration_ms();
+                        sbSongProgress.setMax(duration);
+                        updateAlbumCover();
+                    } else {
+                        Log.e("player", "spotify player not initialized");
+                    }
+                    break;
+
+                case Song.YOUTUBE:
+                    frameLayout.bringToFront();
+                    initializeYoutubePlayerFragment(song); //calls play song from youtube
 //                    playSongFromYoutube(song);
-                break;
-            case Song.LOCAL:
-                if (exoPlayer != null) {
-                    prepareExoPlayerFromFileUri(song.getSongUri());
-                    updateAlbumCover();
+                    break;
+                case Song.LOCAL:
+                    if (exoPlayer != null) {
+                        exoPlayer.setPlayWhenReady(true);
+                        prepareExoPlayerFromFileUri(song.getSongUri());
+                        updateAlbumCover();
 //                    int duration = (int) exoPlayer.getDuration(); //todo make sure this cast is safe
 //                    sbSongProgress.setMax(duration);
 
-                } else { Log.e("player", "local player not initialized");}
-                break;
-            default:
-                break;
+                    } else {
+                        Log.e("player", "local player not initialized");
+                    }
+                    break;
+                default:
+                    break;
+            }
+            executor = Executors.newScheduledThreadPool(1);
+            executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
         }
-        executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
     }
 
     public static void initializePlayer(Context context) {
@@ -428,6 +498,8 @@ public class Player {
         }
     }
 
+
+
     public static void prepareExoPlayerFromFileUri(Uri uri){
 
         DataSpec dataSpec = new DataSpec(uri);
@@ -488,43 +560,47 @@ public class Player {
     }
 
     public static void pauseSong(Song song){
-        if (executor!=null) {
-            executor.shutdown();
-        }
-        if (pauseButton!= null && playButton!=null) {
-            setPauseButtonColors();
-        }
-        switch (song.getService()){
-            case Song.SPOTIFY:
-                pauseSongFromSpotify(song);
-                break;
-            case Song.YOUTUBE:
-                pauseSongFromYoutube(song);
-                break;
-            case Song.LOCAL:
-                setPlayback(false);
-            default:
-                break;
+        if (song!=null) {
+            if (executor != null) {
+                executor.shutdown();
+            }
+            if (pauseButton != null && playButton != null) {
+                setPauseButtonColors();
+            }
+            switch (song.getService()) {
+                case Song.SPOTIFY:
+                    pauseSongFromSpotify(song);
+                    break;
+                case Song.YOUTUBE:
+                    pauseSongFromYoutube(song);
+                    break;
+                case Song.LOCAL:
+                    setPlayback(false);
+                default:
+                    break;
+            }
         }
     }
 
     public static void unPauseSong(Song song){
-        setPlayButtonColors();
-        switch (song.getService()){
-            case Song.SPOTIFY:
-                unPauseSongFromSpotify(song);
-                break;
-            case Song.YOUTUBE:
-                unPauseSongFromYoutube(song);
-                break;
-            case Song.LOCAL:
-                setPlayback(true);
-                break;
-            default:
-                break;
+        if (song!=null) {
+            setPlayButtonColors();
+            switch (song.getService()) {
+                case Song.SPOTIFY:
+                    unPauseSongFromSpotify(song);
+                    break;
+                case Song.YOUTUBE:
+                    unPauseSongFromYoutube(song);
+                    break;
+                case Song.LOCAL:
+                    setPlayback(true);
+                    break;
+                default:
+                    break;
+            }
+            executor = Executors.newScheduledThreadPool(1);
+            executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
         }
-        executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
     }
 
     private static void unPauseSongFromYoutube(Song song){
@@ -605,7 +681,7 @@ public class Player {
     public static void initializeYoutubePlayerFragment(final Song song){
         youtubePlayerFragment = new YouTubePlayerSupportFragment();
         fragmentTransaction = SongListFragment.fragmentManager.beginTransaction();
-        fragmentTransaction.replace(youtube_fragment, youtubePlayerFragment);
+        fragmentTransaction.replace(R.id.youtube_fragment, youtubePlayerFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         youtubePlayerFragment.initialize(activity.getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
