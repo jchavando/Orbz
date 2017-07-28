@@ -36,6 +36,7 @@ public class QueueFragment extends SongListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Queue");
     }
 
 

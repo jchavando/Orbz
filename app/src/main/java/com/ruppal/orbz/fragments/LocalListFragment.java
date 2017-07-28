@@ -37,6 +37,8 @@ public class LocalListFragment extends SongListFragment { //SearchFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Queue");
+
     }
 
     public void populateLocalList (ArrayList<Song> songsToAdd){

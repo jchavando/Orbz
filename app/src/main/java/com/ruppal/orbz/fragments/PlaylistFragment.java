@@ -77,6 +77,8 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         spotifyPlaylists = new ArrayList<>();
         setHasOptionsMenu(true);
         addSongToPlaylistAdapterListener = this;
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Playlists");
+        //getSupportActionBar().hide();
 
     }
 

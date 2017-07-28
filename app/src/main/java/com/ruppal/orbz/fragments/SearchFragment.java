@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
@@ -63,6 +64,8 @@ public class SearchFragment extends SongListFragment {
 
         // Set title bar
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("search");
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(null);
 
 
     }
