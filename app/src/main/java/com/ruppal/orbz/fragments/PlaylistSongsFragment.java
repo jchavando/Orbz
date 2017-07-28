@@ -91,14 +91,8 @@ public class PlaylistSongsFragment extends SongListFragment {
                 //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
                 Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
 
-               //getActivity().onBackPressed();
                 getFragmentManager().popBackStack();
-                //playlistFragment = new PlaylistFragment();
-                //playlistFragment.onCreate(null);
-                //vpPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
-                //set the adapter for the pager
-                //vpPager.setAdapter(new SongPagerAdapter(getFragmentManager(), getContext())); //
-                //getFragmentManager().popBackStackImmediate();
+
                 return true;
             default:
                 break;

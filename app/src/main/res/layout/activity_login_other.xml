@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginOtherActivity"
-    android:background="@drawable/city_background2">
+    android:background="@drawable/blurred_space">
 
 
     <Button
@@ -14,11 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="150dp"
         android:background="@drawable/border"
         android:onClick="onClickSpotifyLogin"
         android:text="Log in to Spotify"
-
         android:textColor="@android:color/white" />
 
     <Button
@@ -34,40 +33,17 @@
         android:textColor="@android:color/white"/>
 
     <Button
-        android:id="@+id/btPlayer"
+        android:id="@+id/btLastFMLogin"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:onClick="onClickPlayer"
-        android:text="Access Local Music"
+        android:text="Log in to Last.fm"
         android:layout_centerVertical="true"
+        android:onClick="onClickLastFM"
         android:background="@drawable/border"
         android:layout_alignLeft="@+id/btLoginSpotify"
-        android:layout_below="@+id/btLastFMLogin"
+        android:layout_below="@+id/btSoundcloud"
         android:textColor="@android:color/white"
         android:layout_marginTop="40dp"/>
-
-    <!--Button
-        android:id="@+id/btSoundcloud"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-
-        android:text="Login in to Soundcloud"
-        android:textColor="@android:color/white"
-        android:layout_below="@+id/btPlayer"
-        android:layout_alignLeft="@+id/btLastFMLogin"
-        android:layout_alignStart="@+id/btLastFMLogin"
-        android:background="@drawable/border"-->
-
-
-    <!--com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btLoginSpotify"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/border"
-        android:textColor="@android:color/white" -->
 
     <Button
         android:id="@+id/sign_in_button"
@@ -81,15 +57,46 @@
         android:textColor="@android:color/white" />
 
 
-
     <Button
-        android:id="@+id/btLastFMLogin"
+        android:id="@+id/btSoundcloud"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="@drawable/border"
-        android:text="Log in to Last.fm"
+        android:onClick="onClickSoundcloud"
+        android:text="Log in to Soundcloud"
         android:layout_below="@+id/sign_in_button"
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/white"/>
+
+    <ImageView
+        android:id="@+id/ivName"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/orbz_login"
+        android:layout_marginRight="17dp"
+        android:layout_marginEnd="17dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/btDone"
+        android:layout_alignEnd="@+id/btDone" />
+
+    <TextView
+        android:id="@+id/tvName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="37dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="rbz"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:layout_marginRight="39dp"
+        android:layout_marginEnd="39dp"
+        android:layout_alignBottom="@+id/ivName"
+        android:layout_alignRight="@+id/btLoginSpotify"
+        android:layout_alignEnd="@+id/btLoginSpotify" />
+
+
 </RelativeLayout>

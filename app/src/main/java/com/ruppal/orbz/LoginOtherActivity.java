@@ -27,8 +27,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.ruppal.orbz.clients.LastFMClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.fragments.LoginLastFMFragment;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -36,17 +34,11 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Error;
-import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.IOException;
-
-import cz.msebera.android.httpclient.Header;
 
 public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener,
 LoginLastFMFragment.LastFMListener{
@@ -56,8 +48,6 @@ LoginLastFMFragment.LastFMListener{
     String spotifyClientId;
     // TODO: Replace with your redirect URI
     String spotifyRedirectUri;
-    //openLastFMFragment();
-    private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
     private static final int RC_SIGN_IN = 9001;
     private static int PERMISSION_REQUEST_CODE= 1470;
@@ -65,15 +55,14 @@ LoginLastFMFragment.LastFMListener{
     private String SCOPES = "https://www.googleapis.com/auth/youtube " + "https://www.googleapis.com/auth/youtube.readonly";
     Button btLoginSpotify;
     GoogleApiClient mGoogleApiClient;
-    //SignInButton googleSignInButton;
     Button googleSignInButton;
     String spotifyAccessToken;
     String googleAccessToken;
     Button btLastFMLogin;
     String username;
     String password;
-    Button btLocalLogin;
-    LastFMClient lastFMClient;
+    Button btSoundcloudLogin;
+    //LastFMClient lastFMClient;
     Context context;
     int colorTransparent = 0x80FFFFFF;
 
@@ -88,7 +77,7 @@ LoginLastFMFragment.LastFMListener{
         //googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
         googleSignInButton = (Button) findViewById(R.id.sign_in_button);
         btLastFMLogin = (Button) findViewById(R.id.btLastFMLogin);
-        btLocalLogin = (Button) findViewById(R.id.btPlayer);
+        btSoundcloudLogin = (Button) findViewById(R.id.btSoundcloud);
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -100,11 +89,8 @@ LoginLastFMFragment.LastFMListener{
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        //btLocalLogin.setOnClickListener(this);
         googleSignInButton.setOnClickListener(this);
-        //googleSignInButton.setColorScheme(COLOR_LIGHT);
-        btLastFMLogin.setOnClickListener(this);
-        lastFMClient = new LastFMClient();
+        //lastFMClient = new LastFMClient();
         getSupportActionBar().hide();
 
     }
@@ -124,7 +110,7 @@ LoginLastFMFragment.LastFMListener{
                 btLoginSpotify.setBackgroundResource(R.drawable.clicked_border);
                 //googleSignInButton.setBackgroundResource(R.drawable.rounded);
 
-                Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == RC_SIGN_IN && resultCode == Activity.RESULT_OK) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
@@ -176,7 +162,7 @@ LoginLastFMFragment.LastFMListener{
         //on logged in, change button color
         btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
         btLoginSpotify.setBackgroundResource(R.drawable.clicked_border);
-        Toast.makeText(this, "signed in to Spotify", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "signed in to Spotify", Toast.LENGTH_SHORT).show();
 
         //mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
     }
@@ -228,11 +214,13 @@ LoginLastFMFragment.LastFMListener{
         }
     }
 
-    public void onClickPlayer(View view) {
-        //Intent player = new Intent(this, PlayerActivity.class);
-        //startActivity(player);
-        Toast.makeText(this, "accessed local music", Toast.LENGTH_SHORT).show();
-        btLocalLogin.setBackgroundResource(R.drawable.clicked_border);
+    public void onClickLastFM(View view) {
+        btLastFMLogin.setBackgroundResource(R.drawable.clicked_border);
+
+    }
+
+    public void onClickSoundcloud(View view) {
+        btSoundcloudLogin.setBackgroundResource(R.drawable.clicked_border);
 
     }
 
@@ -242,9 +230,9 @@ LoginLastFMFragment.LastFMListener{
             case R.id.sign_in_button:
                 signIn();
                 break;
-            case R.id.btLastFMLogin:
-                openLastFMFragment();
-                break;
+//            case R.id.btLastFMLogin:
+//                openLastFMFragment();
+//                break;
         }
     }
 
@@ -321,49 +309,49 @@ LoginLastFMFragment.LastFMListener{
     public void onFinishDialog(String username, String password) {
         this.username = username;
         this.password = password;
-        loginToLastFMAccount();
+        //loginToLastFMAccount();
     }
 
-    public void loginToLastFMAccount(){
-        lastFMClient.login(username, password, new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("LastFM", "success");
-                btLastFMLogin.setBackgroundResource(R.drawable.clicked_border);
-
-                //Toast.makeText(this, "Successfully logged in to Last.fm!", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d("LastFM", "success");
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.d("LastFM", "success");
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("LastFm", "failure");
-                Log.e("LastFm", responseString);
-                Log.e("LastFm", throwable.toString());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("LastFm", "failure");
-                Log.e("LastFm", errorResponse.toString());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Log.d("LastFm", "failure");
-                Log.e("LastFm", errorResponse.toString());
-            }
-        });
-    }
+//    public void loginToLastFMAccount(){
+//        lastFMClient.login(username, password, new JsonHttpResponseHandler(){
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                Log.d("LastFM", "success");
+//                btLastFMLogin.setBackgroundResource(R.drawable.clicked_border);
+//
+//                //Toast.makeText(this, "Successfully logged in to Last.fm!", Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+//                Log.d("LastFM", "success");
+//            }
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+//                Log.d("LastFM", "success");
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//                Log.d("LastFm", "failure");
+//                Log.e("LastFm", responseString);
+//                Log.e("LastFm", throwable.toString());
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                Log.d("LastFm", "failure");
+//                Log.e("LastFm", errorResponse.toString());
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+//                Log.d("LastFm", "failure");
+//                Log.e("LastFm", errorResponse.toString());
+//            }
+//        });
+//    }
 
 
     private boolean checkPermission() {
