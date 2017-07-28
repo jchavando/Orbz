@@ -122,28 +122,51 @@
 
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvTimeElapsed"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="6dp">
+
+            <TextView
+                android:id="@+id/tvTimeElapsed"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tvSongInfo"
+                android:textAlignment="textEnd"
+                android:layout_alignLeft="@+id/tvSongInfo"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/tvSongInfo"
+                android:layout_toLeftOf="@+id/sbSongProgress"
+                android:layout_toStartOf="@+id/sbSongProgress"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@android:color/white" />
+
+            <SeekBar
+                android:id="@+id/sbSongProgress"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+            android:id="@+id/tvTimeRemaining"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="5dp"
-            android:layout_alignBottom="@+id/sbSongProgress" />
-
-        <SeekBar
-            android:id="@+id/sbSongProgress"
-            android:layout_width="321dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tvSongInfo"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="5dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:textColor="@android:color/white"
+            android:textAlignment="textStart"
+            android:fontFamily="sans-serif-thin"
+            android:layout_alignRight="@+id/tvSongInfo" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvSongInfo"
@@ -155,12 +178,15 @@
             android:scrollbars="horizontal"
             android:marqueeRepeatLimit="marquee_forever"
             android:focusable="true"
+            android:fontFamily="sans-serif-thin"
             android:focusableInTouchMode="true"
             android:scrollHorizontally="true"
             android:layout_marginRight="10dp"
             android:textColor="@android:color/white"
             android:layout_below="@id/sbSongProgress" />
 
-    </RelativeLayout>
+
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.animation.Animation;
@@ -70,6 +71,7 @@ public class Player {
     public static ImageButton pauseButton;
     public static SeekBar sbSongProgress;
     public static TextView tvTimeElapsed;
+    public static TextView tvTimeRemaining;
     public static int grey = R.color.disable_button;
     public static int white = Color.WHITE;
     public static ScheduledExecutorService executor;
@@ -86,7 +88,7 @@ public class Player {
     public static Animation animationMoveHorizontal;
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
     private static final String TAG = "PlayerActivity";
-
+    public static Handler handler;
     public static long playbackPosition;
     public static int currentWindow;
     public static boolean playWhenReady = true;
@@ -105,12 +107,14 @@ public class Player {
 
     public static void setActivity(Activity activity) {
         Player.activity = activity;
+        handler = new Handler();
         pauseButton = (ImageButton) activity.findViewById(R.id.exoPlayer_pause);
         playButton = (ImageButton) activity.findViewById(R.id.exoPlayer_play);
         ivAlbumCover = (ImageView) activity.findViewById(R.id.ivAlbumCoverPlayer);
         frameLayout = (FrameLayout) activity.findViewById(youtube_fragment);
         sbSongProgress = (SeekBar) activity.findViewById(R.id.sbSongProgress);
         tvTimeElapsed = (TextView) activity.findViewById(R.id.tvTimeElapsed);
+        tvTimeRemaining = (TextView) activity.findViewById(R.id.tvTimeRemaining);
         tvSongInfo = (TextView) activity.findViewById(R.id.tvSongInfo);
         animationMoveHorizontal = AnimationUtils.loadAnimation(activity.getApplicationContext(),
                 R.anim.move_horizontal);
@@ -171,12 +175,25 @@ public class Player {
         @Override
         public void run() {
             if (spotifyPlayer!=null){
-                int currentTime = (int) spotifyPlayer.getPlaybackState().positionMs;
+                final int currentTime = (int) spotifyPlayer.getPlaybackState().positionMs;
                 sbSongProgress.setProgress(currentTime);
-//                int second = (currentTime / 1000) % 60;
-//                int minute = (currentTime/ (1000 * 60)) % 60;
-//                String time = minute + ":" + second;
-//                tvTimeElapsed.setText(time);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int second = (currentTime / 1000) % 60;
+                        int minute = (currentTime/ (1000 * 60)) % 60;
+                        int totalTimeRemaining = currentlyPlayingSong.getDuration_ms() - currentTime;
+                        int secondRemaining = (totalTimeRemaining / 1000) % 60;
+                        int minuteRemaining = (totalTimeRemaining/ (1000 * 60)) % 60;
+                        //so 1 shows up as 01
+                        String secondString = (second < 10 ? "0" : "") + second;
+                        String secondRemainingString = (secondRemaining < 10 ? "0" : "") + secondRemaining;
+                        String timeElapsed = minute + ":" + secondString;
+                        String timeRemaining = minuteRemaining +":" + secondRemainingString;
+                        tvTimeElapsed.setText(timeElapsed);
+                        tvTimeRemaining.setText(timeRemaining);
+                    }
+                });
             }
         }
     };
@@ -185,12 +202,26 @@ public class Player {
         @Override
         public void run() {
             if (exoPlayer != null){
-                int currentTime = (int) exoPlayer.getCurrentPosition();
+                final int currentTime = (int) exoPlayer.getCurrentPosition();
                 sbSongProgress.setProgress(currentTime);
-//                int second = (currentTime / 1000) % 60;
-//                int minute = (currentTime/ (1000 * 60)) % 60;
-//                String time = minute + ":" + second;
-//                tvTimeElapsed.setText(time);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int second = (currentTime / 1000) % 60;
+                        int minute = (currentTime/ (1000 * 60)) % 60;
+                        int totalTimeRemaining = (int) exoPlayer.getDuration() - currentTime;
+                        int secondRemaining = (totalTimeRemaining / 1000) % 60;
+                        int minuteRemaining = (totalTimeRemaining/ (1000 * 60)) % 60;
+                        //so 1 shows up as 01
+                        String secondString = (second < 10 ? "0" : "") + second;
+                        String secondRemainingString = (secondRemaining < 10 ? "0" : "") + secondRemaining;
+                        String timeElapsed = minute + ":" + secondString;
+                        String timeRemaining = minuteRemaining +":" + secondRemainingString;
+                        tvTimeElapsed.setText(timeElapsed);
+                        tvTimeRemaining.setText(timeRemaining);
+                    }
+                });
+
             }
         }
     };
@@ -200,15 +231,30 @@ public class Player {
         @Override
         public void run() {
             if (youTubePlayer != null) {
-                int currentTime = youTubePlayer.getCurrentTimeMillis();
+                final int currentTime = youTubePlayer.getCurrentTimeMillis();
                 sbSongProgress.setProgress(currentTime);
-//                int second = (currentTime / 1000) % 60;
-//                int minute = (currentTime/ (1000 * 60)) % 60;
-//                String time = minute + ":" + second;
-//                tvTimeElapsed.setText(time);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int second = (currentTime / 1000) % 60;
+                        int minute = (currentTime/ (1000 * 60)) % 60;
+                        int totalTimeRemaining = youTubePlayer.getDurationMillis() - currentTime;
+                        int secondRemaining = (totalTimeRemaining / 1000) % 60;
+                        int minuteRemaining = (totalTimeRemaining/ (1000 * 60)) % 60;
+                        //so 1 shows up as 01
+                        String secondString = (second < 10 ? "0" : "") + second;
+                        String secondRemainingString = (secondRemaining < 10 ? "0" : "") + secondRemaining;
+                        String timeElapsed = minute + ":" + secondString;
+                        String timeRemaining = minuteRemaining +":" + secondRemainingString;
+                        tvTimeElapsed.setText(timeElapsed);
+                        tvTimeRemaining.setText(timeRemaining);
+                    }
+                });
             }
         }
     };
+
+
 
     public static void setYouTubePlayer(YouTubePlayer player) {
         Player.youTubePlayer = player;
