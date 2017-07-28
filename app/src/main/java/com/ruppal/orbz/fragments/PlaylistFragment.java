@@ -57,7 +57,17 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         getLocalPlaylists();
         addLocalPlaylistsToSongs();
         populateSpotifyPlaylists();
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Playlists");
+        ((MainActivity) getActivity()).setActionBarTitle("search");
+
+        // ((MainActivity) getActivity()).getSupportActionBar().setTitle("Playlists");
+    }
+    public void onResume(){
+        super.onResume();
+
+        // Set title bar
+        //getActivity().getSupportActionBar().setTitle("Playlists");
+
+
     }
 
     @Override

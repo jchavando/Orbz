@@ -121,6 +121,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
 //    public void checkData(){
 //        List<PlaylistTable> playlistTableList = SQLite.select().
 //                from(PlaylistTable.class).queryList();

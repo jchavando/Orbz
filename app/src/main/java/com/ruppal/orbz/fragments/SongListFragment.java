@@ -67,13 +67,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         final Playlist playlist = (Playlist) songs.get(position);
 
         if (playlist != null) {
-            // Fire an intent when a playlist is selected
-            // Pass contact object in the bundle and populate details activity.
-
-//             Intent intent = new Intent(getContext(), PlaylistActivity.class);
-//            intent.putExtra("tracks", Parcels.wrap(playlist));
-//            getContext().startActivity(intent);
-
             insertPlaylistSongsFragment(playlist);
         }
 
@@ -87,11 +80,10 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         arguments.putParcelable("tracks", Parcels.wrap(playlist));
         childFragment.setArguments(arguments);
         transaction = getChildFragmentManager().beginTransaction();
-        //playlistFrameLayout = (FrameLayout) getView().findViewById(R.id.flPlaylistFragment);
+        playlistFrameLayout = (FrameLayout) getView().findViewById(R.id.flPlaylistFragment);
         playlistFrameLayout.bringToFront();
         transaction.add(R.id.flPlaylistFragment, childFragment);
-        transaction.addToBackStack("string");
-
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -131,8 +123,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         rvSongs.setBackgroundResource(R.drawable.watermark4);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvSongs.addItemDecoration(itemDecoration);
-        playlistFrameLayout = (FrameLayout) getActivity().findViewById(R.id.flPlaylistFragment);
-
+        //playlistFrameLayout = (FrameLayout) getActivity().findViewById(R.id.flPlaylistFragment);
 
        // playlistFrameLayout.setVisibility(View.INVISIBLE);
 
@@ -185,9 +176,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 //        });
 //
 //    }
-
-
-
 
 
 

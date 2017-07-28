@@ -20,6 +20,14 @@ public class QueueFragment extends SongListFragment {
         super.onViewCreated(view, savedInstanceState);
         clearSongsList();
         populateQueue();
+        //((MainActivity) getActivity()).getSupportActionBar().setTitle("Queue");
+
+
+    }
+    public void onResume(){
+        super.onResume();
+
+        // Set title bar
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Queue");
 
 

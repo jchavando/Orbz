@@ -22,10 +22,17 @@ public class LocalListFragment extends SongListFragment { //SearchFragment
         clearSongsList();
         printArrayList(localSongList);
         populateLocalList(localSongList);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Local");
+        //((MainActivity) getActivity()).getSupportActionBar().setTitle("Local");
 
     }
+    public void onResume(){
+        super.onResume();
 
+        // Set title bar
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Local music");
+
+
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
