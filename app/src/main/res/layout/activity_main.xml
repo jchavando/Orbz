@@ -172,19 +172,15 @@
             android:id="@+id/tvSongInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/sbSongProgress"
             android:layout_marginLeft="10dp"
-            android:lines="1"
-            android:ellipsize="marquee"
-            android:scrollbars="horizontal"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:focusable="true"
-            android:fontFamily="sans-serif-thin"
-            android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
             android:layout_marginRight="10dp"
-            android:textColor="@android:color/white"
-            android:layout_below="@id/sbSongProgress" />
-
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:fontFamily="sans-serif-thin"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="@android:color/white" />
 
 
     </LinearLayout>

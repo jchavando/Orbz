@@ -75,8 +75,6 @@ public class PlaylistSongsFragment extends SongListFragment {
         songs = new ArrayList<>();
         setHasOptionsMenu(true);
         playlistFragment = new PlaylistFragment();
-
-
     }
 
 

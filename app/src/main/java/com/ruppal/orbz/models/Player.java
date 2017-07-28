@@ -171,29 +171,34 @@ public class Player {
         }
     }
 
+    public static Runnable elapsedTimeRunnable (final int currentTime, final int duration){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                int second = (currentTime / 1000) % 60;
+                int minute = (currentTime/ (1000 * 60)) % 60;
+                int totalTimeRemaining = duration - currentTime;
+                int secondRemaining = (totalTimeRemaining / 1000) % 60;
+                int minuteRemaining = (totalTimeRemaining/ (1000 * 60)) % 60;
+                //so 1 shows up as 01
+                String secondString = (second < 10 ? "0" : "") + second;
+                String secondRemainingString = (secondRemaining < 10 ? "0" : "") + secondRemaining;
+                String timeElapsed = minute + ":" + secondString;
+                String timeRemaining = minuteRemaining +":" + secondRemainingString;
+                tvTimeElapsed.setText(timeElapsed);
+                tvTimeRemaining.setText(timeRemaining);
+            }
+        };
+        return runnable;
+    }
+
     public static Runnable updateSeekBarSpotify = new Runnable() {
         @Override
         public void run() {
             if (spotifyPlayer!=null){
                 final int currentTime = (int) spotifyPlayer.getPlaybackState().positionMs;
                 sbSongProgress.setProgress(currentTime);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        int second = (currentTime / 1000) % 60;
-                        int minute = (currentTime/ (1000 * 60)) % 60;
-                        int totalTimeRemaining = currentlyPlayingSong.getDuration_ms() - currentTime;
-                        int secondRemaining = (totalTimeRemaining / 1000) % 60;
-                        int minuteRemaining = (totalTimeRemaining/ (1000 * 60)) % 60;
-                        //so 1 shows up as 01
-                        String secondString = (second < 10 ? "0" : "") + second;
-                        String secondRemainingString = (secondRemaining < 10 ? "0" : "") + secondRemaining;
-                        String timeElapsed = minute + ":" + secondString;
-                        String timeRemaining = minuteRemaining +":" + secondRemainingString;
-                        tvTimeElapsed.setText(timeElapsed);
-                        tvTimeRemaining.setText(timeRemaining);
-                    }
-                });
+                handler.post(elapsedTimeRunnable(currentTime, currentlyPlayingSong.getDuration_ms()));
             }
         }
     };
@@ -204,23 +209,7 @@ public class Player {
             if (exoPlayer != null){
                 final int currentTime = (int) exoPlayer.getCurrentPosition();
                 sbSongProgress.setProgress(currentTime);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        int second = (currentTime / 1000) % 60;
-                        int minute = (currentTime/ (1000 * 60)) % 60;
-                        int totalTimeRemaining = (int) exoPlayer.getDuration() - currentTime;
-                        int secondRemaining = (totalTimeRemaining / 1000) % 60;
-                        int minuteRemaining = (totalTimeRemaining/ (1000 * 60)) % 60;
-                        //so 1 shows up as 01
-                        String secondString = (second < 10 ? "0" : "") + second;
-                        String secondRemainingString = (secondRemaining < 10 ? "0" : "") + secondRemaining;
-                        String timeElapsed = minute + ":" + secondString;
-                        String timeRemaining = minuteRemaining +":" + secondRemainingString;
-                        tvTimeElapsed.setText(timeElapsed);
-                        tvTimeRemaining.setText(timeRemaining);
-                    }
-                });
+                handler.post(elapsedTimeRunnable(currentTime, (int) exoPlayer.getDuration()));
 
             }
         }
@@ -233,23 +222,7 @@ public class Player {
             if (youTubePlayer != null) {
                 final int currentTime = youTubePlayer.getCurrentTimeMillis();
                 sbSongProgress.setProgress(currentTime);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        int second = (currentTime / 1000) % 60;
-                        int minute = (currentTime/ (1000 * 60)) % 60;
-                        int totalTimeRemaining = youTubePlayer.getDurationMillis() - currentTime;
-                        int secondRemaining = (totalTimeRemaining / 1000) % 60;
-                        int minuteRemaining = (totalTimeRemaining/ (1000 * 60)) % 60;
-                        //so 1 shows up as 01
-                        String secondString = (second < 10 ? "0" : "") + second;
-                        String secondRemainingString = (secondRemaining < 10 ? "0" : "") + secondRemaining;
-                        String timeElapsed = minute + ":" + secondString;
-                        String timeRemaining = minuteRemaining +":" + secondRemainingString;
-                        tvTimeElapsed.setText(timeElapsed);
-                        tvTimeRemaining.setText(timeRemaining);
-                    }
-                });
+                handler.post(elapsedTimeRunnable(currentTime, youTubePlayer.getDurationMillis()));
             }
         }
     };
@@ -348,6 +321,7 @@ public class Player {
 
     public static void stopAllSongs(){
         //stop spotify player
+        handler.removeCallbacks(elapsedTimeRunnable(0,0));
         if (executor!=null) {
             executor.shutdown();
         }
@@ -707,7 +681,7 @@ public class Player {
     public static void initializeYoutubePlayerFragment(final Song song){
         youtubePlayerFragment = new YouTubePlayerSupportFragment();
         fragmentTransaction = SongListFragment.fragmentManager.beginTransaction();
-        fragmentTransaction.replace(youtube_fragment, youtubePlayerFragment);
+        fragmentTransaction.replace(R.id.youtube_fragment, youtubePlayerFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         youtubePlayerFragment.initialize(activity.getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
