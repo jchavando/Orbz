@@ -63,8 +63,6 @@ public class SongPagerAdapter extends FragmentPagerAdapter { //possibly change t
         } else {
             return null;
         }
-
-
     }
 
     @Override
