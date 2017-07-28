@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class SongPagerAdapter extends FragmentPagerAdapter { //possibly change to: FragmentStatePagerAdapter
 
 
-    private String tabTitles[] = new String[] {"", "", "", "", "GQ"};
+    private String tabTitles[] = new String[] {"", "", "", "", ""};
 
     private Context context;
     String title;

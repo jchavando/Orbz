@@ -9,11 +9,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -118,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
         tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
+        tabLayout.getTabAt(4).setIcon(R.drawable.gq);
     }
 
 
