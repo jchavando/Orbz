@@ -69,8 +69,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         if (playlist != null) {
             insertPlaylistSongsFragment(playlist);
         }
-
-
     }
     // Embeds the child fragment dynamically
     private void insertPlaylistSongsFragment(Playlist playlist) {
@@ -102,7 +100,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         localSongList = ((MainActivity)getActivity()).getLocalSongs();
         complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this, null); //this
         fragmentManager = getFragmentManager();
-
     }
 
     @Nullable
@@ -185,7 +182,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public void onSaveInstanceState(Bundle outState) {
         //No call for super(). Bug on API Level > 11.
     }
-
 
     @Override
     public void onItemSelected(View view, int position) {

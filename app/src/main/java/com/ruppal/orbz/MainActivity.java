@@ -9,11 +9,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -120,14 +118,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
     }
 
-
-
-
-
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
-
 
     public static ArrayList<Object> passTest(){
         return SongPagerAdapter.mFragmentReferences.get(3).songs;
@@ -143,13 +136,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 //        Log.i("MY_DATABASE", songTableList.toString());
 //    }
 
-
-
     public void getSpotifyPlayer(String accessToken){
         Config playerConfig = new Config(this, accessToken, spotifyClientId);
         Player mPlayer = Spotify.getPlayer(playerConfig, this, null);
         com.ruppal.orbz.models.Player.setSpotifyPlayer(mPlayer);
-
     }
 
     public ArrayList<Song> getLocalSongs(){
@@ -220,22 +210,17 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         com.ruppal.orbz.models.Player.skipToPreviousInQueue();
     }
 
-
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
     }
 
     @Override
     public void onPageSelected(int position) {
        /// setTitle(getTitleFromPosition(position));
-
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
     }
 
 }
