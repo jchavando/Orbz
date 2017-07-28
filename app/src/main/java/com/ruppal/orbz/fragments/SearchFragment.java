@@ -85,8 +85,12 @@ public class SearchFragment extends SongListFragment {
         refineItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                refineSongSearch(theQuery);
-                return true;
+
+                if (songs != null && theQuery != null) {
+                    refineSongSearch(theQuery);
+                    return true;
+                }
+                return false;
             }
         });
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
