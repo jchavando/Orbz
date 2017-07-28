@@ -35,7 +35,7 @@ import com.spotify.sdk.android.player.Spotify;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
     public static final String SPOTIFY_PLAYER = "SPOTIFY_PLAYER";
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         //set the adapter for the pager
         vpPager.setAdapter(adapterViewPager); //
 
+        vpPager.setOnPageChangeListener(this);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
 
@@ -120,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(null);
 
     }
+
+
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
@@ -251,4 +255,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+       /// setTitle(getTitleFromPosition(position));
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }

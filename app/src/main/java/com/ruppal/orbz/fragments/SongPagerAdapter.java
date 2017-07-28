@@ -41,6 +41,8 @@ public class SongPagerAdapter extends FragmentPagerAdapter { //possibly change t
         } else if (position == 1) {
             PlaylistFragment secondFrag = new PlaylistFragment();
             mFragmentReferences.add(1, secondFrag);
+            //getActivity().getSupportActionBar().setTitle("HomeFragment");
+
             title = "Playlists";
             return secondFrag;
             //more else if's
