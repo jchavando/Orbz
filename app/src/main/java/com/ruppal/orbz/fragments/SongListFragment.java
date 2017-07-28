@@ -122,7 +122,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         //set the adapter
         rvSongs.setAdapter(complexAdapter);
 
-        rvSongs.setBackgroundResource(R.drawable.watermark4);
+        rvSongs.setBackgroundResource(R.drawable.blacklight2);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvSongs.addItemDecoration(itemDecoration);
         //playlistFrameLayout = (FrameLayout) getActivity().findViewById(R.id.flPlaylistFragment);
