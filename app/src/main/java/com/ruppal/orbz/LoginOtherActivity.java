@@ -1,13 +1,17 @@
 package com.ruppal.orbz;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +60,7 @@ LoginLastFMFragment.LastFMListener{
     private Player mPlayer;
     private static final int REQUEST_CODE = 1337;
     private static final int RC_SIGN_IN = 9001;
+    private static int PERMISSION_REQUEST_CODE= 1470;
     private String TAG = "loginOther";
     private String SCOPES = "https://www.googleapis.com/auth/youtube " + "https://www.googleapis.com/auth/youtube.readonly";
     Button btLoginSpotify;
@@ -210,11 +215,17 @@ LoginLastFMFragment.LastFMListener{
     }
 
     public void onClickDone(View view){
-        Intent i = new Intent(this, MainActivity.class);
-        i.putExtra(MainActivity.SPOTIFY_ACCESS_TOKEN, spotifyAccessToken);
-        i.putExtra(MainActivity.GOOGLE_ACCESS_TOKEN, googleAccessToken);
+        if (checkPermission()) {
+            Intent i = new Intent(this, MainActivity.class);
+            i.putExtra(MainActivity.SPOTIFY_ACCESS_TOKEN, spotifyAccessToken);
+            i.putExtra(MainActivity.GOOGLE_ACCESS_TOKEN, googleAccessToken);
 //        i.putExtra(MainActivity.SPOTIFY_PLAYER, Parcels.wrap(mPlayer));
-        startActivity(i);
+            startActivity(i);
+        }
+        else{
+            Toast.makeText(context, "make sure you have granted the app storage permissions " +
+                    "and that you are connected to the internet", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void onClickPlayer(View view) {
@@ -353,4 +364,20 @@ LoginLastFMFragment.LastFMListener{
             }
         });
     }
+
+
+    private boolean checkPermission() {
+        //Check for READ_EXTERNAL_STORAGE access, using ContextCompat.checkSelfPermission()//
+        int readStorage = ContextCompat.checkSelfPermission(LoginOtherActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+        int internet = ContextCompat.checkSelfPermission(LoginOtherActivity.this, Manifest.permission.INTERNET);
+        //If the app does have this permission, then return true//
+        return readStorage == PackageManager.PERMISSION_GRANTED && internet == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.INTERNET}, PERMISSION_REQUEST_CODE);
+
+    }
+
 }

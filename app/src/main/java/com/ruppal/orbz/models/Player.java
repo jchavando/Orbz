@@ -79,7 +79,7 @@ public class Player {
     public static PlayerEvent kSpPlaybackNotifyMetadataChanged;
 
     public static ArrayList<Song> queueRemoved = new ArrayList<>(); //act like a stack
-    public static int positionInQueue=0;
+    public static int positionInQueue= -1 ;
     public static SimpleExoPlayer exoPlayer;
     public static ComponentListener componentListener;
 
@@ -274,11 +274,11 @@ public class Player {
 
     public static void playNextSongInQueue() {
         if (queue.size()>0){
-
-            playSong(queue.get(positionInQueue));
             if (positionInQueue != queue.size()-1) {
                 positionInQueue+=1;
             }
+            playSong(queue.get(positionInQueue));
+
         }
     }
 
@@ -350,41 +350,45 @@ public class Player {
     }
 
     public static void playSong(Song song){
-        currentlyPlayingSong = song;
-        setPlayButtonColors();
-        stopAllSongs();
-        switch (song.getService()){
-            case Song.SPOTIFY:
-                if (spotifyPlayer != null) {
-                    playSongFromSpotify(song);
-                    int duration = song.getDuration_ms();
-                    sbSongProgress.setMax(duration);
-                    updateAlbumCover();
-                }
-                else{
-                    Log.e("player", "spotify player not initialized");
-                }
-                break;
+        if (song!=null) {
+            currentlyPlayingSong = song;
+            setPlayButtonColors();
+            stopAllSongs();
+            switch (song.getService()) {
+                case Song.SPOTIFY:
+                    if (spotifyPlayer != null) {
+                        playSongFromSpotify(song);
+                        int duration = song.getDuration_ms();
+                        sbSongProgress.setMax(duration);
+                        updateAlbumCover();
+                    } else {
+                        Log.e("player", "spotify player not initialized");
+                    }
+                    break;
 
-            case Song.YOUTUBE:
-                frameLayout.bringToFront();
-                initializeYoutubePlayerFragment(song); //calls play song from youtube
+                case Song.YOUTUBE:
+                    frameLayout.bringToFront();
+                    initializeYoutubePlayerFragment(song); //calls play song from youtube
 //                    playSongFromYoutube(song);
-                break;
-            case Song.LOCAL:
-                if (exoPlayer != null) {
-                    prepareExoPlayerFromFileUri(song.getSongUri());
-                    updateAlbumCover();
+                    break;
+                case Song.LOCAL:
+                    if (exoPlayer != null) {
+                        exoPlayer.setPlayWhenReady(true);
+                        prepareExoPlayerFromFileUri(song.getSongUri());
+                        updateAlbumCover();
 //                    int duration = (int) exoPlayer.getDuration(); //todo make sure this cast is safe
 //                    sbSongProgress.setMax(duration);
 
-                } else { Log.e("player", "local player not initialized");}
-                break;
-            default:
-                break;
+                    } else {
+                        Log.e("player", "local player not initialized");
+                    }
+                    break;
+                default:
+                    break;
+            }
+            executor = Executors.newScheduledThreadPool(1);
+            executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
         }
-        executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
     }
 
     public static void initializePlayer(Context context) {
@@ -508,43 +512,47 @@ public class Player {
     }
 
     public static void pauseSong(Song song){
-        if (executor!=null) {
-            executor.shutdown();
-        }
-        if (pauseButton!= null && playButton!=null) {
-            setPauseButtonColors();
-        }
-        switch (song.getService()){
-            case Song.SPOTIFY:
-                pauseSongFromSpotify(song);
-                break;
-            case Song.YOUTUBE:
-                pauseSongFromYoutube(song);
-                break;
-            case Song.LOCAL:
-                setPlayback(false);
-            default:
-                break;
+        if (song!=null) {
+            if (executor != null) {
+                executor.shutdown();
+            }
+            if (pauseButton != null && playButton != null) {
+                setPauseButtonColors();
+            }
+            switch (song.getService()) {
+                case Song.SPOTIFY:
+                    pauseSongFromSpotify(song);
+                    break;
+                case Song.YOUTUBE:
+                    pauseSongFromYoutube(song);
+                    break;
+                case Song.LOCAL:
+                    setPlayback(false);
+                default:
+                    break;
+            }
         }
     }
 
     public static void unPauseSong(Song song){
-        setPlayButtonColors();
-        switch (song.getService()){
-            case Song.SPOTIFY:
-                unPauseSongFromSpotify(song);
-                break;
-            case Song.YOUTUBE:
-                unPauseSongFromYoutube(song);
-                break;
-            case Song.LOCAL:
-                setPlayback(true);
-                break;
-            default:
-                break;
+        if (song!=null) {
+            setPlayButtonColors();
+            switch (song.getService()) {
+                case Song.SPOTIFY:
+                    unPauseSongFromSpotify(song);
+                    break;
+                case Song.YOUTUBE:
+                    unPauseSongFromYoutube(song);
+                    break;
+                case Song.LOCAL:
+                    setPlayback(true);
+                    break;
+                default:
+                    break;
+            }
+            executor = Executors.newScheduledThreadPool(1);
+            executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
         }
-        executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(updateSeekBar(), 0, 1, TimeUnit.SECONDS);
     }
 
     private static void unPauseSongFromYoutube(Song song){

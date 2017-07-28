@@ -45,6 +45,10 @@ public class SearchFragment extends SongListFragment {
 
     private final String TAG = "YoutubeClient";
     ArrayList<Song> allSearchArray = new ArrayList<>();
+//    ArrayList<Song> youtubeSongs = new ArrayList<>();
+//    ArrayList<Song> spotifySongs = new ArrayList<>();
+//    ArrayList<Song> localSongs = new ArrayList<>();
+
     private String theQuery;
 
     @Override
@@ -114,10 +118,31 @@ public class SearchFragment extends SongListFragment {
         ArrayList<Song> test = searchConverter(searchLocal(query));
         for (Song thisSong : test)
         {
+//            localSongs.add(thisSong);
             addSong(thisSong);
             Log.d("Elvis Search Song Test", thisSong.getTitle());
         }
+//        mixUpSongs();
     }
+
+//    public void mixUpSongs(){
+//        int spotifyLength = spotifySongs.size();
+//        int youtubeLength = youtubeSongs.size();
+//        int localLength = localSongs.size();
+//        int length = Math.max(Math.max(spotifyLength,youtubeLength) , localLength);
+//
+//        for (int i=0;i<length; i++){
+//            if (i<spotifyLength){
+//                addSong(spotifySongs.get(i));
+//            }
+//            if (i<youtubeLength){
+//                addSong(youtubeSongs.get(i));
+//            }
+//            if(i<localLength){
+//                addSong(localSongs.get(i));
+//            }
+//        }
+//    }
 
     public void refineSongSearch(String query){
         ArrayList<Song> refinedSongList = new ArrayList<>();
@@ -179,6 +204,7 @@ public class SearchFragment extends SongListFragment {
                     for (int i = 0; i < items.length(); i++) {
                         JSONObject item = items.getJSONObject(i);
                         Song song = Song.fromJSON(Song.YOUTUBE, item);
+//                        youtubeSongs.add(song);
                         addSong(song);
                     }
                 } catch (JSONException e) {
@@ -220,6 +246,7 @@ public class SearchFragment extends SongListFragment {
                     for (int i = 0; i < items.length(); i++) {
                         JSONObject item = items.getJSONObject(i);
                         Song song = Song.fromJSON(Song.SPOTIFY, item);
+//                        spotifySongs.add(song);
                         addSong(song);
                     }
 //                    searchYoutube(query);
