@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="150dp"
         android:background="@drawable/border"
         android:onClick="onClickSpotifyLogin"
         android:text="Log in to Spotify"
@@ -69,17 +69,34 @@
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/white"/>
 
+    <ImageView
+        android:id="@+id/ivName"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/orbz_login"
+        android:layout_marginRight="17dp"
+        android:layout_marginEnd="17dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/btDone"
+        android:layout_alignEnd="@+id/btDone" />
+
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvName2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginBottom="37dp"
         android:background="@android:color/transparent"
-        android:fontFamily="sans-serif"
-        android:text="Orbz"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="rbz"
         android:textColor="@android:color/white"
-        android:textSize="40sp"
-        android:textStyle="bold" />
+        android:textSize="30sp"
+        android:layout_marginRight="39dp"
+        android:layout_marginEnd="39dp"
+        android:layout_alignBottom="@+id/ivName"
+        android:layout_alignRight="@+id/btLoginSpotify"
+        android:layout_alignEnd="@+id/btLoginSpotify" />
+
+
 </RelativeLayout>

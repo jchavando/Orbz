@@ -27,7 +27,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.ruppal.orbz.clients.LastFMClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.fragments.LoginLastFMFragment;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -63,7 +62,7 @@ LoginLastFMFragment.LastFMListener{
     String username;
     String password;
     Button btSoundcloudLogin;
-    LastFMClient lastFMClient;
+    //LastFMClient lastFMClient;
     Context context;
     int colorTransparent = 0x80FFFFFF;
 
