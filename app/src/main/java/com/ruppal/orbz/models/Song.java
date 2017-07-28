@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 @Parcel
 public class Song {
+
     public String title;
     public ArrayList<Artist> artists;
     public String albumCoverUrl;
@@ -51,6 +52,23 @@ public class Song {
         this.artists = artists;
         this.data = data;
         service = "Local";
+    }
+
+    public Song(String album, String uid, String title, int popularity, int duration_ms, String albumCoverUrl, String artistID, String artistName){
+        this.album = album;
+        this.uid = uid;
+        this.title = title;
+        this.popularity = popularity;
+        this.duration_ms = duration_ms;
+        this.albumCoverUrl = albumCoverUrl;
+
+        playing = false;
+        service = SPOTIFY;
+
+        artists = new ArrayList<>();
+        Artist artist = new Artist(artistID, artistName);
+        artists.add(artist);
+
     }
 
     public static Song fromJSON(String service, JSONObject object) throws JSONException {
@@ -184,7 +202,7 @@ public class Song {
     }
 
     public String getArtist() {
-        return artist;
+            return artist;
     }
 
     public void setTitle(String title) {

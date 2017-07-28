@@ -18,6 +18,12 @@ public class Artist {
     public String uid;
     public String name;
 
+    public Artist(){}
+
+    public Artist(String uid, String name){
+        this.uid = uid;
+        this.name = name;
+    }
 
     public static Artist fromJSON(String service, JSONObject object) throws JSONException {
 

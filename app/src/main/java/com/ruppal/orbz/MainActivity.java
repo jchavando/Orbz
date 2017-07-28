@@ -1,7 +1,6 @@
 package com.ruppal.orbz;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -86,12 +86,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
         //get the view pager
         vpPager = (ViewPager) findViewById(R.id.viewpager);
+
         //adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
         adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
+
         //set the adapter for the pager
         vpPager.setAdapter(adapterViewPager); //
-
-        vpPager.setOnPageChangeListener(this);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
@@ -118,16 +118,19 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
         tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
-
-
-        getSupportActionBar().setTitle(null);
-
     }
+
+
 
 
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
+    }
+
+
+    public static ArrayList<Object> passTest(){
+        return SongPagerAdapter.mFragmentReferences.get(3).songs;
 
     }
 
@@ -140,34 +143,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 //        Log.i("MY_DATABASE", songTableList.toString());
 //    }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu, menu);
-//
-//
-//        MenuItem searchItem = menu.findItem(R.id.action_search);
-//        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                realQuery = query;
-//                searchFragment = (SearchFragment) SongPagerAdapter.mFragmentReferences.get(0);
-//                searchFragment.clearSongsList();
-//                searchFragment.searchSongs(query);
-//
-//                searchView.clearFocus();
-//
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-//        return super.onCreateOptionsMenu(menu);
-//    }
+
 
     public void getSpotifyPlayer(String accessToken){
         Config playerConfig = new Config(this, accessToken, spotifyClientId);

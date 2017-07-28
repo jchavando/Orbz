@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class SongPagerAdapter extends FragmentPagerAdapter { //possibly change to: FragmentStatePagerAdapter
 
 
-    private String tabTitles[] = new String[] {"", "", "", ""};
+    private String tabTitles[] = new String[] {"", "", "", "", "GQ"};
 
     private Context context;
     String title;
@@ -27,7 +27,7 @@ public class SongPagerAdapter extends FragmentPagerAdapter { //possibly change t
 
     @Override
     public int getCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -56,6 +56,10 @@ public class SongPagerAdapter extends FragmentPagerAdapter { //possibly change t
             mFragmentReferences.add(3, fourthFrag);
             title = "Queue";
             return fourthFrag;
+        } else if (position == 4) {
+            GQFragment fifthFrag = new GQFragment();
+            mFragmentReferences.add(4, fifthFrag);
+            return fifthFrag;
         } else {
             return null;
         }
