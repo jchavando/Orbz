@@ -103,13 +103,15 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/exoPlayer_forward"
-                    style="@style/ExoMediaButton.FastForward"
+                    android:id="@+id/exoPlayer_next"
+                    style="@style/ExoMediaButton.Next"
+                    android:onClick="nextInQueue"
                     android:layout_width="60dp" />
 
                 <ImageButton
-                    android:id="@+id/exoPlayer_rewind"
-                    style="@style/ExoMediaButton.Rewind"
+                    android:id="@+id/exoPlayer_previous"
+                    style="@style/ExoMediaButton.Previous"
+                    android:onClick="previousInQueue"
                     android:layout_width="60dp" />
 
             </LinearLayout>
