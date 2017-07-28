@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -77,12 +79,11 @@ public class Player {
     public static com.spotify.sdk.android.player.Player.OperationCallback spotifyCallback;
     public static ArrayList<Song> queue = new ArrayList<>();
     public static PlayerEvent kSpPlaybackNotifyMetadataChanged;
-
     public static ArrayList<Song> queueRemoved = new ArrayList<>(); //act like a stack
     public static int positionInQueue= -1 ;
     public static SimpleExoPlayer exoPlayer;
     public static ComponentListener componentListener;
-
+    public static Animation animationMoveHorizontal;
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
     private static final String TAG = "PlayerActivity";
 
@@ -93,7 +94,7 @@ public class Player {
     public static YouTubePlayerSupportFragment youtubePlayerFragment;
     public static FrameLayout frameLayout;
     public static FragmentTransaction fragmentTransaction;
-
+    public static TextView tvSongInfo;
 
     public static Activity getActivity() {
         return activity;
@@ -110,6 +111,9 @@ public class Player {
         frameLayout = (FrameLayout) activity.findViewById(youtube_fragment);
         sbSongProgress = (SeekBar) activity.findViewById(R.id.sbSongProgress);
         tvTimeElapsed = (TextView) activity.findViewById(R.id.tvTimeElapsed);
+        tvSongInfo = (TextView) activity.findViewById(R.id.tvSongInfo);
+        animationMoveHorizontal = AnimationUtils.loadAnimation(activity.getApplicationContext(),
+                R.anim.move_horizontal);
         sbSongProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -349,11 +353,35 @@ public class Player {
         }
     }
 
+    public static void updateSongInfo(){
+        if (tvSongInfo!=null && currentlyPlayingSong!=null) {
+            String songInfo = "";
+            String artistList = "";
+            if (currentlyPlayingSong.getTitle() != null) {
+                songInfo += currentlyPlayingSong.getTitle();
+            }
+            if (currentlyPlayingSong.getArtists() != null) {
+                int sizeArtists = currentlyPlayingSong.getArtists().size();
+                for (int i = 0; i < sizeArtists; i++) {
+                    artistList = artistList + currentlyPlayingSong.getArtists().get(i).name;
+                    if (i < sizeArtists - 1) {
+                        artistList += ", ";
+                    }
+                }
+                songInfo += " · " + artistList;
+            }
+            tvSongInfo.setText(songInfo);
+            tvSongInfo.setSelected(true);
+            tvSongInfo.startAnimation(animationMoveHorizontal);
+        }
+    }
+
     public static void playSong(Song song){
         if (song!=null) {
             currentlyPlayingSong = song;
             setPlayButtonColors();
             stopAllSongs();
+            updateSongInfo();
             switch (song.getService()) {
                 case Song.SPOTIFY:
                     if (spotifyPlayer != null) {
