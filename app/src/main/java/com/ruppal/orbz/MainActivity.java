@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -85,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
         //get the view pager
         vpPager = (ViewPager) findViewById(R.id.viewpager);
-        adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
+        FragmentManager current = getSupportFragmentManager();
+        adapterViewPager = new SongPagerAdapter(current, this);
         //set the adapter for the pager
         vpPager.setAdapter(adapterViewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -113,9 +115,11 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
         tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
+    }
 
 
-
+    public static ArrayList<Object> passTest(){
+        return SongPagerAdapter.mFragmentReferences.get(3).songs;
     }
 
 //    public void checkData(){

@@ -58,5 +58,4 @@ public class Message extends ParseObject {
     public int getDURATION() {return getInt(DURATION);}
 
     public int getPopularity() {return getInt(POPULARITY);}
-
 }

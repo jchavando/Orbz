@@ -1,21 +1,13 @@
 package com.ruppal.orbz.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -27,7 +19,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.R;
-import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.models.Message;
 import com.ruppal.orbz.models.Song;
 
@@ -38,7 +29,7 @@ import java.util.List;
  * Created by elviskahoro on 7/27/17.
  */
 
-public class GQFragment extends QueueFragment {
+public class GQFragment extends SongListFragment {
 
     ////////////////////////////////////////////////////////// Group Queue
     static final String TAG = MainActivity.class.getSimpleName();
@@ -50,19 +41,12 @@ public class GQFragment extends QueueFragment {
     Handler myHandler = new Handler();  // android.os.Handler //fetch messages every second
     ArrayList<Message> mMessages;
     String userId;
-
-    //todo fix this
-    //ChatAdapter mAdapter;
-
-
-    // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
-    ////////////////////////////////////////////////////////// Group Queue
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -71,63 +55,26 @@ public class GQFragment extends QueueFragment {
         inflater.inflate(R.menu.menu_group_queue, menu);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        spotifyClient = new SpotifyClient();
-        //inflate the layout
-        Activity activity = getActivity();
-        View v = inflater.inflate(R.layout.fragments_songs_list, container, false);
-        FrameLayout frameLayout = (FrameLayout) activity.findViewById(R.id.youtube_fragment);
-        ivAlbumCoverPlayer = (ImageView) activity.findViewById(R.id.ivAlbumCoverPlayer);
-        youtube_fragment = (FrameLayout) activity.findViewById(R.id.youtube_fragment);
-        //find RecyclerView
-        rvSongs = (RecyclerView) v.findViewById(R.id.rvSong);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setReverseLayout(true);
-        rvSongs.setLayoutManager(linearLayoutManager);
-
-        //set the adapter
-        rvSongs.setAdapter(complexAdapter);
-        rvSongs.setBackgroundResource(R.drawable.watermark4);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        rvSongs.addItemDecoration(itemDecoration);
-
-        return v;
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        ////////////////////////////////////////////////////////// Group Queue
         if (ParseUser.getCurrentUser() != null) { // start with existing user
             setupMessagePosting();
         } else { // If not logged in, login as a new anonymous user
             login();
         }
-
         myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
-        ////////////////////////////////////////////////////////// Group Queue
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                // Not implemented here
-                return false;
-            case R.id.addPlaylist:
-                return false;
-            case R.id.backToPlaylists:
-                return false;
             case R.id.toggle:
                 sendMessage();
                 return true;
             default:
                 break;
         }
-
         return false;
     }
 
@@ -157,13 +104,13 @@ public class GQFragment extends QueueFragment {
     }
 
     void sendMessage(){
-
-        for (Object songObject : songs) {
+        ArrayList<Object> queueList = MainActivity.passTest();
+        for (Object songObject : queueList) {
 
             if(songObject instanceof Song) {
                 Song currentSong = (Song) songObject;
                 Message message = new Message();
-                message.setUserId(userId);
+                message.setUserId(ParseUser.getCurrentUser().getObjectId());
                 message.setTitle(currentSong.getTitle());
                 message.setArtistName(currentSong.getArtists().get(0).getName());
                 message.setService(currentSong.getService());
@@ -202,16 +149,16 @@ public class GQFragment extends QueueFragment {
                     songs.clear();
                     for (Message currentMessage : messages){
                         Song songToAdd = new Song(
-                               currentMessage.getALBUM(),
-                                currentMessage.getUID(),
-                                currentMessage.getTITLE(),
-                                currentMessage.getPopularity(),
-                                currentMessage.getDURATION(),
-                                currentMessage.getALBUM(),
-                                currentMessage.getARTISTID(),
-                                currentMessage.getARTISTNAME()
+                            currentMessage.getALBUM(),
+                            currentMessage.getUID(),
+                            currentMessage.getTITLE(),
+                            currentMessage.getPopularity(),
+                            currentMessage.getDURATION(),
+                            currentMessage.getALBUM(),
+                            currentMessage.getARTISTID(),
+                            currentMessage.getARTISTNAME()
                         );
-                        addSong(songToAdd);
+                        songs.add(songToAdd);
                     }
                     complexAdapter.notifyDataSetChanged();
                     if (mFirstLoad) {
