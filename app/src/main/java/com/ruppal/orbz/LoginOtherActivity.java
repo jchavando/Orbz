@@ -100,9 +100,7 @@ LoginLastFMFragment.LastFMListener{
         //googleSignInButton.setColorScheme(COLOR_LIGHT);
         btLastFMLogin.setOnClickListener(this);
         lastFMClient = new LastFMClient();
-
-
-
+        getSupportActionBar().hide();
 
     }
 

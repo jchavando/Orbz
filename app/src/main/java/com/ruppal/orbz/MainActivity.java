@@ -1,6 +1,7 @@
 package com.ruppal.orbz;
 
 import android.annotation.SuppressLint;
+import android.app.FragmentManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -33,7 +35,7 @@ import com.spotify.sdk.android.player.Spotify;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
     public static final String SPOTIFY_PLAYER = "SPOTIFY_PLAYER";
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
@@ -80,14 +82,17 @@ public class MainActivity extends AppCompatActivity {
         youTubeClient = new YouTubeClient();
         youTubeClient.setAccessToken(googleAccessToken);
         googleResults = new ArrayList<>();
-
         com.ruppal.orbz.models.Player.setActivity(this);
 
         //get the view pager
         vpPager = (ViewPager) findViewById(R.id.viewpager);
+        //adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
         adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
         //set the adapter for the pager
-        vpPager.setAdapter(adapterViewPager);
+        vpPager.setAdapter(adapterViewPager); //
+
+        vpPager.setOnPageChangeListener(this);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
 
@@ -113,6 +118,17 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
         tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
+
+
+        getSupportActionBar().setTitle(null);
+
+    }
+
+
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+
     }
 
 //    public void checkData(){
@@ -226,6 +242,24 @@ public class MainActivity extends AppCompatActivity {
     }
     public void previousInQueue(View v){
         com.ruppal.orbz.models.Player.skipToPreviousInQueue();
+    }
+
+
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+       /// setTitle(getTitleFromPosition(position));
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
 }

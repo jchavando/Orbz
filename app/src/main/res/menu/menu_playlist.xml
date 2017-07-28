@@ -4,15 +4,10 @@
     >
 
 
-    <item
-        android:id="@+id/backToPlaylists"
-        android:icon="@drawable/reply_w"
-        android:title="Item"
-        app:showAsAction="ifRoom"
-        />
+
     <item
         android:id="@+id/addPlaylist"
-        android:icon="@drawable/plus"
+        android:icon="@drawable/plus_button"
         android:title="Item"
         app:showAsAction="ifRoom"
 

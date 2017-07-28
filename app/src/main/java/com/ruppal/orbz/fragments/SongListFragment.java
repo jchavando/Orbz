@@ -32,8 +32,6 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-import static com.ruppal.orbz.models.Player.frameLayout;
-
 /**
  * Created by jchavando on 7/13/17.
  */
@@ -57,19 +55,8 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 //    FragmentTransaction fragmentTransaction;
     ImageView ivAlbumCoverPlayer;
     FrameLayout youtube_fragment;
+    FrameLayout playlistFrameLayout;
 
-
-
-    /*
-    if(queue.size>=1{
-        for ( Song song: queue) {
-            if (a song is not playing){
-                playSong(song);
-                while (song is playing){
-                 ®
-                }
-            }
-     */
 
     @Override
     public void initialize(String s, YouTubePlayer.OnInitializedListener onInitializedListener) {
@@ -77,20 +64,9 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
     @Override
     public void onPlaylistItemSelected(View view, int position) {
-        //Intent intent = new Intent(getContext(), PlaylistActivity.class);
-        //intent.putExtra("tracks", playlist.getTracksUrl());
-        // Navigate to contact details activity on click of card view.
-
         final Playlist playlist = (Playlist) songs.get(position);
 
         if (playlist != null) {
-            // Fire an intent when a playlist is selected
-            // Pass contact object in the bundle and populate details activity.
-
-//             Intent intent = new Intent(getContext(), PlaylistActivity.class);
-//            intent.putExtra("tracks", Parcels.wrap(playlist));
-//            getContext().startActivity(intent);
-
             insertPlaylistSongsFragment(playlist);
         }
 
@@ -104,13 +80,19 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         arguments.putParcelable("tracks", Parcels.wrap(playlist));
         childFragment.setArguments(arguments);
 
-        transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
-        FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.id.fragment1);
-        frameLayout.bringToFront();
-        transaction.replace(R.id.fragment1, childFragment);
-        transaction.addToBackStack(null);
+        transaction = getChildFragmentManager().beginTransaction();
+        playlistFrameLayout = (FrameLayout) getView().findViewById(R.id.flPlaylistFragment);
+        playlistFrameLayout.bringToFront();
+        transaction.add(R.id.flPlaylistFragment, childFragment);
 
+        transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        rvSongs.bringToFront();
     }
 
     @Override
@@ -120,7 +102,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         localSongList = ((MainActivity)getActivity()).getLocalSongs();
         complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this, null); //this
         fragmentManager = getFragmentManager();
-//        fragmentManager=getChildFragmentManager();
+
     }
 
     @Nullable
@@ -130,15 +112,11 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         //inflate the layout
         Activity activity = getActivity();
         View v = inflater.inflate(R.layout.fragments_songs_list, container, false);
-        frameLayout = (FrameLayout) activity.findViewById(R.id.youtube_fragment);
+        //frameLayout = (FrameLayout) activity.findViewById(R.id.youtube_fragment);
         ivAlbumCoverPlayer = (ImageView) activity.findViewById(R.id.ivAlbumCoverPlayer);
         youtube_fragment = (FrameLayout) activity.findViewById(R.id.youtube_fragment);
         //find RecyclerView
         rvSongs = (RecyclerView) v.findViewById(R.id.rvSong);
-        //init the arraylist (data source)
-//        songs = new ArrayList<>();
-        //construct adapter from datasource
-//        complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this); //this
         //recyclerView setup (layout manager, use adapter)
         rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
         //set the adapter
@@ -147,6 +125,9 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         rvSongs.setBackgroundResource(R.drawable.watermark4);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvSongs.addItemDecoration(itemDecoration);
+        //playlistFrameLayout = (FrameLayout) getActivity().findViewById(R.id.flPlaylistFragment);
+
+       // playlistFrameLayout.setVisibility(View.INVISIBLE);
 
         return v;
     }
@@ -199,10 +180,12 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 //    }
 
 
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         //No call for super(). Bug on API Level > 11.
     }
+
 
     @Override
     public void onItemSelected(View view, int position) {

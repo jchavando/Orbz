@@ -11,12 +11,13 @@ import java.util.ArrayList;
  * Created by jchavando on 7/13/17.
  */
 
-public class SongPagerAdapter extends FragmentPagerAdapter {
+public class SongPagerAdapter extends FragmentPagerAdapter { //possibly change to: FragmentStatePagerAdapter
 
 
     private String tabTitles[] = new String[] {"", "", "", ""};
 
     private Context context;
+    String title;
     public static ArrayList<SongListFragment> mFragmentReferences = new ArrayList<>();
 
     public SongPagerAdapter(FragmentManager fm, Context context){
@@ -34,24 +35,31 @@ public class SongPagerAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             SearchFragment firstFrag = new SearchFragment();
             mFragmentReferences.add(0, firstFrag);
+            title = "";
             return firstFrag;
             //return SearchFragment.newInstance(0, "Page #1");
         } else if (position == 1) {
             PlaylistFragment secondFrag = new PlaylistFragment();
             mFragmentReferences.add(1, secondFrag);
+            //getActivity().getSupportActionBar().setTitle("HomeFragment");
+
+            title = "Playlists";
             return secondFrag;
             //more else if's
         } else if (position == 2) {
             LocalListFragment thirdFrag = new LocalListFragment();
             mFragmentReferences.add(2, thirdFrag);
+            title = "Local Music";
             return thirdFrag;
         } else if (position == 3) {
             QueueFragment fourthFrag = new QueueFragment();
             mFragmentReferences.add(3, fourthFrag);
+            title = "Queue";
             return fourthFrag;
         } else {
             return null;
         }
+
 
     }
 
