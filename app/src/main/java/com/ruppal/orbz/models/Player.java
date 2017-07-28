@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -66,6 +67,7 @@ public class Player {
     public static ImageButton playButton;
     public static ImageButton pauseButton;
     public static SeekBar sbSongProgress;
+    public static TextView tvTimeElapsed;
     public static int grey = R.color.disable_button;
     public static int white = Color.WHITE;
     public static ScheduledExecutorService executor;
@@ -107,6 +109,7 @@ public class Player {
         ivAlbumCover = (ImageView) activity.findViewById(R.id.ivAlbumCoverPlayer);
         frameLayout = (FrameLayout) activity.findViewById(youtube_fragment);
         sbSongProgress = (SeekBar) activity.findViewById(R.id.sbSongProgress);
+        tvTimeElapsed = (TextView) activity.findViewById(R.id.tvTimeElapsed);
         sbSongProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -166,6 +169,10 @@ public class Player {
             if (spotifyPlayer!=null){
                 int currentTime = (int) spotifyPlayer.getPlaybackState().positionMs;
                 sbSongProgress.setProgress(currentTime);
+//                int second = (currentTime / 1000) % 60;
+//                int minute = (currentTime/ (1000 * 60)) % 60;
+//                String time = minute + ":" + second;
+//                tvTimeElapsed.setText(time);
             }
         }
     };
@@ -176,6 +183,10 @@ public class Player {
             if (exoPlayer != null){
                 int currentTime = (int) exoPlayer.getCurrentPosition();
                 sbSongProgress.setProgress(currentTime);
+//                int second = (currentTime / 1000) % 60;
+//                int minute = (currentTime/ (1000 * 60)) % 60;
+//                String time = minute + ":" + second;
+//                tvTimeElapsed.setText(time);
             }
         }
     };
@@ -187,6 +198,10 @@ public class Player {
             if (youTubePlayer != null) {
                 int currentTime = youTubePlayer.getCurrentTimeMillis();
                 sbSongProgress.setProgress(currentTime);
+//                int second = (currentTime / 1000) % 60;
+//                int minute = (currentTime/ (1000 * 60)) % 60;
+//                String time = minute + ":" + second;
+//                tvTimeElapsed.setText(time);
             }
         }
     };
@@ -302,6 +317,9 @@ public class Player {
         //stop youtube player
         if (youTubePlayer != null) {
             youTubePlayer.pause();
+        }
+        if (exoPlayer!=null){
+            exoPlayer.setPlayWhenReady(false);
         }
     }
 
@@ -427,6 +445,8 @@ public class Player {
             });
         }
     }
+
+
 
     public static void prepareExoPlayerFromFileUri(Uri uri){
 

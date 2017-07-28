@@ -134,12 +134,26 @@
 
     </LinearLayout>
 
-    <SeekBar
-        android:id="@+id/sbSongProgress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/tvTimeElapsed"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@android:color/white"
+            android:layout_alignBottom="@+id/sbSongProgress" />
 
-
+        <SeekBar
+            android:id="@+id/sbSongProgress"
+            android:layout_width="321dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 
 </LinearLayout>

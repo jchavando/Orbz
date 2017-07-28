@@ -113,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
         tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
-
-
     }
 
 //    public void checkData(){
@@ -229,6 +227,5 @@ public class MainActivity extends AppCompatActivity {
     public void previousInQueue(View v){
         com.ruppal.orbz.models.Player.skipToPreviousInQueue();
     }
-
 
 }

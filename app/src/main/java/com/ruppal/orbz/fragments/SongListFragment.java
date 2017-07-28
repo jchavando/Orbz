@@ -103,6 +103,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         Bundle arguments = new Bundle();
         arguments.putParcelable("tracks", Parcels.wrap(playlist));
         childFragment.setArguments(arguments);
+
         transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
         FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.id.fragment1);
         frameLayout.bringToFront();
@@ -119,6 +120,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         localSongList = ((MainActivity)getActivity()).getLocalSongs();
         complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this, null); //this
         fragmentManager = getFragmentManager();
+//        fragmentManager=getChildFragmentManager();
     }
 
     @Nullable
@@ -197,10 +199,10 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 //    }
 
 
-
-
-
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //No call for super(). Bug on API Level > 11.
+    }
 
     @Override
     public void onItemSelected(View view, int position) {
