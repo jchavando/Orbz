@@ -7,7 +7,7 @@
 
     <item
         android:id="@+id/addPlaylist"
-        android:icon="@drawable/plus_button"
+        android:icon="@drawable/gray_plus"
         android:title="Item"
         app:showAsAction="ifRoom"
 
