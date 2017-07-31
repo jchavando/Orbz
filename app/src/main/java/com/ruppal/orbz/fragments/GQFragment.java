@@ -37,7 +37,7 @@ public class GQFragment extends SongListFragment {
     static final String BODY_KEY = "body";
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
     // Create a handler which can run code periodically
-    static final int POLL_INTERVAL = 3000; // milliseconds
+    static final int POLL_INTERVAL = 1500; // milliseconds
     Handler myHandler = new Handler();  // android.os.Handler //fetch messages every second
     ArrayList<Message> mMessages;
     String userId;
@@ -107,7 +107,7 @@ public class GQFragment extends SongListFragment {
 
             if(songObject instanceof Song) {
                 Song currentSong = (Song) songObject;
-                if(!currentSong.isPushed()){
+                if(!currentSong.isPushed() && currentSong.getService().equals(Song.SPOTIFY)){
                     Message message = new Message();
                     message.setUserId(ParseUser.getCurrentUser().getObjectId());
                     message.setTitle(currentSong.getTitle());
@@ -159,6 +159,7 @@ public class GQFragment extends SongListFragment {
                             currentMessage.getARTISTID(),
                             currentMessage.getARTISTNAME()
                         );
+                        if(songToAdd.getTitle() != null && !songToAdd.getTitle().isEmpty())
                         songs.add(songToAdd);
                     }
                     complexAdapter.notifyDataSetChanged();
