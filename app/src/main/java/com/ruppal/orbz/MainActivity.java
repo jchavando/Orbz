@@ -1,7 +1,6 @@
 package com.ruppal.orbz;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,7 +12,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -33,6 +31,8 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.Spotify;
 
 import java.util.ArrayList;
+
+import static com.ruppal.orbz.fragments.PlaylistSongsFragment.isPlaylistSongsFragment;
 
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
         tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
-        tabLayout.getTabAt(4).setIcon(R.drawable.gq);
+        tabLayout.getTabAt(4).setIcon(R.drawable.jukebox);
 
         //change titles of action bar with each fragment
         vpPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -265,19 +265,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-        //Toast.makeText(this, "back to playlists", Toast.LENGTH_SHORT).show();
-        FragmentManager fm = getFragmentManager();
-        if (fm.getBackStackEntryCount() > 0) {
-            Log.i("MainActivity", "popping backstack");
-            fm.popBackStack();
+        if (isPlaylistSongsFragment) {
+            SongPagerAdapter.mFragmentReferences.get(1).callChildFrag();//playlist fragment
+            isPlaylistSongsFragment = false;
+
         } else {
-            Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
         }
-        //SongPagerAdapter.mFragmentReferences.get(1).;
-        //getFragmentManager().popBackStack();
-
     }
 
 

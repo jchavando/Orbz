@@ -45,6 +45,7 @@ public class PlaylistSongsFragment extends SongListFragment {
     ViewPager vpPager;
     PlaylistFragment playlistFragment;
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -59,6 +60,7 @@ public class PlaylistSongsFragment extends SongListFragment {
         else if (mPlaylist.getPlaylistService().equals(Song.LOCAL)){
             loadTracksFromLocal(mPlaylist);
         }
+
 
     }
 
@@ -75,7 +77,7 @@ public class PlaylistSongsFragment extends SongListFragment {
 
     }
 
-
+//TODO: delete
 //    @Override
 //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 //        super.onCreateOptionsMenu(menu, inflater);
@@ -86,9 +88,9 @@ public class PlaylistSongsFragment extends SongListFragment {
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        switch (item.getItemId()) {
 //            case R.id.backToPlaylists:
-//                getActivity().onBackPressed();
+//                //getActivity().onBackPressed();
 //                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
-//                Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "back to playlists 1", Toast.LENGTH_SHORT).show();
 //
 //                getFragmentManager().popBackStack();
 //
@@ -102,6 +104,7 @@ public class PlaylistSongsFragment extends SongListFragment {
 
 
     public void playlistSongsBack() {
+
         Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
         getFragmentManager().popBackStack();
     }

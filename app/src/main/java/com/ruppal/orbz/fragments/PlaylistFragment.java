@@ -87,6 +87,8 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
 
 
 
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -174,6 +176,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         rvSongs.scrollToPosition(positionInsert);
         playlistsFromDatabase.add(newPlaylist);
     }
+
 
     @Override
     public void addSongToPlaylist(Song song, PlaylistTable playlistTable) {
