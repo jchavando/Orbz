@@ -8,7 +8,7 @@ import android.view.ViewGroup;
  */
 
 public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    //todo start here and make adapter for just showing lists
+    //todo start here and make adapter for just showing lists (elvis: do we still need this or can i remove this?)
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

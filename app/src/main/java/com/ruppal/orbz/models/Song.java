@@ -38,6 +38,22 @@ public class Song {
     public static final String LOCAL = "Local";
     public static final String LASTFM = "Last.fm";
 
+
+    public Boolean pushed = false;
+
+
+
+    ////////////////////////////Starting tags
+    public ArrayList<String> tagList = new ArrayList<>();
+    /* currently set up to only add one tag
+    * will work on adding more tags, with a hashmap to keep track of the points in the song
+    * */
+    /// ////////////////////////////Starting tags
+
+    public void addTag(String tagToAdd){
+        tagList.add(tagToAdd);
+    }
+
     public Song(){}
 
     public Song(long id, String title){
@@ -152,6 +168,10 @@ public class Song {
 
         return song;
     }
+
+    public void setPushed() {pushed = true;}
+
+    public boolean isPushed(){return pushed;}
 
     public String getService() {
         return service;

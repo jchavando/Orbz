@@ -107,25 +107,29 @@ public class GQFragment extends SongListFragment {
 
             if(songObject instanceof Song) {
                 Song currentSong = (Song) songObject;
-                Message message = new Message();
-                message.setUserId(ParseUser.getCurrentUser().getObjectId());
-                message.setTitle(currentSong.getTitle());
-                message.setArtistName(currentSong.getArtists().get(0).getName());
-                message.setService(currentSong.getService());
-                message.setUid(currentSong.getUid());
-                message.setArtistId(currentSong.getArtists().get(0).getUid());
-                message.setAlbum(currentSong.getAlbum());
-                message.setPopularity(currentSong.getPopularity());
-                message.setDuration(currentSong.getDuration_ms());
+                if(!currentSong.isPushed()){
+                    Message message = new Message();
+                    message.setUserId(ParseUser.getCurrentUser().getObjectId());
+                    message.setTitle(currentSong.getTitle());
+                    message.setArtistName(currentSong.getArtists().get(0).getName());
+                    message.setService(currentSong.getService());
+                    message.setUid(currentSong.getUid());
+                    message.setArtistId(currentSong.getArtists().get(0).getUid());
+                    message.setAlbum(currentSong.getAlbum());
+                    message.setPopularity(currentSong.getPopularity());
+                    message.setDuration(currentSong.getDuration_ms());
+                    message.setAlbumCover(currentSong.getAlbumCoverUrl());
 
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Toast.makeText(getContext(), "Successfully created message on Parse",
-                                Toast.LENGTH_SHORT).show();
-                        refreshMessages();
-                    }
-                });
+                    message.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Toast.makeText(getContext(), "Successfully created message on Parse",
+                                    Toast.LENGTH_SHORT).show();
+                            refreshMessages();
+                        }
+                    });
+                    ((Song) songObject).setPushed();
+                }
             }
         }
     }
@@ -136,7 +140,6 @@ public class GQFragment extends SongListFragment {
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         // Configure limit and sort order
         query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
-
         // get the latest 50 messages, order will show up newest to oldest of this group
         query.orderByDescending("createdAt");
         // Execute query to fetch all messages from Parse asynchronously
@@ -152,7 +155,7 @@ public class GQFragment extends SongListFragment {
                             currentMessage.getTITLE(),
                             currentMessage.getPopularity(),
                             currentMessage.getDURATION(),
-                            currentMessage.getALBUM(),
+                            currentMessage.getALBUMCOVER(),
                             currentMessage.getARTISTID(),
                             currentMessage.getARTISTNAME()
                         );

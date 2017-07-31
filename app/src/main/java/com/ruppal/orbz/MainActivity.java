@@ -65,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     String realQuery;
 
+    //todo create a dialog fragment that opens when the user wants to create a tag
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     public static ArrayList<Object> passTest(){
         return SongPagerAdapter.mFragmentReferences.get(3).songs;
-
     }
 
 //    public void checkData(){

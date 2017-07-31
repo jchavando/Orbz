@@ -44,9 +44,7 @@ public class LoginOtherActivity extends AppCompatActivity implements SpotifyPlay
 LoginLastFMFragment.LastFMListener{
 
 
-    // TODO: Replace with your client ID
     String spotifyClientId;
-    // TODO: Replace with your redirect URI
     String spotifyRedirectUri;
     private static final int REQUEST_CODE = 1337;
     private static final int RC_SIGN_IN = 9001;
