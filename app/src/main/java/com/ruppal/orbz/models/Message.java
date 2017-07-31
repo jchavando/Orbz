@@ -18,6 +18,7 @@ public class Message extends ParseObject {
     public static final String ALBUM = "album";
     public static final String POPULARITY = "popularity";
     public static final String DURATION = "duration";
+    public static final String ALBUMCOVER = "albumcover";
 
     public void setUserId(String userId) {
         put(USER_ID_KEY, userId);
@@ -39,6 +40,8 @@ public class Message extends ParseObject {
 
     public  void setDuration(int duration) {put(DURATION, duration);}
 
+    public  void setAlbumCover(String albumcover) {put(ALBUMCOVER, albumcover);}
+
     public String getUSERID() {
         return getString(USER_ID_KEY);
     }
@@ -54,6 +57,8 @@ public class Message extends ParseObject {
     public String getARTISTID() {return getString(ARTISTID);}
 
     public String getALBUM() {return getString(ALBUM);}
+
+    public String getALBUMCOVER() {return getString(ALBUMCOVER);}
 
     public int getDURATION() {return getInt(DURATION);}
 
