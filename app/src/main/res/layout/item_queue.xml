@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+
+    <ImageView
+        android:id="@+id/ivAlbumCover"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="?attr/colorAccent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/tvSongName"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/ivAlbumCover"
+        android:text="TextView"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/tvArtistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSongName"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/ivAlbumCover"
+        android:text="TextView"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/tvService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvArtistName"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/ivAlbumCover"
+        android:text="TextView"
+        android:textColor="@android:color/darker_gray" />
+
+    <ImageButton
+        android:id="@+id/ibAddToPlaylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        app:srcCompat="@android:drawable/ic_menu_add" />
+    <ImageButton
+        android:id="@+id/ibAddComment"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_below="@+id/ibAddToPlaylist"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/ivAlbumCover"
+        android:layout_alignParentRight="true"
+
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/comment" />
+
+
+
+</RelativeLayout>

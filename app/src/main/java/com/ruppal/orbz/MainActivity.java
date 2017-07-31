@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
         tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
-        tabLayout.getTabAt(4).setIcon(R.drawable.jukebox);
+        tabLayout.getTabAt(4).setIcon(R.drawable.white_jukebox);
 
         //change titles of action bar with each fragment
         vpPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

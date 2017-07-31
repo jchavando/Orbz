@@ -92,10 +92,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     }
 
     public void callChildFrag(){
-//        PlaylistSongsFragment parentFragment = (PlaylistSongsFragment) getChildFragmentManager().;
-//        if (parentFragment != null) {
-//            parentFragment.playlistSo("", "AllPdf");
-//        }
         childFragment.playlistSongsBack();
     }
 
