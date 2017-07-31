@@ -32,6 +32,8 @@ import com.spotify.sdk.android.player.Spotify;
 
 import java.util.ArrayList;
 
+import static com.ruppal.orbz.fragments.PlaylistSongsFragment.isPlaylistSongsFragment;
+
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
@@ -119,12 +121,49 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
         tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
-        tabLayout.getTabAt(4).setIcon(R.drawable.gq);
+        tabLayout.getTabAt(4).setIcon(R.drawable.white_jukebox);
+
+        //change titles of action bar with each fragment
+        vpPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                vpPager.setCurrentItem(position);
+                switch(position) {
+                    case 0:
+                        getSupportActionBar().setTitle("");
+                        break;
+                    case 1:
+                        getSupportActionBar().setTitle("Playlists");
+                        break;
+                    case 2:
+                        getSupportActionBar().setTitle("Local Music");
+                        break;
+                    case 3:
+                        getSupportActionBar().setTitle("Queue");
+                        break;
+                    case 4:
+                        getSupportActionBar().setTitle("Group Queue");
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
+
 
     public static ArrayList<Object> passTest(){
         return SongPagerAdapter.mFragmentReferences.get(3).songs;
@@ -225,5 +264,17 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageScrollStateChanged(int state) {
     }
+
+    @Override
+    public void onBackPressed() {
+        if (isPlaylistSongsFragment) {
+            SongPagerAdapter.mFragmentReferences.get(1).callChildFrag();//playlist fragment
+            isPlaylistSongsFragment = false;
+
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
 }

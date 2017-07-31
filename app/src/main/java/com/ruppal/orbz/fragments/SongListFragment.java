@@ -56,6 +56,9 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     ImageView ivAlbumCoverPlayer;
     FrameLayout youtube_fragment;
     FrameLayout playlistFrameLayout;
+    public static boolean isPlaylistSongsFragment;
+    public PlaylistSongsFragment childFragment;
+
 
 
     @Override
@@ -68,12 +71,13 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
         if (playlist != null) {
             insertPlaylistSongsFragment(playlist);
+            isPlaylistSongsFragment = true;
         }
     }
     // Embeds the child fragment dynamically
     private void insertPlaylistSongsFragment(Playlist playlist) {
 
-        PlaylistSongsFragment childFragment = new PlaylistSongsFragment();
+        childFragment = new PlaylistSongsFragment(); //PlaylistSongsFragment
         Bundle arguments = new Bundle();
         arguments.putParcelable("tracks", Parcels.wrap(playlist));
         childFragment.setArguments(arguments);
@@ -81,11 +85,16 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         transaction = getChildFragmentManager().beginTransaction();
         playlistFrameLayout = (FrameLayout) getView().findViewById(R.id.flPlaylistFragment);
         playlistFrameLayout.bringToFront();
-        transaction.add(R.id.flPlaylistFragment, childFragment);
+        transaction.replace(R.id.flPlaylistFragment, childFragment, "playlistfrag"); //add
 
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    public void callChildFrag(){
+        childFragment.playlistSongsBack();
+    }
+
 
     @Override
     public void onResume() {
@@ -122,9 +131,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         rvSongs.setBackgroundResource(R.drawable.soundwaves);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvSongs.addItemDecoration(itemDecoration);
-        //playlistFrameLayout = (FrameLayout) getActivity().findViewById(R.id.flPlaylistFragment);
-
-       // playlistFrameLayout.setVisibility(View.INVISIBLE);
 
         return v;
     }

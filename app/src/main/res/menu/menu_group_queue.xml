@@ -9,6 +9,6 @@
         android:title="switch"
         android:visible="true"
         app:showAsAction="always"
-        android:icon="@drawable/white_group_queue"/>
+        android:icon="@drawable/gray_gq"/>
 
 </menu>

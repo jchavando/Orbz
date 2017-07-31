@@ -36,6 +36,7 @@ public class SongPagerAdapter extends FragmentPagerAdapter { //possibly change t
             SearchFragment firstFrag = new SearchFragment();
             mFragmentReferences.add(0, firstFrag);
             title = "";
+            //getSupportAction
             return firstFrag;
             //return SearchFragment.newInstance(0, "Page #1");
         } else if (position == 1) {

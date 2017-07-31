@@ -71,32 +71,30 @@
 
     <ImageView
         android:id="@+id/ivName"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
 
         android:background="@android:color/transparent"
         app:srcCompat="@drawable/orbz_login"
-        android:layout_marginRight="17dp"
-        android:layout_marginEnd="17dp"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/btDone"
-        android:layout_alignEnd="@+id/btDone" />
+        android:layout_alignLeft="@+id/btDone"
+        android:layout_alignStart="@+id/btDone" />
 
     <TextView
         android:id="@+id/tvName2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="37dp"
+        android:layout_alignBottom="@+id/ivName"
+        android:layout_alignEnd="@+id/btDone"
+        android:layout_alignRight="@+id/btDone"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
         android:background="@android:color/transparent"
         android:fontFamily="sans-serif-smallcaps"
         android:text="rbz"
         android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:layout_marginRight="39dp"
-        android:layout_marginEnd="39dp"
-        android:layout_alignBottom="@+id/ivName"
-        android:layout_alignRight="@+id/btLoginSpotify"
-        android:layout_alignEnd="@+id/btLoginSpotify" />
+        android:textSize="22sp" />
 
 
 </RelativeLayout>
