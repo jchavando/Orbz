@@ -59,17 +59,18 @@
         android:layout_alignParentTop="true"
         android:background="@android:color/transparent"
         app:srcCompat="@android:drawable/ic_menu_add" />
+
     <ImageButton
         android:id="@+id/ibAddComment"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
-        android:layout_below="@+id/ibAddToPlaylist"
-        android:layout_alignParentEnd="true"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_alignBottom="@+id/ivAlbumCover"
+        android:layout_alignLeft="@+id/ibAddToPlaylist"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-
+        android:layout_below="@+id/ibAddToPlaylist"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/comment" />
+        app:srcCompat="@android:drawable/stat_notify_chat" />
 
 
 

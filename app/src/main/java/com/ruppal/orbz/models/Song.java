@@ -39,8 +39,8 @@ public class Song {
     public static final String LASTFM = "Last.fm";
 
 
-    public Boolean pushed = false;
-
+    public boolean pushed = false; //Boolean
+    public boolean queued = false;
 
 
     ////////////////////////////Starting tags
@@ -213,6 +213,8 @@ public class Song {
         return SongID;
     }
 
+    public boolean getQueued() { return queued; }
+
     public Uri getSongUri() {
         return Uri.parse("file:///"+ getData());
     }
@@ -260,4 +262,10 @@ public class Song {
     public void setDuration_ms(int duration_ms) {
         this.duration_ms = duration_ms;
     }
+
+    public void setQueued(boolean queued) {
+                this.queued = queued;
+    }
+
+
 }

@@ -7,8 +7,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-
-import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.models.Song;
 
@@ -18,7 +16,7 @@ import static com.ruppal.orbz.models.Player.queue;
  * Created by jchavando on 7/26/17.
  */
 
-public class QueueFragment extends SongListFragment {
+public class QueueFragment extends SongListFragment implements AddCommentDialogFragment.AddCommentListener{
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -57,5 +55,14 @@ public class QueueFragment extends SongListFragment {
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onFinishDialog(String newComment) {
+        //Playlist newPlaylist = DatabaseHelper.makeNewLocalPlaylist(newPlaylistName);
+        //int positionInsert = 0;
+        //addSongToPosition(newPlaylist, positionInsert);
+        //rvSongs.scrollToPosition(positionInsert);
+        //playlistsFromDatabase.add(newPlaylist);
     }
 }
