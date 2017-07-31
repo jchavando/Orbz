@@ -159,6 +159,7 @@ public class GQFragment extends SongListFragment {
                             currentMessage.getARTISTID(),
                             currentMessage.getARTISTNAME()
                         );
+                        if(songToAdd.getTitle() != null && !songToAdd.getTitle().isEmpty())
                         songs.add(songToAdd);
                     }
                     complexAdapter.notifyDataSetChanged();
