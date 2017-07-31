@@ -54,8 +54,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     FrameLayout youtube_fragment;
     FrameLayout playlistFrameLayout;
     public static boolean isPlaylistSongsFragment;
-    public PlaylistSongsFragment childFragment;
-
 
     public  PlaylistSongsFragment childFragment;
 
