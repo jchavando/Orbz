@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     //todo create a dialog fragment that opens when the user wants to create a tag
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         } else {
             Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
         }
-
         tabLayout.getTabAt(0).setIcon(R.drawable.white_search);
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
@@ -225,5 +223,4 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageScrollStateChanged(int state) {
     }
-
 }

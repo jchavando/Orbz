@@ -57,6 +57,8 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     FrameLayout youtube_fragment;
     FrameLayout playlistFrameLayout;
 
+    public  PlaylistSongsFragment childFragment;
+
 
     @Override
     public void initialize(String s, YouTubePlayer.OnInitializedListener onInitializedListener) {

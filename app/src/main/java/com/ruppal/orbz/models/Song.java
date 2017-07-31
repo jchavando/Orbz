@@ -38,21 +38,10 @@ public class Song {
     public static final String LOCAL = "Local";
     public static final String LASTFM = "Last.fm";
 
-
     public Boolean pushed = false;
 
+    public String comment = null;
 
-
-    ////////////////////////////Starting tags
-    public ArrayList<String> tagList = new ArrayList<>();
-    /* currently set up to only add one tag
-    * will work on adding more tags, with a hashmap to keep track of the points in the song
-    * */
-    /// ////////////////////////////Starting tags
-
-    public void addTag(String tagToAdd){
-        tagList.add(tagToAdd);
-    }
 
     public Song(){}
 
@@ -167,6 +156,14 @@ public class Song {
         song.artists.add(Artist.fromJSON(YOUTUBE, object));
 
         return song;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getComment() {
+        return comment;
     }
 
     public void setPushed() {pushed = true;}
