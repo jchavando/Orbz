@@ -44,11 +44,11 @@ public class SearchFragment extends SongListFragment {
     YouTubeClient youTubeClient;
 
     private final String TAG = "YoutubeClient";
-    ArrayList<Song> allSearchArray = new ArrayList<>();
-//    ArrayList<Song> youtubeSongs = new ArrayList<>();
-//    ArrayList<Song> spotifySongs = new ArrayList<>();
-//    ArrayList<Song> localSongs = new ArrayList<>();
-
+    ArrayList<Song> youtubeSongs = new ArrayList<>();
+    ArrayList<Song> spotifySongs = new ArrayList<>();
+    ArrayList<Song> localSongs = new ArrayList<>();
+    private boolean youtubeReady = false;
+    private boolean spotifyReady = false;
     private String theQuery;
 
     @Override
@@ -115,38 +115,56 @@ public class SearchFragment extends SongListFragment {
         //return super.onCreateOptionsMenu(menu);
     }
 
+    public void clearLocalLists(){
+        if (localSongs!=null){
+            localSongs.clear();
+        }
+        if (youtubeSongs!= null){
+            youtubeSongs.clear();
+        }
+        if (spotifySongs != null){
+            spotifySongs.clear();
+        }
+    }
+
     public void searchSongs(String query) {
-        searchSpotify(query);
-        //moved this after spotify json returns, so look in searchSpotify
-        searchYoutube(query);
+        clearLocalLists();
+        youtubeReady = false;
+        spotifyReady = false;
         ArrayList<Song> test = searchConverter(searchLocal(query));
         for (Song thisSong : test)
         {
-//            localSongs.add(thisSong);
-            addSong(thisSong);
-            Log.d("Elvis Search Song Test", thisSong.getTitle());
+            localSongs.add(thisSong);
+//            addSong(thisSong);
+//            Log.d("Elvis Search Song Test", thisSong.getTitle());
         }
-//        mixUpSongs();
+        searchSpotify(query);
+        //moved this after spotify json returns, so look in searchSpotify
+        searchYoutube(query);
     }
 
-//    public void mixUpSongs(){
-//        int spotifyLength = spotifySongs.size();
-//        int youtubeLength = youtubeSongs.size();
-//        int localLength = localSongs.size();
-//        int length = Math.max(Math.max(spotifyLength,youtubeLength) , localLength);
-//
-//        for (int i=0;i<length; i++){
-//            if (i<spotifyLength){
-//                addSong(spotifySongs.get(i));
-//            }
-//            if (i<youtubeLength){
-//                addSong(youtubeSongs.get(i));
-//            }
-//            if(i<localLength){
-//                addSong(localSongs.get(i));
-//            }
-//        }
-//    }
+    public void mixUpSongs(){
+        int spotifyLength = spotifySongs.size();
+        int youtubeLength = youtubeSongs.size();
+        int localLength = localSongs.size();
+        int length = Math.max(Math.max(spotifyLength,youtubeLength) , localLength);
+
+        for (int i=0;i<length; i++){
+            //order is spotify, local, youtube
+            if (i<spotifyLength){
+                addSong(spotifySongs.get(i));
+            }
+
+            if(i<localLength){
+                addSong(localSongs.get(i));
+            }
+
+            if (i<youtubeLength){
+                addSong(youtubeSongs.get(i));
+            }
+
+        }
+    }
 
     public void refineSongSearch(String query){
         ArrayList<Song> refinedSongList = new ArrayList<>();
@@ -208,8 +226,12 @@ public class SearchFragment extends SongListFragment {
                     for (int i = 0; i < items.length(); i++) {
                         JSONObject item = items.getJSONObject(i);
                         Song song = Song.fromJSON(Song.YOUTUBE, item);
-//                        youtubeSongs.add(song);
-                        addSong(song);
+                        youtubeSongs.add(song);
+//                        addSong(song);
+                    }
+                    youtubeReady = true;
+                    if (spotifyReady){
+                        mixUpSongs();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -250,10 +272,14 @@ public class SearchFragment extends SongListFragment {
                     for (int i = 0; i < items.length(); i++) {
                         JSONObject item = items.getJSONObject(i);
                         Song song = Song.fromJSON(Song.SPOTIFY, item);
-//                        spotifySongs.add(song);
-                        addSong(song);
+                        spotifySongs.add(song);
+//                        addSong(song);
                     }
 //                    searchYoutube(query);
+                    spotifyReady = true;
+                    if (youtubeReady){
+                        mixUpSongs();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
