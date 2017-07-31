@@ -18,6 +18,7 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
     public ImageView ivPause;
     public TextView tvService;
     public ImageButton ibAddToPlaylist;
+    public ImageButton ibAddComment;
 
     public ViewHolderSong(View itemView, final ComplexRecyclerViewAdapter.SongAdapterListener mListener, final Context context) {
         super(itemView);
@@ -52,6 +53,15 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
                 mListener.onAddPlaylistSongClicked(v, position); //.onAddPlaylistClicked
             }
         });
+
+//        ibAddComment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int position = getAdapterPosition();
+//               // mListener.onAddComment
+//
+//            }
+//        });
 
         tvService = (TextView) itemView.findViewById(R.id.tvService);
     }

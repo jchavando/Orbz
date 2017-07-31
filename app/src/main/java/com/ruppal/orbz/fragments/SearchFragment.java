@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
@@ -12,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.MapUtil;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.LastFMClient;
@@ -58,21 +56,8 @@ public class SearchFragment extends SongListFragment {
         youTubeClient = new YouTubeClient();
         lastFMCLient = new LastFMClient();
         setHasOptionsMenu(true);
-        //(getActivity()).setTitle("search");
-
-       ((MainActivity) getActivity()).setActionBarTitle("search");
-
     }
-    public void onResume(){
-        super.onResume();
 
-        // Set title bar
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("search");
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(null);
-
-
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
