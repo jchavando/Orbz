@@ -1,6 +1,7 @@
 package com.ruppal.orbz;
 
 import android.annotation.SuppressLint;
+import android.app.FragmentManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -117,11 +119,48 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tabLayout.getTabAt(2).setIcon(R.drawable.local_music);
         tabLayout.getTabAt(3).setIcon(R.drawable.white_queue);
         tabLayout.getTabAt(4).setIcon(R.drawable.gq);
+
+        //change titles of action bar with each fragment
+        vpPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                vpPager.setCurrentItem(position);
+                switch(position) {
+                    case 0:
+                        getSupportActionBar().setTitle("");
+                        break;
+                    case 1:
+                        getSupportActionBar().setTitle("Playlists");
+                        break;
+                    case 2:
+                        getSupportActionBar().setTitle("Local Music");
+                        break;
+                    case 3:
+                        getSupportActionBar().setTitle("Queue");
+                        break;
+                    case 4:
+                        getSupportActionBar().setTitle("Group Queue");
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
+
 
     public static ArrayList<Object> passTest(){
         return SongPagerAdapter.mFragmentReferences.get(3).songs;
@@ -223,5 +262,23 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageScrollStateChanged(int state) {
     }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        //Toast.makeText(this, "back to playlists", Toast.LENGTH_SHORT).show();
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+        //SongPagerAdapter.mFragmentReferences.get(1).;
+        //getFragmentManager().popBackStack();
+
+    }
+
 
 }

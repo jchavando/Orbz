@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
-import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.database.DatabaseHelper;
@@ -57,17 +56,6 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         getLocalPlaylists();
         addLocalPlaylistsToSongs();
         populateSpotifyPlaylists();
-        ((MainActivity) getActivity()).setActionBarTitle("search");
-
-        // ((MainActivity) getActivity()).getSupportActionBar().setTitle("Playlists");
-    }
-    public void onResume(){
-        super.onResume();
-
-        // Set title bar
-        //getActivity().getSupportActionBar().setTitle("Playlists");
-
-
     }
 
     @Override
@@ -77,9 +65,6 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         spotifyPlaylists = new ArrayList<>();
         setHasOptionsMenu(true);
         addSongToPlaylistAdapterListener = this;
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Playlists");
-        //getSupportActionBar().hide();
-
     }
 
 
