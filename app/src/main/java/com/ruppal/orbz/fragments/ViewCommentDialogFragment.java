@@ -41,7 +41,7 @@ public class ViewCommentDialogFragment extends DialogFragment {
     }
 
     public static ViewCommentDialogFragment newInstance(String title, AddCommentListener addCommentListener ) { //what is title, for Twitter used Tweet
-        ViewCommentDialogFragment fragment = new ViewCommentDialogFragment(addCommentListener ); //TODO fix
+        ViewCommentDialogFragment fragment = new ViewCommentDialogFragment(addCommentListener );
         Bundle args = new Bundle();
         args.putString("title", title);
         fragment.setArguments(args);

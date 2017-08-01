@@ -36,6 +36,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         public void onItemSelected (View view, int position);
         public void onItemLongSelected (View view, int position);
         public void onAddPlaylistSongClicked(View view, int position);
+        public void onAddCommentClicked(View view, int position);
     }
 
     public interface PlaylistAdapterListener{
@@ -103,7 +104,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         else if(mSongsPlaylists.get(position) instanceof PlaylistTable){
             return TYPE_PLAYLIST_SIMPLE;
         }
-        //else if(mSongsPlaylists.get(position) instanceof Q)
         return -1;
     }
 

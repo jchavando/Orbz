@@ -19,6 +19,7 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
     public TextView tvService;
     public ImageButton ibAddToPlaylist;
     public ImageButton ibAddComment;
+    ComplexRecyclerViewAdapter complexRecyclerViewAdapter;
 
     public ViewHolderSong(View itemView, final ComplexRecyclerViewAdapter.SongAdapterListener mListener, final Context context) {
         super(itemView);
@@ -27,6 +28,7 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
         tvArtistName = (TextView) itemView.findViewById(R.id.tvArtistName);
         ivAlbumCover = (ImageView) itemView.findViewById(R.id.ivAlbumCover);
         ibAddToPlaylist = (ImageButton) itemView.findViewById(R.id.ibAddToPlaylist);
+        ibAddComment = (ImageButton) itemView.findViewById(R.id.ibAddComment);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,18 +52,22 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
                 //Drawable playButton = context.getResources().getDrawable(R.drawable.exo_controls_play);
                 //((ImageButton) v).setImageDrawable(playButton);
                 int position = getAdapterPosition();
-                mListener.onAddPlaylistSongClicked(v, position); //.onAddPlaylistClicked
+                mListener.onAddCommentClicked(v, position);
+                //mListener.onAddPlaylistSongClicked(v, position); //.onAddPlaylistClicked
             }
         });
 
-//        ibAddComment.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int position = getAdapterPosition();
-//               // mListener.onAddComment
-//
-//            }
-//        });
+//        if(getQueued()) { //its queued
+//            ibAddComment.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int position = getAdapterPosition();
+//                    mListener.onAddCommentClicked(v, position); //.onAddPlaylistClicked
+//                }
+//            });
+//        }
+
+
 
         tvService = (TextView) itemView.findViewById(R.id.tvService);
     }
