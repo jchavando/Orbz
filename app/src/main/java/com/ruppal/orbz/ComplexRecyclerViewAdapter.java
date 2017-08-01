@@ -154,10 +154,12 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 Player.getCurrentlyPlayingSong().getService().equals(song.getService())
                 && Player.getCurrentlyPlayingSong().getUid().equals(song.getUid()))){
 //            holder.songRelativeLayout.setBackgroundColor(Color.MAGENTA);
+            holder.songRelativeLayout.setBackgroundColor(R.color.colorPrimaryDark);
             holder.tvArtistName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
             holder.tvSongName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
         }
         else {
+            holder.songRelativeLayout.setBackgroundColor(R.color.colorPrimaryDark);
             holder.tvArtistName.setTextColor(Color.WHITE);
             holder.tvSongName.setTextColor(Color.WHITE);
         }
