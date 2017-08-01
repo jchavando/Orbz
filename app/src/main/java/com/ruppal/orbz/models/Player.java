@@ -173,7 +173,7 @@ public class Player {
                 }
                 if (currentlyPlayingSong!=null && currentlyPlayingSong.getService() == Song.SPOTIFY && almostEquals(progress, sbSongProgress.getMax())){
                     currentlyPlayingSong.playing = false;
-//                    DatabaseHelper.compareRowSetPlaying(currentlyPlayingSong, false);
+                    DatabaseHelper.compareRowSetPlaying(currentlyPlayingSong, false);
                     alertListeners();
                     playNextSongInQueue();
                 }
@@ -334,7 +334,7 @@ public class Player {
             @Override
             public void onVideoEnded() {
                 currentlyPlayingSong.playing = false;
-//                DatabaseHelper.compareRowSetPlaying(currentlyPlayingSong, false);
+                DatabaseHelper.compareRowSetPlaying(currentlyPlayingSong, false);
                 alertListeners();
                 skipToNextInQueue();
 
@@ -460,7 +460,7 @@ public class Player {
             currentlyPlayingSong = song;
             alertListeners();
             currentlyPlayingSong.playing = true;
-//            DatabaseHelper.compareRowSetPlaying(song, true);
+            DatabaseHelper.compareRowSetPlaying(song, true);
             setPlayButtonColors();
             stopAllSongs();
             updateSongInfo();
@@ -537,7 +537,7 @@ public class Player {
                     }
                     if (playbackState == ExoPlayer.STATE_ENDED){
                         currentlyPlayingSong.playing = false;
-//                        DatabaseHelper.compareRowSetPlaying(currentlyPlayingSong, false);
+                        DatabaseHelper.compareRowSetPlaying(currentlyPlayingSong, false);
                         alertListeners();
                         playNextSongInQueue();
                     }
