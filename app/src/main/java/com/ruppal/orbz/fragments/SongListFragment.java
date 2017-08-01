@@ -46,6 +46,8 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public static ArrayList<Song> localSongList;
     public static ArrayList<PlaylistTable> localPlaylistTables;
     static ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener addSongToPlaylistAdapterListener;
+    static ComplexRecyclerViewAdapter.AddCommentAdapterListener addCommentAdapterListener;
+
     public static FragmentManager fragmentManager;
     public FragmentTransaction transaction;
     SpotifyClient spotifyClient;
@@ -165,13 +167,13 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
     @Override
     public void onAddPlaylistSongClicked(View view, int position) {
+
         Object song = songs.get(position);
         if (song instanceof Song){
             //add song to playlist
             //DatabaseHelper.addSongToTestPlaylist((Song) song);
 //            //update playlist view
 //            DatabaseHelper.updateTestPlaylist();
-
             //launch select playlist fragment
             FragmentManager fm = getActivity().getSupportFragmentManager();
             SelectPlaylistDialogFragment selectPlaylistDialogFragment = SelectPlaylistDialogFragment.newInstance("Select a Playlist", (Song) song, addSongToPlaylistAdapterListener);
@@ -180,26 +182,22 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         else{
             Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
         }
+
     }
 
-//    @Override
-//    public void onAddCommentClicked(View view, int position) {
-//        Object song = songs.get(position);
-//        if (song instanceof Song){
-//            //add song to playlist
-//            //DatabaseHelper.addSongToTestPlaylist((Song) song);
-////            //update playlist view
-////            DatabaseHelper.updateTestPlaylist();
-//
-//            //launch select playlist fragment
-//            FragmentManager fm = getActivity().getSupportFragmentManager();
-//            SelectPlaylistDialogFragment selectPlaylistDialogFragment = SelectPlaylistDialogFragment.newInstance("Select a Playlist", (Song) song, addSongToPlaylistAdapterListener);
-//            selectPlaylistDialogFragment.show(fm, "lastfm_login");
-//        }
-//        else{
-//            Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
-//        }
-//    }
+    @Override
+    public void onAddCommentClicked(View view, int position) {
+        Object song = songs.get(position);
+        if (song instanceof Song) {
+            Toast.makeText(getContext(), "clicked comment", Toast.LENGTH_SHORT).show();
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            AddCommentDialogFragment addCommentDialogFragment = AddCommentDialogFragment.newInstance("some title", addCommentAdapterListener); //TODO
+            addCommentDialogFragment.show(fm, "add comment");
+        }
+        else{
+            Toast.makeText(getContext(), "can only add a comment to a queued song", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public void addSongToPosition (Object song, int position){
         if (position < songs.size() && position >= 0){
