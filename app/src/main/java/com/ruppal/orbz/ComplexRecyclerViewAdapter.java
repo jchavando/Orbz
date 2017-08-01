@@ -120,8 +120,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         //get the data according to position
         final Song song = (Song) mSongsPlaylists.get(position); //returns song object
 
-        //populate the views according to this data
-
         holder.tvSongName.setText(song.title);
         String artistList = "";
 
@@ -148,9 +146,9 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     Log.i("albumArt", song.getAlbumCoverUrl());
                     break;
             }
-
+        } else {
+            holder.ivAlbumCover.setImageResource(R.drawable.blacklogomissingalbum);
         }
-
 
         holder.tvService.setText(song.getService());
         if (song.isPlaying() || (Player.getCurrentlyPlayingSong()!=null &&

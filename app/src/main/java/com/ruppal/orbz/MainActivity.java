@@ -157,20 +157,16 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                         getSupportActionBar().setTitle("Group Queue");
                         break;
                 }
-
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
     }
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
-
 
     public static ArrayList<Object> passTest(){
         return SongPagerAdapter.mFragmentReferences.get(3).songs;
@@ -223,8 +219,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     artists.add(artist);
 
                 String albumUrl = albumArt.get(currentAlbum);
-
-                localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData, artists, albumUrl));
+                if(albumUrl != null) {
+                    localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData, artists, albumUrl));
+                }
+                else {
+                    localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData, artists));
+                }
 
             } while(songCursor.moveToNext());
             songCursor.close();
