@@ -14,9 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="170dp"
         android:background="@drawable/border"
         android:onClick="onClickSpotifyLogin"
+        android:drawableEnd="@drawable/spotify_icon"
         android:text="Log in to Spotify"
         android:textColor="@android:color/white" />
 
