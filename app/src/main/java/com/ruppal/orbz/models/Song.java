@@ -25,7 +25,6 @@ public class Song {
     public int popularity;
     public String service;
     public int duration_ms;
-    public String comment;
 
     public String data;
     public String artist;
@@ -61,14 +60,14 @@ public class Song {
     }
 
     public Song(String album, String uid, String title, int popularity, int duration_ms, String albumCoverUrl,
-                String artistID, String artistName, String comment){
+                String artistID, String artistName){
         this.album = album;
         this.uid = uid;
         this.title = title;
         this.popularity = popularity;
         this.duration_ms = duration_ms;
         this.albumCoverUrl = albumCoverUrl;
-        this.comment = comment;
+        //this.comment = comment;
 
         playing = false;
         service = SPOTIFY;
@@ -161,13 +160,6 @@ public class Song {
         return song;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getComment() {
-        return comment;
-    }
 
     public void setPushed() {pushed = true;}
 

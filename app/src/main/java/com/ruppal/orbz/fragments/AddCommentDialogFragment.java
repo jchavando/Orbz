@@ -31,7 +31,7 @@ public class AddCommentDialogFragment extends DialogFragment {
     ComplexRecyclerViewAdapter.AddCommentAdapterListener commentListener;
 
     public interface AddCommentListener{
-        void onFinishDialog(String newComment);
+        //void onFinishDialog(String newComment);
     }
 
     // Define the listener of the interface type

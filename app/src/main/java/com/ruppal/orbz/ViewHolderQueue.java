@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 public class ViewHolderQueue extends ViewHolderSong  {
 
     public ImageButton ibAddComment;
+
     public ViewHolderQueue(View itemView, final ComplexRecyclerViewAdapter.SongAdapterListener mListener, Context context) {
         super(itemView, mListener, context);
         ibAddComment = (ImageButton) itemView.findViewById(R.id.ibAddComment);
@@ -21,6 +22,7 @@ public class ViewHolderQueue extends ViewHolderSong  {
                     int position = getAdapterPosition();
                     mListener.onAddCommentClicked(v, position); //.onAddPlaylistClicked
                     Log.d("view holder queue", String.valueOf(this));
+                    hasComment = true;
                 }
             });
         }
