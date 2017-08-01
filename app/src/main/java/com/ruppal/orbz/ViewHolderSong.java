@@ -15,7 +15,6 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
     public TextView tvSongName;
     public TextView tvArtistName;
     public ImageView ivAlbumCover;
-    public ImageView ivPause;
     public TextView tvService;
     public ImageButton ibAddToPlaylist;
     public ImageButton ibAddComment;
@@ -52,8 +51,7 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
                 //Drawable playButton = context.getResources().getDrawable(R.drawable.exo_controls_play);
                 //((ImageButton) v).setImageDrawable(playButton);
                 int position = getAdapterPosition();
-                mListener.onAddCommentClicked(v, position);
-                //mListener.onAddPlaylistSongClicked(v, position); //.onAddPlaylistClicked
+                mListener.onAddPlaylistSongClicked(v, position);
             }
         });
 

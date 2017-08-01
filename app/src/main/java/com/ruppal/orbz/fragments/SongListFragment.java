@@ -46,6 +46,8 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public static ArrayList<Song> localSongList;
     public static ArrayList<PlaylistTable> localPlaylistTables;
     static ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener addSongToPlaylistAdapterListener;
+    static ComplexRecyclerViewAdapter.AddCommentAdapterListener addCommentAdapterListener;
+
     public static FragmentManager fragmentManager;
     public FragmentTransaction transaction;
     SpotifyClient spotifyClient;
@@ -248,9 +250,10 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public void onAddCommentClicked(View view, int position) {
         Object song = songs.get(position);
         if (song instanceof Song) {
+            Toast.makeText(getContext(), "clicked comment", Toast.LENGTH_SHORT).show();
             FragmentManager fm = getActivity().getSupportFragmentManager();
-            //AddCommentDialogFragment addCommentDialogFragment = AddCommentDialogFragment.newInstance(); //TODO
-            //addCommentDialogFragment.show(fm, "add comment");
+            AddCommentDialogFragment addCommentDialogFragment = AddCommentDialogFragment.newInstance("some title", addCommentAdapterListener); //TODO
+            addCommentDialogFragment.show(fm, "add comment");
         }
         else{
             Toast.makeText(getContext(), "can only add a comment to a queued song", Toast.LENGTH_SHORT).show();

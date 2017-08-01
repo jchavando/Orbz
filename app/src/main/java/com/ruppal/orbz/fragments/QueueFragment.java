@@ -6,7 +6,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.models.Song;
 
@@ -16,7 +18,7 @@ import static com.ruppal.orbz.models.Player.queue;
  * Created by jchavando on 7/26/17.
  */
 
-public class QueueFragment extends SongListFragment implements AddCommentDialogFragment.AddCommentListener{
+public class QueueFragment extends SongListFragment implements AddCommentDialogFragment.AddCommentListener, ComplexRecyclerViewAdapter.AddCommentAdapterListener{
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -28,7 +30,7 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        addCommentAdapterListener = this;
         setHasOptionsMenu(true);
     }
 
@@ -59,10 +61,26 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
 
     @Override
     public void onFinishDialog(String newComment) {
+        //Song newSong
         //Playlist newPlaylist = DatabaseHelper.makeNewLocalPlaylist(newPlaylistName);
         //int positionInsert = 0;
         //addSongToPosition(newPlaylist, positionInsert);
         //rvSongs.scrollToPosition(positionInsert);
         //playlistsFromDatabase.add(newPlaylist);
+    }
+
+    @Override
+    public void addComment(String comment) {
+        Toast.makeText(getContext(), "add comment", Toast.LENGTH_SHORT).show();
+        Song song = new Song ();
+        song.setComment(comment);
+        //todo add comment to song item
+        //SongTable newSongTableAdded = DatabaseHelper.makeNewSongTable(song, playlistTable);
+        //else find it
+        //add to foreign key
+        //newSongTableAdded.setPlaylistTable(playlistTable);
+        //add to playlist track by updating
+        //getLocalPlaylists();
+        // updateLocalPlaylists();
     }
 }

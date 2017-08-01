@@ -25,6 +25,7 @@ public class Song {
     public int popularity;
     public String service;
     public int duration_ms;
+    public String comment;
 
     public String data;
     public String artist;
@@ -59,13 +60,15 @@ public class Song {
         service = "Local";
     }
 
-    public Song(String album, String uid, String title, int popularity, int duration_ms, String albumCoverUrl, String artistID, String artistName){
+    public Song(String album, String uid, String title, int popularity, int duration_ms, String albumCoverUrl,
+                String artistID, String artistName, String comment){
         this.album = album;
         this.uid = uid;
         this.title = title;
         this.popularity = popularity;
         this.duration_ms = duration_ms;
         this.albumCoverUrl = albumCoverUrl;
+        this.comment = comment;
 
         playing = false;
         service = SPOTIFY;
@@ -82,8 +85,8 @@ public class Song {
                  return parseSpotifyJSON(object);
             case GOOGLE_PLAY:
                 return parseGooglePlayJSON(object);
-            case LASTFM:
-                return parseLastFMJSON(object);
+//            case LASTFM:
+//                return parseLastFMJSON(object);
             case YOUTUBE:
                 return parseYoutubeJSON(object);
             default:
@@ -133,14 +136,14 @@ public class Song {
         return song;
     }
 
-    private static Song parseLastFMJSON(JSONObject object) throws JSONException {
-        Song song = new Song();
-        song.title = object.getString("track");
-        song.uid = object.getString("mid");
-        song.artists.add(Artist.fromJSON(LASTFM, object)); //"artist"
-
-        return song;
-    }
+//    private static Song parseLastFMJSON(JSONObject object) throws JSONException {
+//        Song song = new Song();
+//        song.title = object.getString("track");
+//        song.uid = object.getString("mid");
+//        song.artists.add(Artist.fromJSON(LASTFM, object)); //"artist"
+//
+//        return song;
+//    }
 
     private static Song parseYoutubeJSON(JSONObject object) throws JSONException {
         //call the  artist from JSON in a for loop to populate artists array
@@ -224,6 +227,8 @@ public class Song {
             return artist;
     }
 
+    public String getComment(){ return comment; }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -263,6 +268,8 @@ public class Song {
     public void setQueued(boolean queued) {
                 this.queued = queued;
     }
+
+    public void setComment(String comment) { this.comment = comment; }
 
 
 }
