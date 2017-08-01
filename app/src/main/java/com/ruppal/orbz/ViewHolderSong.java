@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -19,14 +20,16 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
     public TextView tvService;
     public ImageButton ibAddToPlaylist;
     public ImageButton ibAddComment;
+    public RelativeLayout songRelativeLayout;
 
-    public ViewHolderSong(View itemView, final ComplexRecyclerViewAdapter.SongAdapterListener mListener, final Context context) {
+    public ViewHolderSong(final View itemView, final ComplexRecyclerViewAdapter.SongAdapterListener mListener, final Context context) {
         super(itemView);
         //perform findViewById lookups
         tvSongName= (TextView) itemView.findViewById(R.id.tvSongName);
         tvArtistName = (TextView) itemView.findViewById(R.id.tvArtistName);
         ivAlbumCover = (ImageView) itemView.findViewById(R.id.ivAlbumCover);
         ibAddToPlaylist = (ImageButton) itemView.findViewById(R.id.ibAddToPlaylist);
+        songRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.songRelativeLayout);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

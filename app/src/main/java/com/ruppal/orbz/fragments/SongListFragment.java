@@ -131,57 +131,12 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         rvSongs.setBackgroundResource(R.drawable.soundwaves);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvSongs.addItemDecoration(itemDecoration);
+        if (complexAdapter!=null){
+            complexAdapter.notifyDataSetChanged();
+        }
 
         return v;
     }
-
-
-//    public void initializeYoutubePlayerFragment(final Song song){
-//        Player.youtubePlayerFragment = new YouTubePlayerSupportFragment();
-//        FragmentManager fragmentManager = getFragmentManager();
-//        frameLayout.setVisibility(View.VISIBLE);
-//        fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.youtube_fragment, youTubePlayerFragment);
-//        fragmentTransaction.addToBackStack(SONG_TO_PLAY);
-//        fragmentTransaction.commit();
-//        youTubePlayerFragment.initialize(getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
-//            @Override
-//            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-//                com.ruppal.orbz.models.Player.setYouTubePlayer(youTubePlayer);
-//                playSong(song);
-//            }
-//
-//            @Override
-//            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-//                Toast.makeText(getContext(), "Failed to initalize the youtube player", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//    }
-
-//    public void initializeYoutubePlayerFragment(final Song song){
-//        youTubePlayerFragment = new YouTubePlayerSupportFragment();
-//        FragmentManager fragmentManager = getFragmentManager();
-//        frameLayout.setVisibility(View.VISIBLE);
-//        fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.youtube_fragment, youTubePlayerFragment);
-//        fragmentTransaction.addToBackStack(SONG_TO_PLAY);
-//        fragmentTransaction.commit();
-//        youTubePlayerFragment.initialize(getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
-//            @Override
-//            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-//                com.ruppal.orbz.models.Player.setYouTubePlayer(youTubePlayer);
-//                playSong(song);
-//            }
-//
-//            @Override
-//            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-//                Toast.makeText(getContext(), "Failed to initalize the youtube player", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//    }
-
 
 
     @Override
@@ -192,6 +147,10 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     @Override
     public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
+//        complexAdapter.notifyDataSetChanged();
+//        complexAdapter.notifyItemChanged(position);
+//        onSongPlaying();
+
         Player.playSong(song);
     }
 
@@ -297,4 +256,9 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         }
         return false;
     }
+
+
+//
+
+
 }

@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.models.Playlist;
@@ -31,14 +30,14 @@ import cz.msebera.android.httpclient.Header;
  * Created by jchavando on 7/26/17.
  */
 
-public class PlaylistSongsFragment extends SongListFragment {
+public class PlaylistSongsFragment extends SongListFragment implements com.ruppal.orbz.models.Player.highlightCurrentSongListenerPlaylist {
 
 
     //recycler view for when you click on individual playlist
     RecyclerView rvSongs;
     SpotifyClient spotifyClient;
     ArrayList<Object> songs;
-    public ComplexRecyclerViewAdapter complexAdapter;
+//    public ComplexRecyclerViewAdapter complexAdapter;
     public Player mPlayer;
     Playlist mPlaylist;
     SongListFragment songListFragment;
@@ -73,38 +72,13 @@ public class PlaylistSongsFragment extends SongListFragment {
         songs = new ArrayList<>();
         setHasOptionsMenu(true);
         playlistFragment = new PlaylistFragment();
+        com.ruppal.orbz.models.Player.setmHighlightCurrentSongListenerPlaylist(this);
 
 
     }
 
-//TODO: delete
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.menu_back, menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.backToPlaylists:
-//                //getActivity().onBackPressed();
-//                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
-//                Toast.makeText(getContext(), "back to playlists 1", Toast.LENGTH_SHORT).show();
-//
-//                getFragmentManager().popBackStack();
-//
-//                return true;
-//            default:
-//                break;
-//        }
-//
-//        return false;
-//    }
-
 
     public void playlistSongsBack() {
-
         Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
         getFragmentManager().popBackStack();
     }
@@ -173,4 +147,9 @@ public class PlaylistSongsFragment extends SongListFragment {
         song.playing = true;
     }
 
+
+    @Override
+    public void onSongPlayingChanged() {
+        complexAdapter.notifyDataSetChanged();
+    }
 }

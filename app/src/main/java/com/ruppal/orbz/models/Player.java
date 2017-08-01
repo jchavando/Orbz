@@ -44,8 +44,9 @@ import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.R;
-import com.ruppal.orbz.fragments.SongListFragment;
+import com.ruppal.orbz.database.DatabaseHelper;
 import com.spotify.sdk.android.player.Error;
 import com.spotify.sdk.android.player.PlaybackState;
 import com.spotify.sdk.android.player.PlayerEvent;
@@ -66,7 +67,7 @@ import static com.ruppal.orbz.R.id.youtube_fragment;
 public class Player {
 
     public static com.spotify.sdk.android.player.Player.OperationCallback mOperationCallback;
-    public static Activity activity; //todo dont forget to chnage this for playlist activity
+    public static MainActivity activity; //todo dont forget to chnage this for playlist activity
     public static ImageButton playButton;
     public static ImageButton pauseButton;
     public static SeekBar sbSongProgress;
@@ -97,6 +98,52 @@ public class Player {
     public static FrameLayout frameLayout;
     public static FragmentTransaction fragmentTransaction;
     public static TextView tvSongInfo;
+    public static highlightCurrentSongListenerSearch mHighlightCurrentSongListenerSearch;
+    public static highlightCurrentSongListenerQueue mHighlightCurrentSongListenerQueue;
+    public static highlightCurrentSongListenerPlaylist mHighlightCurrentSongListenerPlaylist;
+    public static highlightCurrentSongListenerLocal mHighlightCurrentSongListenerLocal;
+    public static highlightCurrentSongListenerGroupQueue mHighlightCurrentSongListenerGroupQueue;
+
+
+    public interface highlightCurrentSongListenerSearch{
+        void onSongPlayingChanged();
+    }
+    public interface highlightCurrentSongListenerQueue{
+        void onSongPlayingChanged();
+    }
+
+    public interface highlightCurrentSongListenerPlaylist{
+        void onSongPlayingChanged();
+    }
+
+    public interface highlightCurrentSongListenerLocal{
+        void onSongPlayingChanged();
+    }
+
+
+    public interface highlightCurrentSongListenerGroupQueue{
+        void onSongPlayingChanged();
+    }
+
+    public static void setmHighlightCurrentSongListenerLocal(highlightCurrentSongListenerLocal mHighlightCurrentSongListenerLocal) {
+        Player.mHighlightCurrentSongListenerLocal = mHighlightCurrentSongListenerLocal;
+    }
+
+    public static void setmHighlightCurrentSongListenerGroupQueue(highlightCurrentSongListenerGroupQueue mHighlightCurrentSongListenerGroupQueue) {
+        Player.mHighlightCurrentSongListenerGroupQueue = mHighlightCurrentSongListenerGroupQueue;
+    }
+
+    public static void setmHighlightCurrentSongListenerPlaylist(highlightCurrentSongListenerPlaylist mHighlightCurrentSongListenerPlaylist) {
+        Player.mHighlightCurrentSongListenerPlaylist = mHighlightCurrentSongListenerPlaylist;
+    }
+
+    public static void setmHighlightCurrentSongListenerQueue(highlightCurrentSongListenerQueue mHighlightCurrentSongListenerQueue) {
+        Player.mHighlightCurrentSongListenerQueue = mHighlightCurrentSongListenerQueue;
+    }
+
+    public static void setmHighlightCurrentSongListenerSearch (highlightCurrentSongListenerSearch mHighlightCurrentSongListener) {
+        Player.mHighlightCurrentSongListenerSearch = mHighlightCurrentSongListener;
+    }
 
     public static Activity getActivity() {
         return activity;
@@ -106,7 +153,7 @@ public class Player {
     }
 
     public static void setActivity(Activity activity) {
-        Player.activity = activity;
+        Player.activity = (MainActivity) activity;
         handler = new Handler();
         pauseButton = (ImageButton) activity.findViewById(R.id.exoPlayer_pause);
         playButton = (ImageButton) activity.findViewById(R.id.exoPlayer_play);
@@ -125,6 +172,9 @@ public class Player {
                     playCurrentSongFrom(progress);
                 }
                 if (currentlyPlayingSong!=null && currentlyPlayingSong.getService() == Song.SPOTIFY && almostEquals(progress, sbSongProgress.getMax())){
+                    currentlyPlayingSong.playing = false;
+                    DatabaseHelper.compareRowSetPlaying(currentlyPlayingSong, false);
+                    alertListeners();
                     playNextSongInQueue();
                 }
             }
@@ -234,14 +284,14 @@ public class Player {
         youTubePlayer.setPlaybackEventListener(new YouTubePlayer.PlaybackEventListener() {
             @Override
             public void onPlaying() {
-                setPlayButtonColors();
+//                setPlayButtonColors();
                 int duration = youTubePlayer.getDurationMillis();
                 sbSongProgress.setMax(duration);
             }
 
             @Override
             public void onPaused() {
-                setPauseButtonColors();
+//                setPauseButtonColors();
             }
 
             @Override
@@ -283,6 +333,9 @@ public class Player {
 
             @Override
             public void onVideoEnded() {
+                currentlyPlayingSong.playing = false;
+                DatabaseHelper.compareRowSetPlaying(currentlyPlayingSong, false);
+                alertListeners();
                 skipToNextInQueue();
 
             }
@@ -396,9 +449,18 @@ public class Player {
         }
     }
 
+
     public static void playSong(Song song){
         if (song!=null) {
+            if (currentlyPlayingSong !=null) {
+                currentlyPlayingSong.playing = false;
+                DatabaseHelper.compareRowSetPlaying(currentlyPlayingSong, false);
+                alertListeners();
+            }
             currentlyPlayingSong = song;
+            alertListeners();
+            currentlyPlayingSong.playing = true;
+            DatabaseHelper.compareRowSetPlaying(song, true);
             setPlayButtonColors();
             stopAllSongs();
             updateSongInfo();
@@ -413,7 +475,6 @@ public class Player {
                         Log.e("player", "spotify player not initialized");
                     }
                     break;
-
                 case Song.YOUTUBE:
                     frameLayout.bringToFront();
                     initializeYoutubePlayerFragment(song); //calls play song from youtube
@@ -475,6 +536,9 @@ public class Player {
                         sbSongProgress.setMax(duration);
                     }
                     if (playbackState == ExoPlayer.STATE_ENDED){
+                        currentlyPlayingSong.playing = false;
+                        DatabaseHelper.compareRowSetPlaying(currentlyPlayingSong, false);
+                        alertListeners();
                         playNextSongInQueue();
                     }
 
@@ -545,14 +609,14 @@ public class Player {
 
     private static void playSongFromSpotify(Song song){
         spotifyPlayer.playUri(null, "spotify:track:" + song.getUid() , 0, 0);
-        song.playing = true;
+//        song.playing = true;
     }
 
     private static void playSongFromYoutube(Song song){
         if (youTubePlayer != null){
             youTubePlayer.loadVideo(song.getUid());
             youTubePlayer.play();
-            song.playing=true;
+//            song.playing=true;
         }
         else{
             Log.e("player", "failed to play song from youtube");
@@ -614,7 +678,7 @@ public class Player {
 
     private static void pauseSongFromYoutube (Song song){
         if (youTubePlayer != null){
-            song.playing = false;
+//            song.playing = false;
             youTubePlayer.pause();
         }
         else{
@@ -635,7 +699,7 @@ public class Player {
         mOperationCallback = new com.spotify.sdk.android.player.Player.OperationCallback() {
             @Override
             public void onSuccess() {
-                song.playing = false;
+//                song.playing = false;
             }
 
             @Override
@@ -680,9 +744,10 @@ public class Player {
 
     public static void initializeYoutubePlayerFragment(final Song song){
         youtubePlayerFragment = new YouTubePlayerSupportFragment();
-        fragmentTransaction = SongListFragment.fragmentManager.beginTransaction();
+        fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction = fragment.getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.youtube_fragment, youtubePlayerFragment);
-        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         youtubePlayerFragment.initialize(activity.getString(R.string.googlePlay_client_id), new YouTubePlayer.OnInitializedListener() {
             @Override
@@ -698,5 +763,22 @@ public class Player {
         });
     }
 
+    public static void alertListeners(){
+        if (mHighlightCurrentSongListenerSearch!=null) {
+            mHighlightCurrentSongListenerSearch.onSongPlayingChanged();
+        }
+        if (mHighlightCurrentSongListenerQueue!=null) {
+            mHighlightCurrentSongListenerQueue.onSongPlayingChanged();
+        }
+        if (mHighlightCurrentSongListenerPlaylist!=null) {
+            mHighlightCurrentSongListenerPlaylist.onSongPlayingChanged();
+        }
+        if (mHighlightCurrentSongListenerLocal!=null){
+            mHighlightCurrentSongListenerLocal.onSongPlayingChanged();
+        }
+        if (mHighlightCurrentSongListenerGroupQueue!=null){
+            mHighlightCurrentSongListenerGroupQueue.onSongPlayingChanged();
+        }
+    }
 
 }

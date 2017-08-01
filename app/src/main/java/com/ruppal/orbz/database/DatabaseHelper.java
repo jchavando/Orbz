@@ -167,6 +167,12 @@ public class DatabaseHelper {
         return playlistTableList;
     }
 
+    private static List<SongTable> getAllSongs(){
+        List<SongTable> songTableList = SQLite.select().
+                from(SongTable.class).queryList();
+        return songTableList;
+    }
+
     public static SongTable makeNewSongTable(Song song, PlaylistTable playlistTable){
         //check that song is not already in the playlist
        SongTable songTable = songTablefromSong(song);
@@ -179,4 +185,24 @@ public class DatabaseHelper {
         //search for test playlist
     }
 
+    public static void setDatabasePlayingFalse(){
+        List <SongTable> songTableList = getAllSongs();
+        for (int i=0; i<songTableList.size();i++){
+            SongTable songTable = songTableList.get(i);
+            songTable.setPlaying(false);
+        }
+    }
+
+    public static void compareRowSetPlaying(Song song, boolean playing){
+        if (song.getService() != Song.LOCAL) {
+            SongTable songTable = songTablefromSong(song);
+            List<SongTable> songTableList = getAllSongs();
+            for (int i = 0; i < songTableList.size(); i++) {
+                if (songTable.getUid().equals(songTableList.get(i).getUid())) {
+                    songTableList.get(i).setPlaying(playing);
+                    return;
+                }
+            }
+        }
+    }
 }
