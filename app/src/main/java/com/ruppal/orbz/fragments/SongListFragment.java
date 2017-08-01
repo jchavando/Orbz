@@ -125,6 +125,9 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         //playlistFrameLayout = (FrameLayout) getActivity().findViewById(R.id.flPlaylistFragment);
 
        // playlistFrameLayout.setVisibility(View.INVISIBLE);
+        if (complexAdapter!=null){
+            complexAdapter.notifyDataSetChanged();
+        }
 
         return v;
     }
@@ -186,27 +189,11 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     @Override
     public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
+//        complexAdapter.notifyDataSetChanged();
+//        complexAdapter.notifyItemChanged(position);
+//        onSongPlaying();
+
         Player.playSong(song);
-//        switch(song.getService()){
-//            case Song.SPOTIFY :
-//                if(song.isPlaying())
-//                ivAlbumCoverPlayer.bringToFront();
-//                Glide.with(getContext())
-//                        .load(song.getAlbumCoverUrl())
-//                        .into(ivAlbumCoverPlayer);
-//                playSong(song);
-//                break;
-//            case Song.LOCAL :
-//                Player.playSong(song);
-//                Player.currentlyPlayingSong = song;
-//                break;
-//            case Song.YOUTUBE :
-//                youtube_fragment.bringToFront();
-//                initializeYoutubePlayerFragment(song);
-//                break;
-//            default:
-//                break;
-//        }
     }
 
     @Override
@@ -285,4 +272,9 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         }
         return false;
     }
+
+
+//
+
+
 }

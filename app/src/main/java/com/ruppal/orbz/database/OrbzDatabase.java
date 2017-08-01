@@ -12,8 +12,4 @@ public class OrbzDatabase {
 
     public static final int VERSION = 2;
 
-
-
-
-
 }

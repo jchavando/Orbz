@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.ruppal.orbz.MainActivity;
+import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Song;
 
 import static com.ruppal.orbz.models.Player.queue;
@@ -13,7 +14,7 @@ import static com.ruppal.orbz.models.Player.queue;
  * Created by jchavando on 7/26/17.
  */
 
-public class QueueFragment extends SongListFragment {
+public class QueueFragment extends SongListFragment implements Player.highlightCurrentSongListenerQueue {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class QueueFragment extends SongListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Queue");
+        Player.setmHighlightCurrentSongListenerQueue(this);
     }
 
     public void populateQueue(){
@@ -40,5 +42,10 @@ public class QueueFragment extends SongListFragment {
             Song song = queue.get(i);
             addSong(song);
         }
+    }
+
+    @Override
+    public void onSongPlayingChanged() {
+        complexAdapter.notifyDataSetChanged();
     }
 }
