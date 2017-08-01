@@ -20,6 +20,7 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.ruppal.orbz.clients.GooglePlayClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.clients.YouTubeClient;
+import com.ruppal.orbz.database.DatabaseHelper;
 import com.ruppal.orbz.fragments.LoginLastFMFragment;
 import com.ruppal.orbz.fragments.SearchFragment;
 import com.ruppal.orbz.fragments.SongPagerAdapter;
@@ -91,9 +92,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
         //adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
         adapterViewPager = new SongPagerAdapter(getSupportFragmentManager(), this);
-
         //set the adapter for the pager
-        vpPager.setAdapter(adapterViewPager); //
+        vpPager.setAdapter(adapterViewPager);
+        //instantiates all the fragments at first so it doesnt crash if
+        //you click on one
+        for (int i=0;i<adapterViewPager.getCount();i++){
+            adapterViewPager.getItem(i);
+        }
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
@@ -272,5 +277,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        DatabaseHelper.setDatabasePlayingFalse();
     }
 }

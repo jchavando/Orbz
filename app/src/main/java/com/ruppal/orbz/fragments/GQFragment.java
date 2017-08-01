@@ -20,6 +20,7 @@ import com.parse.SaveCallback;
 import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.models.Message;
+import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Song;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.List;
  * Created by elviskahoro on 7/27/17.
  */
 
-public class GQFragment extends SongListFragment {
+public class GQFragment extends SongListFragment implements Player.highlightCurrentSongListenerGroupQueue{
 
     ////////////////////////////////////////////////////////// Group Queue
     static final String TAG = MainActivity.class.getSimpleName();
@@ -47,7 +48,7 @@ public class GQFragment extends SongListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
+        Player.setmHighlightCurrentSongListenerGroupQueue(this);
     }
 
 
@@ -183,4 +184,9 @@ public class GQFragment extends SongListFragment {
             myHandler.postDelayed(this, POLL_INTERVAL);
         }
     };
+
+    @Override
+    public void onSongPlayingChanged() {
+        complexAdapter.notifyDataSetChanged();
+    }
 }

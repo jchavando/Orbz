@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.ruppal.orbz.R;
+import com.ruppal.orbz.MainActivity;
+import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Song;
 
 import static com.ruppal.orbz.models.Player.queue;
@@ -16,7 +18,8 @@ import static com.ruppal.orbz.models.Player.queue;
  * Created by jchavando on 7/26/17.
  */
 
-public class QueueFragment extends SongListFragment implements AddCommentDialogFragment.AddCommentListener{
+
+public class QueueFragment extends SongListFragment implements AddCommentDialogFragment.AddCommentListener, Player.highlightCurrentSongListenerQueue{
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -28,8 +31,8 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
+        Player.setmHighlightCurrentSongListenerQueue(this);
     }
 
     public void populateQueue(){
@@ -64,5 +67,10 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
         //addSongToPosition(newPlaylist, positionInsert);
         //rvSongs.scrollToPosition(positionInsert);
         //playlistsFromDatabase.add(newPlaylist);
+    }
+
+    @Override
+    public void onSongPlayingChanged() {
+        complexAdapter.notifyDataSetChanged();
     }
 }

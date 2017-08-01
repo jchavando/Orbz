@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import com.ruppal.orbz.MainActivity;
+import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Song;
 
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
  * Created by elviskahoro on 7/20/17.
  */
 
-public class LocalListFragment extends SongListFragment { //SearchFragment
+public class LocalListFragment extends SongListFragment implements Player.highlightCurrentSongListenerLocal { //SearchFragment
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class LocalListFragment extends SongListFragment { //SearchFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Player.setmHighlightCurrentSongListenerLocal(this);
     }
 
 
@@ -40,5 +43,10 @@ public class LocalListFragment extends SongListFragment { //SearchFragment
     public void printArrayList(ArrayList<Song> songListPrint){
         for (Song test : songListPrint)
             Log.d("Elvis_Song_List", test.getTitle());
+    }
+
+    @Override
+    public void onSongPlayingChanged() {
+        complexAdapter.notifyDataSetChanged();
     }
 }

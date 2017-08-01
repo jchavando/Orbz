@@ -16,6 +16,7 @@ import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.LastFMClient;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.clients.YouTubeClient;
+import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Song;
 
 import org.json.JSONArray;
@@ -32,7 +33,7 @@ import cz.msebera.android.httpclient.Header;
  * Created by jchavando on 7/13/17.
  */
 
-public class SearchFragment extends SongListFragment {
+public class SearchFragment extends SongListFragment implements Player.highlightCurrentSongListenerSearch{
 
     SpotifyClient spotifyClient;
 
@@ -56,6 +57,7 @@ public class SearchFragment extends SongListFragment {
         youTubeClient = new YouTubeClient();
         lastFMCLient = new LastFMClient();
         setHasOptionsMenu(true);
+        Player.setmHighlightCurrentSongListenerSearch(this);
     }
 
 
@@ -129,6 +131,7 @@ public class SearchFragment extends SongListFragment {
     }
 
     public void mixUpSongs(){
+        clearSongsList();
         int spotifyLength = spotifySongs.size();
         int youtubeLength = youtubeSongs.size();
         int localLength = localSongs.size();
@@ -215,9 +218,10 @@ public class SearchFragment extends SongListFragment {
 //                        addSong(song);
                     }
                     youtubeReady = true;
-                    if (spotifyReady){
-                        mixUpSongs();
-                    }
+                    mixUpSongs();
+//                    if (spotifyReady){
+//                        mixUpSongs();
+//                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -262,9 +266,10 @@ public class SearchFragment extends SongListFragment {
                     }
 //                    searchYoutube(query);
                     spotifyReady = true;
-                    if (youtubeReady){
-                        mixUpSongs();
-                    }
+                    mixUpSongs();
+//                    if (youtubeReady){
+//                        mixUpSongs();
+//                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -358,5 +363,11 @@ public class SearchFragment extends SongListFragment {
             songListNew.add(key);
         }
         return songListNew;
+    }
+
+
+    @Override
+    public void onSongPlayingChanged() {
+        complexAdapter.notifyDataSetChanged();
     }
 }

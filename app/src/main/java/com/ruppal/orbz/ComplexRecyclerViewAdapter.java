@@ -1,6 +1,8 @@
 package com.ruppal.orbz;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.ruppal.orbz.database.PlaylistTable;
+import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
@@ -133,6 +136,17 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
 
         holder.tvService.setText(song.getService());
+        if (song.isPlaying() || (Player.getCurrentlyPlayingSong()!=null &&
+                Player.getCurrentlyPlayingSong().getService().equals(song.getService())
+                && Player.getCurrentlyPlayingSong().getUid().equals(song.getUid()))){
+//            holder.songRelativeLayout.setBackgroundColor(Color.MAGENTA);
+            holder.tvArtistName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
+            holder.tvSongName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
+        }
+        else {
+            holder.tvArtistName.setTextColor(Color.WHITE);
+            holder.tvSongName.setTextColor(Color.WHITE);
+        }
     }
 
     private void configureViewHolderPlaylist (ViewHolderPlaylist holder, int position) {
@@ -182,4 +196,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public int getItemCount() {
         return this.mSongsPlaylists.size();
     }
+
+
+
 }
