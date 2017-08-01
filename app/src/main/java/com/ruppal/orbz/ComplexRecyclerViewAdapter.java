@@ -137,17 +137,15 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
         if (song.getAlbumCoverUrl() != null) {
             switch (song.getService()){
-                case Song.SPOTIFY :
-                    Glide.with(context)
-                            .load(song.getAlbumCoverUrl())
-                            .into(holder.ivAlbumCover);
-                    Log.i("albumArt", song.getAlbumCoverUrl());
-                    break;
                 case Song.LOCAL :
                     Drawable image = Drawable.createFromPath(song.getAlbumCoverUrl());
                     holder.ivAlbumCover.setImageDrawable(image);
                     break;
                 default:
+                    Glide.with(context)
+                            .load(song.getAlbumCoverUrl())
+                            .into(holder.ivAlbumCover);
+                    Log.i("albumArt", song.getAlbumCoverUrl());
                     break;
             }
 
