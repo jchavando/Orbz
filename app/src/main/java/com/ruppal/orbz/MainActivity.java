@@ -12,6 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.Spotify;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.ruppal.orbz.fragments.PlaylistSongsFragment.isPlaylistSongsFragment;
 
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     ImageButton exoPrev;
 
     String realQuery;
+
+    public HashMap<String, String> albumArt;
 
     //todo create a dialog fragment that opens when the user wants to create a tag
 
@@ -111,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
         localSongList = new ArrayList<Song>();
         if(isExternalStorageWritable() && isExternalStorageReadable()){
-            localSongSearch();
+            getAlbumArt();
         } else {
             Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
         }
@@ -197,23 +201,59 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
             int songArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
             int songData = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+            int songAlbum = songCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
 
             do {
                 long currentId = songCursor.getLong(songId);
                 String currentTitle = songCursor.getString(songTitle);
                 String currentData = songCursor.getString(songData);
-                Artist artist= new Artist();
-                String currentArtist = songCursor.getString(songArtist);
-                artist.name = currentArtist;
-                artist.uid = null;
-                ArrayList<Artist> artists = new ArrayList<>();
-                artists.add(artist);
+                String currentAlbum = songCursor.getString(songAlbum);
 
-                localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData, artists));
+                //Artist handling
+                    Artist artist= new Artist();
+                    String currentArtist = songCursor.getString(songArtist);
+                    artist.name = currentArtist;
+                    artist.uid = null;
+                    ArrayList<Artist> artists = new ArrayList<>();
+                    artists.add(artist);
+
+                String albumUrl = albumArt.get(currentAlbum);
+
+                localSongList.add(new Song(currentId, currentTitle, currentArtist, currentData, artists, albumUrl));
 
             } while(songCursor.moveToNext());
+            songCursor.close();
         }
     }
+
+    public void getAlbumArt() {
+        try {
+            ContentResolver albumContent = getContentResolver();
+            Uri uri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+            Cursor albumCursor = albumContent.query(uri, null, null, null, null);
+
+            if (albumCursor != null && albumCursor.moveToFirst()) {
+                albumArt = new HashMap<>();
+                int albumName = albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM);
+                int albumCover = albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
+                do {
+                    String songAlbumName = albumCursor.getString(albumName);
+                    String songAlbumCover = albumCursor.getString(albumCover);
+
+                    if(songAlbumName != null && songAlbumCover!= null){
+                        albumArt.put(songAlbumName, songAlbumCover);
+                        Log.d("ElvisAlbumID", "" + songAlbumName);
+                        Log.d("ElvisAlbum", "" + songAlbumCover);
+                    }
+                } while (albumCursor.moveToNext());
+            }
+            albumCursor.close();
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        localSongSearch();
+    }
+
 
     @SuppressLint("InlinedApi")
     private void hideSystemUi() {
