@@ -6,7 +6,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Song;
@@ -18,7 +20,8 @@ import static com.ruppal.orbz.models.Player.queue;
  */
 
 
-public class QueueFragment extends SongListFragment implements AddCommentDialogFragment.AddCommentListener, Player.highlightCurrentSongListenerQueue{
+public class QueueFragment extends SongListFragment implements AddCommentDialogFragment.AddCommentListener, Player.highlightCurrentSongListenerQueue, ComplexRecyclerViewAdapter.AddCommentAdapterListener{
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -30,6 +33,8 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        addCommentAdapterListener = this;
+
         setHasOptionsMenu(true);
         Player.setmHighlightCurrentSongListenerQueue(this);
     }
@@ -59,13 +64,22 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
         return false;
     }
 
+//    @Override
+//    public void onFinishDialog(String newComment) {
+//        //Song newSong
+//        //Playlist newPlaylist = DatabaseHelper.makeNewLocalPlaylist(newPlaylistName);
+//        //int positionInsert = 0;
+//        //addSongToPosition(newPlaylist, positionInsert);
+//        //rvSongs.scrollToPosition(positionInsert);
+//        //playlistsFromDatabase.add(newPlaylist);
+//    }
+
     @Override
-    public void onFinishDialog(String newComment) {
-        //Playlist newPlaylist = DatabaseHelper.makeNewLocalPlaylist(newPlaylistName);
-        //int positionInsert = 0;
-        //addSongToPosition(newPlaylist, positionInsert);
-        //rvSongs.scrollToPosition(positionInsert);
-        //playlistsFromDatabase.add(newPlaylist);
+    public void addComment(String comment) {
+        Song song = new Song();
+        song.setComment(comment);
+        Toast.makeText(getContext(), "comment: " +comment, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

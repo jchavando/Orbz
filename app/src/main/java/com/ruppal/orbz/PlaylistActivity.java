@@ -163,4 +163,9 @@ public class PlaylistActivity extends AppCompatActivity implements ComplexRecycl
 
     }
 
+    @Override
+    public void onAddCommentClicked(View view, int position) {
+
+    }
+
 }

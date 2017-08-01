@@ -40,6 +40,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         public void onItemSelected (View view, int position);
         public void onItemLongSelected (View view, int position);
         public void onAddPlaylistSongClicked(View view, int position);
+        public void onAddCommentClicked(View view, int position);
     }
 
     public interface PlaylistAdapterListener{
@@ -52,6 +53,10 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     public interface AddSongToPlaylistAdapterListener{
         public void addSongToPlaylist(Song song, PlaylistTable playlist);
+    }
+
+    public interface AddCommentAdapterListener{
+        public void addComment (String comment);
     }
 
     // Provide a suitable constructor (depends on the kind of dataset) //List<Object>
@@ -84,8 +89,9 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 break;
             case TYPE_QUEUE:
 
-                View queueView = inflater.inflate(R.layout.item_queue, viewGroup, false);  //TODO: change back to item_song
-                viewHolder = new ViewHolderSong(queueView, mListener, context);
+                View queueView = inflater.inflate(R.layout.item_queue, viewGroup, false);
+                viewHolder = new ViewHolderQueue(queueView, mListener, context); //TODO
+                //viewHolder = new ViewHolderSong(queueView, mListener, context);
                 break;
 
             default:
@@ -107,7 +113,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         else if(mSongsPlaylists.get(position) instanceof PlaylistTable){
             return TYPE_PLAYLIST_SIMPLE;
         }
-        //else if(mSongsPlaylists.get(position) instanceof Q)
         return -1;
     }
 
@@ -199,7 +204,8 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 ViewHolderPlaylistSimple viewHolderPlaylistSimple = (ViewHolderPlaylistSimple) holder;
                 configureViewHolderPlaylistSimple(viewHolderPlaylistSimple, position);
             case TYPE_QUEUE:
-                ViewHolderSong viewHolderQueue = (ViewHolderSong) holder;
+                //ViewHolderSong viewHolderQueue = (ViewHolderSong) holder; //TODO
+                ViewHolderQueue viewHolderQueue = (ViewHolderQueue) holder;
                 configureViewHolderSong(viewHolderQueue, position);
                
             default:

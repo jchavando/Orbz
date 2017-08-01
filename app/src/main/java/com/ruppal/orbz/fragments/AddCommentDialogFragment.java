@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.LastFMClient;
 
@@ -27,23 +28,23 @@ public class AddCommentDialogFragment extends DialogFragment {
 
     LastFMClient lastFMClient;
     Context context;
-    AddCommentListener commentListener;
+    ComplexRecyclerViewAdapter.AddCommentAdapterListener commentListener;
 
     public interface AddCommentListener{
-        void onFinishDialog(String newComment);
+        //void onFinishDialog(String newComment);
     }
 
     // Define the listener of the interface type
     // listener will the activity instance containing fragment
     private AdapterView.OnItemSelectedListener listener;
 
-    public AddCommentDialogFragment(AddCommentListener addPlaylistListener){
+    public AddCommentDialogFragment(ComplexRecyclerViewAdapter.AddCommentAdapterListener listener){
         //required empty constructor
-        commentListener = addPlaylistListener;
+        commentListener = listener;
     }
 
-    public static AddCommentDialogFragment newInstance(String title, AddCommentListener addCommentListener ) { //what is title, for Twitter used Tweet
-        AddCommentDialogFragment fragment = new AddCommentDialogFragment(addCommentListener); //TODO fix
+    public static AddCommentDialogFragment newInstance(String title, ComplexRecyclerViewAdapter.AddCommentAdapterListener listener) { //what is title, for Twitter used Tweet
+        AddCommentDialogFragment fragment = new AddCommentDialogFragment(listener); //TODO fix
         Bundle args = new Bundle();
         args.putString("title", title);
         fragment.setArguments(args);
@@ -75,7 +76,7 @@ public class AddCommentDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 //communicate back to PlaylistFragment
-                commentListener.onFinishDialog(etNewComment.getText().toString());
+                commentListener.addComment(etNewComment.getText().toString());
                 Toast.makeText(getContext(), "clicked on comment", Toast.LENGTH_SHORT).show();
                 //login
                 //go back
