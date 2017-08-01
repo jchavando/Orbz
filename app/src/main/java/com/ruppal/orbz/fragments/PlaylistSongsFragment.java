@@ -5,9 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -48,6 +45,7 @@ public class PlaylistSongsFragment extends SongListFragment {
     ViewPager vpPager;
     PlaylistFragment playlistFragment;
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -75,31 +73,44 @@ public class PlaylistSongsFragment extends SongListFragment {
         songs = new ArrayList<>();
         setHasOptionsMenu(true);
         playlistFragment = new PlaylistFragment();
+
+
+    }
+
+//TODO: delete
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.menu_back, menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.backToPlaylists:
+//                //getActivity().onBackPressed();
+//                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
+//                Toast.makeText(getContext(), "back to playlists 1", Toast.LENGTH_SHORT).show();
+//
+//                getFragmentManager().popBackStack();
+//
+//                return true;
+//            default:
+//                break;
+//        }
+//
+//        return false;
+//    }
+
+
+    public void playlistSongsBack() {
+
+        Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
+        getFragmentManager().popBackStack();
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_back, menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.backToPlaylists:
-                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
-                Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
-
-                getFragmentManager().popBackStack();
-
-                return true;
-            default:
-                break;
-        }
-
-        return false;
-    }
 
     public void loadTracksFromLocal(Playlist playlist){
         ArrayList<Song> tracks = playlist.getTracks();

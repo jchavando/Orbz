@@ -29,6 +29,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private final int TYPE_SONG = 110;
     private final int TYPE_PLAYLIST = 111;
     private final int TYPE_PLAYLIST_SIMPLE = 112;
+    private final int TYPE_QUEUE = 113;
 
     //define an interface required by the ViewHolder
     public interface SongAdapterListener{
@@ -66,7 +67,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         context = viewGroup.getContext();
         switch (viewType) {
             case TYPE_SONG:
-                View songView = inflater.inflate(R.layout.item_song, viewGroup, false);
+                View songView = inflater.inflate(R.layout.item_song, viewGroup, false);  //TODO: change back to item_song
                 viewHolder = new ViewHolderSong(songView, mListener, context);
                 break;
             case TYPE_PLAYLIST:
@@ -77,6 +78,12 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 View playlistViewSimple = inflater.inflate(R.layout.item_choose_playlist, viewGroup, false);
                 viewHolder = new ViewHolderPlaylistSimple(playlistViewSimple, mPlaylistSimpleListener, context);
                 break;
+            case TYPE_QUEUE:
+
+                View queueView = inflater.inflate(R.layout.item_queue, viewGroup, false);  //TODO: change back to item_song
+                viewHolder = new ViewHolderSong(queueView, mListener, context);
+                break;
+
             default:
                 viewHolder = null;
                 break;
@@ -87,7 +94,8 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public int getItemViewType (int position){
         if (mSongsPlaylists.get(position) instanceof Song) {
-            return TYPE_SONG;
+            if (((Song) mSongsPlaylists.get(position)).getQueued()) return TYPE_QUEUE;
+            else return TYPE_SONG;
         }
         else if(mSongsPlaylists.get(position) instanceof Playlist){
             return TYPE_PLAYLIST;
@@ -95,6 +103,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         else if(mSongsPlaylists.get(position) instanceof PlaylistTable){
             return TYPE_PLAYLIST_SIMPLE;
         }
+        //else if(mSongsPlaylists.get(position) instanceof Q)
         return -1;
     }
 
@@ -159,6 +168,10 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             case TYPE_PLAYLIST_SIMPLE:
                 ViewHolderPlaylistSimple viewHolderPlaylistSimple = (ViewHolderPlaylistSimple) holder;
                 configureViewHolderPlaylistSimple(viewHolderPlaylistSimple, position);
+            case TYPE_QUEUE:
+                ViewHolderSong viewHolderQueue = (ViewHolderSong) holder;
+                configureViewHolderSong(viewHolderQueue, position);
+               
             default:
                 Log.e("viewholder", "didnt bind anything to viewholder");
                 break;

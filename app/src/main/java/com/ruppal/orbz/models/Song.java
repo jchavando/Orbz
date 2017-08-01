@@ -38,21 +38,10 @@ public class Song {
     public static final String LOCAL = "Local";
     public static final String LASTFM = "Last.fm";
 
+    public String comment = null;
+    public boolean pushed = false; //Boolean
+    public boolean queued = false;
 
-    public Boolean pushed = false;
-
-
-
-    ////////////////////////////Starting tags
-    public ArrayList<String> tagList = new ArrayList<>();
-    /* currently set up to only add one tag
-    * will work on adding more tags, with a hashmap to keep track of the points in the song
-    * */
-    /// ////////////////////////////Starting tags
-
-    public void addTag(String tagToAdd){
-        tagList.add(tagToAdd);
-    }
 
     public Song(){}
 
@@ -169,6 +158,14 @@ public class Song {
         return song;
     }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
     public void setPushed() {pushed = true;}
 
     public boolean isPushed(){return pushed;}
@@ -212,6 +209,8 @@ public class Song {
     public long getSongID(){
         return SongID;
     }
+
+    public boolean getQueued() { return queued; }
 
     public Uri getSongUri() {
         return Uri.parse("file:///"+ getData());
@@ -260,4 +259,10 @@ public class Song {
     public void setDuration_ms(int duration_ms) {
         this.duration_ms = duration_ms;
     }
+
+    public void setQueued(boolean queued) {
+                this.queued = queued;
+    }
+
+
 }

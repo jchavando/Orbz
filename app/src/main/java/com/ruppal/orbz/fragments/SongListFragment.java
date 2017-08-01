@@ -49,13 +49,13 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public static FragmentManager fragmentManager;
     public FragmentTransaction transaction;
     SpotifyClient spotifyClient;
-//    YouTubePlayerSupportFragment youTubePlayerFragment;
     String SONG_TO_PLAY = "SONG_TO_PLAY";
-//    FrameLayout frameLayout;
-//    FragmentTransaction fragmentTransaction;
     ImageView ivAlbumCoverPlayer;
     FrameLayout youtube_fragment;
     FrameLayout playlistFrameLayout;
+    public static boolean isPlaylistSongsFragment;
+
+    public  PlaylistSongsFragment childFragment;
 
 
     @Override
@@ -68,12 +68,13 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
         if (playlist != null) {
             insertPlaylistSongsFragment(playlist);
+            isPlaylistSongsFragment = true;
         }
     }
     // Embeds the child fragment dynamically
     private void insertPlaylistSongsFragment(Playlist playlist) {
 
-        PlaylistSongsFragment childFragment = new PlaylistSongsFragment();
+        childFragment = new PlaylistSongsFragment(); //PlaylistSongsFragment
         Bundle arguments = new Bundle();
         arguments.putParcelable("tracks", Parcels.wrap(playlist));
         childFragment.setArguments(arguments);
@@ -81,11 +82,16 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         transaction = getChildFragmentManager().beginTransaction();
         playlistFrameLayout = (FrameLayout) getView().findViewById(R.id.flPlaylistFragment);
         playlistFrameLayout.bringToFront();
-        transaction.add(R.id.flPlaylistFragment, childFragment);
+        transaction.replace(R.id.flPlaylistFragment, childFragment, "playlistfrag"); //add
 
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    public void callChildFrag(){
+        childFragment.playlistSongsBack();
+    }
+
 
     @Override
     public void onResume() {
@@ -100,6 +106,9 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         localSongList = ((MainActivity)getActivity()).getLocalSongs();
         complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this, null); //this
         fragmentManager = getFragmentManager();
+
+
+
     }
 
     @Nullable
@@ -122,9 +131,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         rvSongs.setBackgroundResource(R.drawable.soundwaves);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvSongs.addItemDecoration(itemDecoration);
-        //playlistFrameLayout = (FrameLayout) getActivity().findViewById(R.id.flPlaylistFragment);
-
-       // playlistFrameLayout.setVisibility(View.INVISIBLE);
 
         return v;
     }
@@ -214,6 +220,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         //add to queue
         Song song = (Song) songs.get(position);
         Player.queue.add(song);
+        song.setQueued(true);
         Toast.makeText(getContext(), "added to queue", Toast.LENGTH_SHORT).show();
     }
 
@@ -235,6 +242,25 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
         }
     }
+
+//    @Override
+//    public void onAddCommentClicked(View view, int position) {
+//        Object song = songs.get(position);
+//        if (song instanceof Song){
+//            //add song to playlist
+//            //DatabaseHelper.addSongToTestPlaylist((Song) song);
+////            //update playlist view
+////            DatabaseHelper.updateTestPlaylist();
+//
+//            //launch select playlist fragment
+//            FragmentManager fm = getActivity().getSupportFragmentManager();
+//            SelectPlaylistDialogFragment selectPlaylistDialogFragment = SelectPlaylistDialogFragment.newInstance("Select a Playlist", (Song) song, addSongToPlaylistAdapterListener);
+//            selectPlaylistDialogFragment.show(fm, "lastfm_login");
+//        }
+//        else{
+//            Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     public void addSongToPosition (Object song, int position){
         if (position < songs.size() && position >= 0){
