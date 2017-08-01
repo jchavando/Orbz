@@ -214,7 +214,4 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public int getItemCount() {
         return this.mSongsPlaylists.size();
     }
-
-
-
 }
