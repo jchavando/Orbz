@@ -77,31 +77,6 @@ public class PlaylistSongsFragment extends SongListFragment {
 
     }
 
-//TODO: delete
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.menu_back, menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.backToPlaylists:
-//                //getActivity().onBackPressed();
-//                //transaction = getChildFragmentManager().beginTransaction(); //FragmentTransaction
-//                Toast.makeText(getContext(), "back to playlists 1", Toast.LENGTH_SHORT).show();
-//
-//                getFragmentManager().popBackStack();
-//
-//                return true;
-//            default:
-//                break;
-//        }
-//
-//        return false;
-//    }
-
 
     public void playlistSongsBack() {
 

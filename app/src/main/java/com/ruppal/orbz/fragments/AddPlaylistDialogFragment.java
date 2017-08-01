@@ -36,7 +36,7 @@ public class AddPlaylistDialogFragment extends DialogFragment {
         playlistListener = addPlaylistListener;
     }
 
-    public static AddPlaylistDialogFragment newInstance(String title,AddPlaylistListener addPlaylistListener ) { //what is title, for Twitter used Tweet
+    public static AddPlaylistDialogFragment newInstance(String title, AddPlaylistListener addPlaylistListener ) { //what is title, for Twitter used Tweet
         AddPlaylistDialogFragment fragment = new AddPlaylistDialogFragment(addPlaylistListener );
         Bundle args = new Bundle();
         args.putString("title", title);
