@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
-import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Song;
 

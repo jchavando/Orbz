@@ -156,6 +156,12 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         Player.playSong(song);
     }
 
+    public void grabInfo(){
+        ((MainActivity) getActivity()).getAlbumArt();
+    }
+
+
+
     @Override
     public void onItemLongSelected(View view, int position) {
         //add to queue

@@ -59,8 +59,19 @@ public class Song {
         service = "Local";
     }
 
-    public Song(String album, String uid, String title, int popularity, int duration_ms, String albumCoverUrl,
-                String artistID, String artistName){
+
+    public Song(long id, String title, String artist, String data, ArrayList<Artist> artists, String albumCoverUrl){
+        SongID = id;
+        this.title = title;
+        this.artist = artist;
+        this.artists = artists;
+        this.data = data;
+        this.albumCoverUrl = albumCoverUrl;
+        service = "Local";
+    }
+
+    public Song(String album, String uid, String title, int popularity, int duration_ms, String albumCoverUrl, String artistID, String artistName){
+
         this.album = album;
         this.uid = uid;
         this.title = title;

@@ -1,6 +1,7 @@
 package com.ruppal.orbz;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -133,12 +134,25 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             }
         }
         holder.tvArtistName.setText(artistList);
+
         if (song.getAlbumCoverUrl() != null) {
-            Glide.with(context)
-                    .load(song.getAlbumCoverUrl())
-                    .into(holder.ivAlbumCover);
-            Log.i("albumArt", song.getAlbumCoverUrl());
+            switch (song.getService()){
+                case Song.SPOTIFY :
+                    Glide.with(context)
+                            .load(song.getAlbumCoverUrl())
+                            .into(holder.ivAlbumCover);
+                    Log.i("albumArt", song.getAlbumCoverUrl());
+                    break;
+                case Song.LOCAL :
+                    Drawable image = Drawable.createFromPath(song.getAlbumCoverUrl());
+                    holder.ivAlbumCover.setImageDrawable(image);
+                    break;
+                default:
+                    break;
+            }
+
         }
+
 
         holder.tvService.setText(song.getService());
         if (song.isPlaying() || (Player.getCurrentlyPlayingSong()!=null &&
