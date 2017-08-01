@@ -17,6 +17,7 @@
         android:layout_marginTop="170dp"
         android:background="@drawable/border"
         android:onClick="onClickSpotifyLogin"
+        android:drawableEnd="@drawable/spotify_icon"
         android:text="Log in to Spotify"
         android:drawableTop="@drawable/spo"
         android:textColor="@android:color/white" />

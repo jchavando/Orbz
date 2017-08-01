@@ -157,12 +157,10 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 Player.getCurrentlyPlayingSong().getService().equals(song.getService())
                 && Player.getCurrentlyPlayingSong().getUid().equals(song.getUid()))){
 //            holder.songRelativeLayout.setBackgroundColor(Color.MAGENTA);
-            holder.songRelativeLayout.setBackgroundColor(R.color.colorPrimaryDark);
             holder.tvArtistName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
             holder.tvSongName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
         }
         else {
-            holder.songRelativeLayout.setBackgroundColor(R.color.colorPrimaryDark);
             holder.tvArtistName.setTextColor(Color.WHITE);
             holder.tvSongName.setTextColor(Color.WHITE);
         }
@@ -171,7 +169,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private void configureViewHolderPlaylist (ViewHolderPlaylist holder, int position) {
         //get the data according to position
         final Playlist playlist = (Playlist) mSongsPlaylists.get(position);
-
         //populate the views according to this data
         holder.tvPlaylistName.setText(playlist.getPlaylistName());
         holder.tvOwnerName.setText(playlist.getOwner().getName());
