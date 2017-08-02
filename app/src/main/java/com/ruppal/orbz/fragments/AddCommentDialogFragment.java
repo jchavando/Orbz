@@ -84,6 +84,4 @@ public class AddCommentDialogFragment extends DialogFragment {
             }
         });
     }
-
-
 }

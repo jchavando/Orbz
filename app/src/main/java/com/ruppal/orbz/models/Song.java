@@ -57,6 +57,7 @@ public class Song {
         this.artists = artists;
         this.data = data;
         service = "Local";
+        albumCoverUrl = null;
     }
 
 
