@@ -168,7 +168,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
 
     private void configureViewHolderQueue(ViewHolderQueue queueHolder, ViewHolderSong songHolder, int position) {
-
+        //add ViewHolderSong songHolder
         configureViewHolderSong(songHolder, position);
 
 
@@ -206,16 +206,13 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             case TYPE_PLAYLIST_SIMPLE:
                 ViewHolderPlaylistSimple viewHolderPlaylistSimple = (ViewHolderPlaylistSimple) holder;
                 configureViewHolderPlaylistSimple(viewHolderPlaylistSimple, position);
+                break;
             case TYPE_QUEUE:
                 ViewHolderSong viewHolderSong2 = (ViewHolderSong) holder;
-
                 ViewHolderQueue viewHolderQueue = (ViewHolderQueue) holder;
+
                 configureViewHolderQueue(viewHolderQueue, viewHolderSong2, position);
-                //ViewHolderSong viewHolderQueue = (ViewHolderSong) holder;
-                //ViewHolderQueue viewHolderQueue = (ViewHolderQueue) holder; //TODO fix
-                //configureViewHolderSong(viewHolderQueue, position);
-                //configureViewHolderQueue(viewHolderQueue, viewHolderSong, position);
-               
+               break;
             default:
                 Log.e("viewholder", "didnt bind anything to viewholder");
                 break;
