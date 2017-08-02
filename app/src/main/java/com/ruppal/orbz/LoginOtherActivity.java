@@ -190,7 +190,6 @@ LoginLastFMFragment.LastFMListener{
                 AuthenticationResponse.Type.TOKEN,
                 spotifyRedirectUri);
 
-        //TODO: if we want more permissions, need to modify scopes
         //https://developer.spotify.com/web-api/using-scopes/
         builder.setScopes(new String[]{"user-read-private", "streaming"});
         AuthenticationRequest request = builder.build();

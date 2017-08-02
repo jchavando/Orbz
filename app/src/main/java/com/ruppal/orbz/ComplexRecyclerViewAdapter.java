@@ -76,7 +76,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         context = viewGroup.getContext();
         switch (viewType) {
             case TYPE_SONG:
-                View songView = inflater.inflate(R.layout.item_song, viewGroup, false);  //TODO: change back to item_song
+                View songView = inflater.inflate(R.layout.item_song, viewGroup, false);
                 viewHolder = new ViewHolderSong(songView, mListener, context);
                 break;
             case TYPE_PLAYLIST:
@@ -90,7 +90,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             case TYPE_QUEUE:
 
                 View queueView = inflater.inflate(R.layout.item_queue, viewGroup, false);
-                viewHolder = new ViewHolderQueue(queueView, mListener, context); //TODO
+                viewHolder = new ViewHolderQueue(queueView, mListener, context);
                 //viewHolder = new ViewHolderSong(queueView, mListener, context);
                 break;
 
@@ -199,7 +199,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 ViewHolderPlaylistSimple viewHolderPlaylistSimple = (ViewHolderPlaylistSimple) holder;
                 configureViewHolderPlaylistSimple(viewHolderPlaylistSimple, position);
             case TYPE_QUEUE:
-                //ViewHolderSong viewHolderQueue = (ViewHolderSong) holder; //TODO
                 ViewHolderQueue viewHolderQueue = (ViewHolderQueue) holder;
                 configureViewHolderSong(viewHolderQueue, position);
                

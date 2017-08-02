@@ -185,7 +185,5 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
         updateLocalPlaylists();
     }
 
-
-
 }
 
