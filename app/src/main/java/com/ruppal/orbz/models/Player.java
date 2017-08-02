@@ -67,7 +67,7 @@ import static com.ruppal.orbz.R.id.youtube_fragment;
 public class Player {
 
     public static com.spotify.sdk.android.player.Player.OperationCallback mOperationCallback;
-    public static MainActivity activity; //todo dont forget to chnage this for playlist activity
+    public static MainActivity activity;
     public static ImageButton playButton;
     public static ImageButton pauseButton;
     public static SeekBar sbSongProgress;
@@ -362,7 +362,6 @@ public class Player {
         playNextSongInQueue();
     }
 
-    //TODO on click
     public static void skipToPreviousInQueue(){
         if (queue.size() > 0) {
             if (positionInQueue > 0) {
@@ -485,8 +484,6 @@ public class Player {
                         exoPlayer.setPlayWhenReady(true);
                         prepareExoPlayerFromFileUri(song.getSongUri());
                         updateAlbumCover();
-//                    int duration = (int) exoPlayer.getDuration(); //todo make sure this cast is safe
-//                    sbSongProgress.setMax(duration);
 
                     } else {
                         Log.e("player", "local player not initialized");

@@ -31,7 +31,7 @@ public class SelectPlaylistDialogFragment extends DialogFragment implements Comp
     Song songSelected;
     Button btAddSong;
     int positionOfSelectedPlaylist;
-    ArrayList<Object> playlists; //todo should this be playlist or playlist table
+    ArrayList<Object> playlists;
     ComplexRecyclerViewAdapter complexAdapter;
     PlaylistTable selectedPlaylist;
     ComplexRecyclerViewAdapter.AddSongToPlaylistAdapterListener mListener;

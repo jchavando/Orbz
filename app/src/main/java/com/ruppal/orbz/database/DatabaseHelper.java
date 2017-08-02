@@ -109,11 +109,6 @@ public class DatabaseHelper {
         for (int i =0; i < playlistTableList.size(); i++){
             PlaylistTable playlistTable = playlistTableList.get(i);
             //search songs in this playlist table
-            //todo fix this so that each song goes in the right playlist
-            List<SongTable> unfiltered = SQLite.select().
-                    from(SongTable.class).
-//                    where(SongTable_Table.playlistTable_playlistId.is(playlistTable.getPlaylistId())).
-                    queryList();
             List<SongTable> songTableList = SQLite.select().
                     from(SongTable.class).
                     where(SongTable_Table.playlistTable_playlistId.is(playlistTable.getPlaylistId())).

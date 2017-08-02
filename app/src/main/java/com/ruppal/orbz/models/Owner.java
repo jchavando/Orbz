@@ -26,7 +26,6 @@ public class Owner {
         //REQUIRES: an owner object from spotify
         Owner owner = new Owner();
         owner.name = object.getString("id");
-        //todo figure this out
         owner.id = object.getString("id");
         return owner;
 

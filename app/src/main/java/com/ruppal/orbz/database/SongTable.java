@@ -44,7 +44,7 @@ public class SongTable extends BaseModel {
     int duration_ms;
 
     @Column
-    @ForeignKey(saveForeignKeyModel = false) //todo can make this true
+    @ForeignKey(saveForeignKeyModel = false)
     public PlaylistTable playlistTable;
 
 
