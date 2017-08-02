@@ -6,11 +6,6 @@
         android:color="@color/spotify"
         />
 
-    <padding android:left="1dp"
-        android:top="1dp"
-        android:right="1dp"
-        android:bottom="1dp"
-        />
 
     <corners android:bottomRightRadius="30dp"
         android:bottomLeftRadius="30dp"
