@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
@@ -77,10 +76,18 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
     @Override
     public void addComment(String comment) {
         Song song = new Song();
-        song.setComment(comment);
-        Toast.makeText(getContext(), "comment: " +comment, Toast.LENGTH_SHORT).show();
 
+
+        //TODO or here
     }
+
+    //TODO FIX
+//    @Override
+//    public void onItemSelected(View view, int position) {
+//        Song song = (Song) songs.get(position);
+//       //song.setComment(comment);
+//        Toast.makeText(getContext(), "comment: " +comment, Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void onSongPlayingChanged() {

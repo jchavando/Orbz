@@ -75,10 +75,13 @@ public class AddCommentDialogFragment extends DialogFragment {
         btAddComment.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //communicate back to PlaylistFragment
+                //communicate back to QueueFragment
                 commentListener.addComment(etNewComment.getText().toString());
-                Toast.makeText(getContext(), "clicked on comment", Toast.LENGTH_SHORT).show();
-                //login
+                Toast.makeText(getContext(), "added comment", Toast.LENGTH_SHORT).show();
+
+                //TODO: change the picture to solid comment
+
+
                 //go back
                 dismiss();
             }

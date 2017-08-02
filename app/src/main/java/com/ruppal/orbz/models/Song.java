@@ -231,7 +231,11 @@ public class Song {
             return artist;
     }
 
-    public String getComment(){ return comment; }
+    public String getComment(){
+        String hello = "";
+        return comment;
+
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -273,7 +277,11 @@ public class Song {
                 this.queued = queued;
     }
 
-    public void setComment(String comment) { this.comment = comment; }
+    public void setComment(String comment) {
+        this.comment = comment;
+        String hi = "";
+    }
+
 
 
 }

@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     public HashMap<String, String> albumArt;
 
-    //todo create a dialog fragment that opens when the user wants to create a tag
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

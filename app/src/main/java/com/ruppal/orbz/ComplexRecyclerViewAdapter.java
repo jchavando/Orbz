@@ -88,10 +88,8 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 viewHolder = new ViewHolderPlaylistSimple(playlistViewSimple, mPlaylistSimpleListener, context);
                 break;
             case TYPE_QUEUE:
-
                 View queueView = inflater.inflate(R.layout.item_queue, viewGroup, false);
                 viewHolder = new ViewHolderQueue(queueView, mListener, context);
-                //viewHolder = new ViewHolderSong(queueView, mListener, context);
                 break;
 
             default:
@@ -164,6 +162,13 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
+
+    private void configureViewHolderQueue(ViewHolderQueue queueHolder, ViewHolderSong songHolder, int position) {
+        //add ViewHolderSong songHolder
+        configureViewHolderSong(songHolder, position);
+
+
+    }
     private void configureViewHolderPlaylist (ViewHolderPlaylist holder, int position) {
         //get the data according to position
         final Playlist playlist = (Playlist) mSongsPlaylists.get(position);
@@ -186,7 +191,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
             case TYPE_SONG:
-                ViewHolderSong viewHolderSong = (ViewHolderSong) holder;
+                ViewHolderSong viewHolderSong = (ViewHolderSong) holder; //
                 configureViewHolderSong(viewHolderSong, position);
                 break;
             case TYPE_PLAYLIST:
@@ -196,10 +201,12 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             case TYPE_PLAYLIST_SIMPLE:
                 ViewHolderPlaylistSimple viewHolderPlaylistSimple = (ViewHolderPlaylistSimple) holder;
                 configureViewHolderPlaylistSimple(viewHolderPlaylistSimple, position);
+                break;
             case TYPE_QUEUE:
+                ViewHolderSong viewHolderSong2 = (ViewHolderSong) holder;
                 ViewHolderQueue viewHolderQueue = (ViewHolderQueue) holder;
-                configureViewHolderSong(viewHolderQueue, position);
-               
+                configureViewHolderQueue(viewHolderQueue, viewHolderSong2, position);
+               break;
             default:
                 Log.e("viewholder", "didnt bind anything to viewholder");
                 break;
