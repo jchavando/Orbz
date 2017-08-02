@@ -76,7 +76,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         context = viewGroup.getContext();
         switch (viewType) {
             case TYPE_SONG:
-                View songView = inflater.inflate(R.layout.item_song, viewGroup, false);  //TODO: change back to item_song
+                View songView = inflater.inflate(R.layout.item_song, viewGroup, false);
                 viewHolder = new ViewHolderSong(songView, mListener, context);
                 break;
             case TYPE_PLAYLIST:
@@ -88,10 +88,8 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 viewHolder = new ViewHolderPlaylistSimple(playlistViewSimple, mPlaylistSimpleListener, context);
                 break;
             case TYPE_QUEUE:
-
                 View queueView = inflater.inflate(R.layout.item_queue, viewGroup, false);
-                viewHolder = new ViewHolderQueue(queueView, mListener, context); //TODO
-                //viewHolder = new ViewHolderSong(queueView, mListener, context);
+                viewHolder = new ViewHolderQueue(queueView, mListener, context);
                 break;
 
             default:
@@ -168,6 +166,13 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
+
+    private void configureViewHolderQueue(ViewHolderQueue queueHolder, ViewHolderSong songHolder, int position) {
+
+        configureViewHolderSong(songHolder, position);
+
+
+    }
     private void configureViewHolderPlaylist (ViewHolderPlaylist holder, int position) {
         //get the data according to position
         final Playlist playlist = (Playlist) mSongsPlaylists.get(position);
@@ -191,7 +196,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
             case TYPE_SONG:
-                ViewHolderSong viewHolderSong = (ViewHolderSong) holder;
+                ViewHolderSong viewHolderSong = (ViewHolderSong) holder; //
                 configureViewHolderSong(viewHolderSong, position);
                 break;
             case TYPE_PLAYLIST:
@@ -202,9 +207,14 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 ViewHolderPlaylistSimple viewHolderPlaylistSimple = (ViewHolderPlaylistSimple) holder;
                 configureViewHolderPlaylistSimple(viewHolderPlaylistSimple, position);
             case TYPE_QUEUE:
-                //ViewHolderSong viewHolderQueue = (ViewHolderSong) holder; //TODO
+                ViewHolderSong viewHolderSong2 = (ViewHolderSong) holder;
+
                 ViewHolderQueue viewHolderQueue = (ViewHolderQueue) holder;
-                configureViewHolderSong(viewHolderQueue, position);
+                configureViewHolderQueue(viewHolderQueue, viewHolderSong2, position);
+                //ViewHolderSong viewHolderQueue = (ViewHolderSong) holder;
+                //ViewHolderQueue viewHolderQueue = (ViewHolderQueue) holder; //TODO fix
+                //configureViewHolderSong(viewHolderQueue, position);
+                //configureViewHolderQueue(viewHolderQueue, viewHolderSong, position);
                
             default:
                 Log.e("viewholder", "didnt bind anything to viewholder");

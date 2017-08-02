@@ -23,6 +23,7 @@ public class ViewHolderQueue extends ViewHolderSong  {
                     mListener.onAddCommentClicked(v, position); //.onAddPlaylistClicked
                     Log.d("view holder queue", String.valueOf(this));
                     hasComment = true;
+                    //set the picture differently
                 }
             });
         }

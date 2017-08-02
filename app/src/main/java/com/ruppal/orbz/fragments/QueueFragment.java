@@ -76,10 +76,11 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
 
     @Override
     public void addComment(String comment) {
-        Song song = new Song();
-        song.setComment(comment);
-        Toast.makeText(getContext(), "comment: " +comment, Toast.LENGTH_SHORT).show();
+        //Song song = new Song();
 
+        //song.setComment(comment);
+        Toast.makeText(getContext(), "comment: " +comment, Toast.LENGTH_SHORT).show();
+        //TODO or here
     }
 
     @Override
