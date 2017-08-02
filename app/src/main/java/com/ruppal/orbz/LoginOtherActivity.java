@@ -105,7 +105,7 @@ LoginLastFMFragment.LastFMListener{
                 SpotifyClient spotifyClient = new SpotifyClient();
                 spotifyClient.setAccessToken(spotifyAccessToken);
                 btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
-                btLoginSpotify.setBackgroundResource(R.drawable.clicked_border);
+                btLoginSpotify.setBackgroundResource(R.drawable.clicked_border_spotify);
                 //googleSignInButton.setBackgroundResource(R.drawable.rounded);
 
                 //Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_SHORT).show();
@@ -159,7 +159,7 @@ LoginLastFMFragment.LastFMListener{
         Log.d("LoginOtherActivity", "User logged in");
         //on logged in, change button color
         btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
-        btLoginSpotify.setBackgroundResource(R.drawable.clicked_border);
+        btLoginSpotify.setBackgroundResource(R.drawable.clicked_border_spotify);
         //Toast.makeText(this, "signed in to Spotify", Toast.LENGTH_SHORT).show();
 
         //mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
@@ -213,12 +213,12 @@ LoginLastFMFragment.LastFMListener{
     }
 
     public void onClickLastFM(View view) {
-        btLastFMLogin.setBackgroundResource(R.drawable.clicked_border);
+        btLastFMLogin.setBackgroundResource(R.drawable.clicked_border_lastfm);
 
     }
 
     public void onClickSoundcloud(View view) {
-        btSoundcloudLogin.setBackgroundResource(R.drawable.clicked_border);
+        btSoundcloudLogin.setBackgroundResource(R.drawable.clicked_border_soundcloud);
 
     }
 
@@ -294,7 +294,7 @@ LoginLastFMFragment.LastFMListener{
     private void updateUI(boolean isLogin){
         if(isLogin){
             Toast.makeText(this, "signed in to Google", Toast.LENGTH_SHORT).show();
-            googleSignInButton.setBackgroundResource(R.drawable.clicked_border);
+            googleSignInButton.setBackgroundResource(R.drawable.clicked_border_youtube);
 
 
         } else {
@@ -315,7 +315,7 @@ LoginLastFMFragment.LastFMListener{
 //            @Override
 //            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 //                Log.d("LastFM", "success");
-//                btLastFMLogin.setBackgroundResource(R.drawable.clicked_border);
+//                btLastFMLogin.setBackgroundResource(R.drawable.clicked_border_lastfm);
 //
 //                //Toast.makeText(this, "Successfully logged in to Last.fm!", Toast.LENGTH_LONG).show();
 //            }

@@ -17,9 +17,12 @@
         android:layout_marginTop="170dp"
         android:background="@drawable/border"
         android:onClick="onClickSpotifyLogin"
-        android:drawableEnd="@drawable/spotify_icon"
+        android:drawableRight="@drawable/drawable_spotify"
+        android:drawablePadding="2dip"
+        android:gravity="center"
+        android:paddingLeft="46dip"
+        android:paddingRight="20dip"
         android:text="Log in to Spotify"
-        android:drawableTop="@drawable/spo"
         android:textColor="@android:color/white" />
 
     <Button
@@ -41,6 +44,11 @@
         android:text="Log in to Last.fm"
         android:layout_centerVertical="true"
         android:onClick="onClickLastFM"
+        android:drawableRight="@drawable/drawable_lastfm"
+        android:drawablePadding="2dip"
+        android:gravity="center"
+        android:paddingLeft="46dip"
+        android:paddingRight="20dip"
         android:background="@drawable/border"
         android:layout_alignLeft="@+id/btLoginSpotify"
         android:layout_below="@+id/btSoundcloud"
@@ -55,6 +63,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:background="@drawable/border"
+        android:drawableRight="@drawable/drawable_youtube"
+        android:drawablePadding="2dip"
+        android:gravity="center"
+        android:paddingLeft="46dip"
+        android:paddingRight="20dip"
         android:text="Log in to Google"
         android:textColor="@android:color/white" />
 
@@ -68,6 +81,11 @@
         android:onClick="onClickSoundcloud"
         android:text="Log in to Soundcloud"
         android:layout_below="@+id/sign_in_button"
+        android:drawableRight="@drawable/drawable_soundcloud"
+        android:drawablePadding="2dip"
+        android:gravity="center"
+        android:paddingLeft="40dip"
+        android:paddingRight="20dip"
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/white"/>
 
@@ -75,7 +93,6 @@
         android:id="@+id/ivName"
         android:layout_width="120dp"
         android:layout_height="120dp"
-
         android:background="@android:color/transparent"
         app:srcCompat="@drawable/orbz_login"
         android:layout_alignParentTop="true"

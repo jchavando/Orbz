@@ -7,4 +7,8 @@
     <color name="disable_button">#3f3f3f</color>
     <!--<color name="songPlaying">#f2ed9a1d</color>-->
     <color name="songPlaying">#f22fb1a4</color>
+    <color name="soundcloud">#ff8c00</color>
+    <color name="youtube">#d71e17</color>
+    <color name="spotify">#9fe025</color>
+    <color name="lastfm">@color/colorPrimaryDark</color>
 </resources>

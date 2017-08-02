@@ -3,7 +3,7 @@
     <solid android:color="@android:color/transparent"/>
 
     <stroke android:width="3dp"
-        android:color="@android:color/black"
+        android:color="@color/soundcloud"
         />
 
     <padding android:left="1dp"
