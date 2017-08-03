@@ -79,14 +79,16 @@ public class AddCommentDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 //communicate back to QueueFragment
-                commentListener.addComment(etNewComment.getText().toString(), song); //TODO fix
-                Toast.makeText(getContext(), "added comment", Toast.LENGTH_SHORT).show();
+                if (commentListener!=null) {
+                    commentListener.addComment(etNewComment.getText().toString(), song); //TODO fix
+                    Toast.makeText(getContext(), "added comment", Toast.LENGTH_SHORT).show();
 
-                //TODO: change the picture to solid comment
+                    //TODO: change the picture to solid comment
 
 
-                //go back
-                dismiss();
+                    //go back
+                    dismiss();
+                }
             }
         });
     }

@@ -152,7 +152,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 //        complexAdapter.notifyDataSetChanged();
 //        complexAdapter.notifyItemChanged(position);
 //        onSongPlaying();
-
         Player.playSong(song);
     }
 

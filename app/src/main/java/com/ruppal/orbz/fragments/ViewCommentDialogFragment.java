@@ -65,6 +65,6 @@ public class ViewCommentDialogFragment extends DialogFragment {
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
         tvComment.requestFocus();
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 }
