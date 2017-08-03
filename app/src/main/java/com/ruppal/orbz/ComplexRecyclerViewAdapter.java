@@ -56,7 +56,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public interface AddCommentAdapterListener{
-        public void addComment (String comment);
+        public void addComment (String comment, Song song); //int position
     }
 
     // Provide a suitable constructor (depends on the kind of dataset) //List<Object>
@@ -166,8 +166,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private void configureViewHolderQueue(ViewHolderQueue queueHolder, ViewHolderSong songHolder, int position) {
         //add ViewHolderSong songHolder
         configureViewHolderSong(songHolder, position);
-
-
     }
     private void configureViewHolderPlaylist (ViewHolderPlaylist holder, int position) {
         //get the data according to position

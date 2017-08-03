@@ -16,6 +16,7 @@ public class ViewHolderQueue extends ViewHolderSong  {
     public ViewHolderQueue(View itemView, final ComplexRecyclerViewAdapter.SongAdapterListener mListener, Context context) {
         super(itemView, mListener, context);
         ibAddComment = (ImageButton) itemView.findViewById(R.id.ibAddComment);
+
         ibAddComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
