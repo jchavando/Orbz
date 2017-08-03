@@ -56,6 +56,9 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     FrameLayout youtube_fragment;
     FrameLayout playlistFrameLayout;
     public static boolean isPlaylistSongsFragment;
+    //ImageButton ibAddComment;
+    boolean clicked = false;
+
 
     public  PlaylistSongsFragment childFragment;
 
@@ -123,6 +126,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         //frameLayout = (FrameLayout) activity.findViewById(R.id.youtube_fragment);
         ivAlbumCoverPlayer = (ImageView) activity.findViewById(R.id.ivAlbumCoverPlayer);
         youtube_fragment = (FrameLayout) activity.findViewById(R.id.youtube_fragment);
+        //ibAddComment = (ImageButton) activity.findViewById(R.id.ibAddComment);
         //find RecyclerView
         rvSongs = (RecyclerView) v.findViewById(R.id.rvSong);
         //recyclerView setup (layout manager, use adapter)
@@ -149,10 +153,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     @Override
     public void onItemSelected(View view, int position) {
         Song song = (Song) songs.get(position);
-//        complexAdapter.notifyDataSetChanged();
-//        complexAdapter.notifyItemChanged(position);
-//        onSongPlaying();
-
         Player.playSong(song);
     }
 
@@ -191,13 +191,12 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         Object song = songs.get(position);
         if (song instanceof Song) {
             if(((Song) song).getComment() == null) {
-                Toast.makeText(getContext(), "clicked to add comment", Toast.LENGTH_SHORT).show();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 AddCommentDialogFragment addCommentDialogFragment = AddCommentDialogFragment.newInstance("some title", (Song) song, addCommentAdapterListener);
                 addCommentDialogFragment.show(fm, "add comment");
 
              } else {
-                Toast.makeText(getContext(), "clicked to view comment", Toast.LENGTH_SHORT).show();
+                clicked = true;
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 ViewCommentDialogFragment viewCommentDialogFragment = ViewCommentDialogFragment.newInstance("some title", (Song) song, addCommentAdapterListener); //TODO VIEW comment
                 viewCommentDialogFragment.show(fm, "view comment");
@@ -258,9 +257,9 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         }
         return false;
     }
+    
 
-
-//
+    //
 
 
 }

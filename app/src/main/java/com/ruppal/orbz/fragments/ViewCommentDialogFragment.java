@@ -1,6 +1,5 @@
 package com.ruppal.orbz.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -23,8 +22,6 @@ public class ViewCommentDialogFragment extends DialogFragment {
 
     TextView tvComment;
     Song song;
-
-    Context context;
     ComplexRecyclerViewAdapter.AddCommentAdapterListener commentShownListener;
 
     // Define the listener of the interface type
@@ -38,7 +35,7 @@ public class ViewCommentDialogFragment extends DialogFragment {
     }
 
     public static ViewCommentDialogFragment newInstance(String title, Song song, ComplexRecyclerViewAdapter.AddCommentAdapterListener listener) { //what is title, for Twitter used Tweet
-        ViewCommentDialogFragment fragment = new ViewCommentDialogFragment(song, listener); //TODO fix
+        ViewCommentDialogFragment fragment = new ViewCommentDialogFragment(song, listener);
         Bundle args = new Bundle();
         args.putString("title", title);
         fragment.setArguments(args);
@@ -57,13 +54,10 @@ public class ViewCommentDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Get field from view
         tvComment = (TextView) view.findViewById(R.id.tvComment);
         tvComment.setText(song.getComment());
-        // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter username");
         getDialog().setTitle(title);
-        // Show soft keyboard automatically and request focus to field
         tvComment.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }

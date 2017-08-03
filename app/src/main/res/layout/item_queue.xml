@@ -64,13 +64,12 @@
         android:id="@+id/ibAddComment"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_alignBottom="@+id/ivAlbumCover"
+        android:layout_alignBottom="@+id/tvService"
         android:layout_alignLeft="@+id/ibAddToPlaylist"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/ibAddToPlaylist"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/orbzgray3"
+        app:srcCompat="@drawable/comment_selected"
         />
 
 
