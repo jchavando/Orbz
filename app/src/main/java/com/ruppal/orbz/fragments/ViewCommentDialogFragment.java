@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
+import com.ruppal.orbz.models.Song;
 
 /**
  * Created by jchavando on 7/31/17.
@@ -20,7 +21,8 @@ import com.ruppal.orbz.R;
 
 public class ViewCommentDialogFragment extends DialogFragment {
 
-    EditText tvComment;
+    TextView tvComment;
+    Song song;
 
     Context context;
     ComplexRecyclerViewAdapter.AddCommentAdapterListener commentShownListener;
@@ -29,13 +31,14 @@ public class ViewCommentDialogFragment extends DialogFragment {
     // listener will the activity instance containing fragment
     private AdapterView.OnItemSelectedListener listener;
 
-    public ViewCommentDialogFragment(ComplexRecyclerViewAdapter.AddCommentAdapterListener listener){
+    public ViewCommentDialogFragment(Song song, ComplexRecyclerViewAdapter.AddCommentAdapterListener listener){
         //required empty constructor
         commentShownListener = listener;
+        this.song = song;
     }
 
-    public static ViewCommentDialogFragment newInstance(String title, ComplexRecyclerViewAdapter.AddCommentAdapterListener listener) { //what is title, for Twitter used Tweet
-        ViewCommentDialogFragment fragment = new ViewCommentDialogFragment(listener); //TODO fix
+    public static ViewCommentDialogFragment newInstance(String title, Song song, ComplexRecyclerViewAdapter.AddCommentAdapterListener listener) { //what is title, for Twitter used Tweet
+        ViewCommentDialogFragment fragment = new ViewCommentDialogFragment(song, listener); //TODO fix
         Bundle args = new Bundle();
         args.putString("title", title);
         fragment.setArguments(args);
@@ -55,24 +58,13 @@ public class ViewCommentDialogFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Get field from view
-        tvComment = (EditText) view.findViewById(R.id.tvComment);
+        tvComment = (TextView) view.findViewById(R.id.tvComment);
+        tvComment.setText(song.getComment());
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter username");
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
         tvComment.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-//        Button btAddComment = (Button) view.findViewById(R.id.btAddComment);
-//        btAddComment.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                //communicate back to PlaylistFragment
-//                commentShownListener.addComment(etNewComment.getText().toString());
-//                Toast.makeText(getContext(), "clicked on comment", Toast.LENGTH_SHORT).show();
-//                //login
-//                //go back
-//                dismiss();
-//            }
-//        });
     }
 }

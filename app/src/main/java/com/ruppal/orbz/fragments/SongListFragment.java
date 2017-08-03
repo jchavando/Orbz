@@ -193,13 +193,13 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             if(((Song) song).getComment() == null) {
                 Toast.makeText(getContext(), "clicked to add comment", Toast.LENGTH_SHORT).show();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                AddCommentDialogFragment addCommentDialogFragment = AddCommentDialogFragment.newInstance("some title", addCommentAdapterListener);
+                AddCommentDialogFragment addCommentDialogFragment = AddCommentDialogFragment.newInstance("some title", (Song) song, addCommentAdapterListener);
                 addCommentDialogFragment.show(fm, "add comment");
 
              } else {
                 Toast.makeText(getContext(), "clicked to view comment", Toast.LENGTH_SHORT).show();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                ViewCommentDialogFragment viewCommentDialogFragment = ViewCommentDialogFragment.newInstance("some title", addCommentAdapterListener); //TODO VIEW comment
+                ViewCommentDialogFragment viewCommentDialogFragment = ViewCommentDialogFragment.newInstance("some title", (Song) song, addCommentAdapterListener); //TODO VIEW comment
                 viewCommentDialogFragment.show(fm, "view comment");
             }
 

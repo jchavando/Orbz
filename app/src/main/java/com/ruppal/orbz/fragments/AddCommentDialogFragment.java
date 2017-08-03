@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.LastFMClient;
+import com.ruppal.orbz.models.Song;
 
 
 /**
@@ -25,6 +26,7 @@ import com.ruppal.orbz.clients.LastFMClient;
 public class AddCommentDialogFragment extends DialogFragment {
 
     EditText etNewComment;
+    Song song;
 
     LastFMClient lastFMClient;
     Context context;
@@ -38,13 +40,14 @@ public class AddCommentDialogFragment extends DialogFragment {
     // listener will the activity instance containing fragment
     private AdapterView.OnItemSelectedListener listener;
 
-    public AddCommentDialogFragment(ComplexRecyclerViewAdapter.AddCommentAdapterListener listener){
+    public AddCommentDialogFragment(Song song, ComplexRecyclerViewAdapter.AddCommentAdapterListener listener){
         //required empty constructor
         commentListener = listener;
+        this.song = song;
     }
 
-    public static AddCommentDialogFragment newInstance(String title, ComplexRecyclerViewAdapter.AddCommentAdapterListener listener) { //what is title, for Twitter used Tweet
-        AddCommentDialogFragment fragment = new AddCommentDialogFragment(listener); //TODO fix
+    public static AddCommentDialogFragment newInstance(String title, Song song, ComplexRecyclerViewAdapter.AddCommentAdapterListener listener) { //what is title, for Twitter used Tweet
+        AddCommentDialogFragment fragment = new AddCommentDialogFragment(song, listener); //TODO fix
         Bundle args = new Bundle();
         args.putString("title", title);
         fragment.setArguments(args);
@@ -76,7 +79,7 @@ public class AddCommentDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 //communicate back to QueueFragment
-                commentListener.addComment(etNewComment.getText().toString());
+                commentListener.addComment(etNewComment.getText().toString(), song); //TODO fix
                 Toast.makeText(getContext(), "added comment", Toast.LENGTH_SHORT).show();
 
                 //TODO: change the picture to solid comment
