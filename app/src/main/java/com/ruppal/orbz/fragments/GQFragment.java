@@ -111,7 +111,7 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
 
             if(songObject instanceof Song) {
                 Song currentSong = (Song) songObject;
-                if(!currentSong.isPushed() && currentSong.getService().equals(Song.SPOTIFY)){
+                if(!currentSong.isPushed() && !currentSong.getService().equals(Song.LOCAL)){
                     Message message = new Message();
                     message.setUserId(ParseUser.getCurrentUser().getObjectId());
                     message.setTitle(currentSong.getTitle());
@@ -119,13 +119,14 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
                     message.setService(currentSong.getService());
                     message.setUid(currentSong.getUid());
                     message.setArtistId(currentSong.getArtists().get(0).getUid());
-                    message.setAlbum(currentSong.getAlbum());
                     message.setPopularity(currentSong.getPopularity());
                     message.setDuration(currentSong.getDuration_ms());
                     message.setAlbumCover(currentSong.getAlbumCoverUrl());
                     message.setQueued(currentSong.getQueued());
                     if(currentSong.getComment() != null)
                     message.setComment(currentSong.getComment());
+                    if(currentSong.getService().equals(Song.SPOTIFY))
+                    message.setAlbum(currentSong.getAlbum());
 
                     message.saveInBackground(new SaveCallback() {
                         @Override
@@ -166,6 +167,7 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
                             currentMessage.getARTISTID(),
                             currentMessage.getARTISTNAME()
                         );
+                        songToAdd.setService(currentMessage.getSERVICE());
                         songToAdd.setQueued(currentMessage.getQueued());
                         if(currentMessage.getComment()!=null)
                         songToAdd.setComment(currentMessage.getComment());

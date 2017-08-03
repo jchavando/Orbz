@@ -53,6 +53,7 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.queue_clear:
+                Player.queue.clear();
                 clearSongsList();
                 return true;
             default:
