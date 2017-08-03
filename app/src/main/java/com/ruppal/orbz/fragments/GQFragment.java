@@ -141,7 +141,6 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
             }
         }
     }
-
     // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
         // Construct query to execute

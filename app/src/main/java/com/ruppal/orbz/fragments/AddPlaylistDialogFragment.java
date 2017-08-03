@@ -83,7 +83,6 @@ public class AddPlaylistDialogFragment extends DialogFragment {
             public void onClick(View v) {
 
                 //communicate back to PlaylistFragment
-
                 playlistListener.onFinishDialog(etNewPlaylist.getText().toString());
                 //login
                 //go back
@@ -91,7 +90,4 @@ public class AddPlaylistDialogFragment extends DialogFragment {
             }
         });
     }
-
 }
-
-
