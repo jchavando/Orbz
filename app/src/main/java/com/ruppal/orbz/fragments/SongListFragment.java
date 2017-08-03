@@ -176,11 +176,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
         Object song = songs.get(position);
         if (song instanceof Song){
-            //add song to playlist
-            //DatabaseHelper.addSongToTestPlaylist((Song) song);
-//            //update playlist view
-//            DatabaseHelper.updateTestPlaylist();
-            //launch select playlist fragment
             FragmentManager fm = getActivity().getSupportFragmentManager();
             SelectPlaylistDialogFragment selectPlaylistDialogFragment = SelectPlaylistDialogFragment.newInstance("Select a Playlist", (Song) song, addSongToPlaylistAdapterListener);
             selectPlaylistDialogFragment.show(fm, "lastfm_login");
@@ -195,12 +190,21 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public void onAddCommentClicked(View view, int position) {
         Object song = songs.get(position);
         if (song instanceof Song) {
-            Toast.makeText(getContext(), "clicked comment", Toast.LENGTH_SHORT).show();
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            AddCommentDialogFragment addCommentDialogFragment = AddCommentDialogFragment.newInstance("some title", addCommentAdapterListener); //TODO
-            addCommentDialogFragment.show(fm, "add comment");
-        }
-        else{
+            if(((Song) song).getComment() == null) {
+                Toast.makeText(getContext(), "clicked to add comment", Toast.LENGTH_SHORT).show();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                AddCommentDialogFragment addCommentDialogFragment = AddCommentDialogFragment.newInstance("some title", (Song) song, addCommentAdapterListener);
+                addCommentDialogFragment.show(fm, "add comment");
+
+             } else {
+                Toast.makeText(getContext(), "clicked to view comment", Toast.LENGTH_SHORT).show();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                ViewCommentDialogFragment viewCommentDialogFragment = ViewCommentDialogFragment.newInstance("some title", (Song) song, addCommentAdapterListener); //TODO VIEW comment
+                viewCommentDialogFragment.show(fm, "view comment");
+            }
+
+
+        } else {
             Toast.makeText(getContext(), "can only add a comment to a queued song", Toast.LENGTH_SHORT).show();
         }
     }

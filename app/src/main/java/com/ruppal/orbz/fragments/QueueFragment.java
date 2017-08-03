@@ -64,19 +64,8 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
         return false;
     }
 
-//    @Override
-//    public void onFinishDialog(String newComment) {
-//        //Song newSong
-//        //Playlist newPlaylist = DatabaseHelper.makeNewLocalPlaylist(newPlaylistName);
-//        //int positionInsert = 0;
-//        //addSongToPosition(newPlaylist, positionInsert);
-//        //rvSongs.scrollToPosition(positionInsert);
-//        //playlistsFromDatabase.add(newPlaylist);
-//    }
-
     @Override
-    public void addComment(String comment) {
-        Song song = new Song();
+    public void addComment(String comment, Song song) { //int position
         song.setComment(comment);
         Toast.makeText(getContext(), "comment: " +comment, Toast.LENGTH_SHORT).show();
 
