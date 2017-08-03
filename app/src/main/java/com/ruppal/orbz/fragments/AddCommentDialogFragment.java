@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
@@ -27,6 +28,7 @@ public class AddCommentDialogFragment extends DialogFragment {
 
     EditText etNewComment;
     Song song;
+    ImageButton commentButton;
 
     LastFMClient lastFMClient;
     Context context;
@@ -47,7 +49,7 @@ public class AddCommentDialogFragment extends DialogFragment {
     }
 
     public static AddCommentDialogFragment newInstance(String title, Song song, ComplexRecyclerViewAdapter.AddCommentAdapterListener listener) { //what is title, for Twitter used Tweet
-        AddCommentDialogFragment fragment = new AddCommentDialogFragment(song, listener); //TODO fix
+        AddCommentDialogFragment fragment = new AddCommentDialogFragment(song, listener);
         Bundle args = new Bundle();
         args.putString("title", title);
         fragment.setArguments(args);

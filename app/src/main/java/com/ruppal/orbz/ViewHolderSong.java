@@ -60,18 +60,6 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
             }
         });
 
-//        if(getQueued()) { //its queued
-//            ibAddComment.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position = getAdapterPosition();
-//                    mListener.onAddCommentClicked(v, position); //.onAddPlaylistClicked
-//                }
-//            });
-//        }
-
-
-
         tvService = (TextView) itemView.findViewById(R.id.tvService);
     }
 }

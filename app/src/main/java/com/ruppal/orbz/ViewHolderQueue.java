@@ -21,10 +21,10 @@ public class ViewHolderQueue extends ViewHolderSong  {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    mListener.onAddCommentClicked(v, position); //.onAddPlaylistClicked
+                     mListener.onAddCommentClicked(v, position);
                     Log.d("view holder queue", String.valueOf(this));
-                    hasComment = true;
-                    //set the picture differently
+//                        ibAddComment.setImageResource(R.drawable.orbzgray2); //TODO maybe remove
+
                 }
             });
         }
