@@ -122,6 +122,9 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
                     message.setPopularity(currentSong.getPopularity());
                     message.setDuration(currentSong.getDuration_ms());
                     message.setAlbumCover(currentSong.getAlbumCoverUrl());
+                    message.setQueued(currentSong.getQueued());
+                    if(currentSong.getComment() != null)
+                    message.setComment(currentSong.getComment());
 
                     message.saveInBackground(new SaveCallback() {
                         @Override
@@ -162,6 +165,9 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
                             currentMessage.getARTISTID(),
                             currentMessage.getARTISTNAME()
                         );
+                        songToAdd.setQueued(currentMessage.getQueued());
+                        if(currentMessage.getComment()!=null)
+                        songToAdd.setComment(currentMessage.getComment());
                         if(songToAdd.getTitle() != null && !songToAdd.getTitle().isEmpty())
                         songs.add(songToAdd);
                     }

@@ -79,7 +79,6 @@ public class Song {
         this.popularity = popularity;
         this.duration_ms = duration_ms;
         this.albumCoverUrl = albumCoverUrl;
-        //this.comment = comment;
 
         playing = false;
         service = SPOTIFY;

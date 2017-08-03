@@ -173,7 +173,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             queueHolder.ibAddComment.setImageResource(R.drawable.orbzgray2); //TODO doesn't reach
         }
 
-
     }
     private void configureViewHolderPlaylist (ViewHolderPlaylist holder, int position) {
         //get the data according to position

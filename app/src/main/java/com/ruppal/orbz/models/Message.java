@@ -20,6 +20,7 @@ public class Message extends ParseObject {
     public static final String DURATION = "duration";
     public static final String ALBUMCOVER = "albumcover";
     public static final String COMMENT = "comment";
+    public static final String QUEUED = "queued";
 
     public void setUserId(String userId) {
         put(USER_ID_KEY, userId);
@@ -44,6 +45,10 @@ public class Message extends ParseObject {
     public void setAlbumCover(String albumcover) {put(ALBUMCOVER, albumcover);}
 
     public void setComment(String comment) {put(COMMENT, comment);}
+
+    public void setQueued(boolean queued) {put(QUEUED, queued);}
+
+    public boolean getQueued() {return getBoolean(QUEUED);}
 
     public String getUSERID() {
         return getString(USER_ID_KEY);
