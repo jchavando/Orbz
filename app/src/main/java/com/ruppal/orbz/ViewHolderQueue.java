@@ -1,7 +1,6 @@
 package com.ruppal.orbz;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -21,10 +20,8 @@ public class ViewHolderQueue extends ViewHolderSong  {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    mListener.onAddCommentClicked(v, position); //.onAddPlaylistClicked
-                    Log.d("view holder queue", String.valueOf(this));
-                    hasComment = true;
-                    //set the picture differently
+                     mListener.onAddCommentClicked(v, position);
+                    //Log.d("view holder queue", String.valueOf(this));
                 }
             });
         }

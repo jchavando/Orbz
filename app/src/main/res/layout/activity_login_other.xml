@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginOtherActivity"
-    android:background="@drawable/blurred_space">
+    android:background="@drawable/city_background3">
 
 
     <Button
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="160dp"
         android:background="@drawable/border"
         android:onClick="onClickSpotifyLogin"
         android:drawableRight="@drawable/drawable_spotify"

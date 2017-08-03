@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
@@ -22,7 +21,6 @@ import static com.ruppal.orbz.models.Player.queue;
 
 public class QueueFragment extends SongListFragment implements AddCommentDialogFragment.AddCommentListener, Player.highlightCurrentSongListenerQueue, ComplexRecyclerViewAdapter.AddCommentAdapterListener{
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -34,7 +32,6 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addCommentAdapterListener = this;
-
         setHasOptionsMenu(true);
         Player.setmHighlightCurrentSongListenerQueue(this);
     }
@@ -65,10 +62,10 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
     }
 
     @Override
-    public void addComment(String comment, Song song) { //int position
+    public void addComment(String comment, Song song) {
         song.setComment(comment);
-        Toast.makeText(getContext(), "comment: " +comment, Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(getContext(), "comment: " +comment, Toast.LENGTH_SHORT).show();
+        complexAdapter.notifyDataSetChanged();
     }
 
     @Override
