@@ -155,6 +155,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         Player.playSong(song);
     }
 
+
     public void grabInfo(){
         ((MainActivity) getActivity()).getAlbumArt();
     }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.models.Playlist;
@@ -30,13 +31,13 @@ import cz.msebera.android.httpclient.Header;
  * Created by jchavando on 7/26/17.
  */
 
-public class PlaylistSongsFragment extends SongListFragment implements com.ruppal.orbz.models.Player.highlightCurrentSongListenerPlaylist {
+public class PlaylistSongsFragment extends SongListFragment implements com.ruppal.orbz.models.Player.highlightCurrentSongListenerPlaylist, ComplexRecyclerViewAdapter.SongAdapterListenerPlaylist {
 
 
     //recycler view for when you click on individual playlist
     RecyclerView rvSongs;
     SpotifyClient spotifyClient;
-    ArrayList<Object> songs;
+//    ArrayList<Object> songs;
 //    public ComplexRecyclerViewAdapter complexAdapter;
     public Player mPlayer;
     Playlist mPlaylist;
@@ -69,7 +70,7 @@ public class PlaylistSongsFragment extends SongListFragment implements com.ruppa
         //super.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         spotifyClient = new SpotifyClient();
-        songs = new ArrayList<>();
+//        songs = new ArrayList<>();
         setHasOptionsMenu(true);
         playlistFragment = new PlaylistFragment();
         com.ruppal.orbz.models.Player.setmHighlightCurrentSongListenerPlaylist(this);
@@ -151,5 +152,40 @@ public class PlaylistSongsFragment extends SongListFragment implements com.ruppa
     @Override
     public void onSongPlayingChanged() {
         complexAdapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onItemSelected(View view, int position) {
+        super.onItemSelected(view, position);
+        if (songs!=null && com.ruppal.orbz.models.Player.queue != null && position>=0 && position<songs.size()) {
+            Song songSelected = (Song) songs.get(position);
+            //clear old queue
+            com.ruppal.orbz.models.Player.queue.clear();
+            //set songs for the new queue
+            automaticallyPopulateQueue(songSelected);
+        }
+    }
+
+    public void automaticallyPopulateQueue(Song songSelected){
+        //required : position is position of song clicked, so want to start at next
+        boolean beforeSelected = true;
+        ArrayList<Song> songsBeforeSelected = new ArrayList<>();
+        for (int i = 0; i < songs.size(); i++){
+            Song song = (Song) songs.get(i);
+            if (song != songSelected && beforeSelected){
+                songsBeforeSelected.add(song);
+            }
+            else{
+                if (song == songSelected) {
+                    beforeSelected = false;
+                }
+                else {
+                    com.ruppal.orbz.models.Player.queue.add(song);
+                }
+            }
+        }
+        com.ruppal.orbz.models.Player.queue.addAll(songsBeforeSelected);
+        com.ruppal.orbz.models.Player.queue.add(songSelected);
     }
 }

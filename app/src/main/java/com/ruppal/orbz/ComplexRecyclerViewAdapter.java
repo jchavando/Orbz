@@ -43,6 +43,9 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         public void onAddCommentClicked(View view, int position);
     }
 
+    public interface SongAdapterListenerGroupQueue extends SongAdapterListener{}
+    public interface SongAdapterListenerPlaylist extends SongAdapterListener{}
+
     public interface PlaylistAdapterListener{
         public void onPlaylistItemSelected (View view, int position);
     }

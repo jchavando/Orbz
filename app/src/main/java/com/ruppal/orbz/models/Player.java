@@ -349,9 +349,12 @@ public class Player {
     }
 
     public static void playNextSongInQueue() {
-        if (queue.size()>0){
+        if (queue!=null && queue.size()>0){
             if (positionInQueue != queue.size()-1) {
                 positionInQueue+=1;
+            }
+            else{
+                positionInQueue = 0;
             }
             playSong(queue.get(positionInQueue));
 
@@ -363,11 +366,14 @@ public class Player {
     }
 
     public static void skipToPreviousInQueue(){
-        if (queue.size() > 0) {
+        if (queue!=null && queue.size() > 0) {
             if (positionInQueue > 0) {
                 positionInQueue -= 1;
-                playSong(queue.get(positionInQueue));
             }
+            else{
+                positionInQueue = queue.size() - 1;
+            }
+            playSong(queue.get(positionInQueue));
         }
     }
 
@@ -778,4 +784,8 @@ public class Player {
         }
     }
 
+    public static void clearQueue(){
+        Player.queue.clear();
+        Player.positionInQueue = -1;
+    }
 }

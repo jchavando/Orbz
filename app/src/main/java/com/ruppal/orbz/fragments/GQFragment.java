@@ -17,6 +17,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.models.Message;
@@ -30,7 +31,7 @@ import java.util.List;
  * Created by elviskahoro on 7/27/17.
  */
 
-public class GQFragment extends SongListFragment implements Player.highlightCurrentSongListenerGroupQueue{
+public class GQFragment extends SongListFragment implements Player.highlightCurrentSongListenerGroupQueue, ComplexRecyclerViewAdapter.SongAdapterListenerGroupQueue{
 
     ////////////////////////////////////////////////////////// Group Queue
     static final String TAG = MainActivity.class.getSimpleName();
@@ -188,5 +189,40 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
     @Override
     public void onSongPlayingChanged() {
         complexAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemSelected(View view, int position) {
+        //play the song
+        super.onItemSelected(view, position);
+        if (songs!=null && Player.queue != null && position>=0 && position<songs.size()) {
+            Song songSelected = (Song) songs.get(position);
+            //clear old queue
+            Player.clearQueue();
+            //set songs for the new queue
+            automaticallyPopulateQueue(songSelected);
+        }
+    }
+
+    public void automaticallyPopulateQueue(Song songSelected){
+        //required : position is position of song clicked, so want to start at next
+        boolean beforeSelected = true;
+        ArrayList<Song> songsBeforeSelected = new ArrayList<>();
+        for (int i = 0; i < songs.size(); i++){
+            Song song = (Song) songs.get(i);
+            if (song != songSelected && beforeSelected){
+                songsBeforeSelected.add(song);
+            }
+            else{
+                if (song == songSelected) {
+                    beforeSelected = false;
+                }
+                else {
+                    com.ruppal.orbz.models.Player.queue.add(song);
+                }
+            }
+        }
+        com.ruppal.orbz.models.Player.queue.addAll(songsBeforeSelected);
+        com.ruppal.orbz.models.Player.queue.add(songSelected);
     }
 }
