@@ -1,7 +1,6 @@
 package com.ruppal.orbz;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -22,9 +21,7 @@ public class ViewHolderQueue extends ViewHolderSong  {
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                      mListener.onAddCommentClicked(v, position);
-                    Log.d("view holder queue", String.valueOf(this));
-//                        ibAddComment.setImageResource(R.drawable.orbzgray2); //TODO maybe remove
-
+                    //Log.d("view holder queue", String.valueOf(this));
                 }
             });
         }

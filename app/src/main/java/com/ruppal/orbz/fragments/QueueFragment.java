@@ -6,8 +6,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
@@ -22,14 +20,12 @@ import static com.ruppal.orbz.models.Player.queue;
 
 
 public class QueueFragment extends SongListFragment implements AddCommentDialogFragment.AddCommentListener, Player.highlightCurrentSongListenerQueue, ComplexRecyclerViewAdapter.AddCommentAdapterListener{
-    ImageButton ibAddComment;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         clearSongsList();
         populateQueue();
-        //ibAddComment = (ImageButton) view.findViewById(R.id.ibAddComment);
     }
 
     @Override
@@ -66,11 +62,9 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
     }
 
     @Override
-    public void addComment(String comment, Song song) { //int position
+    public void addComment(String comment, Song song) {
         song.setComment(comment);
-
-        //ibAddComment.setImageResource(R.drawable.orbzgray2);
-        Toast.makeText(getContext(), "comment: " +comment, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "comment: " +comment, Toast.LENGTH_SHORT).show();
         complexAdapter.notifyDataSetChanged();
     }
 

@@ -170,7 +170,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         if (((Song) mSongsPlaylists.get(position)).getComment()==null) {
             queueHolder.ibAddComment.setImageResource(R.drawable.orbzgray3);
         } else {
-            queueHolder.ibAddComment.setImageResource(R.drawable.orbzgray2); //TODO doesn't reach
+            queueHolder.ibAddComment.setImageResource(R.drawable.orbzgray2);
         }
 
     }
