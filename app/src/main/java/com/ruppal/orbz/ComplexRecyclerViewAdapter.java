@@ -166,6 +166,14 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private void configureViewHolderQueue(ViewHolderQueue queueHolder, ViewHolderSong songHolder, int position) {
         //add ViewHolderSong songHolder
         configureViewHolderSong(songHolder, position);
+
+        if (((Song) mSongsPlaylists.get(position)).getComment()==null) {
+            queueHolder.ibAddComment.setImageResource(R.drawable.orbzgray3);
+        } else {
+            queueHolder.ibAddComment.setImageResource(R.drawable.orbzgray2); //TODO doesn't reach
+        }
+
+
     }
     private void configureViewHolderPlaylist (ViewHolderPlaylist holder, int position) {
         //get the data according to position

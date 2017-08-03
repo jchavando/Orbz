@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAlmostTransparent">
+    android:background="@drawable/dialog_rounded">
 
 
     <EditText
@@ -11,19 +11,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="37dp"
+        android:layout_marginTop="37dp"
         android:layout_marginRight="37dp"
-        android:layout_marginTop="50dp"
-        android:background="@android:color/white"
+        android:background="@drawable/rounded_textview"
         android:ems="10"
+        android:layout_marginBottom="15dp"
         android:hint="Playlist Name"
-        android:inputType="textPersonName" />
+        android:inputType="textMultiLine" />
 
     <Button
         android:id="@+id/btAddPlaylist"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:background="@drawable/border"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/white"
         android:text="Add"
-
         android:layout_marginRight="37dp"
         android:layout_marginLeft="37dp"/>
 </LinearLayout>

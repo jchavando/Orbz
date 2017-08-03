@@ -37,9 +37,6 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode" >
         </activity>
 
-        <activity android:name=".PlaylistActivity">
-        </activity>
-
     </application>
 
 </manifest>
