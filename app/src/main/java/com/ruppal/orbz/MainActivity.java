@@ -257,6 +257,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         localSongSearch();
     }
 
+    public HashMap<String, String> getAlbumArrayList() {
+        return albumArt;
+    }
+
     @SuppressLint("InlinedApi")
     private void hideSystemUi() {
         playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
