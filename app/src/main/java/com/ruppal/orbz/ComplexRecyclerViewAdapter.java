@@ -1,8 +1,8 @@
 package com.ruppal.orbz;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +16,7 @@ import com.ruppal.orbz.models.Player;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -34,6 +35,13 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private final int TYPE_PLAYLIST = 111;
     private final int TYPE_PLAYLIST_SIMPLE = 112;
     private final int TYPE_QUEUE = 113;
+
+
+    ///////////////////////// Elvis - Currently working on recycling the bitmap
+    HashMap<String, Drawable> albumCovers = new HashMap<>();
+    ///////////////////////// Elvis - Currently working on recycling the bitmap
+
+
 
     //define an interface required by the ViewHolder
     public interface SongAdapterListener{
@@ -96,7 +104,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 View queueView = inflater.inflate(R.layout.item_queue, viewGroup, false);
                 viewHolder = new ViewHolderQueue(queueView, mListener, context);
                 break;
-
             default:
                 viewHolder = null;
                 break;
@@ -139,8 +146,16 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         if (song.getAlbumCoverUrl() != null) {
             switch (song.getService()){
                 case Song.LOCAL :
-                    Drawable image = Drawable.createFromPath(song.getAlbumCoverUrl());
-                    holder.ivAlbumCover.setImageDrawable(image);
+                    if(albumCovers.get(song.getAlbumCoverUrl()) == null) {
+                            Drawable currentImage = Drawable.createFromPath(song.getAlbumCoverUrl());
+                            albumCovers.put(song.getAlbum(), currentImage);
+                            holder.ivAlbumCover.setImageDrawable(currentImage);
+                        } else {
+                            Drawable imageToPlace = albumCovers.get(song.getAlbum());
+                            holder.ivAlbumCover.setImageDrawable(imageToPlace);
+                        }
+//                    Drawable image = Drawable.createFromPath(song.getAlbumCoverUrl());
+//                    holder.ivAlbumCover.setImageDrawable(image);
                     break;
                 default:
                     Glide.with(context)
