@@ -59,7 +59,7 @@ public class SelectPlaylistDialogFragment extends DialogFragment implements Comp
         selectedPlaylist = null;
         //load playlists
         int numPlaylists = populateSimplePlaylists();
-        Toast.makeText(getContext(), numPlaylists + " playlists added", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), numPlaylists + " playlists added", Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
@@ -103,8 +103,6 @@ public class SelectPlaylistDialogFragment extends DialogFragment implements Comp
         //and send it back
         selectedPlaylist =(PlaylistTable) playlists.get(position);
         positionOfSelectedPlaylist = position;
-        String selectedText = selectedPlaylist.getPlaylistName() + " selected";
-        Toast.makeText(getContext(),selectedText , Toast.LENGTH_SHORT).show();
     }
 
     public int populateSimplePlaylists(){

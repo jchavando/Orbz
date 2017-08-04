@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
@@ -151,7 +150,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
     }
 
     public void showPlaylistDialogFragment() {
-        Toast.makeText(getContext(), "clicked fab", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "clicked fab", Toast.LENGTH_SHORT).show();
         FragmentManager fm = getActivity().getSupportFragmentManager();
 
         //AddPlaylistDialogFragment addPlaylist = AddPlaylistDialogFragment.newInstance("some_title");

@@ -160,7 +160,7 @@ LoginLastFMFragment.LastFMListener{
         //on logged in, change button color
         btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
         btLoginSpotify.setBackgroundResource(R.drawable.clicked_border_spotify);
-        //Toast.makeText(this, "signed in to Spotify", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "signed in to Spotify", Toast.LENGTH_SHORT).show();
 
         //mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
     }
@@ -292,7 +292,7 @@ LoginLastFMFragment.LastFMListener{
 
     private void updateUI(boolean isLogin){
         if(isLogin){
-            Toast.makeText(this, "signed in to Google", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "signed in to Google", Toast.LENGTH_SHORT).show();
             googleSignInButton.setBackgroundResource(R.drawable.clicked_border_youtube);
 
 

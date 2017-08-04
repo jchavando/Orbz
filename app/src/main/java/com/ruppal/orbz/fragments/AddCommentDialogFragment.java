@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.R;
@@ -81,7 +80,7 @@ public class AddCommentDialogFragment extends DialogFragment {
                 //communicate back to QueueFragment
                 if (commentListener!=null) {
                     commentListener.addComment(etNewComment.getText().toString(), song);
-                    Toast.makeText(getContext(), "added comment", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "added comment", Toast.LENGTH_SHORT).show();
                     //go back
                     dismiss();
                 }

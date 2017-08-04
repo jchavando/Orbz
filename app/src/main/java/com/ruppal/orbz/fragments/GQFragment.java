@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
@@ -26,8 +25,6 @@ import com.ruppal.orbz.models.Song;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.ruppal.orbz.fragments.LocalListFragment.mAddSongToQueueListenerLocal;
 
 /**
  * Created by elviskahoro on 7/27/17.
@@ -142,8 +139,8 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
                     message.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            Toast.makeText(getContext(), "Successfully created message on Parse",
-                                    Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Successfully created message on Parse",
+//                                    Toast.LENGTH_SHORT).show();
                             refreshMessages();
                         }
                     });

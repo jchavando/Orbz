@@ -111,9 +111,6 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         localSongList = ((MainActivity)getActivity()).getLocalSongs();
         complexAdapter = new ComplexRecyclerViewAdapter(songs, this, this, null); //this
         fragmentManager = getFragmentManager();
-
-
-
     }
 
     @Nullable
@@ -169,7 +166,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         Song song = (Song) songs.get(position);
         Player.queue.add(song);
         song.setQueued(true);
-        Toast.makeText(getContext(), "added to queue", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Successfully added to queue!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -215,7 +212,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             complexAdapter.notifyItemInserted(position);
         }
         else{
-            Toast.makeText(getContext(), "failed to make playlist. check indexing", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "failed to make playlist. check indexing", Toast.LENGTH_SHORT).show();
         }
     }
 

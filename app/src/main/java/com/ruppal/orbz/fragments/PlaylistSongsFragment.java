@@ -6,17 +6,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
-import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
 import com.ruppal.orbz.models.Playlist;
 import com.ruppal.orbz.models.Song;
-import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.Player;
-import com.spotify.sdk.android.player.Spotify;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,7 +76,7 @@ public class PlaylistSongsFragment extends SongListFragment implements com.ruppa
 
 
     public void playlistSongsBack() {
-        Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "back to playlists", Toast.LENGTH_SHORT).show();
         getFragmentManager().popBackStack();
     }
 
@@ -137,16 +133,6 @@ public class PlaylistSongsFragment extends SongListFragment implements com.ruppa
 
 
 
-    public void getSpotifyPlayer(){
-        Config playerConfig = new Config(getContext(), SpotifyClient.accessToken, getString(R.string.spotify_client_id));
-        mPlayer = Spotify.getPlayer(playerConfig, this, null);
-    }
-    public void playSongFromSpotify(Song song) {
-        String playingNow = "playing " + song.getTitle() + " from spotify";
-        Toast.makeText(getContext(), playingNow, Toast.LENGTH_LONG).show();
-        mPlayer.playUri(null, "spotify:track:" + song.getUid(), 0, 0);
-        song.playing = true;
-    }
 
 
     @Override
