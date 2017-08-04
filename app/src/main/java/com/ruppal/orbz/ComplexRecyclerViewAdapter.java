@@ -144,7 +144,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         if (song.getAlbumCoverUrl() != null) {
             switch (song.getService()){
                 case Song.LOCAL :
-                    if(albumCovers.get(song.getAlbum()) == null) {
+                    if(albumCovers.get(song.getAlbumCoverUrl()) == null) {
                             Drawable currentImage = Drawable.createFromPath(song.getAlbumCoverUrl());
                             albumCovers.put(song.getAlbum(), currentImage);
                             holder.ivAlbumCover.setImageDrawable(currentImage);
