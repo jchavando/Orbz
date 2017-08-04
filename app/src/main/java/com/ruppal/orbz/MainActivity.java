@@ -315,7 +315,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             isPlaylistSongsFragment = false;
 
         } else {
-            super.onBackPressed();
+            //dont want to go back because it crashes app if you try to log in again
+//            super.onBackPressed();
         }
     }
 
