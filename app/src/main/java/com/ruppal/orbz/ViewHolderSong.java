@@ -21,7 +21,6 @@ public class ViewHolderSong extends RecyclerView.ViewHolder {
     public ImageButton ibAddComment;
 
     public RelativeLayout songRelativeLayout;
-    ComplexRecyclerViewAdapter complexRecyclerViewAdapter;
     boolean hasComment;
 
     public ViewHolderSong(final View itemView, final ComplexRecyclerViewAdapter.SongAdapterListener mListener, final Context context) {
