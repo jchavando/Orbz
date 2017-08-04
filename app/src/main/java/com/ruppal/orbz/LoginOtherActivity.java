@@ -294,11 +294,8 @@ LoginLastFMFragment.LastFMListener{
         if(isLogin){
 //            Toast.makeText(this, "signed in to Google", Toast.LENGTH_SHORT).show();
             googleSignInButton.setBackgroundResource(R.drawable.clicked_border_youtube);
-
-
         } else {
             Toast.makeText(this, "did not sign in", Toast.LENGTH_SHORT).show();
-
         }
     }
 
