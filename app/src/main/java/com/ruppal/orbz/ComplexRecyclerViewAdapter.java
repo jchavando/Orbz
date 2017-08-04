@@ -154,8 +154,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                             Drawable imageToPlace = albumCovers.get(song.getAlbum());
                             holder.ivAlbumCover.setImageDrawable(imageToPlace);
                         }
-//                    Drawable image = Drawable.createFromPath(song.getAlbumCoverUrl());
-//                    holder.ivAlbumCover.setImageDrawable(image);
                     break;
                 default:
                     Glide.with(context)
@@ -182,7 +180,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-
     private void configureViewHolderQueue(ViewHolderQueue queueHolder, ViewHolderSong songHolder, int position) {
         //add ViewHolderSong songHolder
         configureViewHolderSong(songHolder, position);
@@ -192,8 +189,8 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         } else {
             queueHolder.ibAddComment.setImageResource(R.drawable.orbzgray2);
         }
-
     }
+
     private void configureViewHolderPlaylist (ViewHolderPlaylist holder, int position) {
         //get the data according to position
         final Playlist playlist = (Playlist) mSongsPlaylists.get(position);
