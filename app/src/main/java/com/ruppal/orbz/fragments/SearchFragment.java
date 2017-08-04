@@ -68,18 +68,18 @@ public class SearchFragment extends SongListFragment implements Player.highlight
         inflater.inflate(R.menu.menu, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        MenuItem refineItem = menu.findItem(R.id.refine_search);
-        refineItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-
-                if (songs != null && theQuery != null) {
-                    refineSongSearch(theQuery);
-                    return true;
-                }
-                return false;
-            }
-        });
+//        MenuItem refineItem = menu.findItem(R.id.refine_search);
+//        refineItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//
+//                if (songs != null && theQuery != null) {
+//                    refineSongSearch(theQuery);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

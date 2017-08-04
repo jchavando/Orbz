@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
 
-
     <ImageView
         android:id="@+id/ivAlbumCover"
         android:layout_width="60dp"
