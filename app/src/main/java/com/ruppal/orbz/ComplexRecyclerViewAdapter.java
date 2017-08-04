@@ -201,9 +201,11 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         holder.tvPlaylistName.setText(playlist.getPlaylistName());
         holder.tvOwnerName.setText(playlist.getOwner().getName());
         String imageUrl = playlist.getImage();
-        Glide.with(context)
-                .load(imageUrl)
-                .into(holder.ivPlayListArt);
+        if (imageUrl!=null) {
+            Glide.with(context)
+                    .load(imageUrl)
+                    .into(holder.ivPlayListArt);
+        }
     }
 
     private void configureViewHolderPlaylistSimple (ViewHolderPlaylistSimple holder, int position){

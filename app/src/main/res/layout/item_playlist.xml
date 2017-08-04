@@ -9,10 +9,10 @@
         android:id="@+id/ivPlaylistArt"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignTop="@+id/ivPlaylistArt1"
-        android:layout_toEndOf="@+id/ivPlaylistArt1"
-        android:layout_toRightOf="@+id/ivPlaylistArt1"
-        app:srcCompat="@drawable/blacklogomissingalbum" />
+        app:srcCompat="@drawable/blacklogomissingalbum"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/tvPlaylistName"
