@@ -13,4 +13,7 @@
     <color name="youtube">#d71e17</color>
     <color name="spotify">#9fe025</color>
     <color name="lastfm">@color/colorPrimaryDark</color>
+    <color name="transparent">#A6000000</color>
+
+
 </resources>
