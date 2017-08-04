@@ -12,7 +12,7 @@
         android:layout_alignTop="@+id/ivPlaylistArt1"
         android:layout_toEndOf="@+id/ivPlaylistArt1"
         android:layout_toRightOf="@+id/ivPlaylistArt1"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/blacklogomissingalbum" />
 
     <TextView
         android:id="@+id/tvPlaylistName"

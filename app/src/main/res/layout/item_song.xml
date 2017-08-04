@@ -6,16 +6,15 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
 
-
     <ImageView
         android:id="@+id/ivAlbumCover"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        app:srcCompat="?attr/colorAccent"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/blacklogomissingalbum" />
 
     <TextView
         android:id="@+id/tvSongName"
