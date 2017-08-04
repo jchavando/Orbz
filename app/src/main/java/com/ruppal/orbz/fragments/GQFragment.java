@@ -27,6 +27,8 @@ import com.ruppal.orbz.models.Song;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ruppal.orbz.fragments.LocalListFragment.mAddSongToQueueListenerLocal;
+
 /**
  * Created by elviskahoro on 7/27/17.
  */
@@ -44,6 +46,15 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
     ArrayList<Message> mMessages;
     String userId;
     boolean mFirstLoad;
+    public static addSongToQueueListenerGQ mAddSongToQueueListenerGQ;
+
+    public interface addSongToQueueListenerGQ{
+        void onSongQueueAddedGQ();
+    }
+
+    public static void setmAddSongToQueueListenerGQ(addSongToQueueListenerGQ addSongToQueueListenerGQ) {
+        mAddSongToQueueListenerGQ = addSongToQueueListenerGQ;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -198,18 +209,22 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
         complexAdapter.notifyDataSetChanged();
     }
 
+    //todo refactor this code with design stuff
     @Override
     public void onItemSelected(View view, int position) {
         //play the song
         super.onItemSelected(view, position);
-        if (songs!=null && Player.queue != null && position>=0 && position<songs.size()) {
+        if (songs!=null && Player.automaticQueue != null && position>=0 && position<songs.size()) {
             Song songSelected = (Song) songs.get(position);
             //clear old queue
-            Player.clearQueue();
+            com.ruppal.orbz.models.Player.clearQueue();
+            com.ruppal.orbz.models.Player.clearAutomaticQueue();
             //set songs for the new queue
             automaticallyPopulateQueue(songSelected);
         }
     }
+
+
 
     public void automaticallyPopulateQueue(Song songSelected){
         //required : position is position of song clicked, so want to start at next
@@ -225,11 +240,21 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
                     beforeSelected = false;
                 }
                 else {
-                    com.ruppal.orbz.models.Player.queue.add(song);
+                    com.ruppal.orbz.models.Player.automaticQueue.add(song);
                 }
             }
         }
-        com.ruppal.orbz.models.Player.queue.addAll(songsBeforeSelected);
-        com.ruppal.orbz.models.Player.queue.add(songSelected);
+        com.ruppal.orbz.models.Player.automaticQueue.addAll(songsBeforeSelected);
+        com.ruppal.orbz.models.Player.automaticQueue.add(songSelected);
+    }
+
+    @Override
+    public void onItemLongSelected(View view, int position) {
+        //call super method
+        super.onItemLongSelected(view, position);
+        //call listener
+        if (mAddSongToQueueListenerGQ!=null){
+            mAddSongToQueueListenerGQ.onSongQueueAddedGQ();
+        }
     }
 }

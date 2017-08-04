@@ -81,9 +81,10 @@ public class Player {
     public static YouTubePlayer youTubePlayer;
     public static com.spotify.sdk.android.player.Player.OperationCallback spotifyCallback;
     public static ArrayList<Song> queue = new ArrayList<>();
+    public static ArrayList<Song> automaticQueue = new ArrayList<>();
     public static PlayerEvent kSpPlaybackNotifyMetadataChanged;
-    public static ArrayList<Song> queueRemoved = new ArrayList<>(); //act like a stack
     public static int positionInQueue= -1 ;
+    public static int positionInAutomaticQueue= -1 ;
     public static SimpleExoPlayer exoPlayer;
     public static ComponentListener componentListener;
     public static Animation animationMoveHorizontal;
@@ -120,10 +121,10 @@ public class Player {
         void onSongPlayingChanged();
     }
 
-
     public interface highlightCurrentSongListenerGroupQueue{
         void onSongPlayingChanged();
     }
+
 
     public static void setmHighlightCurrentSongListenerLocal(highlightCurrentSongListenerLocal mHighlightCurrentSongListenerLocal) {
         Player.mHighlightCurrentSongListenerLocal = mHighlightCurrentSongListenerLocal;
@@ -345,20 +346,36 @@ public class Player {
 
             }
         });
-
     }
 
     public static void playNextSongInQueue() {
-        if (queue!=null && queue.size()>0){
-            if (positionInQueue != queue.size()-1) {
-                positionInQueue+=1;
+        //todo refactor code
+        if ((automaticQueue == null || automaticQueue.size()==0) ||(queue!=null && queue.size()>0)){
+            if (queue!=null && queue.size()>0) {
+                if (positionInQueue != queue.size() - 1) {
+                    positionInQueue += 1;
+                }
+                //if at end of reg queue go back to automatic
+                else {
+                    //loop through reg queue if at end
+                    positionInQueue = 0;
+                }
+                playSong(queue.get(positionInQueue));
             }
-            else{
-                positionInQueue = 0;
-            }
-            playSong(queue.get(positionInQueue));
 
         }
+        else {
+            if (automaticQueue!=null && automaticQueue.size()>0){
+                if (positionInAutomaticQueue != automaticQueue.size()-1) {
+                    positionInAutomaticQueue+=1;
+                }
+                else{
+                    positionInAutomaticQueue = 0;
+                }
+                playSong(automaticQueue.get(positionInAutomaticQueue));
+            }
+        }
+
     }
 
     public static void skipToNextInQueue(){
@@ -366,14 +383,26 @@ public class Player {
     }
 
     public static void skipToPreviousInQueue(){
-        if (queue!=null && queue.size() > 0) {
-            if (positionInQueue > 0) {
-                positionInQueue -= 1;
+        //todo clean/refactor code
+        if ((automaticQueue == null || automaticQueue.size()==0)||(queue!=null && queue.size()>0)) {
+            if (queue != null && queue.size() > 0) {
+                if (positionInQueue > 0) {
+                    positionInQueue -= 1;
+                } else {
+                    positionInQueue = queue.size() - 1;
+                }
+                playSong(queue.get(positionInQueue));
             }
-            else{
-                positionInQueue = queue.size() - 1;
+        }
+        else{
+            if (automaticQueue != null && automaticQueue.size() > 0) {
+                if (positionInAutomaticQueue > 0) {
+                    positionInAutomaticQueue -= 1;
+                } else {
+                    positionInAutomaticQueue = automaticQueue.size() - 1;
+                }
+                playSong(automaticQueue.get(positionInAutomaticQueue));
             }
-            playSong(queue.get(positionInQueue));
         }
     }
 
@@ -782,6 +811,11 @@ public class Player {
         if (mHighlightCurrentSongListenerGroupQueue!=null){
             mHighlightCurrentSongListenerGroupQueue.onSongPlayingChanged();
         }
+    }
+
+    public static void clearAutomaticQueue(){
+        Player.automaticQueue.clear();
+        Player.positionInAutomaticQueue = -1;
     }
 
     public static void clearQueue(){

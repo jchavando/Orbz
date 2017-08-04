@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.ruppal.orbz.ComplexRecyclerViewAdapter;
 import com.ruppal.orbz.MapUtil;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.LastFMClient;
@@ -33,7 +35,7 @@ import cz.msebera.android.httpclient.Header;
  * Created by jchavando on 7/13/17.
  */
 
-public class SearchFragment extends SongListFragment implements Player.highlightCurrentSongListenerSearch{
+public class SearchFragment extends SongListFragment implements Player.highlightCurrentSongListenerSearch, ComplexRecyclerViewAdapter.SongAdapterListenerSearch{
 
     SpotifyClient spotifyClient;
 
@@ -369,5 +371,43 @@ public class SearchFragment extends SongListFragment implements Player.highlight
     @Override
     public void onSongPlayingChanged() {
         complexAdapter.notifyDataSetChanged();
+    }
+
+
+    //todo refactor this code with design stuff
+    @Override
+    public void onItemSelected(View view, int position) {
+        //play the song
+        super.onItemSelected(view, position);
+        if (songs!=null && com.ruppal.orbz.models.Player.automaticQueue != null && position>=0 && position<songs.size()) {
+            Song songSelected = (Song) songs.get(position);
+            //clear old queue
+            com.ruppal.orbz.models.Player.clearQueue();
+            com.ruppal.orbz.models.Player.clearAutomaticQueue();
+            //set songs for the new queue
+            automaticallyPopulateQueue(songSelected);
+        }
+    }
+
+    public void automaticallyPopulateQueue(Song songSelected){
+        //required : position is position of song clicked, so want to start at next
+        boolean beforeSelected = true;
+        ArrayList<Song> songsBeforeSelected = new ArrayList<>();
+        for (int i = 0; i < songs.size(); i++){
+            Song song = (Song) songs.get(i);
+            if (song != songSelected && beforeSelected){
+                songsBeforeSelected.add(song);
+            }
+            else{
+                if (song == songSelected) {
+                    beforeSelected = false;
+                }
+                else {
+                    com.ruppal.orbz.models.Player.automaticQueue.add(song);
+                }
+            }
+        }
+        com.ruppal.orbz.models.Player.automaticQueue.addAll(songsBeforeSelected);
+        com.ruppal.orbz.models.Player.automaticQueue.add(songSelected);
     }
 }

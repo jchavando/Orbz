@@ -19,7 +19,11 @@ import static com.ruppal.orbz.models.Player.queue;
  */
 
 
-public class QueueFragment extends SongListFragment implements AddCommentDialogFragment.AddCommentListener, Player.highlightCurrentSongListenerQueue, ComplexRecyclerViewAdapter.AddCommentAdapterListener{
+public class QueueFragment extends SongListFragment implements AddCommentDialogFragment.AddCommentListener,
+                                                    Player.highlightCurrentSongListenerQueue,
+                                                    ComplexRecyclerViewAdapter.AddCommentAdapterListener,
+                                                    LocalListFragment.addSongToQueueListenerLocal,
+                                                    GQFragment.addSongToQueueListenerGQ{
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -34,6 +38,8 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
         addCommentAdapterListener = this;
         setHasOptionsMenu(true);
         Player.setmHighlightCurrentSongListenerQueue(this);
+        LocalListFragment.setmAddSongToQueueListenerLocal(this);
+        GQFragment.setmAddSongToQueueListenerGQ(this);
     }
 
     public void populateQueue(){
@@ -72,5 +78,16 @@ public class QueueFragment extends SongListFragment implements AddCommentDialogF
     @Override
     public void onSongPlayingChanged() {
         complexAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSongQueueAddedLocal() {
+        //populate queue again
+        populateQueue();
+    }
+
+    @Override
+    public void onSongQueueAddedGQ() {
+        populateQueue();
     }
 }

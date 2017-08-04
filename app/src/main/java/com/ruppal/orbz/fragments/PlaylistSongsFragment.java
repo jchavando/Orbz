@@ -124,12 +124,12 @@ public class PlaylistSongsFragment extends SongListFragment implements com.ruppa
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                Log.e("playlists", errorResponse.toString());
+//                Log.e("playlists", throwable.toString());
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                Log.e("playlists", errorResponse.toString());
+//                Log.e("playlists", errorResponse.toString());
             }
 
         });
@@ -154,14 +154,16 @@ public class PlaylistSongsFragment extends SongListFragment implements com.ruppa
         complexAdapter.notifyDataSetChanged();
     }
 
-
+    //todo refactor this code with design stuff
     @Override
     public void onItemSelected(View view, int position) {
+        //play the song
         super.onItemSelected(view, position);
-        if (songs!=null && com.ruppal.orbz.models.Player.queue != null && position>=0 && position<songs.size()) {
+        if (songs!=null && com.ruppal.orbz.models.Player.automaticQueue != null && position>=0 && position<songs.size()) {
             Song songSelected = (Song) songs.get(position);
             //clear old queue
-            com.ruppal.orbz.models.Player.queue.clear();
+            com.ruppal.orbz.models.Player.clearQueue();
+            com.ruppal.orbz.models.Player.clearAutomaticQueue();
             //set songs for the new queue
             automaticallyPopulateQueue(songSelected);
         }
@@ -181,11 +183,11 @@ public class PlaylistSongsFragment extends SongListFragment implements com.ruppa
                     beforeSelected = false;
                 }
                 else {
-                    com.ruppal.orbz.models.Player.queue.add(song);
+                    com.ruppal.orbz.models.Player.automaticQueue.add(song);
                 }
             }
         }
-        com.ruppal.orbz.models.Player.queue.addAll(songsBeforeSelected);
-        com.ruppal.orbz.models.Player.queue.add(songSelected);
+        com.ruppal.orbz.models.Player.automaticQueue.addAll(songsBeforeSelected);
+        com.ruppal.orbz.models.Player.automaticQueue.add(songSelected);
     }
 }
