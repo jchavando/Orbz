@@ -55,6 +55,7 @@ public class SongPagerAdapter extends FragmentPagerAdapter { //possibly change t
         } else if (position == 3) {
             QueueFragment fourthFrag = new QueueFragment();
             mFragmentReferences.add(3, fourthFrag);
+
             title = "Queue";
             return fourthFrag;
         } else if (position == 4) {

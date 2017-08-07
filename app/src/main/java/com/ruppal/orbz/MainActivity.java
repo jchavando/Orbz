@@ -310,7 +310,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onBackPressed() {
-        if (isPlaylistSongsFragment) {
+        if (isPlaylistSongsFragment && SongPagerAdapter.mFragmentReferences!=null
+                && SongPagerAdapter.mFragmentReferences.size() > 1) {
             SongPagerAdapter.mFragmentReferences.get(1).callChildFrag();//playlist fragment
             isPlaylistSongsFragment = false;
 
@@ -324,5 +325,16 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     protected void onStop() {
         super.onStop();
         DatabaseHelper.setDatabasePlayingFalse();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }

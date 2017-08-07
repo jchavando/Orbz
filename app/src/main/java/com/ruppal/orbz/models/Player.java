@@ -487,7 +487,9 @@ public class Player {
     public static void playSong(Song song){
         if (song!=null) {
             if (currentlyPlayingSong !=null) {
+                //set song object playing field to be false
                 currentlyPlayingSong.playing = false;
+                //set database object playing field to be false for local playlists
                 DatabaseHelper.compareRowSetPlaying(currentlyPlayingSong, false);
                 alertListeners();
             }

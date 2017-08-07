@@ -189,7 +189,7 @@ public class DatabaseHelper {
     }
 
     public static void compareRowSetPlaying(Song song, boolean playing){
-        if (song.getService() != Song.LOCAL) {
+        if (!song.getService().equals(Song.LOCAL)) {
             SongTable songTable = songTablefromSong(song);
             List<SongTable> songTableList = getAllSongs();
             for (int i = 0; i < songTableList.size(); i++) {
