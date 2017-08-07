@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.GoogleAuthException;
@@ -106,9 +107,6 @@ LoginLastFMFragment.LastFMListener{
                 spotifyClient.setAccessToken(spotifyAccessToken);
                 btLoginSpotify = (Button) findViewById(R.id.btLoginSpotify);
                 btLoginSpotify.setBackgroundResource(R.drawable.clicked_border_spotify);
-                //googleSignInButton.setBackgroundResource(R.drawable.rounded);
-
-                //Toast.makeText(this, "Successfully logged in to Spotify!", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == RC_SIGN_IN && resultCode == Activity.RESULT_OK) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
@@ -206,8 +204,14 @@ LoginLastFMFragment.LastFMListener{
             startActivity(i);
         }
         else{
-            Toast.makeText(context, "Make sure you have granted the app storage permissions " +
-                    "and that you are connected to the internet.", Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, , Toast.LENGTH_LONG).show();
+            Toast toast = Toast.makeText(context, "Make sure you have granted the app storage permissions " +
+                    "and that you are connected to the internet.", Toast.LENGTH_SHORT);
+            view = toast.getView();
+            view.setBackgroundResource(R.drawable.rounded);
+            TextView text = (TextView) view.findViewById(android.R.id.message);
+            text.setBackgroundResource(R.color.transparentWhite);
+            toast.show();
         }
     }
 
@@ -295,7 +299,15 @@ LoginLastFMFragment.LastFMListener{
 //            Toast.makeText(this, "signed in to Google", Toast.LENGTH_SHORT).show();
             googleSignInButton.setBackgroundResource(R.drawable.clicked_border_youtube);
         } else {
-            Toast.makeText(this, "did not sign in", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "did not sign in", Toast.LENGTH_SHORT).show();
+
+            Toast toast = Toast.makeText(this, "did not sign in", Toast.LENGTH_SHORT);
+            View view = toast.getView();
+            view.setBackgroundResource(R.drawable.rounded);
+            TextView text = (TextView) view.findViewById(android.R.id.message);
+            text.setBackgroundResource(R.color.transparentWhite);
+            toast.show();
+
         }
     }
 

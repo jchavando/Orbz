@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -792,7 +793,12 @@ public class Player {
 
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                Toast.makeText(activity.getApplicationContext(), "Failed to initalize the youtube player", Toast.LENGTH_LONG).show();
+                Toast toast = Toast.makeText(activity.getApplicationContext(), "Failed to initalize the youtube player", Toast.LENGTH_LONG);
+                View view = toast.getView();
+                view.setBackgroundResource(R.drawable.rounded);
+                TextView text = (TextView) view.findViewById(android.R.id.message);
+                text.setBackgroundResource(R.color.transparentWhite);
+                toast.show();
             }
         });
     }

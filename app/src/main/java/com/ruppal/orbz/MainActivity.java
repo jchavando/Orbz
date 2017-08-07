@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
@@ -121,7 +122,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if(isExternalStorageWritable() && isExternalStorageReadable()){
             getAlbumArt();
         } else {
-            Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, , Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(this, "Check Storage Permissions", Toast.LENGTH_SHORT);
+            View view = toast.getView();
+            view.setBackgroundResource(R.drawable.rounded);
+            TextView text = (TextView) view.findViewById(android.R.id.message);
+            text.setBackgroundResource(R.color.transparentWhite);
+            toast.show();
         }
         tabLayout.getTabAt(0).setIcon(R.drawable.white_search);
         tabLayout.getTabAt(1).setIcon(R.drawable.white_playlist);

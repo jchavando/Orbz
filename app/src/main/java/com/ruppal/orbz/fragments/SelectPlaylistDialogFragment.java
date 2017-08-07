@@ -82,7 +82,13 @@ public class SelectPlaylistDialogFragment extends DialogFragment implements Comp
             @Override
             public void onClick(View v) {
                 if (selectedPlaylist == null){
-                    Toast.makeText(getContext(), "select a playlist!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "select a playlist!", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getContext(), "select a playlist!", Toast.LENGTH_SHORT);
+                    View view = toast.getView();
+                    view.setBackgroundResource(R.drawable.rounded);
+                    TextView text = (TextView) view.findViewById(android.R.id.message);
+                    text.setBackgroundResource(R.color.transparentWhite);
+                    toast.show();
                 }
                 else {
                     //add songSelected to selectedPlaylist
