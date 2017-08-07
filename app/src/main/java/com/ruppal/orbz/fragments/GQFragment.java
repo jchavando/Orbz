@@ -176,6 +176,7 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
                         );
                         songToAdd.setService(currentMessage.getSERVICE());
                         songToAdd.setQueued(currentMessage.getQueued());
+                        songToAdd.setPushed();
                         if(currentMessage.getComment()!=null)
                         songToAdd.setComment(currentMessage.getComment());
                         if(songToAdd.getTitle() != null && !songToAdd.getTitle().isEmpty())
@@ -220,8 +221,6 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
             automaticallyPopulateQueue(songSelected);
         }
     }
-
-
 
     public void automaticallyPopulateQueue(Song songSelected){
         //required : position is position of song clicked, so want to start at next

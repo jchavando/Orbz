@@ -114,8 +114,19 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public int getItemViewType (int position){
         if (mSongsPlaylists.get(position) instanceof Song) {
-            if (((Song) mSongsPlaylists.get(position)).getQueued()) return TYPE_QUEUE;
-            else return TYPE_SONG;
+            Song currentSongPosition = (Song) mSongsPlaylists.get(position);
+            if(currentSongPosition.isPushed()){
+                if(currentSongPosition.getComment() == null)
+                    return TYPE_SONG;
+                else
+                    return TYPE_QUEUE;
+            }
+            if (currentSongPosition.getQueued()){
+                return TYPE_QUEUE;
+            }
+            else {
+                return TYPE_SONG;
+            }
         }
         else if(mSongsPlaylists.get(position) instanceof Playlist){
             return TYPE_PLAYLIST;
