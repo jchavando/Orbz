@@ -13,4 +13,5 @@
     <color name="youtube">#d71e17</color>
     <color name="spotify">#9fe025</color>
     <color name="lastfm">@color/colorPrimaryDark</color>
+    <color name="cardviewBackground">#60272728</color>
 </resources>

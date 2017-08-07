@@ -3,20 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/flPlaylistFragment"
-
     >
-
-    <!--FrameLayout
-        android:id="@+id/flPlaylistFragment"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:orientation="vertical" -->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvSong"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/background_dark" />
+        android:background="@android:color/darker_gray" />
 
 
 </FrameLayout>

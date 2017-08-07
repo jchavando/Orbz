@@ -77,6 +77,9 @@ dependencies {
     compile 'com.parse:parse-android:1.15.8'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
 
+    //card view
+    compile 'com.android.support:cardview-v7:22.1.+'
+
     //youtube stuff
 //    compile 'pub.devrel:easypermissions:0.3.0'
 //    compile('com.google.api-client:google-api-client-android:1.22.0') {

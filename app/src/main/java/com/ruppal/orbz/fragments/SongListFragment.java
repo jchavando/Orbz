@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubePlayer;
 import com.ruppal.orbz.ComplexRecyclerViewAdapter;
+import com.ruppal.orbz.ItemDecoration;
 import com.ruppal.orbz.MainActivity;
 import com.ruppal.orbz.R;
 import com.ruppal.orbz.clients.SpotifyClient;
@@ -58,6 +58,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
     public static boolean isPlaylistSongsFragment;
     //ImageButton ibAddComment;
     boolean clicked = false;
+    private static int VERTICAL_ITEM_SPACING = 10;
 
 
     public  PlaylistSongsFragment childFragment;
@@ -132,7 +133,7 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         rvSongs.setAdapter(complexAdapter);
 
         rvSongs.setBackgroundResource(R.drawable.soundwaves);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        RecyclerView.ItemDecoration itemDecoration = new ItemDecoration(VERTICAL_ITEM_SPACING);
         rvSongs.addItemDecoration(itemDecoration);
         if (complexAdapter!=null){
             complexAdapter.notifyDataSetChanged();

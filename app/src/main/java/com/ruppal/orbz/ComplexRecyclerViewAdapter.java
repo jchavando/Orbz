@@ -206,6 +206,9 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     .load(imageUrl)
                     .into(holder.ivPlayListArt);
         }
+        else{
+            holder.ivPlayListArt.setImageResource(R.drawable.blacklogomissingalbum);
+        }
     }
 
     private void configureViewHolderPlaylistSimple (ViewHolderPlaylistSimple holder, int position){

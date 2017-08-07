@@ -1,66 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/songRelativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/ivAlbumCover"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
-        app:srcCompat="@drawable/blacklogomissingalbum" />
-
-    <TextView
-        android:id="@+id/tvSongName"
-        android:layout_width="250dp"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
-        android:background="@android:color/transparent"
-        android:layout_toRightOf="@id/ivAlbumCover"
-        android:text="TextView"
-        android:textColor="@android:color/white" />
+        style="@style/MyCardViewStyle">
 
-    <TextView
-        android:id="@+id/tvArtistName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:layout_below="@id/tvSongName"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/ivAlbumCover"
-        android:text="TextView"
-        android:textColor="@android:color/white" />
+        <RelativeLayout
+            android:id="@+id/songRelativeLayout"
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp">
 
-    <TextView
-        android:id="@+id/tvService"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvArtistName"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/ivAlbumCover"
-        android:text="TextView"
-        android:textColor="@android:color/darker_gray" />
 
-    <ImageButton
-        android:id="@+id/ibAddToPlaylist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@android:color/transparent"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+            <ImageView
+                android:id="@+id/ivAlbumCover"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/blacklogomissingalbum" />
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/tvSongName"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/transparent"
+                android:layout_toRightOf="@id/ivAlbumCover"
+                android:text="TextView"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvArtistName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_below="@id/tvSongName"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/ivAlbumCover"
+                android:text="TextView"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvService"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvArtistName"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/ivAlbumCover"
+                android:text="TextView"
+                android:textColor="@android:color/darker_gray" />
+
+            <ImageButton
+                android:id="@+id/ibAddToPlaylist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@android:color/transparent"
+                app:srcCompat="@android:drawable/ic_menu_add" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>
