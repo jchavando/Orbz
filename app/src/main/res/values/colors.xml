@@ -15,6 +15,7 @@
     <color name="lastfm">@color/colorPrimaryDark</color>
     <color name="cardviewBackground">#60272728</color>
     <color name="transparent">#A6000000</color>
+    <color name="transparentWhite">#00FFFFFF</color>
 
 
 </resources>

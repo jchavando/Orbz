@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubePlayer;
@@ -167,7 +168,14 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
         Song song = (Song) songs.get(position);
         Player.queue.add(song);
         song.setQueued(true);
-        Toast.makeText(getContext(), "Successfully added to queue!", Toast.LENGTH_SHORT).show();
+        //Toast when adding to queue, changes color of default
+        Toast toast = Toast.makeText(getContext(), "added to queue!", Toast.LENGTH_SHORT);
+        view = toast.getView();
+        view.setBackgroundResource(R.drawable.rounded);
+        TextView text = (TextView) view.findViewById(android.R.id.message);
+        text.setBackgroundResource(R.color.transparentWhite);
+        //text.setTextColor(0xf22fb1a4);
+        toast.show();
     }
 
     @Override
@@ -180,7 +188,14 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
             selectPlaylistDialogFragment.show(fm, "lastfm_login");
         }
         else{
-            Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
+            //makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(getContext(), "can only add a song to a playlist", Toast.LENGTH_SHORT);
+            view = toast.getView();
+            view.setBackgroundResource(R.drawable.rounded);
+            TextView text = (TextView) view.findViewById(android.R.id.message);
+            text.setBackgroundResource(R.color.transparentWhite);
+            toast.show();
+
         }
 
     }
@@ -203,7 +218,16 @@ public class SongListFragment extends Fragment implements ComplexRecyclerViewAda
 
 
         } else {
-            Toast.makeText(getContext(), "can only add a comment to a queued song", Toast.LENGTH_SHORT).show();
+
+            //makeText(getContext(), "can only add a comment to a queued song", Toast.LENGTH_SHORT).show();
+
+
+            Toast toast = Toast.makeText(getContext(), "can only add a comment to a queued song", Toast.LENGTH_SHORT);
+            view = toast.getView();
+            view.setBackgroundResource(R.drawable.rounded);
+            TextView text = (TextView) view.findViewById(android.R.id.message);
+            text.setBackgroundResource(R.color.transparentWhite);
+            toast.show();
         }
     }
 

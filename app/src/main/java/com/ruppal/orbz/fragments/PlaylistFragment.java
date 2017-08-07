@@ -150,12 +150,7 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
     }
 
     public void showPlaylistDialogFragment() {
-//        Toast.makeText(getContext(), "clicked fab", Toast.LENGTH_SHORT).show();
         FragmentManager fm = getActivity().getSupportFragmentManager();
-
-        //AddPlaylistDialogFragment addPlaylist = AddPlaylistDialogFragment.newInstance("some_title");
-        //addPlaylist.setTargetFragment(PlaylistFragment.this, 300);
-        //addPlaylist.show(fm, "add playlist");
         AddPlaylistDialogFragment addPlaylist = AddPlaylistDialogFragment.newInstance("some_title", this);
         addPlaylist.show(fm, "lastfm_login");
     }
