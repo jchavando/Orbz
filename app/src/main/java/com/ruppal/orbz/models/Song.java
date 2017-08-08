@@ -274,4 +274,7 @@ public class Song {
 
     public void setComment(String comment) { this.comment = comment; }
 
+    public void setData(String data) {
+        this.data = data;
+    }
 }

@@ -3,7 +3,6 @@ package com.ruppal.orbz.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -132,19 +131,19 @@ public class PlaylistFragment extends SongListFragment implements AddPlaylistDia
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Log.e("playlists", responseString);
+//                Log.e("playlists", responseString);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                Log.e("playlists", errorResponse.toString());
+//                Log.e("playlists", errorResponse.toString());
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                Log.e("playlists", errorResponse.toString());
+//                Log.e("playlists", errorResponse.toString());
             }
         });
     }

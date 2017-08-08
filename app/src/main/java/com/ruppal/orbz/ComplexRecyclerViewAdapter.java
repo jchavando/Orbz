@@ -168,11 +168,22 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
         holder.tvService.setText(song.getService());
         if (song.isPlaying() || (Player.getCurrentlyPlayingSong()!=null &&
-                Player.getCurrentlyPlayingSong().getService().equals(song.getService())
-                && Player.getCurrentlyPlayingSong().getUid().equals(song.getUid()))){
-//            holder.songRelativeLayout.setBackgroundColor(Color.MAGENTA);
-            holder.tvArtistName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
-            holder.tvSongName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
+                Player.getCurrentlyPlayingSong().getService().equals(song.getService()))) {
+             switch (song.getService()){
+                 case (Song.LOCAL):
+                     //need this case because local songs dont have uid
+                     if (song.getTitle().equals(Player.getCurrentlyPlayingSong().getTitle())){
+                         holder.tvArtistName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
+                         holder.tvSongName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
+                     }
+                     break;
+                 default:
+                     if (Player.getCurrentlyPlayingSong().getUid().equals(song.getUid())){
+                         holder.tvArtistName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
+                         holder.tvSongName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
+                     }
+                     break;
+             }
         }
         else {
             holder.tvArtistName.setTextColor(Color.WHITE);

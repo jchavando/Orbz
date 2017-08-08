@@ -115,36 +115,38 @@ public class GQFragment extends SongListFragment implements Player.highlightCurr
 
     void sendMessage(){
         ArrayList<Object> queueList = MainActivity.passTest();
-        for (Object songObject : queueList) {
+        if (queueList!=null) {
+            for (Object songObject : queueList) {
 
-            if(songObject instanceof Song) {
-                Song currentSong = (Song) songObject;
-                if(!currentSong.isPushed() && !currentSong.getService().equals(Song.LOCAL)){
-                    Message message = new Message();
-                    message.setUserId(ParseUser.getCurrentUser().getObjectId());
-                    message.setTitle(currentSong.getTitle());
-                    message.setArtistName(currentSong.getArtists().get(0).getName());
-                    message.setService(currentSong.getService());
-                    message.setUid(currentSong.getUid());
-                    message.setArtistId(currentSong.getArtists().get(0).getUid());
-                    message.setPopularity(currentSong.getPopularity());
-                    message.setDuration(currentSong.getDuration_ms());
-                    message.setAlbumCover(currentSong.getAlbumCoverUrl());
-                    message.setQueued(currentSong.getQueued());
-                    if(currentSong.getComment() != null)
-                    message.setComment(currentSong.getComment());
-                    if(currentSong.getService().equals(Song.SPOTIFY))
-                    message.setAlbum(currentSong.getAlbum());
+                if (songObject instanceof Song) {
+                    Song currentSong = (Song) songObject;
+                    if (!currentSong.isPushed() && !currentSong.getService().equals(Song.LOCAL)) {
+                        Message message = new Message();
+                        message.setUserId(ParseUser.getCurrentUser().getObjectId());
+                        message.setTitle(currentSong.getTitle());
+                        message.setArtistName(currentSong.getArtists().get(0).getName());
+                        message.setService(currentSong.getService());
+                        message.setUid(currentSong.getUid());
+                        message.setArtistId(currentSong.getArtists().get(0).getUid());
+                        message.setPopularity(currentSong.getPopularity());
+                        message.setDuration(currentSong.getDuration_ms());
+                        message.setAlbumCover(currentSong.getAlbumCoverUrl());
+                        message.setQueued(currentSong.getQueued());
+                        if (currentSong.getComment() != null)
+                            message.setComment(currentSong.getComment());
+                        if (currentSong.getService().equals(Song.SPOTIFY))
+                            message.setAlbum(currentSong.getAlbum());
 
-                    message.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
+                        message.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
 //                            Toast.makeText(getContext(), "Successfully created message on Parse",
 //                                    Toast.LENGTH_SHORT).show();
-                            refreshMessages();
-                        }
-                    });
-                    ((Song) songObject).setPushed();
+                                refreshMessages();
+                            }
+                        });
+                        ((Song) songObject).setPushed();
+                    }
                 }
             }
         }

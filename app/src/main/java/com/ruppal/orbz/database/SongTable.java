@@ -44,6 +44,9 @@ public class SongTable extends BaseModel {
     int duration_ms;
 
     @Column
+    String data;
+
+    @Column
     @ForeignKey(saveForeignKeyModel = false)
     public PlaylistTable playlistTable;
 
@@ -90,6 +93,14 @@ public class SongTable extends BaseModel {
 
     public void setPlaylistTable(PlaylistTable playlistTable) {
         this.playlistTable = playlistTable;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public String getUid() {

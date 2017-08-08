@@ -84,12 +84,14 @@ public class DatabaseHelper {
         song.setPopularity(songTable.getPopularity());
         song.setService(songTable.getService());
         song.setDuration_ms(songTable.getDuration_ms());
+        song.setData(songTable.getData());
         return song;
     }
 
     public static SongTable songTablefromSong(Song song){
         SongTable songTable = new SongTable();
         songTable.setUid(song.getUid());
+        songTable.setData(song.getData());
         songTable.setTitle(song.getTitle());
         songTable.setArtistName(song.getArtists().get(0).getName());
         songTable.setAlbumCoverUrl(song.getAlbumCoverUrl());
