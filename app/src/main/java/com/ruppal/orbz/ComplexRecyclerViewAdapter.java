@@ -162,8 +162,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                             albumCovers.put(song.getAlbum(), currentImage);
                             holder.ivAlbumCover.setImageDrawable(currentImage);
                         } else {
-                            Drawable imageToPlace = albumCovers.get(song.getAlbum());
-                            holder.ivAlbumCover.setImageDrawable(imageToPlace);
+                            holder.ivAlbumCover.setImageDrawable(albumCovers.get(song.getAlbum()));
                         }
                     break;
                 default:
