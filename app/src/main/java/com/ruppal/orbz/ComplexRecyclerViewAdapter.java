@@ -177,8 +177,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
 
         holder.tvService.setText(song.getService());
-        if (song.isPlaying() || (Player.getCurrentlyPlayingSong()!=null &&
-                Player.getCurrentlyPlayingSong().getService().equals(song.getService()))) {
+        if (song.isPlaying()) {
              switch (song.getService()){
                  case (Song.LOCAL):
                      //need this case because local songs dont have uid
