@@ -41,9 +41,7 @@ The following functionality is completed:
 
 Here's a walkthrough of implemented user stories:
 
-![Walkthrough](orbz_gif2.gif)
-
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
+![Walkthrough](https://www.youtube.com/watch?v=jCI5z_keS6U&feature=youtu.be)
 
 ## Open-source libraries used
 
