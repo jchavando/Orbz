@@ -180,7 +180,8 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         if (song.isPlaying() || (Player.getCurrentlyPlayingSong()!=null &&
                 Player.getCurrentlyPlayingSong().getService().equals(song.getService())
                 && ((Player.getCurrentlyPlayingSong().getUid()!=null && song.getUid()!=null && Player.getCurrentlyPlayingSong().getUid().equals(song.getUid()))
-                || (Player.getCurrentlyPlayingSong().getTitle().equals(song.getTitle()))))){
+                || (song.getService().equals(Song.LOCAL) &&
+                Player.getCurrentlyPlayingSong().getTitle().equals(song.getTitle()))))){
             holder.tvArtistName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
             holder.tvSongName.setTextColor(ContextCompat.getColor(context, R.color.songPlaying));
         }
