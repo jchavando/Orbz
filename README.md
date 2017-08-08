@@ -41,7 +41,7 @@ The following functionality is completed:
 
 Here's a walkthrough of implemented user stories:
 
-![Walkthrough](https://www.youtube.com/watch?v=jCI5z_keS6U&feature=youtu.be)
+https://www.youtube.com/watch?v=jCI5z_keS6U&feature=youtu.be
 
 ## Open-source libraries used
 
