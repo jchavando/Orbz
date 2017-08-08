@@ -177,6 +177,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
 
         holder.tvService.setText(song.getService());
+
         if (song.isPlaying() || (Player.getCurrentlyPlayingSong()!=null &&
                 Player.getCurrentlyPlayingSong().getService().equals(song.getService())
                 && ((Player.getCurrentlyPlayingSong().getUid()!=null && song.getUid()!=null && Player.getCurrentlyPlayingSong().getUid().equals(song.getUid()))
