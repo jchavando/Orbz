@@ -453,11 +453,13 @@ public class Player {
     }
 
     public static void updateAlbumCover(){
-        if (ivAlbumCover!=null && currentlyPlayingSong.getService() != Song.YOUTUBE){
-            ivAlbumCover.bringToFront();
-            Glide.with(activity.getApplicationContext())
-                    .load(currentlyPlayingSong.getAlbumCoverUrl())
-                    .into(ivAlbumCover);
+        if (currentlyPlayingSong!=null) {
+            if (ivAlbumCover != null && currentlyPlayingSong.getService() != Song.YOUTUBE) {
+                ivAlbumCover.bringToFront();
+                Glide.with(activity.getApplicationContext())
+                        .load(currentlyPlayingSong.getAlbumCoverUrl())
+                        .into(ivAlbumCover);
+            }
         }
     }
 
